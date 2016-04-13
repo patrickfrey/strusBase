@@ -1,0 +1,41 @@
+# Contributor: Patrick Frey <patrickpfrey@yahoo.com> 
+# Maintainer: Patrick Frey <patrickpfrey@yahoo.com> 
+
+pkgname=strusbase
+_mainpkgver=@STRUS_VERSION@
+pkgver=${_mainpkgver}
+pkgrel=1
+pkgdesc='Common base libraries for the Strus projects.'
+license=('MPL2')
+arch=('i686' 'x86_64')
+url="http://project-strus.net"
+depends=('boost>=1.53' 'boost-libs>=1.53')
+makedepends=('cmake')
+source=("${pkgname}-${_mainpkgver}.tar.gz")
+
+build() {
+  cd ${srcdir}/${pkgname}-${_mainpkgver}
+
+  msg "Building..."
+  mkdir build
+  cd build
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DLIB_INSTALL_DIR=lib ..
+  make
+}
+
+package() {
+  cd ${srcdir}/${pkgname}-${_mainpkgver}
+
+  msg "Installing.."
+  cd build
+  make DESTDIR=${pkgdir} install
+}
+
+check() {
+  cd ${srcdir}/${pkgname}-${_mainpkgver}
+
+  msg "Testing..."
+  cd build
+  make test
+}
+

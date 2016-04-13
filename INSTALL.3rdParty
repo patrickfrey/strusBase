@@ -1,0 +1,7 @@
+Library dependencies of strus:
+	- boost (headers and -lboost_system)
+
+Ubuntu:
+	sudo apt-get install liboost-all-dev
+
+

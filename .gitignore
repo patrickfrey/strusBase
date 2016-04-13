@@ -9,6 +9,7 @@
 *.pch
 
 # Compiled Dynamic libraries
+*.so.0.*
 *.so
 *.dylib
 *.dll
@@ -26,3 +27,35 @@
 *.exe
 *.out
 *.app
+
+# Packaging directory
+pkg/
+
+# Valgring suppression files
+*.sup
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+CMakeLists.txt.user
+CTestTestfile.cmake.user
+cmake/uninstall.cmake
+DartConfiguration.tcl
+Testing/
+tests/cmake_install.cmake.user
+cmake/build_rules.cmake.user
+src/queryeval/cmake_install.cmake.user
+include/strus/versionBase.hpp
+src/base/fileio_sys.hpp
+src/utils/internationalization.cpp
+dist/obs/deploy_to_obs.sh
+dist/archlinux/PKGBUILD
+dist/obs/strusbase.dsc
+dist/obs/strusbase-Debian_7.0.dsc
+dist/obs/strusbase-xUbuntu_12.04.dsc
+dist/redhat/strusbase.spec
+

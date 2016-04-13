@@ -1,0 +1,21 @@
+Source: strusbase
+Section: libs
+Priority: optional
+Maintainer: Patrick Frey <patrickpfrey@yahoo.com>
+Build-Depends: debhelper (>= 4.1.16), cmake,
+ libboost1.53-dev, libboost-thread1.53-dev, libboost-system1.53-dev,
+ libboost-date-time1.53-dev
+Standards-Version: 3.8.3
+Homepage: http://project-strus.net
+
+Package: strusbase
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Implementing some libraries with common functions and interfaces for the project Strus.
+Core library and common interfaces. 
+
+Package: strusbase-dev
+Architecture: any
+Depends: strusbase, ${shlibs:Depends}, ${misc:Depends}
+Description: strusbase development files
+ Strus base development files.
