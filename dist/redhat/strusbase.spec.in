@@ -274,6 +274,9 @@ make test
 %{_includedir}/strus/base/*.h
 
 %changelog
+* Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.3-0.1
+- added header file description
+
 * Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.2-0.1
 - added forgotten deployment of C header files in spec files
 

@@ -1,6 +1,10 @@
+strusBase (0.8.3)
+  * added header file description
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 12:00:00 +0100
+
 strusBase (0.8.2)
   * added forgotten deployment of C header files in spec files
- -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 11:00:00 +0100
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 11:30:00 +0100
 
 strusBase (0.8.1)
   * added forgotten info files to deploy and updated spec files
