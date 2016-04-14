@@ -275,3 +275,5 @@ make test
 * Wed Apr 13 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.0-0.1
 - initial revision
 
+* Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.1-0.1
+- added forgotten info files to deploy and updated spec files

@@ -1,3 +1,7 @@
 strusBase (0.8.0)
   * initial version
  -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 13 Apr 2016 11:30:00 +0100
+
+strusBase (0.8.1)
+  * added forgotten info files to deploy and updated spec files
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 11:00:00 +0100
