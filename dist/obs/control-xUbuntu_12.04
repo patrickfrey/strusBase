@@ -12,7 +12,7 @@ Package: strusbase
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Implementing some libraries with common functions and interfaces for the project Strus.
-Core library and common interfaces. 
+ Core library and common interfaces.
 
 Package: strusbase-dev
 Architecture: any
