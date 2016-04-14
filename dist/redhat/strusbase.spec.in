@@ -263,9 +263,11 @@ make test
 %{_libdir}/strus/libstrus_error.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@
 %{_libdir}/strus/libstrus_error.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
 
+
 %files devel
 %defattr( -, root, root )
 %{_libdir}/strus/libstrus_base.so
+%{_libdir}/strus/libstrus_error.so
 %dir %{_includedir}/strus
 %{_includedir}/strus/*.hpp
 %dir %{_includedir}/strus/lib
@@ -273,6 +275,7 @@ make test
 %dir %{_includedir}/strus/base
 %{_includedir}/strus/base/*.hpp
 %{_includedir}/strus/base/*.h
+
 
 %changelog
 * Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.5-0.1
