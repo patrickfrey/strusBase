@@ -260,6 +260,8 @@ make test
 %dir %{_libdir}/strus
 %{_libdir}/strus/libstrus_base.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@
 %{_libdir}/strus/libstrus_base.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
+%{_libdir}/strus/libstrus_error.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@
+%{_libdir}/strus/libstrus_error.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
 
 %files devel
 %defattr( -, root, root )
@@ -273,6 +275,9 @@ make test
 %{_includedir}/strus/base/*.h
 
 %changelog
+* Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.5-0.1
+- forgot to package libstrus_error
+
 * Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.4-0.1
 - yet another version to convince redhat to build
 
