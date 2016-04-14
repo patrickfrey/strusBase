@@ -270,10 +270,12 @@ make test
 %{_includedir}/strus/lib/*.hpp
 %dir %{_includedir}/strus/base
 %{_includedir}/strus/base/*.hpp
-%dir %{_includedir}/strus/base
 %{_includedir}/strus/base/*.h
 
 %changelog
+* Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.4-0.1
+- yet another version to convince redhat to build
+
 * Thu Apr 14 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.3-0.1
 - added header file description
 
@@ -285,3 +287,4 @@ make test
 
 * Wed Apr 13 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.0-0.1
 - initial revision
+
