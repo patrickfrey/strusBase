@@ -7,7 +7,7 @@
  */
 #include "strus/base/configParser.hpp"
 #include "strus/errorBufferInterface.hpp"
-#include "private/dll_tags.hpp"
+#include "strus/base/dll_tags.hpp"
 #include "private/utils.hpp"
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"

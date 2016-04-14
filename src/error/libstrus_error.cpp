@@ -8,7 +8,7 @@
 /// \brief Exported functions of the strus standard error buffer library
 /// \file libstrus_error.cpp
 #include "strus/lib/error.hpp"
-#include "private/dll_tags.hpp"
+#include "strus/base/dll_tags.hpp"
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"
 #include "errorBuffer.hpp"
