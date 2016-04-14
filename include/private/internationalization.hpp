@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+/// \brief Provide exceptions with printf stype formating and parameter passing (better for gettext). Gettext support for internationalization of error messages
 #ifndef _STRUS_INTERNATIONALIZATION_HPP_INCLUDED
 #define _STRUS_INTERNATIONALIZATION_HPP_INCLUDED
 #include <libintl.h>
