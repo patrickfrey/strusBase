@@ -1,8 +1,12 @@
-strusbase (0.8.0-1) unstable; urgency=low
-  * Initial revision
- -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 3 Jul 2015 15:16:25 +0200
+strusbase (0.8.2-1) unstable; urgency=low
+  * added forgotten deployment of C header files in spec files
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 11:30:00 +0100
 
 strusbase (0.8.1-1) unstable; urgency=low
   * added forgotten info files to deploy and updated spec files
  -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 11:00:00 +0100
+
+strusbase (0.8.0-1) unstable; urgency=low
+  * Initial revision
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 3 Jul 2015 15:16:25 +0200
 
