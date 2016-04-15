@@ -11,8 +11,9 @@ Homepage: http://project-strus.net
 Package: strusbase
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Implementing some libraries with common functions and interfaces for the project Strus.
- Core library and common interfaces. 
+Description: Some common base libraries and interfaces for Strus
+ Implementing some common libraries and interfaces for Strus.
+ Core library and common interfaces.
 
 Package: strusbase-dev
 Architecture: any
