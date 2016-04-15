@@ -1,3 +1,7 @@
+strusBase (0.8.6)
+  * added strus/base/stdint.h (portability of integer types for C++98)
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 15 Apr 2016 12:00:00 +0100
+
 strusBase (0.8.5)
   * forgot to package libstrus_error
  -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 14 Apr 2016 14:05:00 +0100
