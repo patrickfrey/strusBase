@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 ///\brief Simple implementation of snprintf only supporing a small subset of format characters that is guaranteed not to use malloc
-///\brief We need this function because we want to print error messages in an exception context without using malloc because we might not have memory available anymore (std::bad_alloc)
+///	We need this function because we want to print error messages in an exception context without using malloc because we might not have memory available anymore (std::bad_alloc)
 #ifndef _STRUS_BASE_SNPRINTF_HPP_INCLUDED
 #define _STRUS_BASE_SNPRINTF_HPP_INCLUDED
 #include <stdlib.h>

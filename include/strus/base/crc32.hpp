@@ -10,7 +10,7 @@
 #define _STRUS_BASE_CRC32_HPP_INCLUDED
 #include <utility>
 #include <cstddef> 
-#include <stdint.h>
+#include "strus/base/stdint.h"
 
 namespace strus {
 namespace utils {

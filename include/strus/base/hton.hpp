@@ -9,7 +9,7 @@
 /// \file hton.hpp
 #ifndef _STRUS_BASE_HTON_HPP_INCLUDED
 #define _STRUS_BASE_HTON_HPP_INCLUDED
-#include <stdint.h>
+#include "strus/base/stdint.h"
 #include <arpa/inet.h>
 
 namespace strus
