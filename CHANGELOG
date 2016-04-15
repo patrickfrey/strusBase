@@ -1,3 +1,7 @@
+strusBase (0.8.7)
+  * moved numericVariant.hpp from strus to strusBase
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 15 Apr 2016 15:00:00 +0100
+
 strusBase (0.8.6)
   * added strus/base/stdint.h (portability of integer types for C++98)
  -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 15 Apr 2016 12:00:00 +0100

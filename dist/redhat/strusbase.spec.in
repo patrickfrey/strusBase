@@ -284,6 +284,9 @@ make test
 
 
 %changelog
+* Fri Apr 15 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.7-0.1
+- moved numericVariant.hpp from strus to strusBase
+
 * Fri Apr 15 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.6-0.1
 - added strus/base/stdint.h (portability of integer types for C++98)
 
