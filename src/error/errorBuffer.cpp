@@ -29,12 +29,14 @@ void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_lis
 {
 	if (!m_hasmsg)
 	{
-		strus_vsnprintf( m_msgbuf, sizeof(m_msgbuf), format, arg);
+		char newmsgbuf[ MsgBufSize];
+		strus_vsnprintf( newmsgbuf, sizeof(newmsgbuf), format, arg);
 		if (logfilehandle)
 		{
-			fprintf( logfilehandle, "%s\n", m_msgbuf);
+			fprintf( logfilehandle, "%s\n", newmsgbuf);
 			fflush( logfilehandle);
 		}
+		std::memcpy( m_msgbuf, newmsgbuf, sizeof(m_msgbuf));
 		m_hasmsg = true;
 	}
 	else if (logfilehandle)
