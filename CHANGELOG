@@ -1,3 +1,7 @@
+strusBase (0.8.8)
+  * fixed bug in own hton/ntoh functions for double
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Sun, 24 Apr 2016 14:00:00 +0100
+
 strusBase (0.8.7)
   * moved numericVariant.hpp from strus to strusBase
  -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 15 Apr 2016 15:00:00 +0100

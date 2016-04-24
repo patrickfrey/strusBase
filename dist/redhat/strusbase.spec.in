@@ -284,6 +284,9 @@ make test
 
 
 %changelog
+* Sun Apr 24 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.8-0.1
+- fixed bug in own hton/ntoh functions for double
+
 * Fri Apr 15 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.7-0.1
 - moved numericVariant.hpp from strus to strusBase
 

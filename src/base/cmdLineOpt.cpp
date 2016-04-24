@@ -32,7 +32,7 @@ DLL_PUBLIC void strus::printIndentMultilineString( std::ostream& out, std::size_
 		}
 		while (ee);
 	}
-	CATCH_ERROR_MAP("error printing multiline string for usage help: %s", *errorhnd);
+	CATCH_ERROR_MAP( _TXT("error printing multiline string for usage help: %s"), *errorhnd);
 }
 
 

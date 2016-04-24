@@ -1,3 +1,7 @@
+strusbase (0.8.8-1) unstable; urgency=low
+  * fixed bug in own hton/ntoh functions for double
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Sun, 24 Apr 2016 14:00:00 +0100
+
 strusbase (0.8.7-1) unstable; urgency=low
   * moved numericVariant.hpp from strus to strusBase
  -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 15 Apr 2016 15:00:00 +0100

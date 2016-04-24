@@ -60,7 +60,7 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 		}
 		return false;
 	}
-	CATCH_ERROR_MAP_RETURN("error extracting string from configuration string: %s", *errorhnd, false);
+	CATCH_ERROR_MAP_RETURN( _TXT("error extracting string from configuration string: %s"), *errorhnd, false);
 }
 
 static bool yesNoFromString( const char* cfgname, const std::string& str)
@@ -94,7 +94,7 @@ DLL_PUBLIC bool strus::extractBooleanFromConfigString( bool& val, std::string& c
 			return false;
 		}
 	}
-	CATCH_ERROR_MAP_RETURN("error extracting unsigned integer from configuration string: %s", *errorhnd, false);
+	CATCH_ERROR_MAP_RETURN( _TXT("error extracting unsigned integer from configuration string: %s"), *errorhnd, false);
 }
 
 static unsigned int unsignedFromString( const std::string& numstr)
@@ -149,7 +149,7 @@ DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::stri
 			return false;
 		}
 	}
-	CATCH_ERROR_MAP_RETURN("error extracting unsigned integer from configuration string: %s", *errorhnd, false);
+	CATCH_ERROR_MAP_RETURN( _TXT("error extracting unsigned integer from configuration string: %s"), *errorhnd, false);
 }
 
 
@@ -163,7 +163,7 @@ DLL_PUBLIC void strus::removeKeysFromConfigString( std::string& config, const ch
 			extractStringFromConfigString( val, config, keys[ii], errorhnd);
 		}
 	}
-	CATCH_ERROR_MAP("error removing keys from configuration string: %s", *errorhnd);
+	CATCH_ERROR_MAP( _TXT("error removing keys from configuration string: %s"), *errorhnd);
 }
 
 
