@@ -17,7 +17,11 @@ case $OS in
 			cmake \
 			gettext \
 			|| true
-		sudo brew link --force gettext || true
+		# sadly our intl cmake macro cannot find the correct gettext
+		# version without this (brew --link never worked correctly for us):
+		sudo ln -fs /usr/local/opt/gettext/lib/* /usr/local/lib/.
+		sudo ln -fs /usr/local/opt/gettext/include/* /usr/local/include/.
+		sudo ln -fs /usr/local/opt/gettext/bin/* /usr/local/bin/.
 		;;
 	
 	default)
