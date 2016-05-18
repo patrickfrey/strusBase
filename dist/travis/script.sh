@@ -18,9 +18,8 @@ case $OS in
 			export CXX=g++-4.8
 			export CC=gcc-4.8
 		fi
-		which gcc-4.8
-		gcc-4.8 --version
-		cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
+		cmake -DCMAKE_CXX_COMPILER=$(which g++-4.8) -DCMAKE_C_COMPILER=$(which gcc-4.8) \
+			-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
 			-DCMAKE_CXX_FLAGS=-g -G Xcode \
 			.
 		xcodebuild -configuration Release -target ALL_BUILD
