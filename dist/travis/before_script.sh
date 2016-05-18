@@ -2,7 +2,7 @@
 
 OS=$(uname -s)
 
-case $TRAVIS_OS_NAME in
+case $OS in
 	Linux)
 		sudo apt-get update -qq
 		sudo apt-get install -y \
@@ -17,7 +17,7 @@ case $TRAVIS_OS_NAME in
 			cmake \
 			gettext \
 			|| true
-		brew link --force gettext || true
+		sudo brew link --force gettext || true
 		;;
 	
 	default)

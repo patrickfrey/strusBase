@@ -1,7 +1,9 @@
 #!/bin/sh
 
-case $TRAVIS_OS_NAME in
-	linux)
+OS=$(uname -s)
+
+case $OS in
+	Linux)
 		cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
 			-DLIB_INSTALL_DIR=lib -DCMAKE_CXX_FLAGS=-g \
 			.
@@ -10,7 +12,7 @@ case $TRAVIS_OS_NAME in
 		sudo make install
 		;;
 
-	osx)
+	Darwin)
 		# gcc on OSX is a mere frontend to clang, force using gcc 4.8
 		if test "X$CC" = "Xgcc"; then
 			export CC=gcc-4.8;
