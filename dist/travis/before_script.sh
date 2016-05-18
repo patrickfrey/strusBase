@@ -13,8 +13,9 @@ case $OS in
 	Darwin)
 		# || true below to cope rc=1 when boost is already installed.
 		brew install \
-			boost \
+			gcc48 \
 			cmake \
+			boost \
 			gettext \
 			|| true
 		# sadly our intl cmake macro cannot find the correct gettext
