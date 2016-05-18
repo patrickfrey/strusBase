@@ -2,7 +2,7 @@
 
 OS=$(uname -s)
 
-case $OS in
+case $TRAVIS_OS_NAME in
 	Linux)
 		sudo apt-get update -qq
 		sudo apt-get install -y \
@@ -16,7 +16,7 @@ case $OS in
 			boost \
 			cmake \
 			gettext \
-			leveldb || true
+			|| true
 		brew link --force gettext || true
 		;;
 	
