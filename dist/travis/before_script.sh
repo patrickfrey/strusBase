@@ -11,18 +11,16 @@ case $OS in
 		;;
 		
 	Darwin)
-		# || true below to cope rc=1 when boost is already installed.
+		brew update
+		if test "X$CC" = "Xgcc"; then
+			brew install gcc48 --enable-all-languages
+			brew link --force gcc48
+		fi
 		brew install \
-			gcc48 \
 			cmake \
 			boost \
-			gettext \
-			|| true
-		# sadly our intl cmake macro cannot find the correct gettext
-		# version without this (brew --link never worked correctly for us):
-		sudo ln -fs /usr/local/opt/gettext/lib/* /usr/local/lib/.
-		sudo ln -fs /usr/local/opt/gettext/include/* /usr/local/include/.
-		sudo ln -fs /usr/local/opt/gettext/bin/* /usr/local/bin/.
+			gettext
+		brew link --force gettext
 		;;
 	
 	default)
