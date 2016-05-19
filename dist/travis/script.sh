@@ -17,14 +17,22 @@ case $OS in
 		if test "X$CC" = "Xgcc"; then
 			export CXX=g++-4.8
 			export CC=gcc-4.8
+			cmake -DCMAKE_CXX_COMPILER=$(which g++-4.8) -DCMAKE_C_COMPILER=$(which gcc-4.8) \
+				-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
+				-DCMAKE_CXX_FLAGS=-g -G 'Unix Makefiles' \
+				.
+			make
+			make test
+			sudo make install
+		else
+			cmake -DCMAKE_CXX_COMPILER=$(which g++-4.8) -DCMAKE_C_COMPILER=$(which gcc-4.8) \
+				-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
+				-DCMAKE_CXX_FLAGS=-g -G Xcode \
+				.
+			xcodebuild -configuration Release -target ALL_BUILD
+			xcodebuild -configuration Release -target RUN_TESTS
+			sudo xcodebuild -configuration Release -target install
 		fi
-		cmake -DCMAKE_CXX_COMPILER=$(which g++-4.8) -DCMAKE_C_COMPILER=$(which gcc-4.8) \
-			-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
-			-DCMAKE_CXX_FLAGS=-g -G Xcode \
-			.
-		xcodebuild -configuration Release -target ALL_BUILD
-		xcodebuild -configuration Release -target RUN_TESTS
-		sudo xcodebuild -configuration Release -target install
 		;;
 		
 	default)
