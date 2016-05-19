@@ -19,7 +19,7 @@ case $OS in
 		brew install \
 			cmake \
 			boost \
-			gettext \ 
+			gettext \
 			|| true
 		# make sure cmake finds the brew version of gettext
 		brew link --force gettext
