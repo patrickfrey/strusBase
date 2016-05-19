@@ -13,11 +13,15 @@ case $OS in
 		;;
 
 	Darwin)
-		# gcc on OSX is a mere frontend to clang, force using gcc 4.8
 		if test "X$CC" = "Xgcc"; then
+			# gcc on OSX is a mere frontend to clang, force using gcc 4.8
 			export CXX=g++-4.8
 			export CC=gcc-4.8
-			cmake -DCMAKE_CXX_COMPILER=$(which g++-4.8) -DCMAKE_C_COMPILER=$(which gcc-4.8) \
+			# forcing brew versions (of gettext) over Mac versions
+			export CFLAGS=-I/usr/local
+			export CXXFLAGS=-I/usr/local
+			export LDFLAGS=-L/usr/local/lib
+			cmake \
 				-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
 				-DCMAKE_CXX_FLAGS=-g -G 'Unix Makefiles' \
 				.
@@ -25,7 +29,11 @@ case $OS in
 			make test
 			sudo make install
 		else
-			cmake -DCMAKE_CXX_COMPILER=$(which g++-4.8) -DCMAKE_C_COMPILER=$(which gcc-4.8) \
+			# forcing brew versions (of gettext) over Mac versions
+			export CFLAGS=-I/usr/local
+			export CXXFLAGS=-I/usr/local
+			export LDFLAGS=-L/usr/local/lib
+			cmake \
 				-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
 				-DCMAKE_CXX_FLAGS=-g -G Xcode \
 				.
