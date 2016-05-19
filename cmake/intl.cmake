@@ -22,7 +22,7 @@ else()
   # was called on gettext
   if(APPLE)
     set(Intl_INCLUDE_DIRS "/usr/local/include")
-    set(Intl_LIBRARIES "usr/local/lib/libintl.dylib")
+    set(Intl_LIBRARIES "/usr/local/lib/libintl.dylib")
   else(APPLE)
     # avoid having empty directory warnings, include /usr/include should not harm too much for now
     set(Intl_INCLUDE_DIRS "/usr/include")
