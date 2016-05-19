@@ -13,18 +13,16 @@ case $OS in
 	Darwin)
 		brew update
 		if test "X$CC" = "Xgcc"; then
-			brew install gcc48 --enable-all-languages
+			brew install gcc48 --enable-all-languages || true
 			brew link --force gcc48
 		fi
 		brew install \
 			cmake \
 			boost \
-			gettext
+			gettext \ 
+			|| true
 		# make sure cmake finds the brew version of gettext
 		brew link --force gettext
-		sudo ln -s /usr/local/opt/gettext/lib/* /usr/local/lib/.
-		sudo ln -s /usr/local/opt/gettext/include/* /usr/local/include/.
-		sudo ln -s /usr/local/opt/gettext/bin/* /usr/local/bin/.
 		;;
 	
 	default)
