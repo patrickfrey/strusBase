@@ -20,7 +20,11 @@ case $OS in
 			cmake \
 			boost \
 			gettext
+		# make sure cmake finds the brew version of gettext
 		brew link --force gettext
+		sudo ln -s /usr/local/opt/gettext/lib/* /usr/local/lib/.
+		sudo ln -s /usr/local/opt/gettext/include/* /usr/local/include/.
+		sudo ln -s /usr/local/opt/gettext/bin/* /usr/local/bin/.
 		;;
 	
 	default)
