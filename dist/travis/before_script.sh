@@ -25,7 +25,7 @@ case $OS in
 		brew link --force gettext
 		;;
 	
-	default)
+	*)
 		echo "ERROR: unknown operating system '$OS'."
 		;;
 esac

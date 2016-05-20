@@ -43,7 +43,7 @@ case $OS in
 		fi
 		;;
 		
-	default)
+	*)
 		echo "ERROR: unknown operating system '$OS'."
 		;;
 esac

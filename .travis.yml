@@ -12,6 +12,6 @@ branches:
     - travis
 before_install:
 - chmod +x dist/travis/*.sh
-- "dist/travis/before_script.sh"
+- dist/travis/before_script.sh
 script:
-- "dist/travis/script.sh"
+- dist/travis/script.sh
