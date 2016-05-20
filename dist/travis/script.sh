@@ -12,6 +12,7 @@ case $OS in
 		make
 		make test
 		sudo make install
+		cd ..
 		;;
 
 	Darwin)
@@ -32,6 +33,7 @@ case $OS in
 			make
 			make test
 			sudo make install
+			cd ..
 		else
 			# forcing brew versions (of gettext) over Mac versions
 			export CFLAGS=-I/usr/local
@@ -46,6 +48,7 @@ case $OS in
 			xcodebuild -configuration Release -target ALL_BUILD
 			xcodebuild -configuration Release -target RUN_TESTS
 			sudo xcodebuild -configuration Release -target install
+			cd ..
 		fi
 		;;
 		
