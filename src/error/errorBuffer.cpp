@@ -116,7 +116,7 @@ bool ErrorBuffer::setMaxNofThreads( unsigned int maxNofThreads)
 	{
 		if (m_logfilehandle)
 		{
-			fprintf( m_logfilehandle, _TXT("out of memory initializing standard error buffer\n"));
+			fprintf( m_logfilehandle, "%s", _TXT("out of memory initializing standard error buffer\n"));
 		}
 		return false;
 	}
@@ -148,7 +148,7 @@ std::size_t ErrorBuffer::threadidx() const
 		{
 			if (m_logfilehandle)
 			{
-				fprintf( m_logfilehandle, _TXT("number of threads in error buffer exhausted\n"));
+				fprintf( m_logfilehandle, "%s", _TXT("number of threads in error buffer exhausted\n"));
 			}
 			throw std::logic_error( _TXT("number of threads in error buffer exhausted"));
 		}
