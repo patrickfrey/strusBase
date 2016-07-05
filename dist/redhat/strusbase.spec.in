@@ -278,6 +278,9 @@ make test
 
 
 %changelog
+* Tue Jul 5 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.10.0-0.1
+* increment version number parallel to other strus projects (for dependency rules)
+
 * Thu Jun 9 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.9.1-0.1
 - interface header file bugfix: one case of bad_alloc not handled correctly in strus/reference.hpp
 

@@ -1,6 +1,6 @@
-strusbase (0.9.1-1) unstable; urgency=low
-  * interface header file bugfix: one case of bad_alloc not handled correctly in strus/reference.hpp
- -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 9 Jun 2016 14:45:00 +0100
+strusbase (0.10.0-1) unstable; urgency=low
+  * increment version number parallel to other strus projects (for dependency rules)
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Tue, 5 Jul 2016 13:00:00 +0100
 
 strusbase (0.9.0-1) unstable; urgency=low
   * increment version number because of changes in the object builder interfaces
