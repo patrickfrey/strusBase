@@ -65,14 +65,8 @@
 %endif
 
 %define fedora 0
-%define fc21 0
 %define fc22 0
 %define fc23 0
-%if 0%{?fedora_version} == 21
-%define dist fc21
-%define fc21 1
-%define fedora 1
-%endif
 %if 0%{?fedora_version} == 22
 %define dist fc22
 %define fc22 1
@@ -204,10 +198,10 @@ Requires: libboost_date_time1_54_0 >= 1.54.0
 BuildRequires: boost-devel
 %endif
 %if %{osufactory}
-Requires: libboost_thread1_58_0 >= 1.58.0
-Requires: libboost_atomic1_58_0 >= 1.58.0
-Requires: libboost_system1_58_0 >= 1.58.0
-Requires: libboost_date_time1_58_0 >= 1.58.0
+Requires: libboost_thread1_60_0 >= 1.60.0
+Requires: libboost_atomic1_60_0 >= 1.60.0
+Requires: libboost_system1_60_0 >= 1.60.0
+Requires: libboost_date_time1_60_0 >= 1.60.0
 BuildRequires: boost-devel
 %endif
 %endif
@@ -284,6 +278,18 @@ make test
 
 
 %changelog
+* Tue Jul 5 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.10.0-0.1
+* increment version number parallel to other strus projects (for dependency rules)
+
+* Thu Jun 9 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.9.1-0.1
+- interface header file bugfix: one case of bad_alloc not handled correctly in strus/reference.hpp
+
+* Thu Apr 28 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.9.0-0.1
+- increment version number because of changes in the object builder interfaces
+
+* Sun Apr 24 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.8-0.1
+- fixed bug in own hton/ntoh functions for double
+
 * Fri Apr 15 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.8.7-0.1
 - moved numericVariant.hpp from strus to strusBase
 

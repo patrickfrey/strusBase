@@ -29,12 +29,14 @@ void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_lis
 {
 	if (!m_hasmsg)
 	{
-		strus_vsnprintf( m_msgbuf, sizeof(m_msgbuf), format, arg);
+		char newmsgbuf[ MsgBufSize];
+		strus_vsnprintf( newmsgbuf, sizeof(newmsgbuf), format, arg);
 		if (logfilehandle)
 		{
-			fprintf( logfilehandle, "%s\n", m_msgbuf);
+			fprintf( logfilehandle, "%s\n", newmsgbuf);
 			fflush( logfilehandle);
 		}
+		std::memcpy( m_msgbuf, newmsgbuf, sizeof(m_msgbuf));
 		m_hasmsg = true;
 	}
 	else if (logfilehandle)
@@ -112,7 +114,10 @@ bool ErrorBuffer::setMaxNofThreads( unsigned int maxNofThreads)
 {
 	if (!initMaxNofThreads( maxNofThreads))
 	{
-		fprintf( m_logfilehandle?m_logfilehandle:stderr, _TXT("out of memory initializing standard error buffer\n"));
+		if (m_logfilehandle)
+		{
+			fprintf( m_logfilehandle, "%s", _TXT("out of memory initializing standard error buffer\n"));
+		}
 		return false;
 	}
 	return true;
@@ -141,7 +146,10 @@ std::size_t ErrorBuffer::threadidx() const
 		}
 		if (ti == m_size)
 		{
-			fprintf( m_logfilehandle?m_logfilehandle:stderr, _TXT("number of threads in error buffer exhausted\n"));
+			if (m_logfilehandle)
+			{
+				fprintf( m_logfilehandle, "%s", _TXT("number of threads in error buffer exhausted\n"));
+			}
 			throw std::logic_error( _TXT("number of threads in error buffer exhausted"));
 		}
 		m_slots[ti].id = tid;

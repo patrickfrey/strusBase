@@ -154,7 +154,7 @@ public:
 		union
 		{
 			uint64_t x;
-			float v;
+			double v;
 		} val;
 		val.v = value;
 		val.x = ByteOrder<uint64_t>::hton( val.x);
@@ -165,7 +165,7 @@ public:
 		union
 		{
 			uint64_t x;
-			float v;
+			double v;
 		} val;
 		val.v = value;
 		val.x = ByteOrder<uint64_t>::ntoh( val.x);

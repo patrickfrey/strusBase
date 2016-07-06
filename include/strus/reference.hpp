@@ -29,14 +29,14 @@ public:
 	Reference( Object* obj_)
 		:m_obj(0),m_refcnt(0)
 	{
-		try
+		if (obj_) try
 		{
 			m_refcnt = newRefCnt();
 			m_obj = obj_;
 		}
 		catch (const std::bad_alloc&)
 		{
-			delete m_obj;
+			delete obj_;
 		}
 	}
 	/// \brief Copy constructor
@@ -68,7 +68,15 @@ public:
 		{
 			if (obj_)
 			{
-				m_refcnt = newRefCnt();
+				try
+				{
+					m_refcnt = newRefCnt();
+				}
+				catch (const std::bad_alloc&)
+				{
+					delete obj_;
+					return;
+				}
 			}
 		}
 		else if (*m_refcnt == 1)
