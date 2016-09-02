@@ -133,6 +133,42 @@ static unsigned int unsignedFromString( const std::string& numstr)
 	return (unsigned int)((rt + 1023)/1024);
 }
 
+static unsigned int doubleFromString( const std::string& numstr)
+{
+	double rt = 0.0;
+	double frac = 0.0;
+	bool got_dot = false;
+	bool sign = false;
+	char const* cc = numstr.c_str();
+	if (*cc == '-')
+	{
+		sign = true;
+		++cc;
+	}
+	for (;*cc; ++cc)
+	{
+		if (*cc >= '0' && *cc <= '9')
+		{
+			if (got_dot)
+			{
+				rt += (double)(unsigned int)(*cc - '0') * frac;
+				frac *= 10;
+			}
+			else
+			{
+				rt = (rt * 10) + (*cc - '0');
+			}
+		}
+		else if (*cc == '.')
+		{
+			if (got_dot) throw strus::runtime_error( _TXT("expected floating point number: %s"), numstr.c_str());
+			got_dot = true;
+			frac = 0.1;
+		}
+	}
+	if (sign) rt = -rt;
+	return rt;
+}
 
 DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
 {
@@ -150,6 +186,25 @@ DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::stri
 		}
 	}
 	CATCH_ERROR_MAP_RETURN( _TXT("error extracting unsigned integer from configuration string: %s"), *errorhnd, false);
+}
+
+
+DLL_PUBLIC bool strus::extractFloatFromConfigString( double& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		std::string cfgval;
+		if (extractStringFromConfigString( cfgval, config, key, errorhnd))
+		{
+			val = doubleFromString( cfgval);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("error extracting floating point value from configuration string: %s"), *errorhnd, false);
 }
 
 
