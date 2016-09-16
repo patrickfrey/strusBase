@@ -28,9 +28,6 @@
 *.out
 *.app
 
-# Packaging directory
-pkg/
-
 # Valgring suppression files
 *.sup
 
