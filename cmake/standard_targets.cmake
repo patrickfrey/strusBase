@@ -23,13 +23,14 @@ IF (UNIX)
    *.cmake
    Makefile
    core core.*
-   *~ */*~ */*/*~
-   CMakeFiles */CMakeFiles */*/CMakeFiles
-   cmake_install.cmake */cmake_install.cmake */*/cmake_install.cmake
-   Makefile */Makefile */*/Makefile
+   *~ */*~ */*/*~ */*/*/*~
+   CMakeFiles */CMakeFiles */*/CMakeFiles */*/*/CMakeFiles
+   cmake_install.cmake */cmake_install.cmake */*/cmake_install.cmake */*/*/cmake_install.cmake
+   Makefile */Makefile */*/Makefile */*/*/Makefile
    cmake/uninstall.cmake
    install_manifest.txt
    Testing
+   CTestTestfile.cmake */CTestTestfile.cmake */*/CTestTestfile.cmake */*/*/CTestTestfile.cmake
   )
 
   ADD_CUSTOM_COMMAND(
