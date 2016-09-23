@@ -130,7 +130,7 @@ static unsigned int unsignedFromString( const std::string& numstr)
 	{
 		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix) for configuration option 'cache': '%s'"), numstr.c_str());
 	}
-	return (unsigned int)((rt + 1023)/1024);
+	return rt;
 }
 
 static unsigned int doubleFromString( const std::string& numstr)
