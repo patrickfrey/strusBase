@@ -60,7 +60,7 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 		}
 		return false;
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error extracting string from configuration string: %s"), *errorhnd, false);
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting string from for key '%s' configuration string: %s"), key, *errorhnd, false);
 }
 
 static bool yesNoFromString( const char* cfgname, const std::string& str)
@@ -94,7 +94,7 @@ DLL_PUBLIC bool strus::extractBooleanFromConfigString( bool& val, std::string& c
 			return false;
 		}
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error extracting unsigned integer from configuration string: %s"), *errorhnd, false);
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT( "error extracting boolean for key '%s' from configuration string: %s"), key, *errorhnd, false);
 }
 
 static unsigned int unsignedFromString( const std::string& numstr)
@@ -125,8 +125,12 @@ static unsigned int unsignedFromString( const std::string& numstr)
 			++cc;
 			break;
 		}
+		else
+		{
+			break;
+		}
 	}
-	if (!cc)
+	if (*cc)
 	{
 		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix) for configuration option 'cache': '%s'"), numstr.c_str());
 	}
@@ -185,7 +189,7 @@ DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::stri
 			return false;
 		}
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error extracting unsigned integer from configuration string: %s"), *errorhnd, false);
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting unsigned integer for key '%s' from configuration string: %s"), key, *errorhnd, false);
 }
 
 
@@ -204,7 +208,7 @@ DLL_PUBLIC bool strus::extractFloatFromConfigString( double& val, std::string& c
 			return false;
 		}
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error extracting floating point value from configuration string: %s"), *errorhnd, false);
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting floating point value for key '%s' from configuration string: %s"), key, *errorhnd, false);
 }
 
 
