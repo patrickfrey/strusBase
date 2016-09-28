@@ -278,6 +278,9 @@ make test
 
 
 %changelog
+* Wed Sep 28 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.11.0-0.1
+* bugfix in the configuration parser (parse uint)
+
 * Tue Jul 5 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.10.0-0.1
 * increment version number parallel to other strus projects (for dependency rules)
 

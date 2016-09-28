@@ -1,3 +1,7 @@
+strusbase (0.11.0-1) unstable; urgency=low
+  * bugfix in the configuration parser (parse uint)
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 28 Sep 2016 12:00:00 +0100
+
 strusbase (0.10.0-1) unstable; urgency=low
   * increment version number parallel to other strus projects (for dependency rules)
  -- Patrick Frey <patrickpfrey@yahoo.com>  Tue, 5 Jul 2016 13:00:00 +0100
