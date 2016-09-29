@@ -17,7 +17,6 @@ include( cmake/boost.cmake)
 include( cmake/intl.cmake )
 
 set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
-set( CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON )
 configure_file( "${PROJECT_SOURCE_DIR}/include/strus/versionBase.hpp.in"  "${PROJECT_SOURCE_DIR}/include/strus/versionBase.hpp"  @ONLY )
 configure_file( "${PROJECT_SOURCE_DIR}/dist/obs/deploy_to_obs.sh.in"  "${PROJECT_SOURCE_DIR}/dist/obs/deploy_to_obs.sh"  @ONLY )
 configure_file( "${PROJECT_SOURCE_DIR}/dist/archlinux/PKGBUILD.in"  "${PROJECT_SOURCE_DIR}/dist/archlinux/PKGBUILD"  @ONLY )
