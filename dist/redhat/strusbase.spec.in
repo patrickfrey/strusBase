@@ -278,6 +278,9 @@ make test
 
 
 %changelog
+* Fri Sep 30 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.11.1-0.1
+* moved bit operations header file from project strus to this project
+
 * Wed Sep 28 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.11.0-0.1
 * bugfix in the configuration parser (parse uint)
 

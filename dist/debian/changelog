@@ -1,3 +1,7 @@
+strusbase (0.11.1-1) unstable; urgency=low
+  * moved bit operations header file from project strus to this project
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 30 Sep 2016 12:00:00 +0100
+
 strusbase (0.11.0-1) unstable; urgency=low
   * bugfix in the configuration parser (parse uint)
  -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 28 Sep 2016 12:00:00 +0100

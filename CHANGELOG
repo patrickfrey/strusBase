@@ -1,3 +1,7 @@
+strusBase (0.11.1)
+  * moved bit operations header file from project strus to this project
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 30 Sep 2016 12:00:00 +0100
+
 strusBase (0.11.0)
   * bugfix in the configuration parser (parse uint)
  -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 28 Sep 2016 12:00:00 +0100
