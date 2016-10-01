@@ -278,14 +278,17 @@ make test
 
 
 %changelog
+* Sat Oct 1 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.12.0-0.1
+- increment version parallel to analyzer (some interface files reorganization)
+
 * Fri Sep 30 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.11.1-0.1
-* moved bit operations header file from project strus to this project
+- moved bit operations header file from project strus to this project
 
 * Wed Sep 28 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.11.0-0.1
-* bugfix in the configuration parser (parse uint)
+- bugfix in the configuration parser (parse uint)
 
 * Tue Jul 5 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.10.0-0.1
-* increment version number parallel to other strus projects (for dependency rules)
+- increment version number parallel to other strus projects (for dependency rules)
 
 * Thu Jun 9 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.9.1-0.1
 - interface header file bugfix: one case of bad_alloc not handled correctly in strus/reference.hpp
