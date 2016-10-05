@@ -43,11 +43,14 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 				throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, config.c_str());
 			}
 			++cc;
+			while ((unsigned char)*cc <= 32) ++cc;
 			const char* ee = std::strchr( cc, ';');
 			if (!ee) ee = std::strchr( cc, '\0');
 			if (utils::caseInsensitiveEquals( cfgkey, key))
 			{
-				res = std::string( cc, ee - cc);
+				char const* tt = ee;
+				while (tt > cc && (unsigned char)*(tt-1) <= 32) --tt;
+				res = std::string( cc, tt - cc);
 				std::string rest_config( config.c_str(), start);
 				if (*ee) rest_config.append( ee+1);
 				config = rest_config;
@@ -132,7 +135,7 @@ static unsigned int unsignedFromString( const std::string& numstr)
 	}
 	if (*cc)
 	{
-		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix) for configuration option 'cache': '%s'"), numstr.c_str());
+		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix): '%s' (%s)"), numstr.c_str(), cc);
 	}
 	return rt;
 }
@@ -169,8 +172,16 @@ static unsigned int doubleFromString( const std::string& numstr)
 			got_dot = true;
 			frac = 0.1;
 		}
+		else
+		{
+			break;
+		}
 	}
 	if (sign) rt = -rt;
+	if (*cc)
+	{
+		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix) for configuration option: '%s'"), numstr.c_str());
+	}
 	return rt;
 }
 
