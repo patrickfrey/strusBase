@@ -53,6 +53,18 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 	{
 		return errno;
 	}
+	::fseek( fh, 0L, SEEK_END);
+	std::size_t filesize = ::ftell( fh);
+	::fseek( fh, 0L, SEEK_SET);
+	try
+	{
+		res.reserve( res.size() + filesize);
+	}
+	catch (const std::bad_alloc&)
+	{
+		::fclose( fh);
+		return 12/*ENOMEM*/;
+	}
 	unsigned int nn;
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
