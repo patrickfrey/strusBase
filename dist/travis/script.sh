@@ -11,9 +11,9 @@ case $OS in
 		cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
 			-DLIB_INSTALL_DIR=lib -DCMAKE_CXX_FLAGS=-g \
 			..
-		make
-		make test
-		sudo make install
+		make VERBOSE=1
+		make VERBOSE=1 test
+		sudo make VERBOSE=1 install
 		cd ..
 		;;
 
@@ -32,9 +32,9 @@ case $OS in
 				-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
 				-DCMAKE_CXX_FLAGS=-g -G 'Unix Makefiles' \
 				..
-			make
-			make test
-			sudo make install
+			make VERBOSE=1
+			make VERBOSE=1 test
+			sudo make VERBOSE=1 install
 			cd ..
 		else
 			# forcing brew versions (of gettext) over Mac versions
