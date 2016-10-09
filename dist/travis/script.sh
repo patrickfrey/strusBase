@@ -34,7 +34,7 @@ case $OS in
 				..
 			make VERBOSE=1
 			make VERBOSE=1 test
-			sudo VERBOSE=1 make install
+			sudo make VERBOSE=1 install
 			cd ..
 		else
 			# forcing brew versions (of gettext) over Mac versions
