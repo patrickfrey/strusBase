@@ -31,6 +31,11 @@ unsigned int readStdin( std::string& res);
 /// \return 0 on success, errno on failure
 unsigned int writeFile( const std::string& filename, const std::string& content);
 
+/// \brief Creates a directory if it does not exist yet
+/// \param[in] dirname path of directory to create
+/// \param[in] fail_ifexist return an error if the directory already exists
+unsigned int createDir( const std::string& dirname, bool fail_ifexist);
+
 /// \brief Reads all file names matching to the extension ext of a directory to an array of strings
 /// \param[in] path the name of director to read
 /// \param[in] ext the file extension the accepted files must have (empty if all extensions are accepted)

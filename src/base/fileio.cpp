@@ -20,6 +20,20 @@
 
 using namespace strus;
 
+DLL_PUBLIC unsigned int strus::createDir( const std::string& dirname, bool fail_ifexist)
+{
+	if (0>::mkdir( dirname.c_str(), 0755))
+	{
+		unsigned int ec = errno;
+		if (!fail_ifexist && ec == EEXIST && isDir(dirname.c_str()))
+		{
+			ec = 0;
+		}
+		return ec;
+	}
+	return 0;
+}
+
 DLL_PUBLIC unsigned int strus::writeFile( const std::string& filename, const std::string& content)
 {
 	unsigned char ch;
