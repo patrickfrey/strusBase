@@ -31,6 +31,16 @@ unsigned int readStdin( std::string& res);
 /// \return 0 on success, errno on failure
 unsigned int writeFile( const std::string& filename, const std::string& content);
 
+/// \brief Removes a file
+/// \param[in] filename the name of the file to remove
+/// \return 0 on success, errno on failure
+unsigned int removeFile( const std::string& filename);
+
+/// \brief Removes an empty directory
+/// \param[in] dirname the name of the directory to remove
+/// \return 0 on success, errno on failure
+unsigned int removeDir( const std::string& dirname);
+
 /// \brief Creates a directory if it does not exist yet
 /// \param[in] dirname path of directory to create
 /// \param[in] fail_ifexist return an error if the directory already exists

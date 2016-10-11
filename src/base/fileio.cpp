@@ -12,6 +12,7 @@
 #include <cerrno>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <vector>
 #include <string>
 #include <cstring>
@@ -29,6 +30,26 @@ DLL_PUBLIC unsigned int strus::createDir( const std::string& dirname, bool fail_
 		{
 			ec = 0;
 		}
+		return ec;
+	}
+	return 0;
+}
+
+DLL_PUBLIC unsigned int strus::removeFile( const std::string& filename)
+{
+	if (0>::remove( filename.c_str()))
+	{
+		unsigned int ec = errno;
+		return ec;
+	}
+	return 0;
+}
+
+DLL_PUBLIC unsigned int strus::removeDir( const std::string& dirname)
+{
+	if (0>::rmdir( dirname.c_str()))
+	{
+		unsigned int ec = errno;
 		return ec;
 	}
 	return 0;
