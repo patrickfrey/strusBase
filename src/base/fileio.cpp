@@ -35,21 +35,29 @@ DLL_PUBLIC unsigned int strus::createDir( const std::string& dirname, bool fail_
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::removeFile( const std::string& filename)
+DLL_PUBLIC unsigned int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
 {
 	if (0>::remove( filename.c_str()))
 	{
 		unsigned int ec = errno;
+		if (!fail_ifnofexist && ec == ENOENT)
+		{
+			ec = 0;
+		}
 		return ec;
 	}
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::removeDir( const std::string& dirname)
+DLL_PUBLIC unsigned int strus::removeDir( const std::string& dirname, bool fail_ifnofexist)
 {
 	if (0>::rmdir( dirname.c_str()))
 	{
 		unsigned int ec = errno;
+		if (!fail_ifnofexist && ec == ENOENT)
+		{
+			ec = 0;
+		}
 		return ec;
 	}
 	return 0;

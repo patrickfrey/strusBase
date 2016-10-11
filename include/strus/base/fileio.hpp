@@ -33,18 +33,20 @@ unsigned int writeFile( const std::string& filename, const std::string& content)
 
 /// \brief Removes a file
 /// \param[in] filename the name of the file to remove
+/// \param[in] fail_ifnofexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-unsigned int removeFile( const std::string& filename);
+unsigned int removeFile( const std::string& filename, bool fail_ifnofexist=false);
 
 /// \brief Removes an empty directory
 /// \param[in] dirname the name of the directory to remove
+/// \param[in] fail_ifnofexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-unsigned int removeDir( const std::string& dirname);
+unsigned int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
 
 /// \brief Creates a directory if it does not exist yet
 /// \param[in] dirname path of directory to create
 /// \param[in] fail_ifexist return an error if the directory already exists
-unsigned int createDir( const std::string& dirname, bool fail_ifexist);
+unsigned int createDir( const std::string& dirname, bool fail_ifexist=true);
 
 /// \brief Reads all file names matching to the extension ext of a directory to an array of strings
 /// \param[in] path the name of director to read
