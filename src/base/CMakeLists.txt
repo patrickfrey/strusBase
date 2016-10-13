@@ -9,6 +9,7 @@ set( source_files
 	fileio.cpp
 	crc32.cpp
 	snprintf.c
+	string_format.cpp
 )
 
 include_directories(
