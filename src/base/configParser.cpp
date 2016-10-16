@@ -140,7 +140,7 @@ static unsigned int unsignedFromString( const std::string& numstr)
 	return rt;
 }
 
-static unsigned int doubleFromString( const std::string& numstr)
+static double doubleFromString( const std::string& numstr)
 {
 	double rt = 0.0;
 	double frac = 0.0;
