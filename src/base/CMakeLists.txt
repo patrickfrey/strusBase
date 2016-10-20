@@ -7,6 +7,7 @@ set( source_files
 	cmdLineOpt.cpp
 	configParser.cpp
 	fileio.cpp
+	utf8.cpp
 	crc32.cpp
 	snprintf.c
 	string_format.cpp
