@@ -353,7 +353,7 @@ DLL_PUBLIC bool DataRecordFile::open( const std::string& filename, const Mode& m
 	return (m_errno == 0);
 }
 
-DLL_PUBLIC void* DataRecordFile::read( std::size_t fpos)
+DLL_PUBLIC const void* DataRecordFile::read( std::size_t fpos)
 {
 	switch (m_mode)
 	{
@@ -373,6 +373,10 @@ DLL_PUBLIC void* DataRecordFile::read( std::size_t fpos)
 			{
 				origin = SEEK_CUR;
 				offset = (fpos - m_recordindex) * m_recordsize;
+				if (offset == 0 && ::feof( m_fh))
+				{
+					return 0;
+				}
 			}
 			if (((origin == SEEK_CUR && offset == 0) || 0==fseek( m_fh, offset, origin))
 			&& 1==fread( m_recbuf, m_recordsize, 1/*count*/, m_fh))
@@ -439,6 +443,36 @@ DLL_PUBLIC bool DataRecordFile::close()
 DLL_PUBLIC int DataRecordFile::error() const
 {
 	return m_errno;
+}
+
+DLL_PUBLIC std::size_t DataRecordFile::size()
+{
+	switch (m_mode)
+	{
+		case NoAccess:
+			break;
+		case ExclusiveAppendWrite:
+			return m_recordindex;
+		case SharedRead:
+		{
+			if (0==::fseek( m_fh, 0, SEEK_END))
+			{
+				long int nn = ::ftell( m_fh);
+				if (nn < 0)
+				{
+					m_recordindex = std::numeric_limits<std::size_t>::max();
+					return 0;
+				}
+				else
+				{
+					m_recordindex = (nn / m_recordsize);
+					return m_recordindex;
+				}
+			}
+		}
+	}
+	m_errno = EINVAL;
+	return 0;
 }
 
 #endif

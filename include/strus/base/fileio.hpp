@@ -112,7 +112,7 @@ public:
 	///\brief Read one record of the file
 	///\param[in] fpos index of the record to read (file position is the index multiplied with the record size)
 	///\return pointer to buffer read if success, (0) NULL on failure (see error() for the system error code ~ errno)
-	void* read( std::size_t fpos);
+	const void* read( std::size_t fpos);
 
 	///\brief Append a record at the end of the file
 	///\param[in] recbuf buffer containing the record to write
@@ -129,6 +129,9 @@ public:
 
 	///\brief Get the size of one record of this file
 	std::size_t recordsize() const		{return m_recordsize;}
+
+	///\brief Get the number of records stored in the file
+	std::size_t size();
 
 private:
 	FILE* m_fh;			///< file handle
