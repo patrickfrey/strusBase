@@ -7,7 +7,6 @@ set( source_files
 	cmdLineOpt.cpp
 	configParser.cpp
 	fileio.cpp
-	dataRecordFile.cpp
 	crc32.cpp
 	snprintf.c
 	string_format.cpp
