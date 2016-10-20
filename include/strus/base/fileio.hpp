@@ -89,20 +89,18 @@ class DataRecordFile;
 //... Posix file functions do not open a file in shared read mode in Windows.
 //    Therefore we need an own implementation with Win file functions that is not available yet.
 #else
+/// \remark Implementaion is not thread safe
 class DataRecordFile
 {
 public:
+	/// \brief Implemented modes to access a data record file
 	enum Mode {NoAccess=0x0, SharedRead=0x1, ExclusiveAppendWrite=0x4};
 
 public:
 	///\brief Constructor
-	DataRecordFile()
-		:m_fh(0),m_mode(NoAccess),m_errno(0),m_recordsize(0),m_recordindex(0){}
+	DataRecordFile();
 	///\brief Destructor
-	~DataRecordFile()
-	{
-		(void)close();
-	}
+	~DataRecordFile();
 
 	///\brief Open a file
 	///\param[in] filename name of the file o open
@@ -113,9 +111,8 @@ public:
 
 	///\brief Read one record of the file
 	///\param[in] fpos index of the record to read (file position is the index multiplied with the record size)
-	///\param[in] recbuf buffer where to write the read record. Must at least hold the number of bytes defined by the record size. 
-	///\return true, if success, false on failure (see error() for the system error code ~ errno)
-	bool read( std::size_t fpos, void* recbuf);
+	///\return pointer to buffer read if success, (0) NULL on failure (see error() for the system error code ~ errno)
+	void* read( std::size_t fpos);
 
 	///\brief Append a record at the end of the file
 	///\param[in] recbuf buffer containing the record to write
@@ -126,15 +123,20 @@ public:
 	///\return true, if success, false on failure (see error() for the system error code ~ errno)
 	bool close();
 
-	///\brief Return the error of the last operation to this file
+	///\brief Get the error of the last operation to this file
+	///\return the error code (system errno)
 	int error() const;
 
+	///\brief Get the size of one record of this file
+	std::size_t recordsize() const		{return m_recordsize;}
+
 private:
-	FILE* m_fh;
-	Mode m_mode;
-	int m_errno;
-	unsigned int m_recordsize;
-	std::size_t m_recordindex;
+	FILE* m_fh;			///< file handle
+	Mode m_mode;			///< file access mode
+	int m_errno;			///< system errno for this file
+	unsigned int m_recordsize;	///< size of a record in bytes
+	std::size_t m_recordindex;	///< current file position
+	void* m_recbuf;
 
 private:
 	DataRecordFile( const DataRecordFile&){}				///< non copyable
