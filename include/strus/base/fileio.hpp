@@ -10,6 +10,7 @@
 #define _STRUS_BASE_FILE_IO_HPP_INCLUDED
 #include <vector>
 #include <string>
+#include <cstdio>
 
 namespace strus
 {
@@ -81,6 +82,66 @@ unsigned int getParentPath( const std::string& path, std::string& dest);
 /// \return the separator
 char dirSeparator();
 
-}
+
+/// \brief Abstraction for data record files
+#ifdef _MSC_VER
+class DataRecordFile;
+//... Posix file functions do not open a file in shared read mode in Windows.
+//    Therefore we need an own implementation with Win file functions that is not available yet.
+#else
+class DataRecordFile
+{
+public:
+	enum Mode {NoAccess=0x0, SharedRead=0x1, ExclusiveAppendWrite=0x4};
+
+public:
+	///\brief Constructor
+	DataRecordFile()
+		:m_fh(0),m_mode(NoAccess),m_errno(0),m_recordsize(0),m_recordindex(0){}
+	///\brief Destructor
+	~DataRecordFile()
+	{
+		(void)close();
+	}
+
+	///\brief Open a file
+	///\param[in] filename name of the file o open
+	///\param[in] mode_ file mode describing the access to the file
+	///\param[in] recordsize_ size of one record in bytes
+	///\return true, if success, false on failure (see error() for the system error code ~ errno)
+	bool open( const std::string& filename, const Mode& mode_, unsigned int recordsize_);
+
+	///\brief Read one record of the file
+	///\param[in] fpos index of the record to read (file position is the index multiplied with the record size)
+	///\param[in] recbuf buffer where to write the read record. Must at least hold the number of bytes defined by the record size. 
+	///\return true, if success, false on failure (see error() for the system error code ~ errno)
+	bool read( std::size_t fpos, void* recbuf);
+
+	///\brief Append a record at the end of the file
+	///\param[in] recbuf buffer containing the record to write
+	///\return true, if success, false on failure (see error() for the system error code ~ errno)
+	bool append( const void* recbuf);
+
+	///\brief Close the file
+	///\return true, if success, false on failure (see error() for the system error code ~ errno)
+	bool close();
+
+	///\brief Return the error of the last operation to this file
+	int error() const;
+
+private:
+	FILE* m_fh;
+	Mode m_mode;
+	int m_errno;
+	unsigned int m_recordsize;
+	std::size_t m_recordindex;
+
+private:
+	DataRecordFile( const DataRecordFile&){}				///< non copyable
+	DataRecordFile& operator=( const DataRecordFile&){return *this;}	///< non copyable
+};
+#endif
+
+}//namespace
 #endif
 
