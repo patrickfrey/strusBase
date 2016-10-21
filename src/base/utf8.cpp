@@ -9,7 +9,6 @@
 /// \brief Helpers for UTF-8 encoding/decoding
 #include "strus/base/utf8.hpp"
 #include "strus/base/dll_tags.hpp"
-#include "private/internationalization.hpp"
 
 using namespace strus;
 
@@ -32,7 +31,7 @@ DLL_PUBLIC std::size_t strus::utf8encode( char* buf, int32_t chr)
 {
 	if (chr<0)
 	{
-		throw strus::runtime_error( _TXT( "illegal unicode character (%s)"), __FUNCTION__);
+		return 0;
 	}
 	if (chr <= 127)
 	{
