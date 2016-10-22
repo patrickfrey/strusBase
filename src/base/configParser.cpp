@@ -24,7 +24,7 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 		char const* cc = config.c_str();
 		while (*cc)
 		{
-			while (*cc && (unsigned char)*cc <= 32) ++cc;
+			while (*cc && (unsigned char)*cc <= 32 && *cc == ';') ++cc;
 			//... skip spaces
 			if (!*cc) break;
 
