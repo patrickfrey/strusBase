@@ -97,9 +97,13 @@ public:
 			uint32_t p[2];
 			uint64_t v;
 		} val;
-		val.p[0] = ntohl( value >> 32);
-		val.p[1] = ntohl( value & 0xffFFffFF);
-		return val.v;
+		val.v = value;
+		val.p[0] = ntohl( val.p[0]);
+		val.p[1] = ntohl( val.p[1]);
+		uint64_t rt = val.p[0];
+		rt <<= 32;
+		rt |= val.p[1];
+		return rt;
 	}
 };
 
