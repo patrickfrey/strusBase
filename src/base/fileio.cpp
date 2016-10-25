@@ -210,7 +210,7 @@ DLL_PUBLIC bool strus::isTextFile( const std::string& path)
 		}
 		else
 		{
-			for (++fi,--charlen; charlen > 0; ++fi,--charlen)
+			for (++fi,--charlen; fi != fe && charlen > 0; ++fi,--charlen)
 			{
 				if (!utf8midchr( sample[fi]))
 				{
