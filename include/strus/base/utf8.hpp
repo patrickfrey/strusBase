@@ -38,6 +38,12 @@
 namespace strus
 {
 
+/// \brief Return true, if the character passed as argument is a non start character of a multi byte encoded unicode character
+static inline bool utf8midchr( unsigned char ch)
+{
+	return (ch & B11000000) == B10000000;
+}
+
 /// \brief Skip to the begin of an UTF-8 encoded character from a pointer into it
 /// \param[in] pointer into the UTF-8 encoded character
 /// \return pointer to the start of the character

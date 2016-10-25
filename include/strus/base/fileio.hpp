@@ -72,6 +72,12 @@ bool isFile( const std::string& path);
 /// \return true, if yes
 bool isDir( const std::string& path);
 
+/// \brief Check if a file system path points to a file with text content (not binary)
+/// \param[in] path file system path to check
+/// \remark Implementation uses heuristics of character frequencies for the check. Currently fails on UTF-8 text files of non latin alphabet based languages.
+/// \return true, if yes
+bool isTextFile( const std::string& path);
+
 /// \brief Get the parent (containing) path of a file or directory
 /// \param[in] path file system path to get the containing path
 /// \param[out] dest the containing path

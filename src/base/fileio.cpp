@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/fileio.hpp"
+#include "strus/base/utf8.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "fileio_sys.hpp"
 #include <cstdio>
@@ -112,7 +113,7 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
 
-	while (!!(nn=::fread( buf, 1, bufsize, fh)))
+	while (!!(nn=::fread( buf, 1/*nmemb*/, bufsize, fh)))
 	{
 		try
 		{
@@ -143,7 +144,7 @@ DLL_PUBLIC unsigned int strus::readStdin( std::string& res)
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
 
-	while (!!(nn=::fread( buf, 1, bufsize, stdin)))
+	while (!!(nn=::fread( buf, 1/*nmemb*/, bufsize, stdin)))
 	{
 		try
 		{
@@ -155,6 +156,75 @@ DLL_PUBLIC unsigned int strus::readStdin( std::string& res)
 		}
 	}
 	return 0;
+}
+
+DLL_PUBLIC bool strus::isTextFile( const std::string& path)
+{
+	unsigned char sample[ 4096];
+	unsigned int count[ 256];
+	std::memset( count, 0, sizeof( count));
+
+	FILE* fh = ::fopen( path.c_str(), "rb");
+	if (!fh)
+	{
+		return false;
+	}
+	unsigned int samplesize = ::fread( sample, 1/*nmemb*/, sizeof(sample), fh);
+	if (samplesize < sizeof(sample) && !feof( fh))
+	{
+		return false;
+	}
+	else
+	{
+		::fclose( fh);
+	}
+	unsigned int fi=0,fe=samplesize;
+	for (; fi != fe; ++fi)
+	{
+		++count[ sample[ fi]];
+	}
+	unsigned int cntLatinAlpha = 0;
+	unsigned int cntTextControl = 0;
+	unsigned int utf8errors = 0;
+	unsigned char ci,ce;
+	ci='A', ce='Z';
+	for (; ci != ce; ++ci) cntLatinAlpha += count[ ci];
+	ci='a', ce='z';
+	for (; ci != ce; ++ci) cntLatinAlpha += count[ ci];
+	ci='0', ce='9';
+	for (; ci != ce; ++ci) cntLatinAlpha += count[ ci];
+	cntTextControl += count[ (unsigned char)' '];
+	cntTextControl += count[ (unsigned char)'\t'];
+	cntTextControl += count[ (unsigned char)'\n'];
+	cntTextControl += count[ (unsigned char)'\r'];
+	for (fi=0; fi != fe;)
+	{
+		unsigned int charlen = utf8charlen( sample[fi]);
+		if (charlen == 1)
+		{
+			if (sample[fi] > 127)
+			{
+				++utf8errors;
+			}
+			++fi;
+		}
+		else
+		{
+			for (++fi,--charlen; charlen > 0; ++fi,--charlen)
+			{
+				if (!utf8midchr( sample[fi]))
+				{
+					++utf8errors;
+					break;
+				}
+			}
+		}
+	}
+	int vote = 0;
+	vote += (utf8errors > samplesize / 200) ? -1:+1;
+	vote += (cntTextControl < samplesize / 20) ? -1:+1;
+	vote += (cntLatinAlpha < samplesize / 2) ? -1:+1;
+	return vote > 0;
 }
 
 DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vector<std::string>& res)
