@@ -20,14 +20,6 @@ class ByteOrder
 {};
 
 template <>
-class ByteOrder<bool>
-{
-public:
-	static bool hton( const bool& value)		{return value;}
-	static bool ntoh( const bool& value)		{return value;}
-};
-
-template <>
 class ByteOrder<uint8_t>
 {
 public:
