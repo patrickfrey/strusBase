@@ -7,6 +7,7 @@ set( source_files
 	cmdLineOpt.cpp
 	configParser.cpp
 	fileio.cpp
+	inputStream.cpp
 	dataRecordFile.cpp
 	utf8.cpp
 	crc32.cpp

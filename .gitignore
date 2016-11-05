@@ -28,6 +28,10 @@
 *.out
 *.app
 tests/byteOrder/src/testByteOrder
+tests/inputStream/src/testInputStream
+
+# Test data
+tests/inputStream/random.txt
 
 # Valgring suppression files
 *.sup
