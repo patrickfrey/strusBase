@@ -16,7 +16,7 @@
 using namespace strus;
 
 DLL_PUBLIC InputStream::InputStream( const std::string& docpath)
-	:m_fh(0),m_docpath(),m_bufferidx(0)
+	:m_fh(0),m_docpath(),m_bufferidx(0),m_errno(0)
 {
 	try
 	{
