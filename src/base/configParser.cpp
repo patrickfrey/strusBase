@@ -43,22 +43,56 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 				throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, config.c_str());
 			}
 			++cc;
-			while ((unsigned char)*cc <= 32) ++cc;
-			const char* ee = std::strchr( cc, ';');
-			if (!ee) ee = std::strchr( cc, '\0');
+			while (*cc && (unsigned char)*cc <= 32) ++cc;
+			const char* nextItem;
+			const char* endItem;
+			if (*cc == '"' || *cc == '\'')
+			{
+				// Value is a string (without any escaping of characters supported):
+				char eb = *cc++;
+				for (endItem=cc; *endItem != '\0' && *endItem != eb; ++endItem){}
+				if (*endItem)
+				{
+					nextItem = endItem+1;
+				}
+				else
+				{
+					throw strus::runtime_error( _TXT( "string as configuration value not terminated"));
+				}
+				while (*nextItem && (unsigned char)*nextItem <= 32) ++nextItem;
+				if (*nextItem == ';')
+				{
+					++nextItem;
+				}
+				else if (*nextItem)
+				{
+					throw strus::runtime_error( _TXT( "extra token found after string value in configuration string"));
+				}
+			}
+			else
+			{
+				// Value is a token:
+				endItem = std::strchr( cc, ';');
+				if (endItem)
+				{
+					nextItem = endItem+1;
+				}
+				else
+				{
+					nextItem = endItem = std::strchr( cc, '\0');
+				}
+				// Left trim of value:
+				while (endItem > cc && (unsigned char)*(endItem-1) <= 32) --endItem;
+			}
 			if (utils::caseInsensitiveEquals( cfgkey, key))
 			{
-				char const* tt = ee;
-				while (tt > cc && (unsigned char)*(tt-1) <= 32) --tt;
-				res = std::string( cc, tt - cc);
-				std::string rest_config( config.c_str(), start);
-				if (*ee) rest_config.append( ee+1);
-				config = rest_config;
+				res = std::string( cc, endItem - cc);
+				config = std::string( config.c_str(), start) + nextItem;
 				return true;
 			}
 			else
 			{
-				cc = (*ee)?(ee+1):ee;
+				cc = nextItem;
 			}
 		}
 		return false;
