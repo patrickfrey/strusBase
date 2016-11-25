@@ -148,9 +148,9 @@ std::size_t ErrorBuffer::threadidx() const
 		{
 			if (m_logfilehandle)
 			{
-				fprintf( m_logfilehandle, "%s", _TXT("number of threads in error buffer exhausted\n"));
+				fprintf( m_logfilehandle, _TXT("number of threads (%u) in error buffer exhausted\n"), (unsigned int)m_size);
 			}
-			throw std::logic_error( _TXT("number of threads in error buffer exhausted"));
+			throw strus::logic_error( _TXT("number of threads (%u) in error buffer exhausted"), (unsigned int)m_size);
 		}
 		m_slots[ti].id = tid;
 	}
