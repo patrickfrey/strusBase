@@ -58,11 +58,11 @@ public:
 	virtual bool hasError() const=0;
 
 	/// \brief Allocate context for current thread
-	/// \remark allocContext & releaseContext should only be called if assignement of thread ids is not fix
+	/// \remark allocContext & releaseContext have only to be called if assignement of thread ids is not fix
 	virtual void allocContext()=0;
 
 	/// \brief Dellocate context for current thread
-	/// \remark allocContext & releaseContext should only be called if assignement of thread ids is not fix
+	/// \remark allocContext & releaseContext have only to be called if assignement of thread ids is not fix
 	virtual void releaseContext()=0;
 };
 
