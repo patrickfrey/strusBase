@@ -193,7 +193,7 @@ static double doubleFromString( const std::string& numstr)
 			if (got_dot)
 			{
 				rt += (double)(unsigned int)(*cc - '0') * frac;
-				frac *= 10;
+				frac /= 10;
 			}
 			else
 			{
