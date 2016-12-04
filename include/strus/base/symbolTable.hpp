@@ -146,6 +146,19 @@ public:
 		return m_invmap.size();
 	}
 
+	typedef std::vector<const char*>::const_iterator const_inv_iterator;
+
+	///\brief Get start iterator of inv
+	const_inv_iterator inv_begin() const
+	{
+		return m_invmap.begin();
+	}
+	///\brief Get end iterator of inv
+	const_inv_iterator inv_end() const
+	{
+		return m_invmap.end();
+	}
+
 private:
 	SymbolTable( const SymbolTable&){}	///> non copyable
 	void operator=( const SymbolTable&){}	///> non copyable
