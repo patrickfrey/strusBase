@@ -159,6 +159,11 @@ public:
 		return m_invmap.end();
 	}
 
+	bool isNew( uint32_t id) const
+	{
+		return id == m_invmap.size();
+	}
+
 private:
 	SymbolTable( const SymbolTable&){}	///> non copyable
 	void operator=( const SymbolTable&){}	///> non copyable
