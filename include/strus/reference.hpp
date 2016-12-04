@@ -124,9 +124,13 @@ public:
 			m_obj = 0;
 			return rt;
 		}
-		else
+		else if (m_refcnt)
 		{
 			throw std::logic_error( "cannot release shared object (having more than one reference)");
+		}
+		else
+		{
+			return 0;
 		}
 	}
 
