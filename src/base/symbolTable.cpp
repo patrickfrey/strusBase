@@ -155,7 +155,7 @@ DLL_PUBLIC SymbolTable::~SymbolTable()
 	delete m_keystring_blocks;
 }
 
-StringMapKeyBlockList* SymbolTable::createKeystringBlocks()
+DLL_PUBLIC StringMapKeyBlockList* SymbolTable::createKeystringBlocks()
 {
 	return new StringMapKeyBlockList();
 }
