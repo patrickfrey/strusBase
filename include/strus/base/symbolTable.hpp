@@ -18,8 +18,6 @@
 namespace strus
 {
 ///\brief Forward declaration
-class ErrorBufferInterface;
-///\brief Forward declaration
 class StringMapKeyBlockList;
 
 ///\brief Map of strings to indices not freed till end of table life time
@@ -68,8 +66,8 @@ private:
 
 public:
 	///\brief Default constructor
-	explicit SymbolTable( ErrorBufferInterface* errorhnd_)
-		:m_errorhnd(errorhnd_),m_keystring_blocks(createKeystringBlocks())
+	explicit SymbolTable()
+		:m_keystring_blocks(createKeystringBlocks())
 
 	{
 		if (!m_keystring_blocks) throw std::bad_alloc();
@@ -130,7 +128,6 @@ private:
 	static StringMapKeyBlockList* createKeystringBlocks();
 
 private:
-	ErrorBufferInterface* m_errorhnd;
 	Map m_map;
 	std::vector<const char*> m_invmap;
 	StringMapKeyBlockList* m_keystring_blocks;

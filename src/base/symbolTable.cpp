@@ -7,10 +7,7 @@
  */
 #include "strus/base/symbolTable.hpp"
 #include "strus/base/dll_tags.hpp"
-#include "strus/errorBufferInterface.hpp"
 #include "private/utils.hpp"
-#include "private/internationalization.hpp"
-#include "private/errorUtils.hpp"
 #include <cstdlib>
 #include <cstring>
 
@@ -157,7 +154,14 @@ DLL_PUBLIC SymbolTable::~SymbolTable()
 
 DLL_PUBLIC StringMapKeyBlockList* SymbolTable::createKeystringBlocks()
 {
-	return new StringMapKeyBlockList();
+	try
+	{
+		return new StringMapKeyBlockList();
+	}
+	catch (const std::exception&)
+	{
+		return 0;
+	}
 }
 
 DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const std::string& key)
@@ -186,7 +190,10 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 			return itr->second;
 		}
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error creating symbol: %s"), *m_errorhnd, 0);
+	catch (const std::exception&)
+	{
+		return 0;
+	}
 }
 
 DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key) const
