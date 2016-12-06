@@ -13,61 +13,14 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 namespace strus
 {
-
-/// \Brief Unit of allocation for the keys in the symbol table
-class StringMapKeyBlock
-{
-public:
-	/// \brief Default block size
-	enum {DefaultSize = 16300};
-
-public:
-	/// \brief Default constructor
-	explicit StringMapKeyBlock( std::size_t blksize_=DefaultSize);
-	/// \brief Copy constructor
-	StringMapKeyBlock( const StringMapKeyBlock& o);
-	/// \brief Destructor
-	~StringMapKeyBlock();
-
-	/// \brief Allocate a string in the block
-	/// \return the immutable pointer to the key or 0, if the block does not have enough free space for the key to allocate
-	const char* allocKey( const std::string& key);
-
-	/// \brief Allocate a string in the block
-	/// \return the immutable pointer to the key or 0, if the block does not have enough free space for the key to allocate
-	const char* allocKey( const char* key, std::size_t keylen);
-
-private:
-	char* m_blk;
-	std::size_t m_blksize;
-	std::size_t m_blkpos;
-};
-
-
-/// \Brief List of allocation units for the keys in the symbol table
-class StringMapKeyBlockList
-{
-public:
-	/// \brief Default constructor
-	StringMapKeyBlockList(){}
-	/// \brief Copy constructor
-	StringMapKeyBlockList( const StringMapKeyBlockList& o)
-		:m_ar(o.m_ar){}
-
-	/// \brief Allocate a key
-	/// \return the immutable pointer to the key
-	const char* allocKey( const char* key, std::size_t keylen);
-
-	/// \brief Free all keys allocated
-	void clear();
-
-private:
-	std::list<StringMapKeyBlock> m_ar;
-};
-
+///\brief Forward declaration
+class ErrorBufferInterface;
+///\brief Forward declaration
+class StringMapKeyBlockList;
 
 ///\brief Map of strings to indices not freed till end of table life time
 /// \note Suitable for symbol tables of languages (DSL)
@@ -115,7 +68,13 @@ private:
 
 public:
 	///\brief Default constructor
-	SymbolTable(){}
+	explicit SymbolTable( ErrorBufferInterface* errorhnd_)
+		:m_errorhnd(errorhnd_),m_keystring_blocks(createKeystringBlocks())
+
+	{
+		if (!m_keystring_blocks) throw std::bad_alloc();
+	}
+	~SymbolTable();
 
 	///\brief Get handle ( >= 1) associated with key, create one if not defined
 	uint32_t getOrCreate( const std::string& key);
@@ -168,10 +127,13 @@ private:
 	SymbolTable( const SymbolTable&){}	///> non copyable
 	void operator=( const SymbolTable&){}	///> non copyable
 
+	static StringMapKeyBlockList* createKeystringBlocks();
+
 private:
+	ErrorBufferInterface* m_errorhnd;
 	Map m_map;
 	std::vector<const char*> m_invmap;
-	StringMapKeyBlockList m_keystring_blocks;
+	StringMapKeyBlockList* m_keystring_blocks;
 };
 
 }//namespace
