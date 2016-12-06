@@ -9,6 +9,7 @@ set( source_files
 	fileio.cpp
 	inputStream.cpp
 	dataRecordFile.cpp
+	symbolTable.cpp
 	utf8.cpp
 	crc32.cpp
 	snprintf.c
