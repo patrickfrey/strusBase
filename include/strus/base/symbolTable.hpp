@@ -72,20 +72,33 @@ public:
 	{
 		if (!m_keystring_blocks) throw std::bad_alloc();
 	}
+	///\brief Destructor
 	~SymbolTable();
 
 	///\brief Get handle ( >= 1) associated with key, create one if not defined
+	///\param[in] key string
+	///\return the handle for the key or 0 on a memory allocation error
 	uint32_t getOrCreate( const std::string& key);
 	///\brief Get handle ( >= 1) associated with key, create one if not defined
+	///\param[in] key key string poiner
+	///\param[in] keysize size of key in bytes
+	///\return the handle for the key or 0 on a memory allocation error
 	uint32_t getOrCreate( const char* key, std::size_t keysize);
 
 	///\brief Get handle associated with key or 0 if not defined
+	///\param[in] key string
+	///\return the handle for the key or 0 if not defined
 	uint32_t get( const std::string& key) const;
 	///\brief Get handle associated with key or 0 if not defined
+	///\param[in] key key string poiner
+	///\param[in] keysize size of key in bytes
+	///\return the handle for the key or 0 if not defined
 	uint32_t get( const char* key, std::size_t keysize) const;
 
 	///\brief Inverse lookup, get key of handle
-	const char* key( const uint32_t& value) const;
+	///\param[in] id key handle
+	///\return the key string
+	const char* key( const uint32_t& id) const;
 
 	///\brief Get start iterator (unordered)
 	const_iterator begin() const
@@ -98,6 +111,7 @@ public:
 		return m_map.end();
 	}
 	///\brief Get number of elements defined
+	///\return the number of elements defined
 	std::size_t size() const
 	{
 		return m_invmap.size();
@@ -116,10 +130,20 @@ public:
 		return m_invmap.end();
 	}
 
+	///\brief Evaluate if the last symbol retrieved with getOrCreate was new
+	///\param[in] id key handle
+	///\return true if the last symbol retrieved with getOrCreate was new
 	bool isNew( uint32_t id) const
 	{
 		return id == m_invmap.size();
 	}
+
+	///\brief Allocate a block in the context of the symbol table
+	///\note Useful for building structures with symbols
+	///\param[in] blocksize number of elements to allocate
+	///\param[in] elemsize size of one element to allocate in bytes
+	///\return the block allocated (not freed till end of symbol table life time)
+	void* allocBlock( unsigned int blocksize, unsigned int elemsize);
 
 private:
 	SymbolTable( const SymbolTable&){}	///> non copyable
