@@ -205,12 +205,21 @@ make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT%{_libdir}/debug
 rm -rf $RPM_BUILD_ROOT%{_prefix}/src/debug
 
+# add ldconfig configuration for strus library directory (do this in base only!)
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d
+printf "%{_libdir}/strus\n" > $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/strus.conf
+chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/strus.conf
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %check
 cd build
 make test
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
 
 %files
 %defattr( -, root, root )
