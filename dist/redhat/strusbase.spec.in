@@ -19,14 +19,8 @@
 %endif
 
 %define centos 0
-%define centos5 0
 %define centos6 0
 %define centos7 0
-%if 0%{?centos_version} >= 500 && 0%{?centos_version} <= 599
-%define dist centos5
-%define centos 1
-%define centos5 1
-%endif
 %if 0%{?centos_version} >= 600 && 0%{?centos_version} <= 699
 %define dist centos6
 %define centos 1
@@ -39,14 +33,8 @@
 %endif
 
 %define scilin 0
-%define scilin5 0
 %define scilin6 0
 %define scilin7 0
-%if 0%{?scilin_version} >= 500 && 0%{?scilin_version} <= 599
-%define dist scilin5
-%define scilin 1
-%define scilin5 1
-%endif
 %if 0%{?scilin_version} >= 600 && 0%{?scilin_version} <= 699
 %define dist scilin6
 %define scilin 1
