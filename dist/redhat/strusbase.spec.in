@@ -223,7 +223,7 @@ make test
 
 %files
 %defattr( -, root, root )
-%{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%{_sysconfdir}/ld.so.conf.d/strus.conf
 %dir %{_libdir}/strus
 %{_libdir}/strus/libstrus_base.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@
 %{_libdir}/strus/libstrus_base.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
