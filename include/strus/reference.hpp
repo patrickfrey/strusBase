@@ -134,6 +134,11 @@ public:
 		}
 	}
 
+	unsigned int refcnt() const
+	{
+		return m_refcnt?(*m_refcnt):0;
+	}
+
 private:
 	int* newRefCnt()
 	{
