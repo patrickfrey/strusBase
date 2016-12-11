@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 include_directories(
 	"${Intl_INCLUDE_DIRS}"
 	"${PROJECT_SOURCE_DIR}/include"
+	"${Boost_INCLUDE_DIRS}"
 )
 link_directories(
 	"${PROJECT_SOURCE_DIR}/src/base"
