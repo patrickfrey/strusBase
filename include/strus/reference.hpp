@@ -26,7 +26,7 @@ public:
 	Reference()
 		:m_obj(0),m_refcnt(0){}
 	/// \brief Constructor
-	Reference( Object* obj_)
+	Reference( Object* obj_, bool doThrow=true)
 		:m_obj(0),m_refcnt(0)
 	{
 		if (obj_) try
@@ -37,6 +37,7 @@ public:
 		catch (const std::bad_alloc&)
 		{
 			delete obj_;
+			if (doThrow) throw std::bad_alloc();
 		}
 	}
 	/// \brief Copy constructor
