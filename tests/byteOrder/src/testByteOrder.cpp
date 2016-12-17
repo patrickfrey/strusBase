@@ -96,7 +96,7 @@ static void byteOrderTest( unsigned int times)
 	for (unsigned int ti=0; ti<times; ++ti)
 	{
 		ValueType val = randomValue<ValueType>();
-		ValueType val_n = ByteOrder<ValueType>::hton( val);
+		typename ByteOrder<ValueType>::net_value_type val_n = ByteOrder<ValueType>::hton( val);
 		print_value_seq( &val, sizeof(val));
 		std::cout << " ==>";
 		print_value_seq( &val_n, sizeof(val_n));
@@ -114,29 +114,29 @@ int main( int, const char**)
 	try
 	{
 		initRand();
-		std::cerr << "executing test byteOrderTest with " << typeName<double>() << std::endl;
-		byteOrderTest<double>( 10);
+		std::cerr << "executing test byteOrderTest with " << typeName< double>() << std::endl;
+		byteOrderTest< double >( 10);
 
-		std::cerr << "executing test byteOrderTest with " << typeName<float>() << std::endl;
-		byteOrderTest<float>( 10);
+		std::cerr << "executing test byteOrderTest with " << typeName< float>() << std::endl;
+		byteOrderTest< float >( 10);
 
-		std::cerr << "executing test byteOrderTest with " << typeName<uint32_t>() << std::endl;
-		byteOrderTest<uint32_t>( 10);
+		std::cerr << "executing test byteOrderTest with " << typeName< uint32_t>() << std::endl;
+		byteOrderTest< uint32_t >( 10);
 
 		std::cerr << "executing test byteOrderTest with " << typeName< int32_t>() << std::endl;
-		byteOrderTest< int32_t>( 10);
+		byteOrderTest< int32_t >( 10);
 
-		std::cerr << "executing test byteOrderTest with " << typeName<uint16_t>() << std::endl;
-		byteOrderTest<uint16_t>( 10);
+		std::cerr << "executing test byteOrderTest with " << typeName< uint16_t>() << std::endl;
+		byteOrderTest< uint16_t >( 10);
 
 		std::cerr << "executing test byteOrderTest with " << typeName< int16_t>() << std::endl;
-		byteOrderTest<uint16_t>( 10);
+		byteOrderTest< int16_t >( 10);
 
-		std::cerr << "executing test byteOrderTest with " << typeName<uint8_t>() << std::endl;
-		byteOrderTest<uint8_t>( 10);
+		std::cerr << "executing test byteOrderTest with " << typeName< uint8_t>() << std::endl;
+		byteOrderTest< uint8_t >( 10);
 
 		std::cerr << "executing test byteOrderTest with " << typeName< int8_t>() << std::endl;
-		byteOrderTest< int8_t>( 10);
+		byteOrderTest< int8_t >( 10);
 		return 0;
 	}
 	catch (const std::bad_alloc& err)
