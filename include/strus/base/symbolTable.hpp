@@ -67,7 +67,7 @@ private:
 public:
 	///\brief Default constructor
 	explicit SymbolTable()
-		:m_keystring_blocks(createKeystringBlocks())
+		:m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
 
 	{
 		if (!m_keystring_blocks) throw std::bad_alloc();
@@ -131,11 +131,10 @@ public:
 	}
 
 	///\brief Evaluate if the last symbol retrieved with getOrCreate was new
-	///\param[in] id key handle
 	///\return true if the last symbol retrieved with getOrCreate was new
-	bool isNew( uint32_t id) const
+	bool isNew() const
 	{
-		return id == m_invmap.size();
+		return m_isnew;
 	}
 
 	///\brief Allocate a block in the context of the symbol table
@@ -155,6 +154,7 @@ private:
 	Map m_map;
 	std::vector<const char*> m_invmap;
 	StringMapKeyBlockList* m_keystring_blocks;
+	bool m_isnew;
 };
 
 }//namespace

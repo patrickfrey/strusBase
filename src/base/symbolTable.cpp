@@ -188,7 +188,8 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 	{
 		Key key( keystr, keylen);
 		Map::const_iterator itr = m_map.find( key);
-		if (itr == m_map.end())
+		m_isnew = (itr == m_map.end());
+		if (m_isnew)
 		{
 			if (m_invmap.size() >= (std::size_t)std::numeric_limits<int32_t>::max()-1)
 			{
