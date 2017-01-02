@@ -17,7 +17,7 @@
 #include <cstdlib>
 #include <cstring>
 
-#define STRUS_LOWLEVEL_DEBUG
+#undef STRUS_LOWLEVEL_DEBUG
 
 static void initRand()
 {
