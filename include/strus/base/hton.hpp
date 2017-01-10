@@ -17,7 +17,9 @@ namespace strus
 
 template <typename Scalar>
 class ByteOrder
-{};
+{
+	typedef void net_value_type;
+};
 
 template <>
 class ByteOrder<uint8_t>

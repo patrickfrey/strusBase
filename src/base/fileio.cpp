@@ -90,6 +90,32 @@ DLL_PUBLIC unsigned int strus::writeFile( const std::string& filename, const std
 	return 0;
 }
 
+DLL_PUBLIC unsigned int strus::appendFile( const std::string& filename, const std::string& content)
+{
+	unsigned char ch;
+	FILE* fh = ::fopen( filename.c_str(), "a");
+	if (!fh)
+	{
+		return errno;
+	}
+	std::string::const_iterator fi = content.begin(), fe = content.end();
+	for (; fi != fe; ++fi)
+	{
+		ch = *fi;
+		if (1 > ::fwrite( &ch, 1, 1, fh))
+		{
+			int ec = ::ferror( fh);
+			if (ec)
+			{
+				::fclose( fh);
+				return ec;
+			}
+		}
+	}
+	::fclose( fh);
+	return 0;
+}
+
 DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::string& res)
 {
 	FILE* fh = ::fopen( filename.c_str(), "rb");
