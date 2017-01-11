@@ -48,6 +48,9 @@ public:
 	/// \return the last error
 	unsigned int error() const;
 
+	/// \brief Check if there is more data to read
+	bool eof();
+
 private:
 	FILE* m_fh;
 	std::string m_docpath;

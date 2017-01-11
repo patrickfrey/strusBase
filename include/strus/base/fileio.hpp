@@ -32,6 +32,12 @@ unsigned int readStdin( std::string& res);
 /// \return 0 on success, errno on failure
 unsigned int writeFile( const std::string& filename, const std::string& content);
 
+/// \brief Appends a string to a file creating the file if it does not exist
+/// \param[in] filename the name of the file to append to
+/// \param[out] content content of the string to write
+/// \return 0 on success, errno on failure
+unsigned int appendFile( const std::string& filename, const std::string& content);
+
 /// \brief Removes a file
 /// \param[in] filename the name of the file to remove
 /// \param[in] fail_ifnofexist return an error if the directory does not exist

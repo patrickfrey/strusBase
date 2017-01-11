@@ -58,7 +58,7 @@ DLL_PUBLIC std::size_t InputStream::read( char* buf, std::size_t bufsize)
 			m_errno = EINVAL;
 			return 0;
 		}
-		if (m_bufferidx > bufsize * 2)
+		if (m_bufferidx > 1024 && m_bufferidx > bufsize * 2 && m_bufferidx > m_buffer.size() / 2)
 		{
 			m_buffer = std::string( m_buffer.c_str() + m_bufferidx, m_buffer.size() - m_bufferidx);
 			m_bufferidx = 0;
@@ -113,7 +113,7 @@ DLL_PUBLIC std::size_t InputStream::readAhead( char* buf, std::size_t bufsize)
 			m_errno = EINVAL;
 			return 0;
 		}
-		if (m_bufferidx > bufsize * 2)
+		if (m_bufferidx > 1024 && m_bufferidx > bufsize * 2 && m_bufferidx > m_buffer.size() / 2)
 		{
 			m_buffer = std::string( m_buffer.c_str() + m_bufferidx, m_buffer.size() - m_bufferidx);
 			m_bufferidx = 0;
@@ -156,6 +156,16 @@ DLL_PUBLIC std::size_t InputStream::readAhead( char* buf, std::size_t bufsize)
 		m_errno = ENOMEM;
 		return 0;
 	}
+}
+
+DLL_PUBLIC bool InputStream::eof()
+{
+	if (m_bufferidx == m_buffer.size())
+	{
+		char buf;
+		return (0 == readAhead( &buf, 1U) && m_errno == 0);
+	}
+	return false;
 }
 
 DLL_PUBLIC const char* InputStream::readLine( char* buf, std::size_t bufsize, bool failOnNoLine)
