@@ -7,7 +7,6 @@
  */
 #ifndef _STRUS_BASE_INPUT_STREAM_HPP_INCLUDED
 #define _STRUS_BASE_INPUT_STREAM_HPP_INCLUDED
-#include "private/utils.hpp"
 #include <string>
 #include <fstream>
 #include <cstdio>
