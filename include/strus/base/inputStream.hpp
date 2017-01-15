@@ -34,12 +34,13 @@ public:
 	/// \brief Read a line
 	/// \param[in,out] buf where to write to
 	/// \param[in] bufsize allocation size of 'buf' (capacity) 
+	/// \param[in] failOnNoLine true, if an error shozuld be reported in case of buffer too small for line read
 	/// \return pointer to the line read or NULL in case of no line to read left
 	const char* readLine( char* buf, std::size_t bufsize, bool failOnNoLine=false);
 
 	/// \brief Read some data and keep it in a buffer for the next read
 	/// \param[in,out] buf where to write to
-	/// \param[in] bufsize allocation size of 'buf' (capacity) 
+	/// \param[in] bufsize allocation size of 'buf' (capacity)
 	/// \return the number of bytes read or 0 in case of EOF or an error occurred
 	std::size_t readAhead( char* buf, std::size_t bufsize);
 

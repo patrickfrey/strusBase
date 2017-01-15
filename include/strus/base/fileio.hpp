@@ -15,6 +15,12 @@
 namespace strus
 {
 
+/// \brief Evaluate the size of a file in bytes
+/// \param[in] filename the name of file to get the filesize of
+/// \param[out] size the returned size
+/// \return 0 on success, errno on failure
+unsigned int readFileSize( const std::string& filename, std::size_t& size);
+
 /// \brief Reads the complete content of a file to a string
 /// \param[in] filename the name of file to read
 /// \param[out] res the returned content of the file read

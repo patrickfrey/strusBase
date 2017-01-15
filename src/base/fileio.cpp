@@ -116,6 +116,24 @@ DLL_PUBLIC unsigned int strus::appendFile( const std::string& filename, const st
 	return 0;
 }
 
+DLL_PUBLIC unsigned int strus::readFileSize( const std::string& filename, std::size_t& size)
+{
+	unsigned int ec = 0;
+	FILE* fh = ::fopen( filename.c_str(), "rb");
+	if (!fh)
+	{
+		return errno;
+	}
+	::fseek( fh, 0L, SEEK_END);
+	long filesize = size = ::ftell( fh);
+	if (filesize < 0)
+	{
+		ec = ::ferror( fh);
+	}
+	::fclose( fh);
+	return ec;
+}
+
 DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::string& res)
 {
 	FILE* fh = ::fopen( filename.c_str(), "rb");
