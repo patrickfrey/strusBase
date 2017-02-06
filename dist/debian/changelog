@@ -1,3 +1,24 @@
+strusbase (0.13.0-1) unstable; urgency=low
+  * added function to evaluate the file size to fileio
+  * fixed network byte order problem with float types
+  * added SymbolTable class
+  * fixed some bugs in config parsing
+  * fixed some bugs in byte order conversion functions
+  * many build fixes
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Mon, 6 Feb 2017 15:00:00 +0100
+
+strusbase (0.12.0-1) unstable; urgency=low
+  * increment version parallel to analyzer (some interface files reorganization)
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Sat, 1 Oct 2016 16:00:00 +0100
+
+strusbase (0.11.1-1) unstable; urgency=low
+  * moved bit operations header file from project strus to this project
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 30 Sep 2016 12:00:00 +0100
+
+strusbase (0.11.0-1) unstable; urgency=low
+  * bugfix in the configuration parser (parse uint)
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 28 Sep 2016 12:00:00 +0100
+
 strusbase (0.10.0-1) unstable; urgency=low
   * increment version number parallel to other strus projects (for dependency rules)
  -- Patrick Frey <patrickpfrey@yahoo.com>  Tue, 5 Jul 2016 13:00:00 +0100

@@ -27,9 +27,11 @@
 *.exe
 *.out
 *.app
+tests/byteOrder/src/testByteOrder
+tests/inputStream/src/testInputStream
 
-# Packaging directory
-pkg/
+# Test data
+tests/inputStream/random.txt
 
 # Valgring suppression files
 *.sup

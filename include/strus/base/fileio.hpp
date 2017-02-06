@@ -10,9 +10,16 @@
 #define _STRUS_BASE_FILE_IO_HPP_INCLUDED
 #include <vector>
 #include <string>
+#include <cstdio>
 
 namespace strus
 {
+
+/// \brief Evaluate the size of a file in bytes
+/// \param[in] filename the name of file to get the filesize of
+/// \param[out] size the returned size
+/// \return 0 on success, errno on failure
+unsigned int readFileSize( const std::string& filename, std::size_t& size);
 
 /// \brief Reads the complete content of a file to a string
 /// \param[in] filename the name of file to read
@@ -30,6 +37,29 @@ unsigned int readStdin( std::string& res);
 /// \param[out] content content of the string to write
 /// \return 0 on success, errno on failure
 unsigned int writeFile( const std::string& filename, const std::string& content);
+
+/// \brief Appends a string to a file creating the file if it does not exist
+/// \param[in] filename the name of the file to append to
+/// \param[out] content content of the string to write
+/// \return 0 on success, errno on failure
+unsigned int appendFile( const std::string& filename, const std::string& content);
+
+/// \brief Removes a file
+/// \param[in] filename the name of the file to remove
+/// \param[in] fail_ifnofexist return an error if the directory does not exist
+/// \return 0 on success, errno on failure
+unsigned int removeFile( const std::string& filename, bool fail_ifnofexist=false);
+
+/// \brief Removes an empty directory
+/// \param[in] dirname the name of the directory to remove
+/// \param[in] fail_ifnofexist return an error if the directory does not exist
+/// \return 0 on success, errno on failure
+unsigned int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
+
+/// \brief Creates a directory if it does not exist yet
+/// \param[in] dirname path of directory to create
+/// \param[in] fail_ifexist return an error if the directory already exists
+unsigned int createDir( const std::string& dirname, bool fail_ifexist=true);
 
 /// \brief Reads all file names matching to the extension ext of a directory to an array of strings
 /// \param[in] path the name of director to read
@@ -54,6 +84,12 @@ bool isFile( const std::string& path);
 /// \return true, if yes
 bool isDir( const std::string& path);
 
+/// \brief Check if a file system path points to a file with text content (not binary)
+/// \param[in] path file system path to check
+/// \remark Implementation uses heuristics of character frequencies for the check. Currently fails on UTF-8 text files of non latin alphabet based languages.
+/// \return true, if yes
+bool isTextFile( const std::string& path);
+
 /// \brief Get the parent (containing) path of a file or directory
 /// \param[in] path file system path to get the containing path
 /// \param[out] dest the containing path
@@ -64,6 +100,6 @@ unsigned int getParentPath( const std::string& path, std::string& dest);
 /// \return the separator
 char dirSeparator();
 
-}
+}//namespace
 #endif
 

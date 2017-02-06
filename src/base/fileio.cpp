@@ -6,12 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/fileio.hpp"
+#include "strus/base/utf8.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "fileio_sys.hpp"
 #include <cstdio>
 #include <cerrno>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <vector>
 #include <string>
 #include <cstring>
@@ -19,6 +21,48 @@
 #include <functional>
 
 using namespace strus;
+
+DLL_PUBLIC unsigned int strus::createDir( const std::string& dirname, bool fail_ifexist)
+{
+	if (0>::mkdir( dirname.c_str(), 0755))
+	{
+		unsigned int ec = errno;
+		if (!fail_ifexist && ec == EEXIST && isDir(dirname.c_str()))
+		{
+			ec = 0;
+		}
+		return ec;
+	}
+	return 0;
+}
+
+DLL_PUBLIC unsigned int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
+{
+	if (0>::remove( filename.c_str()))
+	{
+		unsigned int ec = errno;
+		if (!fail_ifnofexist && ec == ENOENT)
+		{
+			ec = 0;
+		}
+		return ec;
+	}
+	return 0;
+}
+
+DLL_PUBLIC unsigned int strus::removeDir( const std::string& dirname, bool fail_ifnofexist)
+{
+	if (0>::rmdir( dirname.c_str()))
+	{
+		unsigned int ec = errno;
+		if (!fail_ifnofexist && ec == ENOENT)
+		{
+			ec = 0;
+		}
+		return ec;
+	}
+	return 0;
+}
 
 DLL_PUBLIC unsigned int strus::writeFile( const std::string& filename, const std::string& content)
 {
@@ -46,6 +90,50 @@ DLL_PUBLIC unsigned int strus::writeFile( const std::string& filename, const std
 	return 0;
 }
 
+DLL_PUBLIC unsigned int strus::appendFile( const std::string& filename, const std::string& content)
+{
+	unsigned char ch;
+	FILE* fh = ::fopen( filename.c_str(), "a");
+	if (!fh)
+	{
+		return errno;
+	}
+	std::string::const_iterator fi = content.begin(), fe = content.end();
+	for (; fi != fe; ++fi)
+	{
+		ch = *fi;
+		if (1 > ::fwrite( &ch, 1, 1, fh))
+		{
+			int ec = ::ferror( fh);
+			if (ec)
+			{
+				::fclose( fh);
+				return ec;
+			}
+		}
+	}
+	::fclose( fh);
+	return 0;
+}
+
+DLL_PUBLIC unsigned int strus::readFileSize( const std::string& filename, std::size_t& size)
+{
+	unsigned int ec = 0;
+	FILE* fh = ::fopen( filename.c_str(), "rb");
+	if (!fh)
+	{
+		return errno;
+	}
+	::fseek( fh, 0L, SEEK_END);
+	long filesize = size = ::ftell( fh);
+	if (filesize < 0)
+	{
+		ec = ::ferror( fh);
+	}
+	::fclose( fh);
+	return ec;
+}
+
 DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::string& res)
 {
 	FILE* fh = ::fopen( filename.c_str(), "rb");
@@ -53,11 +141,23 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 	{
 		return errno;
 	}
+	::fseek( fh, 0L, SEEK_END);
+	std::size_t filesize = ::ftell( fh);
+	::fseek( fh, 0L, SEEK_SET);
+	try
+	{
+		res.reserve( res.size() + filesize);
+	}
+	catch (const std::bad_alloc&)
+	{
+		::fclose( fh);
+		return 12/*ENOMEM*/;
+	}
 	unsigned int nn;
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
 
-	while (!!(nn=::fread( buf, 1, bufsize, fh)))
+	while (!!(nn=::fread( buf, 1/*nmemb*/, bufsize, fh)))
 	{
 		try
 		{
@@ -88,7 +188,7 @@ DLL_PUBLIC unsigned int strus::readStdin( std::string& res)
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
 
-	while (!!(nn=::fread( buf, 1, bufsize, stdin)))
+	while (!!(nn=::fread( buf, 1/*nmemb*/, bufsize, stdin)))
 	{
 		try
 		{
@@ -100,6 +200,75 @@ DLL_PUBLIC unsigned int strus::readStdin( std::string& res)
 		}
 	}
 	return 0;
+}
+
+DLL_PUBLIC bool strus::isTextFile( const std::string& path)
+{
+	unsigned char sample[ 4096];
+	unsigned int count[ 256];
+	std::memset( count, 0, sizeof( count));
+
+	FILE* fh = ::fopen( path.c_str(), "rb");
+	if (!fh)
+	{
+		return false;
+	}
+	unsigned int samplesize = ::fread( sample, 1/*nmemb*/, sizeof(sample), fh);
+	if (samplesize < sizeof(sample) && !feof( fh))
+	{
+		return false;
+	}
+	else
+	{
+		::fclose( fh);
+	}
+	unsigned int fi=0,fe=samplesize;
+	for (; fi != fe; ++fi)
+	{
+		++count[ sample[ fi]];
+	}
+	unsigned int cntLatinAlpha = 0;
+	unsigned int cntTextControl = 0;
+	unsigned int utf8errors = 0;
+	unsigned char ci,ce;
+	ci='A', ce='Z';
+	for (; ci != ce; ++ci) cntLatinAlpha += count[ ci];
+	ci='a', ce='z';
+	for (; ci != ce; ++ci) cntLatinAlpha += count[ ci];
+	ci='0', ce='9';
+	for (; ci != ce; ++ci) cntLatinAlpha += count[ ci];
+	cntTextControl += count[ (unsigned char)' '];
+	cntTextControl += count[ (unsigned char)'\t'];
+	cntTextControl += count[ (unsigned char)'\n'];
+	cntTextControl += count[ (unsigned char)'\r'];
+	for (fi=0; fi != fe;)
+	{
+		unsigned int charlen = utf8charlen( sample[fi]);
+		if (charlen == 1)
+		{
+			if (sample[fi] > 127)
+			{
+				++utf8errors;
+			}
+			++fi;
+		}
+		else
+		{
+			for (++fi,--charlen; fi != fe && charlen > 0; ++fi,--charlen)
+			{
+				if (!utf8midchr( sample[fi]))
+				{
+					++utf8errors;
+					break;
+				}
+			}
+		}
+	}
+	int vote = 0;
+	vote += (utf8errors > samplesize / 200) ? -1:+1;
+	vote += (cntTextControl < samplesize / 20) ? -1:+1;
+	vote += (cntLatinAlpha < samplesize / 2) ? -1:+1;
+	return vote > 0;
 }
 
 DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vector<std::string>& res)
@@ -251,4 +420,5 @@ DLL_PUBLIC unsigned int strus::getParentPath( const std::string& path, std::stri
 		return 0;
 	}
 }
+
 

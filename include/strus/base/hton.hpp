@@ -17,20 +17,16 @@ namespace strus
 
 template <typename Scalar>
 class ByteOrder
-{};
-
-template <>
-class ByteOrder<bool>
 {
-public:
-	static bool hton( const bool& value)		{return value;}
-	static bool ntoh( const bool& value)		{return value;}
+	typedef void net_value_type;
 };
 
 template <>
 class ByteOrder<uint8_t>
 {
 public:
+	typedef uint8_t net_value_type;
+
 	static uint8_t hton( const uint8_t& value)	{return value;}
 	static uint8_t ntoh( const uint8_t& value)	{return value;}
 };
@@ -39,6 +35,8 @@ template <>
 class ByteOrder<int8_t>
 {
 public:
+	typedef int8_t net_value_type;
+
 	static int8_t hton( const int8_t& value)	{return value;}
 	static int8_t ntoh( const int8_t& value)	{return value;}
 };
@@ -47,6 +45,8 @@ template <>
 class ByteOrder<uint16_t>
 {
 public:
+	typedef uint16_t net_value_type;
+
 	static uint16_t hton( const uint16_t& value)	{return htons(value);}
 	static uint16_t ntoh( const uint16_t& value)	{return ntohs(value);}
 };
@@ -55,6 +55,8 @@ template <>
 class ByteOrder<int16_t>
 {
 public:
+	typedef int16_t net_value_type;
+
 	static int16_t hton( const int16_t& value)	{return htons(value);}
 	static int16_t ntoh( const int16_t& value)	{return ntohs(value);}
 };
@@ -63,6 +65,8 @@ template <>
 class ByteOrder<uint32_t>
 {
 public:
+	typedef uint32_t net_value_type;
+
 	static uint32_t hton( const uint32_t& value)	{return htonl(value);}
 	static uint32_t ntoh( const uint32_t& value)	{return ntohl(value);}
 };
@@ -71,6 +75,8 @@ template <>
 class ByteOrder<int32_t>
 {
 public:
+	typedef int32_t net_value_type;
+
 	static int32_t hton( const int32_t& value)	{return htonl(value);}
 	static int32_t ntoh( const int32_t& value)	{return ntohl(value);}
 };
@@ -79,6 +85,8 @@ template <>
 class ByteOrder<uint64_t>
 {
 public:
+	typedef uint64_t net_value_type;
+
 	static uint64_t hton( const uint64_t& value)
 	{
 		union
@@ -97,9 +105,13 @@ public:
 			uint32_t p[2];
 			uint64_t v;
 		} val;
-		val.p[0] = ntohl( value >> 32);
-		val.p[1] = ntohl( value & 0xffFFffFF);
-		return val.v;
+		val.v = value;
+		val.p[0] = ntohl( val.p[0]);
+		val.p[1] = ntohl( val.p[1]);
+		uint64_t rt = val.p[0];
+		rt <<= 32;
+		rt |= val.p[1];
+		return rt;
 	}
 };
 
@@ -107,6 +119,8 @@ template <>
 class ByteOrder<int64_t>
 {
 public:
+	typedef int64_t net_value_type;
+
 	static int64_t hton( const int64_t& value)
 	{
 		return (int64_t)ByteOrder<uint64_t>::hton((uint64_t)value);
@@ -117,31 +131,34 @@ public:
 	}
 };
 
+typedef uint32_t float_net_t;
+typedef uint64_t double_net_t;
+
 template <>
 class ByteOrder<float>
 {
 public:
-	static float hton( const float& value)
+	typedef float_net_t net_value_type;
+
+	static net_value_type hton( const float& value)
 	{
 		union
 		{
-			uint32_t x;
-			float v;
+			net_value_type out;
+			float in;
 		} val;
-		val.v = value;
-		val.x = ByteOrder<uint32_t>::hton( val.x);
-		return val.v;
+		val.in = value;
+		return ByteOrder<net_value_type>::hton( val.out);
 	}
-	static float ntoh( const float& value)
+	static float ntoh( const net_value_type& value)
 	{
 		union
 		{
-			uint32_t x;
-			float v;
+			float out;
+			net_value_type in;
 		} val;
-		val.v = value;
-		val.x = ByteOrder<uint32_t>::ntoh( val.x);
-		return val.v;
+		val.in = ByteOrder<net_value_type>::ntoh( value);
+		return val.out;
 	}
 };
 
@@ -149,27 +166,27 @@ template <>
 class ByteOrder<double>
 {
 public:
-	static double hton( const double& value)
+	typedef double_net_t net_value_type;
+
+	static net_value_type hton( const double& value)
 	{
 		union
 		{
-			uint64_t x;
-			double v;
+			net_value_type out;
+			double in;
 		} val;
-		val.v = value;
-		val.x = ByteOrder<uint64_t>::hton( val.x);
-		return val.v;
+		val.in = value;
+		return ByteOrder<net_value_type>::hton( val.out);
 	}
-	static double ntoh( const double& value)
+	static double ntoh( const net_value_type& value)
 	{
 		union
 		{
-			uint64_t x;
-			double v;
+			double out;
+			net_value_type in;
 		} val;
-		val.v = value;
-		val.x = ByteOrder<uint64_t>::ntoh( val.x);
-		return val.v;
+		val.in = ByteOrder<net_value_type>::ntoh( value);
+		return val.out;
 	}
 };
 

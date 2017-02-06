@@ -26,7 +26,7 @@ public:
 	Reference()
 		:m_obj(0),m_refcnt(0){}
 	/// \brief Constructor
-	Reference( Object* obj_)
+	Reference( Object* obj_, bool doThrow=true)
 		:m_obj(0),m_refcnt(0)
 	{
 		if (obj_) try
@@ -37,6 +37,7 @@ public:
 		catch (const std::bad_alloc&)
 		{
 			delete obj_;
+			if (doThrow) throw std::bad_alloc();
 		}
 	}
 	/// \brief Copy constructor
@@ -124,10 +125,19 @@ public:
 			m_obj = 0;
 			return rt;
 		}
-		else
+		else if (m_refcnt)
 		{
 			throw std::logic_error( "cannot release shared object (having more than one reference)");
 		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	unsigned int refcnt() const
+	{
+		return m_refcnt?(*m_refcnt):0;
 	}
 
 private:
