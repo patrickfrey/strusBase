@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.10</span>
+   &#160;<span id="projectnumber">0.13</span>
    </div>
   </td>
  </tr>
@@ -65,6 +65,7 @@
 <div class="contents">
 <div class="textblock"><code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;cstdio&gt;</code><br/>
 </div>
 <p><a href="fileio_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -76,6 +77,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae4eb90fcff0dbadb15ae9ea915bd5d31"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ae4eb90fcff0dbadb15ae9ea915bd5d31">strus::readFileSize</a> (const std::string &amp;filename, std::size_t &amp;size)</td></tr>
+<tr class="memdesc:ae4eb90fcff0dbadb15ae9ea915bd5d31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate the size of a file in bytes.  <a href="#ae4eb90fcff0dbadb15ae9ea915bd5d31">More...</a><br/></td></tr>
+<tr class="separator:ae4eb90fcff0dbadb15ae9ea915bd5d31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad939966e67a85fe6bdc8640051ec310a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ad939966e67a85fe6bdc8640051ec310a">strus::readFile</a> (const std::string &amp;filename, std::string &amp;res)</td></tr>
 <tr class="memdesc:ad939966e67a85fe6bdc8640051ec310a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the complete content of a file to a string.  <a href="#ad939966e67a85fe6bdc8640051ec310a">More...</a><br/></td></tr>
 <tr class="separator:ad939966e67a85fe6bdc8640051ec310a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -85,6 +89,18 @@ Functions</h2></td></tr>
 <tr class="memitem:afd40b01315d08143aaccf358c3252ffe"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#afd40b01315d08143aaccf358c3252ffe">strus::writeFile</a> (const std::string &amp;filename, const std::string &amp;content)</td></tr>
 <tr class="memdesc:afd40b01315d08143aaccf358c3252ffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a string to a file creating the file if it does not exist.  <a href="#afd40b01315d08143aaccf358c3252ffe">More...</a><br/></td></tr>
 <tr class="separator:afd40b01315d08143aaccf358c3252ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad936d184533957651b86291b22a7cf6a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ad936d184533957651b86291b22a7cf6a">strus::appendFile</a> (const std::string &amp;filename, const std::string &amp;content)</td></tr>
+<tr class="memdesc:ad936d184533957651b86291b22a7cf6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a string to a file creating the file if it does not exist.  <a href="#ad936d184533957651b86291b22a7cf6a">More...</a><br/></td></tr>
+<tr class="separator:ad936d184533957651b86291b22a7cf6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf8b912364ea9b04a46deab3c6dbe86a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#acf8b912364ea9b04a46deab3c6dbe86a">strus::removeFile</a> (const std::string &amp;filename, bool fail_ifnofexist=false)</td></tr>
+<tr class="memdesc:acf8b912364ea9b04a46deab3c6dbe86a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a file.  <a href="#acf8b912364ea9b04a46deab3c6dbe86a">More...</a><br/></td></tr>
+<tr class="separator:acf8b912364ea9b04a46deab3c6dbe86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd924a4ebcbd52167ff8245695ff1e9f"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#afd924a4ebcbd52167ff8245695ff1e9f">strus::removeDir</a> (const std::string &amp;dirname, bool fail_ifnofexist=false)</td></tr>
+<tr class="memdesc:afd924a4ebcbd52167ff8245695ff1e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an empty directory.  <a href="#afd924a4ebcbd52167ff8245695ff1e9f">More...</a><br/></td></tr>
+<tr class="separator:afd924a4ebcbd52167ff8245695ff1e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41d91b146bbf5e71e6f66bbc3e575ed7"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a41d91b146bbf5e71e6f66bbc3e575ed7">strus::createDir</a> (const std::string &amp;dirname, bool fail_ifexist=true)</td></tr>
+<tr class="memdesc:a41d91b146bbf5e71e6f66bbc3e575ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory if it does not exist yet.  <a href="#a41d91b146bbf5e71e6f66bbc3e575ed7">More...</a><br/></td></tr>
+<tr class="separator:a41d91b146bbf5e71e6f66bbc3e575ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05497adafee5ab32862d21220f7c92ee"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a05497adafee5ab32862d21220f7c92ee">strus::readDirFiles</a> (const std::string &amp;path, const std::string &amp;ext, std::vector&lt; std::string &gt; &amp;res)</td></tr>
 <tr class="memdesc:a05497adafee5ab32862d21220f7c92ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all file names matching to the extension ext of a directory to an array of strings.  <a href="#a05497adafee5ab32862d21220f7c92ee">More...</a><br/></td></tr>
 <tr class="separator:a05497adafee5ab32862d21220f7c92ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -97,6 +113,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a91d5994cb49688ec0f8279b96cbefeb4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4">strus::isDir</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a91d5994cb49688ec0f8279b96cbefeb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a directory.  <a href="#a91d5994cb49688ec0f8279b96cbefeb4">More...</a><br/></td></tr>
 <tr class="separator:a91d5994cb49688ec0f8279b96cbefeb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefc5595861905e3ba4129127a7048bd3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aefc5595861905e3ba4129127a7048bd3">strus::isTextFile</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:aefc5595861905e3ba4129127a7048bd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a file with text content (not binary)  <a href="#aefc5595861905e3ba4129127a7048bd3">More...</a><br/></td></tr>
+<tr class="separator:aefc5595861905e3ba4129127a7048bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9879ad1a2c6ed95f4e68461bc8b2283"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ac9879ad1a2c6ed95f4e68461bc8b2283">strus::getParentPath</a> (const std::string &amp;path, std::string &amp;dest)</td></tr>
 <tr class="memdesc:ac9879ad1a2c6ed95f4e68461bc8b2283"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the parent (containing) path of a file or directory.  <a href="#ac9879ad1a2c6ed95f4e68461bc8b2283">More...</a><br/></td></tr>
 <tr class="separator:ac9879ad1a2c6ed95f4e68461bc8b2283"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,7 +127,7 @@ Functions</h2></td></tr>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 10:09:21 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Feb 6 2017 17:51:10 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

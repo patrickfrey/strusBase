@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.10</span>
+   &#160;<span id="projectnumber">0.13</span>
    </div>
   </td>
  </tr>
@@ -75,9 +75,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6512433f2c9e80bcd28e7a632dd4e2d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1Reference.html#a6512433f2c9e80bcd28e7a632dd4e2d4">Reference</a> ()</td></tr>
 <tr class="memdesc:a6512433f2c9e80bcd28e7a632dd4e2d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a6512433f2c9e80bcd28e7a632dd4e2d4">More...</a><br/></td></tr>
 <tr class="separator:a6512433f2c9e80bcd28e7a632dd4e2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab902ced6ba4bf8d217be62981163ead3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1Reference.html#ab902ced6ba4bf8d217be62981163ead3">Reference</a> (Object *obj_)</td></tr>
-<tr class="memdesc:ab902ced6ba4bf8d217be62981163ead3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ab902ced6ba4bf8d217be62981163ead3">More...</a><br/></td></tr>
-<tr class="separator:ab902ced6ba4bf8d217be62981163ead3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebcf155a5e11fb7ace407d95382e446e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1Reference.html#aebcf155a5e11fb7ace407d95382e446e">Reference</a> (Object *obj_, bool doThrow=true)</td></tr>
+<tr class="memdesc:aebcf155a5e11fb7ace407d95382e446e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#aebcf155a5e11fb7ace407d95382e446e">More...</a><br/></td></tr>
+<tr class="separator:aebcf155a5e11fb7ace407d95382e446e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e36e255310382160a2cf78f640e12f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1Reference.html#a6e36e255310382160a2cf78f640e12f3">Reference</a> (const <a class="el" href="classstrus_1_1Reference.html">Reference</a> &amp;o)</td></tr>
 <tr class="memdesc:a6e36e255310382160a2cf78f640e12f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a6e36e255310382160a2cf78f640e12f3">More...</a><br/></td></tr>
 <tr class="separator:a6e36e255310382160a2cf78f640e12f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +111,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae0525f9bcbfffd749aad42187413efa1"><td class="memItemLeft" align="right" valign="top">Object *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1Reference.html#ae0525f9bcbfffd749aad42187413efa1">release</a> ()</td></tr>
 <tr class="memdesc:ae0525f9bcbfffd749aad42187413efa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release object reference and return the pointer to the object (with ownership) if this is possible.  <a href="#ae0525f9bcbfffd749aad42187413efa1">More...</a><br/></td></tr>
 <tr class="separator:ae0525f9bcbfffd749aad42187413efa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac025d5b52302c2d37bec49728d0d511f"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1Reference.html#ac025d5b52302c2d37bec49728d0d511f">refcnt</a> () const </td></tr>
+<tr class="separator:ac025d5b52302c2d37bec49728d0d511f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class Object&gt;<br/>
@@ -146,7 +148,7 @@ template&lt;class Object &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ab902ced6ba4bf8d217be62981163ead3"></a>
+<a class="anchor" id="aebcf155a5e11fb7ace407d95382e446e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -159,8 +161,18 @@ template&lt;class Object &gt; </div>
           <td class="memname"><a class="el" href="classstrus_1_1Reference.html">strus::Reference</a>&lt; Object &gt;::<a class="el" href="classstrus_1_1Reference.html">Reference</a> </td>
           <td>(</td>
           <td class="paramtype">Object *&#160;</td>
-          <td class="paramname"><em>obj_</em></td><td>)</td>
+          <td class="paramname"><em>obj_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>doThrow</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -420,6 +432,31 @@ template&lt;class Object &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="ac025d5b52302c2d37bec49728d0d511f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Object &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int <a class="el" href="classstrus_1_1Reference.html">strus::Reference</a>&lt; Object &gt;::refcnt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ae0525f9bcbfffd749aad42187413efa1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -483,7 +520,7 @@ template&lt;class Object &gt; </div>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 10:09:21 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Feb 6 2017 17:51:10 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

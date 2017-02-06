@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.10</span>
+   &#160;<span id="projectnumber">0.13</span>
    </div>
   </td>
  </tr>
@@ -71,45 +71,64 @@
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _STRUS_BASE_FILE_IO_HPP_INCLUDED</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>strus</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#ad939966e67a85fe6bdc8640051ec310a">readFile</a>( <span class="keyword">const</span> std::string&amp; filename, std::string&amp; res);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a51dd6e92f96b33bc80348977182aede7">readStdin</a>( std::string&amp; res);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#afd40b01315d08143aaccf358c3252ffe">writeFile</a>( <span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> std::string&amp; content);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a05497adafee5ab32862d21220f7c92ee">readDirFiles</a>( <span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> std::string&amp; ext, std::vector&lt;std::string&gt;&amp; res);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;cstdio&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>strus</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#ae4eb90fcff0dbadb15ae9ea915bd5d31">readFileSize</a>( <span class="keyword">const</span> std::string&amp; filename, std::size_t&amp; size);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#ad939966e67a85fe6bdc8640051ec310a">readFile</a>( <span class="keyword">const</span> std::string&amp; filename, std::string&amp; res);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a51dd6e92f96b33bc80348977182aede7">readStdin</a>( std::string&amp; res);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#afd40b01315d08143aaccf358c3252ffe">writeFile</a>( <span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> std::string&amp; content);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a849aabf03abdb5013b95e02ffe25b8b5">readDirSubDirs</a>( <span class="keyword">const</span> std::string&amp; path, std::vector&lt;std::string&gt;&amp; res);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#ad936d184533957651b86291b22a7cf6a">appendFile</a>( <span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> std::string&amp; content);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8">isFile</a>( <span class="keyword">const</span> std::string&amp; path);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4">isDir</a>( <span class="keyword">const</span> std::string&amp; path);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#ac9879ad1a2c6ed95f4e68461bc8b2283">getParentPath</a>( <span class="keyword">const</span> std::string&amp; path, std::string&amp; dest);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordtype">char</span> <a class="code" href="namespacestrus.html#a5b3ce343266d03ac6d653667193d5ecc">dirSeparator</a>();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#acf8b912364ea9b04a46deab3c6dbe86a">removeFile</a>( <span class="keyword">const</span> std::string&amp; filename, <span class="keywordtype">bool</span> fail_ifnofexist=<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#afd924a4ebcbd52167ff8245695ff1e9f">removeDir</a>( <span class="keyword">const</span> std::string&amp; dirname, <span class="keywordtype">bool</span> fail_ifnofexist=<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a41d91b146bbf5e71e6f66bbc3e575ed7">createDir</a>( <span class="keyword">const</span> std::string&amp; dirname, <span class="keywordtype">bool</span> fail_ifexist=<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a05497adafee5ab32862d21220f7c92ee">readDirFiles</a>( <span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> std::string&amp; ext, std::vector&lt;std::string&gt;&amp; res);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a849aabf03abdb5013b95e02ffe25b8b5">readDirSubDirs</a>( <span class="keyword">const</span> std::string&amp; path, std::vector&lt;std::string&gt;&amp; res);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8">isFile</a>( <span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4">isDir</a>( <span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestrus.html#aefc5595861905e3ba4129127a7048bd3">isTextFile</a>( <span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#ac9879ad1a2c6ed95f4e68461bc8b2283">getParentPath</a>( <span class="keyword">const</span> std::string&amp; path, std::string&amp; dest);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keywordtype">char</span> <a class="code" href="namespacestrus.html#a5b3ce343266d03ac6d653667193d5ecc">dirSeparator</a>();</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}<span class="comment">//namespace</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor"></span></div>
+<div class="ttc" id="namespacestrus_html_a41d91b146bbf5e71e6f66bbc3e575ed7"><div class="ttname"><a href="namespacestrus.html#a41d91b146bbf5e71e6f66bbc3e575ed7">strus::createDir</a></div><div class="ttdeci">unsigned int createDir(const std::string &amp;dirname, bool fail_ifexist=true)</div><div class="ttdoc">Creates a directory if it does not exist yet. </div></div>
 <div class="ttc" id="namespacestrus_html_ab4e61267f08f6af3cbd3daf5f5c699f8"><div class="ttname"><a href="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8">strus::isFile</a></div><div class="ttdeci">bool isFile(const std::string &amp;path)</div><div class="ttdoc">Check if a file system path points to a file. </div></div>
+<div class="ttc" id="namespacestrus_html_afd924a4ebcbd52167ff8245695ff1e9f"><div class="ttname"><a href="namespacestrus.html#afd924a4ebcbd52167ff8245695ff1e9f">strus::removeDir</a></div><div class="ttdeci">unsigned int removeDir(const std::string &amp;dirname, bool fail_ifnofexist=false)</div><div class="ttdoc">Removes an empty directory. </div></div>
 <div class="ttc" id="namespacestrus_html_a05497adafee5ab32862d21220f7c92ee"><div class="ttname"><a href="namespacestrus.html#a05497adafee5ab32862d21220f7c92ee">strus::readDirFiles</a></div><div class="ttdeci">unsigned int readDirFiles(const std::string &amp;path, const std::string &amp;ext, std::vector&lt; std::string &gt; &amp;res)</div><div class="ttdoc">Reads all file names matching to the extension ext of a directory to an array of strings. </div></div>
+<div class="ttc" id="namespacestrus_html_ad936d184533957651b86291b22a7cf6a"><div class="ttname"><a href="namespacestrus.html#ad936d184533957651b86291b22a7cf6a">strus::appendFile</a></div><div class="ttdeci">unsigned int appendFile(const std::string &amp;filename, const std::string &amp;content)</div><div class="ttdoc">Appends a string to a file creating the file if it does not exist. </div></div>
 <div class="ttc" id="namespacestrus_html_ad939966e67a85fe6bdc8640051ec310a"><div class="ttname"><a href="namespacestrus.html#ad939966e67a85fe6bdc8640051ec310a">strus::readFile</a></div><div class="ttdeci">unsigned int readFile(const std::string &amp;filename, std::string &amp;res)</div><div class="ttdoc">Reads the complete content of a file to a string. </div></div>
 <div class="ttc" id="namespacestrus_html_a849aabf03abdb5013b95e02ffe25b8b5"><div class="ttname"><a href="namespacestrus.html#a849aabf03abdb5013b95e02ffe25b8b5">strus::readDirSubDirs</a></div><div class="ttdeci">unsigned int readDirSubDirs(const std::string &amp;path, std::vector&lt; std::string &gt; &amp;res)</div><div class="ttdoc">Reads all subdirectories of a directory to an array of strings. </div></div>
 <div class="ttc" id="namespacestrus_html_a51dd6e92f96b33bc80348977182aede7"><div class="ttname"><a href="namespacestrus.html#a51dd6e92f96b33bc80348977182aede7">strus::readStdin</a></div><div class="ttdeci">unsigned int readStdin(std::string &amp;res)</div><div class="ttdoc">Reads the complete input of stdin to a string. </div></div>
+<div class="ttc" id="namespacestrus_html_acf8b912364ea9b04a46deab3c6dbe86a"><div class="ttname"><a href="namespacestrus.html#acf8b912364ea9b04a46deab3c6dbe86a">strus::removeFile</a></div><div class="ttdeci">unsigned int removeFile(const std::string &amp;filename, bool fail_ifnofexist=false)</div><div class="ttdoc">Removes a file. </div></div>
 <div class="ttc" id="namespacestrus_html_afd40b01315d08143aaccf358c3252ffe"><div class="ttname"><a href="namespacestrus.html#afd40b01315d08143aaccf358c3252ffe">strus::writeFile</a></div><div class="ttdeci">unsigned int writeFile(const std::string &amp;filename, const std::string &amp;content)</div><div class="ttdoc">Writes a string to a file creating the file if it does not exist. </div></div>
 <div class="ttc" id="namespacestrus_html_a5b3ce343266d03ac6d653667193d5ecc"><div class="ttname"><a href="namespacestrus.html#a5b3ce343266d03ac6d653667193d5ecc">strus::dirSeparator</a></div><div class="ttdeci">char dirSeparator()</div><div class="ttdoc">Get the OS path element separator. </div></div>
+<div class="ttc" id="namespacestrus_html_aefc5595861905e3ba4129127a7048bd3"><div class="ttname"><a href="namespacestrus.html#aefc5595861905e3ba4129127a7048bd3">strus::isTextFile</a></div><div class="ttdeci">bool isTextFile(const std::string &amp;path)</div><div class="ttdoc">Check if a file system path points to a file with text content (not binary) </div></div>
 <div class="ttc" id="namespacestrus_html_a91d5994cb49688ec0f8279b96cbefeb4"><div class="ttname"><a href="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4">strus::isDir</a></div><div class="ttdeci">bool isDir(const std::string &amp;path)</div><div class="ttdoc">Check if a file system path points to a directory. </div></div>
 <div class="ttc" id="namespacestrus_html_ac9879ad1a2c6ed95f4e68461bc8b2283"><div class="ttname"><a href="namespacestrus.html#ac9879ad1a2c6ed95f4e68461bc8b2283">strus::getParentPath</a></div><div class="ttdeci">unsigned int getParentPath(const std::string &amp;path, std::string &amp;dest)</div><div class="ttdoc">Get the parent (containing) path of a file or directory. </div></div>
+<div class="ttc" id="namespacestrus_html_ae4eb90fcff0dbadb15ae9ea915bd5d31"><div class="ttname"><a href="namespacestrus.html#ae4eb90fcff0dbadb15ae9ea915bd5d31">strus::readFileSize</a></div><div class="ttdeci">unsigned int readFileSize(const std::string &amp;filename, std::size_t &amp;size)</div><div class="ttdoc">Evaluate the size of a file in bytes. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 10:09:21 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Feb 6 2017 17:51:10 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
