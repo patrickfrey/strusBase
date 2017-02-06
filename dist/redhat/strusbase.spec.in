@@ -245,6 +245,14 @@ make test
 
 
 %changelog
+* Mon Feb 6 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.13.0-0.1
+- added function to evaluate the file size to fileio
+- fixed network byte order problem with float types
+- added SymbolTable class
+- fixed some bugs in config parsing
+- fixed some bugs in byte order conversion functions
+- many build fixes
+
 * Sat Oct 1 2016 Patrick Frey <patrickpfrey@yahoo.com> 0.12.0-0.1
 - increment version parallel to analyzer (some interface files reorganization)
 
