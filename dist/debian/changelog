@@ -1,3 +1,7 @@
+strusbase (0.14.0-1) unstable; urgency=low
+  * increment version synchronously to strus core
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 15 Feb 2016 14:00:00 +0100
+
 strusbase (0.13.0-1) unstable; urgency=low
   * added function to evaluate the file size to fileio
   * fixed network byte order problem with float types
