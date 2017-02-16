@@ -1,3 +1,7 @@
+strusBase (0.14.0)
+  * increment version synchronously to strus core
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Wed, 15 Feb 2016 14:00:00 +0100
+
 strusBase (0.13.0)
   * added function to evaluate the file size to fileio
   * fixed network byte order problem with float types
