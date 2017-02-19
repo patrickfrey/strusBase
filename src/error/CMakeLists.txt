@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # --------------------------------------
 # SOURCES AND INCLUDES
@@ -22,7 +22,7 @@ link_directories(
 # LIBRARY
 # -------------------------------------------
 add_library( strus_error SHARED ${source_files} libstrus_error.cpp )
-target_link_libraries( strus_error strus_private_utils strus_base )
+target_link_libraries( strus_error strusbase_private_utils strus_base )
 
 set_target_properties(
     strus_error
