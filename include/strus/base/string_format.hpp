@@ -18,7 +18,11 @@ namespace strus {
 /// \param[in] fmt C printf format string
 /// \param[in] ... argument list
 /// \return the string built or an empty string in case of a memory allocation error
+#ifdef __GNUC__
+std::string string_format( const char* fmt, ...) __attribute__ ((format (printf, 1, 2)));
+#else
 std::string string_format( const char* fmt, ...);
+#endif
 
 } //namespace
 #endif
