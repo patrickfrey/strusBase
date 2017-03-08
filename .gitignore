@@ -28,6 +28,7 @@
 *.out
 *.app
 tests/byteOrder/src/testByteOrder
+tests/crc32/src/testCrc32
 tests/inputStream/src/testInputStream
 
 # Test data
