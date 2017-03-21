@@ -285,6 +285,9 @@ DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vec
 		std::size_t prevsize = res.size();
 		while (!!(ent = ::readdir(dir)))
 		{
+#ifdef __GNUC__
+			if (ent->d_type == DT_LNK) continue; //... do not follow symbolic links
+#endif
 			if (ent->d_name[0] == '.') continue;
 			std::string entry( path + dirSeparator() + ent->d_name);
 			if (isDir( entry))
