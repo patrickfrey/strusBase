@@ -23,6 +23,7 @@ link_directories(
 # -------------------------------------------
 add_library( strusbase_private_utils STATIC ${source_files} )
 target_link_libraries( strusbase_private_utils ${Intl_LIBRARIES} ${Boost_LIBRARIES} )
+set_property( TARGET strusbase_private_utils PROPERTY POSITION_INDEPENDENT_CODE TRUE )
 
 # ------------------------------
 # INSTALLATION
