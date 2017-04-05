@@ -6,12 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/configParser.hpp"
+#include "strus/base/numParser.hpp"
 #include "strus/errorBufferInterface.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "private/utils.hpp"
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"
 #include <map>
+#include <limits>
 #include <cstring>
 #include <stdexcept>
 
@@ -134,107 +136,39 @@ DLL_PUBLIC bool strus::extractBooleanFromConfigString( bool& val, std::string& c
 	CATCH_ERROR_ARG1_MAP_RETURN( _TXT( "error extracting boolean for key '%s' from configuration string: %s"), key, *errorhnd, false);
 }
 
-static unsigned int unsignedFromString( const std::string& numstr)
+static bool checkError( NumParseError err, const char* type, ErrorBufferInterface* errorhnd)
 {
-	unsigned int rt = 0;
-	char const* cc = numstr.c_str();
-	for (;*cc; ++cc)
+	switch (err)
 	{
-		if (*cc >= '0' && *cc <= '9')
-		{
-			rt = (rt * 10) + (*cc - '0');
-		}
-		else if (*cc == 'K' || *cc == 'k')
-		{
-			rt = rt * 1024;
-			++cc;
-			break;
-		}
-		else if (*cc == 'M' || *cc == 'm')
-		{
-			rt = rt * 1024 * 1024;
-			++cc;
-			break;
-		}
-		else if (*cc == 'G' || *cc == 'g')
-		{
-			rt = rt * 1024 * 1024 * 1024;
-			++cc;
-			break;
-		}
-		else
-		{
-			break;
-		}
+		case NumParserOk:
+			return true;
+		case NumParserErrNoMem:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("out of memory"));
+			return false;
+		case NumParserErrConversion:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("conversion error"));
+			return false;
+		case NumParserErrOutOfRange:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("value out of range"));
+			return false;
 	}
-	if (*cc)
-	{
-		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix): '%s' (%s)"), numstr.c_str(), cc);
-	}
-	return rt;
-}
-
-static double doubleFromString( const std::string& numstr)
-{
-	double rt = 0.0;
-	double frac = 0.0;
-	bool got_dot = false;
-	bool sign = false;
-	char const* cc = numstr.c_str();
-	if (*cc == '-')
-	{
-		sign = true;
-		++cc;
-	}
-	for (;*cc; ++cc)
-	{
-		if (*cc >= '0' && *cc <= '9')
-		{
-			if (got_dot)
-			{
-				rt += (double)(unsigned int)(*cc - '0') * frac;
-				frac /= 10;
-			}
-			else
-			{
-				rt = (rt * 10) + (*cc - '0');
-			}
-		}
-		else if (*cc == '.')
-		{
-			if (got_dot) throw strus::runtime_error( _TXT("expected floating point number: %s"), numstr.c_str());
-			got_dot = true;
-			frac = 0.1;
-		}
-		else
-		{
-			break;
-		}
-	}
-	if (sign) rt = -rt;
-	if (*cc)
-	{
-		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix) for configuration option: '%s'"), numstr.c_str());
-	}
-	return rt;
+	errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("undefined error code"));
+	return false;
 }
 
 DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
 {
-	try
+	std::string cfgval;
+	if (extractStringFromConfigString( cfgval, config, key, errorhnd))
 	{
-		std::string cfgval;
-		if (extractStringFromConfigString( cfgval, config, key, errorhnd))
-		{
-			val = unsignedFromString( cfgval);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		NumParseError err;
+		val = uintFromString( cfgval, std::numeric_limits<unsigned int>::max(), err);
+		return checkError( err, "UINT", errorhnd);
 	}
-	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting unsigned integer for key '%s' from configuration string: %s"), key, *errorhnd, false);
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -245,8 +179,9 @@ DLL_PUBLIC bool strus::extractFloatFromConfigString( double& val, std::string& c
 		std::string cfgval;
 		if (extractStringFromConfigString( cfgval, config, key, errorhnd))
 		{
-			val = doubleFromString( cfgval);
-			return true;
+			NumParseError err;
+			val = doubleFromString( cfgval, err);
+			return checkError( err, "FLOAT", errorhnd);
 		}
 		else
 		{
