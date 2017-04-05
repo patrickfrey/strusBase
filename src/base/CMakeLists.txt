@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # --------------------------------------
 set( source_files
 	cmdLineOpt.cpp
+	numParser.cpp
 	configParser.cpp
 	fileio.cpp
 	inputStream.cpp
