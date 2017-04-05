@@ -87,7 +87,7 @@ static void testParseDouble( unsigned int times)
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "test FLOAT [" << ti << "]" << " value " << val << std::endl;
 #endif
-		std::string valstr = strus::string_format( "%.10f", val);
+		std::string valstr = strus::string_format( "%.12f", val);
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot string " << valstr << std::endl;
 #endif
