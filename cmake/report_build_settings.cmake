@@ -11,5 +11,6 @@ MESSAGE("  CMake generator: ${CMAKE_GENERATOR}")
 MESSAGE("  CMake build tool: ${CMAKE_BUILD_TOOL}")
 
 MESSAGE("Compiler:")
+MESSAGE("  C/C++ compiler: ${CMAKE_CXX_COMPILER_ID}")
 MESSAGE("  C++ compilation flags: ${CMAKE_CXX_FLAGS}")
 MESSAGE("  C compilation flags: ${CMAKE_C_FLAGS}")
