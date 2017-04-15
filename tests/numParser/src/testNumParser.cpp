@@ -70,13 +70,13 @@ static void checkError( NumParseError err, const char* type)
 		case NumParserOk:
 			return;
 		case NumParserErrNoMem:
-			throw std::runtime_error( strus::string_format( "failed to extract %s from configuration string: %s", type, "out of memory"));
+			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "out of memory"));
 		case NumParserErrConversion:
-			throw std::runtime_error( strus::string_format( "failed to extract %s from configuration string: %s", type, "conversion error"));
+			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "conversion error"));
 		case NumParserErrOutOfRange:
-			throw std::runtime_error( strus::string_format( "failed to extract %s from configuration string: %s", type, "value out of range"));
+			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "value out of range"));
 	}
-	throw std::runtime_error( strus::string_format( "failed to extract %s from configuration string: %s", type, "undefined error code"));
+	throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "undefined error code"));
 }
 
 static void testParseDouble( unsigned int times)
