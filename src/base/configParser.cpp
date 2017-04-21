@@ -19,83 +19,116 @@
 
 using namespace strus;
 
+static bool parseNextConfigItem( char const*& src, std::string& cfgkey, const char*& valuestart, std::size_t& valuesize)
+{
+	cfgkey.clear();
+
+	char const* cc = src;
+	while (*cc && ((unsigned char)*cc <= 32 || *cc == ';')) ++cc;
+	//... skip spaces and delimiters
+	if (!*cc) return false;
+
+	while (((*cc|32) >= 'a' && (*cc|32) <= 'z') || *cc == '_' || (*cc >= '0' && *cc <= '9'))
+	{
+		cfgkey.push_back( *cc++);
+	}
+	if (cfgkey.empty())
+	{
+		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s' | '%s')"), cfgkey.c_str(), src);
+	}
+	if (*cc != '=')
+	{
+		throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, src);
+	}
+	++cc;
+	while (*cc && (unsigned char)*cc <= 32) ++cc;
+	const char* nextItem;
+	const char* endItem;
+	if (*cc == '"' || *cc == '\'')
+	{
+		// Value is a string (without any escaping of characters supported):
+		char eb = *cc++;
+		for (endItem=cc; *endItem != '\0' && *endItem != eb; ++endItem){}
+		if (*endItem)
+		{
+			nextItem = endItem+1;
+		}
+		else
+		{
+			throw strus::runtime_error( _TXT( "string as configuration value not terminated"));
+		}
+		while (*nextItem && (unsigned char)*nextItem <= 32) ++nextItem;
+		if (*nextItem == ';')
+		{
+			++nextItem;
+		}
+		else if (*nextItem)
+		{
+			throw strus::runtime_error( _TXT( "extra token found after string value in configuration string"));
+		}
+	}
+	else
+	{
+		// Value is a token:
+		endItem = std::strchr( cc, ';');
+		if (endItem)
+		{
+			nextItem = endItem+1;
+		}
+		else
+		{
+			nextItem = endItem = std::strchr( cc, '\0');
+		}
+		// Left trim of value:
+		while (endItem > cc && (unsigned char)*(endItem-1) <= 32) --endItem;
+	}
+	valuestart = cc;
+	valuesize = endItem - cc;
+	src = nextItem;
+	return true;
+}
+
+typedef std::pair<std::string,std::string> ConfigItem;
+typedef std::vector<ConfigItem> ConfigItemList;
+
+DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		ConfigItemList rt;
+		std::string cfgkey;
+		const char* valuestart;
+		std::size_t valuesize;
+
+		char const* cc = config.c_str();
+		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
+		{
+			rt.push_back( ConfigItem( utils::tolower(cfgkey), std::string( valuestart, valuesize)));
+		}
+		return rt;
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("error parsing configuration string items: %s"), *errorhnd, ConfigItemList());
+}
+
 DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
 {
 	try
 	{
-		char const* cc = config.c_str();
-		while (*cc)
-		{
-			while (*cc && ((unsigned char)*cc <= 32 || *cc == ';')) ++cc;
-			//... skip spaces
-			if (!*cc) break;
+		std::string cfgkey;
+		const char* valuestart;
+		std::size_t valuesize;
 
-			const char* start = cc;
-			std::string cfgkey;
-			while (((*cc|32) >= 'a' && (*cc|32) <= 'z') || *cc == '_' || (*cc >= '0' && *cc <= '9'))
-			{
-				cfgkey.push_back( *cc++);
-			}
-			if (cfgkey.empty())
-			{
-				throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s' | '%s')"), cfgkey.c_str(), config.c_str());
-			}
-			if (*cc != '=')
-			{
-				throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, config.c_str());
-			}
-			++cc;
-			while (*cc && (unsigned char)*cc <= 32) ++cc;
-			const char* nextItem;
-			const char* endItem;
-			if (*cc == '"' || *cc == '\'')
-			{
-				// Value is a string (without any escaping of characters supported):
-				char eb = *cc++;
-				for (endItem=cc; *endItem != '\0' && *endItem != eb; ++endItem){}
-				if (*endItem)
-				{
-					nextItem = endItem+1;
-				}
-				else
-				{
-					throw strus::runtime_error( _TXT( "string as configuration value not terminated"));
-				}
-				while (*nextItem && (unsigned char)*nextItem <= 32) ++nextItem;
-				if (*nextItem == ';')
-				{
-					++nextItem;
-				}
-				else if (*nextItem)
-				{
-					throw strus::runtime_error( _TXT( "extra token found after string value in configuration string"));
-				}
-			}
-			else
-			{
-				// Value is a token:
-				endItem = std::strchr( cc, ';');
-				if (endItem)
-				{
-					nextItem = endItem+1;
-				}
-				else
-				{
-					nextItem = endItem = std::strchr( cc, '\0');
-				}
-				// Left trim of value:
-				while (endItem > cc && (unsigned char)*(endItem-1) <= 32) --endItem;
-			}
+		char const* cc = config.c_str();
+		char const* lastptr = cc;
+		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
+		{
 			if (utils::caseInsensitiveEquals( cfgkey, key))
 			{
-				res = std::string( cc, endItem - cc);
-				config = std::string( config.c_str(), start) + nextItem;
+				res = std::string( valuestart, valuesize);
+				config = std::string( config.c_str(), lastptr) + std::string(cc);
 				return true;
 			}
-			else
-			{
-				cc = nextItem;
-			}
+			lastptr = cc;
 		}
 		return false;
 	}
