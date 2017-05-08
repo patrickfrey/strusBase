@@ -9,12 +9,13 @@
 /// \file numericVariant.hpp
 #ifndef _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
 #define _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
+#include "strus/base/stdint.h"
+#include <inttypes.h>
 #include <cstring>
 #include <stdio.h>
 #include <limits>
 
 namespace strus {
-
 
 /// \class NumericVariant
 /// \brief Atomic type that can hold numeric values of different type
@@ -23,7 +24,7 @@ class NumericVariant
 public:
 	/// \brief Constructor from a signed integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant( int value)
+	NumericVariant( int64_t value)
 	{
 		variant.Int = value;
 		type = Int;
@@ -31,7 +32,7 @@ public:
 
 	/// \brief Constructor from an unsigned integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant( unsigned int value)
+	NumericVariant( uint64_t value)
 	{
 		variant.UInt = value;
 		type = UInt;
@@ -50,7 +51,18 @@ public:
 	{
 		init();
 	}
-
+	static NumericVariant asint( int64_t val)
+	{
+		return NumericVariant( val);
+	}
+	static NumericVariant asuint( uint64_t val)
+	{
+		return NumericVariant( val);
+	}
+	static NumericVariant asdouble( double val)
+	{
+		return NumericVariant( val);
+	}
 	/// \brief Copy constructor 
 	/// \param[in] o numeric variant to copy
 	NumericVariant( const NumericVariant& o)
@@ -76,9 +88,9 @@ public:
 			switch (val.type)
 			{
 				case Null: break;
-				case Int: snprintf( m_buf, sizeof(m_buf), "%d", val.variant.Int); return;
-				case UInt: snprintf( m_buf, sizeof(m_buf), "%u", val.variant.UInt); return;
-				case Float: snprintf( m_buf, sizeof(m_buf), "%.5f", val.variant.Float); return;
+				case Int: snprintf( m_buf, sizeof(m_buf), "%" PRId64, val.variant.Int); return;
+				case UInt: snprintf( m_buf, sizeof(m_buf), "%" PRIu64, val.variant.UInt); return;
+				case Float: snprintf( m_buf, sizeof(m_buf), "%lf", val.variant.Float); return;
 			}
 			m_buf[0] = '\0';
 		}
@@ -120,12 +132,12 @@ public:
 		}
 		else if (sign_)
 		{
-			sscanf( src, "%d", &variant.Int);
+			sscanf( src, "%" PRId64, &variant.Int);
 			type = Int;
 		}
 		else
 		{
-			sscanf( src, "%u", &variant.UInt);
+			sscanf( src, "%" PRIu64, &variant.UInt);
 			type = UInt;
 		}
 		return true;
@@ -159,26 +171,26 @@ public:
 		return cast<double>();
 	}
 	/// \brief Cast to a signed integer
-	operator int() const
+	operator int64_t() const
 	{
 		return cast<int>();
 	}
 	/// \brief Cast to an unsigned integer
-	operator unsigned int() const
+	operator uint64_t() const
 	{
-		return cast<unsigned int>();
+		return cast<uint64_t>();
 	}
 
 	/// \brief Cast to a signed integer
-	int toint() const
+	int64_t toint() const
 	{
-		return cast<int>();
+		return cast<int64_t>();
 	}
 
 	/// \brief Cast to an unsigned integer
-	unsigned int touint() const
+	uint64_t touint() const
 	{
-		return cast<unsigned int>();
+		return cast<uint64_t>();
 	}
 
 	/// \brief Cast to an unsigned integer
@@ -227,7 +239,7 @@ public:
 
 	/// \brief Assignment operator for a singed integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant& operator=( int value)
+	NumericVariant& operator=( int64_t value)
 	{
 		variant.Int = value;
 		type = Int;
@@ -236,7 +248,7 @@ public:
 
 	/// \brief Assignment operator for an unsinged integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant& operator=( unsigned int value)
+	NumericVariant& operator=( uint64_t value)
 	{
 		variant.UInt = value;
 		type = UInt;
@@ -267,11 +279,15 @@ public:
 		UInt,		///< unsigned integer number value
 		Float		///< floating point number value
 	};
+	typedef int64_t IntType;
+	typedef uint64_t UIntType;
+	typedef double FloatType;
+
 	Type type;				///< Type of this numeric variant
 	union
 	{
-		int Int;			///< value in case of a signed integer
-		unsigned int UInt;		///< value in case of an unsigned integer
+		int64_t Int;			///< value in case of a signed integer
+		uint64_t UInt;			///< value in case of an unsigned integer
 		double Float;			///< value in case of a floating point number
 	} variant;				///< Value of this numeric variant
 };
