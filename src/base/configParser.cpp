@@ -238,4 +238,56 @@ DLL_PUBLIC void strus::removeKeysFromConfigString( std::string& config, const ch
 	CATCH_ERROR_MAP( _TXT("error removing keys from configuration string: %s"), *errorhnd);
 }
 
+DLL_PUBLIC bool strus::addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		if (!config.empty())
+		{
+			config.push_back(';');
+		}
+		enum ValueType {Identifier, String, SQString, DQString};
+		ValueType valueType = Identifier;
+		config.append( key);
+		config.push_back( '=');
+		std::string::const_iterator ci = value.begin(), ce = value.end();
+		for (; ci != ce; ++ci)
+		{
+			if ((unsigned char)*ci < 32) throw strus::runtime_error( _TXT( "unsupported control character in configuration value"));
+			if (*ci == '"')
+			{
+				if (valueType == DQString) throw strus::runtime_error( _TXT( "cannot add configuration value with to types of quotes"));
+				valueType = SQString;
+			}
+			else if (*ci == '\'')
+			{
+				if (valueType == SQString) throw strus::runtime_error( _TXT( "cannot add configuration value with to types of quotes"));
+				valueType = DQString;
+			}
+			else if (*ci == ';' || *ci == ' ')
+			{
+				if (valueType == Identifier) valueType = String;
+			}
+		}
+		switch (valueType)
+		{
+			case Identifier:
+				config.append( value);
+				break;
+			case String:
+			case SQString:
+				config.push_back( '\'');
+				config.append( value);
+				config.push_back( '\'');
+				break;
+			case DQString:
+				config.push_back( '"');
+				config.append( value);
+				config.push_back( '"');
+				break;
+		}
+		return true;
+	}
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error adding value for key '%s' to configuration string: %s"), key.c_str(), *errorhnd, false);
+}
 

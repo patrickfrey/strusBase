@@ -23,6 +23,7 @@ bool extractUIntFromConfigString( unsigned int& val, std::string& config, const 
 bool extractFloatFromConfigString( double& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd);
 void removeKeysFromConfigString( std::string& config, const char** keys, ErrorBufferInterface* errorhnd);
 
+bool addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd);
 std::vector<std::pair<std::string,std::string> > getConfigStringItems( const std::string& config, ErrorBufferInterface* errorhnd);
 
 }//namespace

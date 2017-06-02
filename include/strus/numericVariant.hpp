@@ -116,7 +116,7 @@ public:
 			init();
 			return true;
 		}
-		if (*si && *si == '-')
+		if (*si == '-')
 		{
 			sign_ = true;
 			++si;
@@ -126,6 +126,12 @@ public:
 		if (*si == '.')
 		{
 			for (++si; *si >= '0' && *si <= '9'; ++si){}
+			if ((*si|32) == 'e')
+			{
+				++si;
+				if (*si == '-') ++si;
+				for (; *si >= '0' && *si <= '9'; ++si){}
+			}
 			if (*si) return false;
 			sscanf( src, "%lf", &variant.Float);
 			type = Float;
