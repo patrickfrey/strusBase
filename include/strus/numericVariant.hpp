@@ -190,12 +190,34 @@ public:
 	/// \brief Cast to a signed integer
 	int64_t toint() const
 	{
+		if (type == Float)
+		{
+			if (variant.Float < 0.0)
+			{
+				return (int64_t)(variant.Float - 2*std::numeric_limits<double>::epsilon());
+			}
+			else if (variant.Float > 0.0)
+			{
+				return (int64_t)(variant.Float + 2*std::numeric_limits<double>::epsilon());
+			}
+		}
 		return cast<int64_t>();
 	}
 
 	/// \brief Cast to an unsigned integer
 	uint64_t touint() const
 	{
+		if (type == Float)
+		{
+			if (variant.Float < 0.0)
+			{
+				return 0;
+			}
+			else if (variant.Float > 0.0)
+			{
+				return (uint64_t)(variant.Float + 2*std::numeric_limits<double>::epsilon());
+			}
+		}
 		return cast<uint64_t>();
 	}
 
@@ -220,6 +242,38 @@ public:
 		return !isequal(o);
 	}
 
+	/// \brief Test for greater or equal
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator >= (const NumericVariant& o) const
+	{
+		return compare(o) >= 0;
+	}
+
+	/// \brief Test for greater
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator > (const NumericVariant& o) const
+	{
+		return compare(o) > 0;
+	}
+
+	/// \brief Test for smaller or equal
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator <= (const NumericVariant& o) const
+	{
+		return compare(o) <= 0;
+	}
+
+	/// \brief Test for smaller
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator < (const NumericVariant& o) const
+	{
+		return compare(o) < 0;
+	}
+
 	/// \brief Test for equality
 	/// \param[in] o numeric variant to compare
 	/// \return true, if yes
@@ -236,11 +290,62 @@ public:
 				{
 					double xx = variant.Float - o.variant.Float;
 					if (xx < 0) xx = -xx;
-					return xx <= std::numeric_limits<double>::epsilon();
+					return xx <= 2*std::numeric_limits<double>::epsilon();
 				}
 			}
 		}
 		return false;
+	}
+
+	/// \brief Comparison of numbers
+	/// \param[in] o numeric variant to compare
+	/// \return -1 <, +1 >, 0 =
+	int compare( const NumericVariant& o) const
+	{
+		switch (type)
+		{
+			case Null: return o.defined() ? -1:0;
+			case Int: 
+			{
+				int64_t vv = o.toint();
+				if (variant.Int < vv)
+				{
+					return -1;
+				}
+				else if (variant.Int > vv)
+				{
+					return +1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			case UInt:
+			{
+				uint64_t vv = o.touint();
+				if (variant.UInt < vv)
+				{
+					return -1;
+				}
+				else if (variant.UInt > vv)
+				{
+					return +1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			case Float:
+			{
+				double vv = o.tofloat();
+				double xx = variant.Float - vv;
+				double xxabs = (xx > 0.0) ? xx:-xx;
+				if (xxabs <= 2*std::numeric_limits<double>::epsilon()) return 0;
+				return xx < vv ? -1:+1;
+			}
+		}
 	}
 
 	/// \brief Assignment operator for a singed integer
