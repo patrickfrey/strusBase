@@ -5,7 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-///\brief Definition of integer types not supported by C++98
+/* \brief Definition of integer types
+*/
 #ifndef _STRUS_BASE_STDINT_HPP_INCLUDED
 #define _STRUS_BASE_STDINT_HPP_INCLUDED
 
