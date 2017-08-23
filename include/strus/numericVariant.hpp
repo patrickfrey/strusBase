@@ -10,6 +10,9 @@
 #ifndef _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
 #define _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
 #include "strus/base/stdint.h"
+#ifndef __STDC_FORMAT_MACROS
+#define __STDC_FORMAT_MACROS
+#endif
 #include <inttypes.h>
 #include <cstring>
 #include <stdio.h>
