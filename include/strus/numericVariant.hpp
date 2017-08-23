@@ -93,7 +93,7 @@ public:
 				case Null: break;
 				case Int: snprintf( m_buf, sizeof(m_buf), "%" PRId64, val.variant.Int); return;
 				case UInt: snprintf( m_buf, sizeof(m_buf), "%" PRIu64, val.variant.UInt); return;
-				case Float: snprintf( m_buf, sizeof(m_buf), "%lf", val.variant.Float); return;
+				case Float: snprintf( m_buf, sizeof(m_buf), "%f", val.variant.Float); return;
 			}
 			m_buf[0] = '\0';
 		}
