@@ -19,6 +19,7 @@
 #include <cstring>
 #include <algorithm>
 #include <functional>
+#include <limits>
 
 using namespace strus;
 
@@ -126,9 +127,10 @@ DLL_PUBLIC unsigned int strus::readFileSize( const std::string& filename, std::s
 	}
 	::fseek( fh, 0L, SEEK_END);
 	long filesize = size = ::ftell( fh);
-	if (filesize < 0)
+	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
 		ec = ::ferror( fh);
+		if (!ec) ec = 21/*EISIDR*/;
 	}
 	::fclose( fh);
 	return ec;
@@ -142,11 +144,24 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 		return errno;
 	}
 	::fseek( fh, 0L, SEEK_END);
-	std::size_t filesize = ::ftell( fh);
+	long filesize = ::ftell( fh);
+	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
+	{
+		::fclose( fh);
+		return 21/*EISIDR*/;
+	}
 	::fseek( fh, 0L, SEEK_SET);
 	try
 	{
-		res.reserve( res.size() + filesize);
+		try
+		{
+			res.reserve( res.size() + filesize);
+		}
+		catch (const std::bad_alloc&)
+		{
+			::fclose( fh);
+			return 12/*ENOMEM*/;
+		}
 	}
 	catch (const std::bad_alloc&)
 	{
