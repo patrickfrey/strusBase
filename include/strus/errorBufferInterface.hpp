@@ -41,8 +41,11 @@ public:
 	/// \brief Report an error
 	/// \param[in] format error message format string
 	/// \remark must not throw
-	virtual void report( const char* format, ...)=0;
-
+	virtual void report( const char* format, ...)
+#ifdef __GNUC__
+	__attribute__ ((format (printf, 2, 3)))
+#endif
+	=0;
 	/// \brief Report an error, overwriting the previous error
 	/// \param[in] format error message format string
 	/// \remark must not throw
