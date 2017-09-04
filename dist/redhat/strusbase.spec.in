@@ -245,6 +245,9 @@ make test
 
 
 %changelog
+* Mon Sep 4 2017 Patrick Frey <patrickpfrey@yahoo.com> 0.15.1-0.1
+- release to cleanup mess with missing CHANGELOG in 0.15.0
+
 * Sun Sep 3 2017 Patrick Frey <patrickpfrey@yahoo.com> 0.15.0-0.1
 - fix format string qualifiers for printf like functions and add check format string attributes for gcc
 - CMake build fixes
