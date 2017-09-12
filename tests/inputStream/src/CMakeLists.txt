@@ -6,7 +6,7 @@ include_directories(
 	"${Boost_INCLUDE_DIRS}"
 )
 link_directories(
-	"${PROJECT_SOURCE_DIR}/src/base"
+	"${CMAKE_CURRENT_BINARY_DIR}/../../../src/base"
 	"${Boost_LIBRARY_DIRS}"
 )
 
