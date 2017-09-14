@@ -88,16 +88,18 @@ static int removeSubDirs_r( const std::string& dirname)
 	std::vector<std::string>::const_iterator fi = files.begin(), fe = files.end();
 	for (; fi != fe; ++fi)
 	{
-		int s_ec = removeFile( *fi);
+		std::string fullpath = dirname + dirSeparator() + *fi;
+		int s_ec = removeFile( fullpath);
 		if (s_ec) ec = s_ec;
 	}
 	std::vector<std::string>::const_iterator di = dirs.begin(), de = dirs.end();
 	for (; di != de; ++di)
 	{
-		int s_ec = removeSubDirs_r( *di);
+		std::string fullpath = dirname + dirSeparator() + *di;
+		int s_ec = removeSubDirs_r( fullpath);
 		if (s_ec == 0)
 		{
-			s_ec = removeDir( *di);
+			s_ec = removeDir( fullpath);
 		}
 		if (s_ec) ec = s_ec;
 	}
