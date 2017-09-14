@@ -12,6 +12,7 @@
 #include <cerrno>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
