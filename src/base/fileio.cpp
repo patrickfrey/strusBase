@@ -37,7 +37,7 @@ DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 	return 0;
 }
 
-DLL_PUBLIC int changeDir( const std::string& dirname)
+DLL_PUBLIC int strus::changeDir( const std::string& dirname)
 {
 	if (0>::chdir( dirname.c_str()))
 	{
