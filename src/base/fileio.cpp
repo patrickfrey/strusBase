@@ -74,6 +74,49 @@ DLL_PUBLIC int strus::removeDir( const std::string& dirname, bool fail_ifnofexis
 	return 0;
 }
 
+static int removeSubDirs_r( const std::string& dirname)
+{
+	std::vector<std::string> dirs;
+	std::vector<std::string> files;
+	int ec = 0;
+
+	ec = readDirSubDirs( dirname, dirs);
+	if (ec) return ec;
+	ec = readDirFiles( dirname, "", files);
+	if (ec) return ec;
+
+	std::vector<std::string>::const_iterator fi = files.begin(), fe = files.end();
+	for (; fi != fe; ++fi)
+	{
+		int s_ec = removeFile( *fi);
+		if (s_ec) ec = s_ec;
+	}
+	std::vector<std::string>::const_iterator di = dirs.begin(), de = dirs.end();
+	for (; di != de; ++di)
+	{
+		int s_ec = removeDir( *di);
+		if (s_ec) ec = s_ec;
+	}
+	return ec;
+}
+
+DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_ifnofexist)
+{
+	if (isDir( dirname))
+	{
+		int ec = removeSubDirs_r( dirname);
+		if (ec == 0)
+		{
+			ec = removeDir( dirname);
+		}
+		return ec;
+	}
+	else
+	{
+		return removeFile( dirname, fail_ifnofexist);
+	}
+}
+
 DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
 {
 	unsigned char ch;
