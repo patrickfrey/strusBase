@@ -19,60 +19,61 @@ namespace strus
 /// \param[in] filename the name of file to get the filesize of
 /// \param[out] size the returned size
 /// \return 0 on success, errno on failure
-unsigned int readFileSize( const std::string& filename, std::size_t& size);
+int readFileSize( const std::string& filename, std::size_t& size);
 
 /// \brief Reads the complete content of a file to a string
 /// \param[in] filename the name of file to read
 /// \param[out] res the returned content of the file read
 /// \return 0 on success, errno on failure
-unsigned int readFile( const std::string& filename, std::string& res);
+int readFile( const std::string& filename, std::string& res);
 
 /// \brief Reads the complete input of stdin to a string
 /// \param[out] res the returned content of the file read
 /// \return 0 on success, errno on failure
-unsigned int readStdin( std::string& res);
+int readStdin( std::string& res);
 
 /// \brief Writes a string to a file creating the file if it does not exist
 /// \param[in] filename the name of the file to write
 /// \param[out] content content of the string to write
 /// \return 0 on success, errno on failure
-unsigned int writeFile( const std::string& filename, const std::string& content);
+int writeFile( const std::string& filename, const std::string& content);
 
 /// \brief Appends a string to a file creating the file if it does not exist
 /// \param[in] filename the name of the file to append to
 /// \param[out] content content of the string to write
 /// \return 0 on success, errno on failure
-unsigned int appendFile( const std::string& filename, const std::string& content);
+int appendFile( const std::string& filename, const std::string& content);
 
 /// \brief Removes a file
 /// \param[in] filename the name of the file to remove
 /// \param[in] fail_ifnofexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-unsigned int removeFile( const std::string& filename, bool fail_ifnofexist=false);
+int removeFile( const std::string& filename, bool fail_ifnofexist=false);
 
 /// \brief Removes an empty directory
 /// \param[in] dirname the name of the directory to remove
 /// \param[in] fail_ifnofexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-unsigned int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
+int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
 
 /// \brief Creates a directory if it does not exist yet
 /// \param[in] dirname path of directory to create
 /// \param[in] fail_ifexist return an error if the directory already exists
-unsigned int createDir( const std::string& dirname, bool fail_ifexist=true);
+/// \return 0 on success, errno on failure
+int createDir( const std::string& dirname, bool fail_ifexist=true);
 
 /// \brief Reads all file names matching to the extension ext of a directory to an array of strings
 /// \param[in] path the name of director to read
 /// \param[in] ext the file extension the accepted files must have (empty if all extensions are accepted)
 /// \param[out] res the returned matching file names of the directory read
 /// \return 0 on success, errno on failure
-unsigned int readDirFiles( const std::string& path, const std::string& ext, std::vector<std::string>& res);
+int readDirFiles( const std::string& path, const std::string& ext, std::vector<std::string>& res);
 
 /// \brief Reads all subdirectories of a directory to an array of strings
 /// \param[in] path the name of director to read
 /// \param[out] res the returned matching sub directories of the directory read
 /// \return 0 on success, errno on failure
-unsigned int readDirSubDirs( const std::string& path, std::vector<std::string>& res);
+int readDirSubDirs( const std::string& path, std::vector<std::string>& res);
 
 /// \brief Check if a file system path points to a file
 /// \return true, if yes
@@ -94,7 +95,7 @@ bool isTextFile( const std::string& path);
 /// \param[in] path file system path to get the containing path
 /// \param[out] dest the containing path
 /// \return 0 on success, errno on failure
-unsigned int getParentPath( const std::string& path, std::string& dest);
+int getParentPath( const std::string& path, std::string& dest);
 
 /// \brief Get the OS path element separator
 /// \return the separator

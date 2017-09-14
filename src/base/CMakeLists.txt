@@ -8,6 +8,7 @@ set( source_files
 	numParser.cpp
 	configParser.cpp
 	fileio.cpp
+	exec.cpp
 	inputStream.cpp
 	dataRecordFile.cpp
 	symbolTable.cpp
