@@ -437,13 +437,12 @@ DLL_PUBLIC int strus::getParentPath( const std::string& path, std::string& dest)
 		try
 		{
 			dest.clear();
-			dest.append( ri, re-ri-1);
+			dest.append( ri, re-ri);
 		}
 		catch (const std::bad_alloc&)
 		{
 			return 12/*ENOMEM*/;
 		}
-		dest.clear();
 		return 0;
 	}
 }
