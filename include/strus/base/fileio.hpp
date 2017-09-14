@@ -62,6 +62,11 @@ int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
 /// \return 0 on success, errno on failure
 int createDir( const std::string& dirname, bool fail_ifexist=true);
 
+/// \brief Change current directory of the process
+/// \param[in] dirname path of directory to create
+/// \return 0 on success, errno on failure
+int changeDir( const std::string& dirname);
+
 /// \brief Reads all file names matching to the extension ext of a directory to an array of strings
 /// \param[in] path the name of director to read
 /// \param[in] ext the file extension the accepted files must have (empty if all extensions are accepted)

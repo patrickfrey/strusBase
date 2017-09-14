@@ -37,6 +37,15 @@ DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 	return 0;
 }
 
+DLL_PUBLIC int changeDir( const std::string& dirname)
+{
+	if (0>::chdir( dirname.c_str()))
+	{
+		return errno;
+	}
+	return 0;
+}
+
 DLL_PUBLIC int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
 {
 	if (0>::remove( filename.c_str()))
