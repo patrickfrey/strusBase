@@ -94,7 +94,11 @@ static int removeSubDirs_r( const std::string& dirname)
 	std::vector<std::string>::const_iterator di = dirs.begin(), de = dirs.end();
 	for (; di != de; ++di)
 	{
-		int s_ec = removeDir( *di);
+		int s_ec = removeSubDirs_r( *di);
+		if (s_ec == 0)
+		{
+			s_ec = removeDir( *di);
+		}
 		if (s_ec) ec = s_ec;
 	}
 	return ec;
