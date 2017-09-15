@@ -31,8 +31,10 @@ configure_file( "${PROJECT_SOURCE_DIR}/src/utils/internationalization.cpp.in"  "
 
 IF( WIN32 )
 set( STRUS_FILEIO_DIRSEP  '\\' )
+set( STRUS_FILEIO_PATHSEP  ';' )
 ELSE( WIN32 )
 set( STRUS_FILEIO_DIRSEP  '/' )
+set( STRUS_FILEIO_PATHSEP  ':' )
 ENDIF( WIN32 )
 configure_file( "${PROJECT_SOURCE_DIR}/src/base/fileio_sys.hpp.in"  "${PROJECT_SOURCE_DIR}/src/base/fileio_sys.hpp"  @ONLY )
 
