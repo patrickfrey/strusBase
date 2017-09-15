@@ -10,7 +10,7 @@
 #include "strus/base/exec.hpp"
 #include "strus/base/dll_tags.hpp"
 #include <cerrno>
-#include <string>
+#include <vector>
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>
@@ -28,7 +28,15 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* argv[], 
 	{
 		std::ostringstream out;
 		boost::process::ipstream pipe_stream;
-		std::string cmdstr = cmd.tostring();
+		std::string cmdstr = filename;
+		int ai = 0;
+		while (argv[ai])
+		{
+			cmdstr.push_back( ' ');
+			cmdstr.push_back( '"');
+			cmdstr.append( argv[ai]);
+			cmdstr.push_back( '"');
+		}
 		boost::process::child chld( cmdstr.c_str(), std_out > pipe_stream);
 	
 		std::string line;
@@ -45,8 +53,13 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* argv[], 
 		return 12/*ENOMEM*/;
 	}
 }
+DLL_PUBLIC int strus::execve_tostring( const char* filename, const char* const argv[], const std::map<std::string,std::string>& env, std::string& output)
+{
+	!!! NOT IMPLEMENTED YET !!!
+}
 #else
-DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const argv[], std::string& output)
+
+static int execve_tostring_( const char* filename, const char* const argv[], const std::map<std::string,std::string>* env, std::string& output)
 {
 	int rt = 0;
 	int pipefd[2];
@@ -67,7 +80,44 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const ar
 		dup2(pipefd[1], 1);  // send stdout to the pipe
 		close(pipefd[1]);    // close read
 
-		::execv( filename, const_cast<char* const*>(argv));
+		if (env)
+		{
+			try
+			{
+				// Build environment string:
+				std::vector<std::string> envstrar;
+				std::vector<const char*> envar;
+				std::map<std::string,std::string>::const_iterator mi = env->begin(), me = env->end();
+				for (; mi != me; ++mi)
+				{
+					std::string envstr;
+					envstr.append( mi->first);
+					envstr.push_back( '=');
+					envstr.push_back( '"');
+					envstr.append( mi->second);
+					envstr.push_back( '"');
+					envstrar.push_back( envstr);
+				}
+				std::vector<std::string>::const_iterator ei = envstrar.begin(), ee = envstrar.end();
+				for (; ei != ee; ++ei)
+				{
+					envar.push_back( ei->c_str());
+				}
+				envar.push_back( (const char*)0);
+
+				// Execute command with environment:
+				::execve( filename, const_cast<char* const*>(argv), const_cast<char* const*>( envar.data()));
+			}
+			catch (const std::bad_alloc&)
+			{
+				exit( 12/*ENOMEM*/);
+			}
+		}
+		else
+		{
+			// Execute command:
+			::execv( filename, const_cast<char* const*>(argv));
+		}
 		rt = errno;
 		exit( rt);
 	}
@@ -80,7 +130,7 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const ar
 
 		try
 		{
-			while (0!=(size=read(pipefd[0], buffer, sizeof(buffer))))
+			while (0!=(size=::read(pipefd[0], buffer, sizeof(buffer))))
 			{
 				output.append( buffer, size);
 			}
@@ -103,6 +153,17 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const ar
 	}
 	return rt;
 }
+
+DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const argv[], std::string& output)
+{
+	return execve_tostring_( filename, argv, NULL, output);
+}
+
+DLL_PUBLIC int strus::execve_tostring( const char* filename, const char* const argv[], const std::map<std::string,std::string>& env, std::string& output)
+{
+	return execve_tostring_( filename, argv, &env, output);
+}
+
 #endif
 
 
