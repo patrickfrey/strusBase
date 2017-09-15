@@ -18,6 +18,34 @@
 #include <sys/wait.h>
 using namespace strus;
 
+#if 0 && BOOST_VERSION >= 106400
+// ... Boost implementation trial not tested, therefore does not work
+#include <boost/process.hpp>
+
+DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* argv[], std::string& output)
+{
+	try
+	{
+		std::ostringstream out;
+		boost::process::ipstream pipe_stream;
+		std::string cmdstr = cmd.tostring();
+		boost::process::child chld( cmdstr.c_str(), std_out > pipe_stream);
+	
+		std::string line;
+		while (pipe_stream && std::getline( pipe_stream, line) && !line.empty())
+		{
+			out << line << std::endl;
+		}
+		chld.wait();
+		output.append( out.str());
+	}
+	catch (const std::bad_alloc&)
+	{
+		close(pipefd[0]);
+		return 12/*ENOMEM*/;
+	}
+}
+#else
 DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const argv[], std::string& output)
 {
 	int rt = 0;
@@ -74,32 +102,6 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* const ar
 		}
 	}
 	return rt;
-}
-
-
-#if 0 // Boost implementation trial 
-int strus::execv_tostring( const char* filename, const char* argv[], std::string& output)
-{
-	try
-	{
-		std::ostringstream out;
-		boost::process::ipstream pipe_stream;
-		std::string cmdstr = cmd.tostring();
-		boost::process::child chld( cmdstr.c_str(), std_out > pipe_stream);
-	
-		std::string line;
-		while (pipe_stream && std::getline( pipe_stream, line) && !line.empty())
-		{
-			out << line << std::endl;
-		}
-		chld.wait();
-		output.append( out.str());
-	}
-	catch (const std::bad_alloc&)
-	{
-		close(pipefd[0]);
-		return 12/*ENOMEM*/;
-	}
 }
 #endif
 

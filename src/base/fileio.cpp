@@ -469,6 +469,60 @@ DLL_PUBLIC char strus::dirSeparator()
 	return STRUS_FILEIO_DIRSEP;
 }
 
+DLL_PUBLIC int strus::getAncestorPath( const std::string& path, int level, std::string& dest)
+{
+	try
+	{
+		char const* pt = path.c_str();
+		std::string pathbuf;
+		if (pt[0] == '.')
+		{
+			char cwd[2048];
+			const char* pwd = ::getcwd(cwd, sizeof(cwd));
+			if (!pwd) return 12/*ENOMEM*/;
+			pathbuf.append( pwd);
+			pathbuf.push_back( strus::dirSeparator());
+			pathbuf.append( pt);
+			pt = pathbuf.c_str();
+		}
+		char const* se = std::strchr( pt, '\0');
+		char const* si = pt;
+		while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+		while (se > si && level)
+		{
+			char const* pi = se;
+			while (pi > si && *(pi-1) != STRUS_FILEIO_DIRSEP) --pi;
+			if (pi == si)
+			{
+				break;
+			}
+			if (se-pi == 1 && pi[0] == '.')
+			{
+				se = pi;
+				while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+				continue;
+			}
+			if (se-pi == 2 && pi[0] == '.' && pi[1] == '.')
+			{
+				se = pi;
+				while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+				level += 1;
+				continue;
+			}
+			se = pi;
+			while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+			--level;
+		}
+		if (level) return 22/*EINVAL*/;
+		dest = std::string( si, se-si);
+		return 0;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return 12/*ENOMEM*/;
+	}
+}
+
 DLL_PUBLIC int strus::getParentPath( const std::string& path, std::string& dest)
 {
 	const char* ri = path.c_str();

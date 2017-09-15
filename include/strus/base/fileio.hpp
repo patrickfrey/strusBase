@@ -108,6 +108,13 @@ bool isTextFile( const std::string& path);
 /// \return 0 on success, errno on failure
 int getParentPath( const std::string& path, std::string& dest);
 
+/// \brief Get an ancestor (containing) path of a file or directory
+/// \param[in] path file system path to get the containing path
+/// \param[in] level how many levels to step back (level == 1 => getParentPath)
+/// \param[out] dest the containing path
+/// \return 0 on success, errno on failure
+int getAncestorPath( const std::string& path, int level, std::string& dest);
+
 /// \brief Get the OS path element separator
 /// \return the separator
 char dirSeparator();
