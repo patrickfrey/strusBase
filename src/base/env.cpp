@@ -47,9 +47,15 @@ DLL_PUBLIC int strus::getenv_list( const std::string& var, char sep, std::vector
 			const char* se = std::strchr( ev, STRUS_FILEIO_PATHSEP);
 			for (; se; si = se+1, se = std::strchr( si, STRUS_FILEIO_PATHSEP))
 			{
-				output.push_back( std::string( si, se-si));
+				if (se > si)
+				{
+					output.push_back( std::string( si, se-si));
+				}
 			}
-			output.push_back( std::string( si));
+			if (*si)
+			{
+				output.push_back( std::string( si));
+			}
 		}
 		return 0;
 	}
