@@ -93,9 +93,7 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 					std::string envstr;
 					envstr.append( mi->first);
 					envstr.push_back( '=');
-					envstr.push_back( '"');
 					envstr.append( mi->second);
-					envstr.push_back( '"');
 					envstrar.push_back( envstr);
 				}
 				std::vector<std::string>::const_iterator ei = envstrar.begin(), ee = envstrar.end();
