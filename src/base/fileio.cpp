@@ -464,6 +464,11 @@ DLL_PUBLIC bool strus::isDir( const std::string& path)
 	return getPathType(path)==PathDir;
 }
 
+DLL_PUBLIC bool strus::isRelativePath( const std::string& path)
+{
+	return !path.empty() && path[0] != STRUS_FILEIO_DIRSEP;
+}
+
 DLL_PUBLIC char strus::dirSeparator()
 {
 	return STRUS_FILEIO_DIRSEP;
