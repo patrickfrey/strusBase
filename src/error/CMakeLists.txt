@@ -9,13 +9,13 @@ set( source_files
 
 include_directories(
 	"${Boost_INCLUDE_DIRS}"
-	"${PROJECT_SOURCE_DIR}/include"
-	"${PROJECT_SOURCE_DIR}/src/error" 
+	"${BASE_INCLUDE_DIRS}"
+	"${ERROR_SOURCE_DIRS}" 
 )
 
 link_directories(
 	"${Boost_LIBRARY_DIRS}"
-	"${CMAKE_CURRENT_BINARY_DIR}/../utils"
+	"${UTILS_LIBRARY_DIRS}"
 )
 
 # -------------------------------------------

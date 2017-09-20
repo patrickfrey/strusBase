@@ -40,6 +40,15 @@ configure_file( "${PROJECT_SOURCE_DIR}/src/base/fileio_sys.hpp.in"  "${PROJECT_S
 
 enable_testing()
 
+# Path declarations:
+set( BASE_INCLUDE_DIRS                "${CMAKE_CURRENT_BINARY_DIR}/include"  "${PROJECT_SOURCE_DIR}/include" )
+set( BASE_SOURCE_DIRS                 "${PROJECT_SOURCE_DIR}/src/base" )
+set( BASE_LIBRARY_DIRS                 "${CMAKE_CURRENT_BINARY_DIR}/src/base" )
+set( ERROR_SOURCE_DIRS             "${PROJECT_SOURCE_DIR}/src/error" )
+set( ERROR_LIBRARY_DIRS             "${CMAKE_CURRENT_BINARY_DIR}/src/error" )
+set( UTILS_SOURCE_DIRS                "${PROJECT_SOURCE_DIR}/src/utils" )
+set( UTILS_LIBRARY_DIRS                "${CMAKE_CURRENT_BINARY_DIR}/src/utils" )
+
 # Subdirectories:
 add_subdirectory( 3rdParty )
 add_subdirectory( src )
