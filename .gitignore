@@ -66,5 +66,3 @@ dist/redhat/strusbase.spec
 # Suggested build directory
 build
 
-# Travis
-.travis.yml
