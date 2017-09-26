@@ -7,8 +7,8 @@
  */
 /// \brief Interface for reporting and catching errors in the core (storage)
 /// \file errorBufferInterface.hpp
-#ifndef _STRUS_STORAGE_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
-#define _STRUS_STORAGE_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
+#ifndef _STRUS_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
+#define _STRUS_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
 #include <cstdio>
 
 /// \brief strus toplevel namespace
@@ -41,12 +41,15 @@ public:
 	/// \brief Report an error
 	/// \param[in] format error message format string
 	/// \remark must not throw
-	virtual void report( const char* format, ...) const=0;
-
+	virtual void report( const char* format, ...)
+#ifdef __GNUC__
+	__attribute__ ((format (printf, 2, 3)))
+#endif
+	=0;
 	/// \brief Report an error, overwriting the previous error
 	/// \param[in] format error message format string
 	/// \remark must not throw
-	virtual void explain( const char* format) const=0;
+	virtual void explain( const char* format)=0;
 
 	/// \brief Check, if an error has occurred and return it
 	/// \return an error string, if defined, NULL else

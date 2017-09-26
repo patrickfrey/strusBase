@@ -6,94 +6,129 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/configParser.hpp"
+#include "strus/base/numParser.hpp"
 #include "strus/errorBufferInterface.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "private/utils.hpp"
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"
 #include <map>
+#include <limits>
 #include <cstring>
 #include <stdexcept>
 
 using namespace strus;
 
+static bool parseNextConfigItem( char const*& src, std::string& cfgkey, const char*& valuestart, std::size_t& valuesize)
+{
+	cfgkey.clear();
+
+	char const* cc = src;
+	while (*cc && ((unsigned char)*cc <= 32 || *cc == ';')) ++cc;
+	//... skip spaces and delimiters
+	if (!*cc) return false;
+
+	while (((*cc|32) >= 'a' && (*cc|32) <= 'z') || *cc == '_' || (*cc >= '0' && *cc <= '9'))
+	{
+		cfgkey.push_back( *cc++);
+	}
+	if (cfgkey.empty())
+	{
+		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s' | '%s')"), cfgkey.c_str(), src);
+	}
+	if (*cc != '=')
+	{
+		throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, src);
+	}
+	++cc;
+	while (*cc && (unsigned char)*cc <= 32) ++cc;
+	const char* nextItem;
+	const char* endItem;
+	if (*cc == '"' || *cc == '\'')
+	{
+		// Value is a string (without any escaping of characters supported):
+		char eb = *cc++;
+		for (endItem=cc; *endItem != '\0' && *endItem != eb; ++endItem){}
+		if (*endItem)
+		{
+			nextItem = endItem+1;
+		}
+		else
+		{
+			throw strus::runtime_error( "%s", _TXT( "string as configuration value not terminated"));
+		}
+		while (*nextItem && (unsigned char)*nextItem <= 32) ++nextItem;
+		if (*nextItem == ';')
+		{
+			++nextItem;
+		}
+		else if (*nextItem)
+		{
+			throw strus::runtime_error( "%s", _TXT( "extra token found after string value in configuration string"));
+		}
+	}
+	else
+	{
+		// Value is a token:
+		endItem = std::strchr( cc, ';');
+		if (endItem)
+		{
+			nextItem = endItem+1;
+		}
+		else
+		{
+			nextItem = endItem = std::strchr( cc, '\0');
+		}
+		// Left trim of value:
+		while (endItem > cc && (unsigned char)*(endItem-1) <= 32) --endItem;
+	}
+	valuestart = cc;
+	valuesize = endItem - cc;
+	src = nextItem;
+	return true;
+}
+
+typedef std::pair<std::string,std::string> ConfigItem;
+typedef std::vector<ConfigItem> ConfigItemList;
+
+DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		ConfigItemList rt;
+		std::string cfgkey;
+		const char* valuestart;
+		std::size_t valuesize;
+
+		char const* cc = config.c_str();
+		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
+		{
+			rt.push_back( ConfigItem( utils::tolower(cfgkey), std::string( valuestart, valuesize)));
+		}
+		return rt;
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("error parsing configuration string items: %s"), *errorhnd, ConfigItemList());
+}
+
 DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
 {
 	try
 	{
-		char const* cc = config.c_str();
-		while (*cc)
-		{
-			while (*cc && ((unsigned char)*cc <= 32 || *cc == ';')) ++cc;
-			//... skip spaces
-			if (!*cc) break;
+		std::string cfgkey;
+		const char* valuestart;
+		std::size_t valuesize;
 
-			const char* start = cc;
-			std::string cfgkey;
-			while (((*cc|32) >= 'a' && (*cc|32) <= 'z') || *cc == '_' || (*cc >= '0' && *cc <= '9'))
-			{
-				cfgkey.push_back( *cc++);
-			}
-			if (cfgkey.empty())
-			{
-				throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s' | '%s')"), cfgkey.c_str(), config.c_str());
-			}
-			if (*cc != '=')
-			{
-				throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, config.c_str());
-			}
-			++cc;
-			while (*cc && (unsigned char)*cc <= 32) ++cc;
-			const char* nextItem;
-			const char* endItem;
-			if (*cc == '"' || *cc == '\'')
-			{
-				// Value is a string (without any escaping of characters supported):
-				char eb = *cc++;
-				for (endItem=cc; *endItem != '\0' && *endItem != eb; ++endItem){}
-				if (*endItem)
-				{
-					nextItem = endItem+1;
-				}
-				else
-				{
-					throw strus::runtime_error( _TXT( "string as configuration value not terminated"));
-				}
-				while (*nextItem && (unsigned char)*nextItem <= 32) ++nextItem;
-				if (*nextItem == ';')
-				{
-					++nextItem;
-				}
-				else if (*nextItem)
-				{
-					throw strus::runtime_error( _TXT( "extra token found after string value in configuration string"));
-				}
-			}
-			else
-			{
-				// Value is a token:
-				endItem = std::strchr( cc, ';');
-				if (endItem)
-				{
-					nextItem = endItem+1;
-				}
-				else
-				{
-					nextItem = endItem = std::strchr( cc, '\0');
-				}
-				// Left trim of value:
-				while (endItem > cc && (unsigned char)*(endItem-1) <= 32) --endItem;
-			}
+		char const* cc = config.c_str();
+		char const* lastptr = cc;
+		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
+		{
 			if (utils::caseInsensitiveEquals( cfgkey, key))
 			{
-				res = std::string( cc, endItem - cc);
-				config = std::string( config.c_str(), start) + nextItem;
+				res = std::string( valuestart, valuesize);
+				config = std::string( config.c_str(), lastptr) + std::string(cc);
 				return true;
 			}
-			else
-			{
-				cc = nextItem;
-			}
+			lastptr = cc;
 		}
 		return false;
 	}
@@ -134,107 +169,39 @@ DLL_PUBLIC bool strus::extractBooleanFromConfigString( bool& val, std::string& c
 	CATCH_ERROR_ARG1_MAP_RETURN( _TXT( "error extracting boolean for key '%s' from configuration string: %s"), key, *errorhnd, false);
 }
 
-static unsigned int unsignedFromString( const std::string& numstr)
+static bool checkError( NumParseError err, const char* type, ErrorBufferInterface* errorhnd)
 {
-	unsigned int rt = 0;
-	char const* cc = numstr.c_str();
-	for (;*cc; ++cc)
+	switch (err)
 	{
-		if (*cc >= '0' && *cc <= '9')
-		{
-			rt = (rt * 10) + (*cc - '0');
-		}
-		else if (*cc == 'K' || *cc == 'k')
-		{
-			rt = rt * 1024;
-			++cc;
-			break;
-		}
-		else if (*cc == 'M' || *cc == 'm')
-		{
-			rt = rt * 1024 * 1024;
-			++cc;
-			break;
-		}
-		else if (*cc == 'G' || *cc == 'g')
-		{
-			rt = rt * 1024 * 1024 * 1024;
-			++cc;
-			break;
-		}
-		else
-		{
-			break;
-		}
+		case NumParserOk:
+			return true;
+		case NumParserErrNoMem:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("out of memory"));
+			return false;
+		case NumParserErrConversion:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("conversion error"));
+			return false;
+		case NumParserErrOutOfRange:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("value out of range"));
+			return false;
 	}
-	if (*cc)
-	{
-		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix): '%s' (%s)"), numstr.c_str(), cc);
-	}
-	return rt;
-}
-
-static double doubleFromString( const std::string& numstr)
-{
-	double rt = 0.0;
-	double frac = 0.0;
-	bool got_dot = false;
-	bool sign = false;
-	char const* cc = numstr.c_str();
-	if (*cc == '-')
-	{
-		sign = true;
-		++cc;
-	}
-	for (;*cc; ++cc)
-	{
-		if (*cc >= '0' && *cc <= '9')
-		{
-			if (got_dot)
-			{
-				rt += (double)(unsigned int)(*cc - '0') * frac;
-				frac /= 10;
-			}
-			else
-			{
-				rt = (rt * 10) + (*cc - '0');
-			}
-		}
-		else if (*cc == '.')
-		{
-			if (got_dot) throw strus::runtime_error( _TXT("expected floating point number: %s"), numstr.c_str());
-			got_dot = true;
-			frac = 0.1;
-		}
-		else
-		{
-			break;
-		}
-	}
-	if (sign) rt = -rt;
-	if (*cc)
-	{
-		throw strus::runtime_error( _TXT( "not a number (with optional 'K' or 'M' or 'G' suffix) for configuration option: '%s'"), numstr.c_str());
-	}
-	return rt;
+	errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("undefined error code"));
+	return false;
 }
 
 DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
 {
-	try
+	std::string cfgval;
+	if (extractStringFromConfigString( cfgval, config, key, errorhnd))
 	{
-		std::string cfgval;
-		if (extractStringFromConfigString( cfgval, config, key, errorhnd))
-		{
-			val = unsignedFromString( cfgval);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		NumParseError err;
+		val = uintFromString( cfgval, std::numeric_limits<unsigned int>::max(), err);
+		return checkError( err, "UINT", errorhnd);
 	}
-	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting unsigned integer for key '%s' from configuration string: %s"), key, *errorhnd, false);
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -245,8 +212,9 @@ DLL_PUBLIC bool strus::extractFloatFromConfigString( double& val, std::string& c
 		std::string cfgval;
 		if (extractStringFromConfigString( cfgval, config, key, errorhnd))
 		{
-			val = doubleFromString( cfgval);
-			return true;
+			NumParseError err;
+			val = doubleFromString( cfgval, err);
+			return checkError( err, "FLOAT", errorhnd);
 		}
 		else
 		{
@@ -270,4 +238,56 @@ DLL_PUBLIC void strus::removeKeysFromConfigString( std::string& config, const ch
 	CATCH_ERROR_MAP( _TXT("error removing keys from configuration string: %s"), *errorhnd);
 }
 
+DLL_PUBLIC bool strus::addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		if (!config.empty())
+		{
+			config.push_back(';');
+		}
+		enum ValueType {Identifier, String, SQString, DQString};
+		ValueType valueType = Identifier;
+		config.append( key);
+		config.push_back( '=');
+		std::string::const_iterator ci = value.begin(), ce = value.end();
+		for (; ci != ce; ++ci)
+		{
+			if ((unsigned char)*ci < 32) throw strus::runtime_error( "%s", _TXT( "unsupported control character in configuration value"));
+			if (*ci == '"')
+			{
+				if (valueType == DQString) throw strus::runtime_error( "%s", _TXT( "cannot add configuration value with to types of quotes"));
+				valueType = SQString;
+			}
+			else if (*ci == '\'')
+			{
+				if (valueType == SQString) throw strus::runtime_error( "%s", _TXT( "cannot add configuration value with to types of quotes"));
+				valueType = DQString;
+			}
+			else if (*ci == ';' || *ci == ' ')
+			{
+				if (valueType == Identifier) valueType = String;
+			}
+		}
+		switch (valueType)
+		{
+			case Identifier:
+				config.append( value);
+				break;
+			case String:
+			case SQString:
+				config.push_back( '\'');
+				config.append( value);
+				config.push_back( '\'');
+				break;
+			case DQString:
+				config.push_back( '"');
+				config.append( value);
+				config.push_back( '"');
+				break;
+		}
+		return true;
+	}
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error adding value for key '%s' to configuration string: %s"), key.c_str(), *errorhnd, false);
+}
 

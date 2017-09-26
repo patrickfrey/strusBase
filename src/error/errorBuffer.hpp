@@ -26,8 +26,8 @@ public:
 	ProcessErrorBuffer();
 	~ProcessErrorBuffer(){}
 
-	void report( FILE* logfilehandle, const char* format, va_list arg) const;
-	void explain( FILE* logfilehandle, const char* format) const;
+	void report( FILE* logfilehandle, const char* format, va_list arg);
+	void explain( FILE* logfilehandle, const char* format);
 
 	const char* fetchError()
 	{
@@ -44,8 +44,8 @@ public:
 private:
 	enum {ObjSize=512};
 	enum {MsgBufSize=(ObjSize-sizeof(bool))};
-	mutable char m_msgbuf[ MsgBufSize];
-	mutable bool m_hasmsg;
+	char m_msgbuf[ MsgBufSize];
+	bool m_hasmsg;
 };
 
 
@@ -63,9 +63,9 @@ public:
 
 	virtual bool setMaxNofThreads( unsigned int maxNofThreads);
 
-	virtual void report( const char* format, ...) const;
+	virtual void report( const char* format, ...);
 
-	virtual void explain( const char* format) const;
+	virtual void explain( const char* format);
 
 	virtual const char* fetchError();
 
@@ -94,8 +94,8 @@ private:
 		Flag flag;
 	};
 
-	mutable Slot* m_slots;
-	mutable ProcessErrorBuffer* m_ar;
+	Slot* m_slots;
+	ProcessErrorBuffer* m_ar;
 };
 
 }//namespace

@@ -12,7 +12,7 @@ case $OS in
 			-DLIB_INSTALL_DIR=lib -DCMAKE_CXX_FLAGS=-g \
 			..
 		make VERBOSE=1
-		make VERBOSE=1 test
+		make VERBOSE=1 CTEST_OUTPUT_ON_FAILURE=1 test
 		sudo make VERBOSE=1 install
 		cd ..
 		;;
@@ -33,7 +33,7 @@ case $OS in
 				-DCMAKE_CXX_FLAGS=-g -G 'Unix Makefiles' \
 				..
 			make VERBOSE=1
-			make VERBOSE=1 test
+			make VERBOSE=1 CTEST_OUTPUT_ON_FAILURE=1 test
 			sudo make VERBOSE=1 install
 			cd ..
 		else
@@ -45,7 +45,7 @@ case $OS in
 			cd build
 			cmake \
 				-DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release \
-				-DCMAKE_CXX_FLAGS=-g -G Xcode \
+				-DCMAKE_CXX_FLAGS='-g -Wno-error=format-nonliteral -Wno-error=format-security' -G Xcode \
 				..
 			xcodebuild -configuration Release -target ALL_BUILD
 			xcodebuild -configuration Release -target RUN_TESTS

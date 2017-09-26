@@ -9,6 +9,8 @@
 #ifndef _STRUS_CONFIG_PARSER_HPP_INCLUDED
 #define _STRUS_CONFIG_PARSER_HPP_INCLUDED
 #include <string>
+#include <vector>
+#include <utility>
 
 namespace strus {
 
@@ -20,6 +22,9 @@ bool extractBooleanFromConfigString( bool& val, std::string& config, const char*
 bool extractUIntFromConfigString( unsigned int& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd);
 bool extractFloatFromConfigString( double& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd);
 void removeKeysFromConfigString( std::string& config, const char** keys, ErrorBufferInterface* errorhnd);
+
+bool addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd);
+std::vector<std::pair<std::string,std::string> > getConfigStringItems( const std::string& config, ErrorBufferInterface* errorhnd);
 
 }//namespace
 #endif

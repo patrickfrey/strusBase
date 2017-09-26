@@ -159,10 +159,10 @@ Requires: libboost_date_time1_54_0 >= 1.54.0
 BuildRequires: boost-devel
 %endif
 %if %{osufactory}
-Requires: libboost_thread1_62_0 >= 1.62.0
-Requires: libboost_atomic1_62_0 >= 1.62.0
-Requires: libboost_system1_62_0 >= 1.62.0
-Requires: libboost_date_time1_62_0 >= 1.62.0
+Requires: libboost_thread1_63_0 >= 1.63.0
+Requires: libboost_atomic1_63_0 >= 1.63.0
+Requires: libboost_system1_63_0 >= 1.63.0
+Requires: libboost_date_time1_63_0 >= 1.63.0
 BuildRequires: boost-devel
 %endif
 %endif
@@ -245,6 +245,16 @@ make test
 
 
 %changelog
+* Mon Sep 4 2017 Patrick Frey <patrickpfrey@yahoo.com> 0.15.1-0.1
+- release to cleanup mess with missing CHANGELOG in 0.15.0
+
+* Sun Sep 3 2017 Patrick Frey <patrickpfrey@yahoo.com> 0.15.0-0.1
+- fix format string qualifiers for printf like functions and add check format string attributes for gcc
+- CMake build fixes
+- change integer types in Numeric Variant to 64 bit
+- remove hardcoded setting of C++98 in CMake files
+- remove some wrong const qualifiers in ErrorBuffer interface
+
 * Wed Feb 15 2017 Patrick Frey <patrickpfrey@yahoo.com> 0.14.0-0.1
 - increment version synchronously to strus core
 

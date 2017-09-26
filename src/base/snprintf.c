@@ -5,7 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-///\brief Simple implementation of snprintf only supporing a small subset of format characters that is guaranteed not to use malloc
+/* \brief Simple implementation of snprintf only supporing a small subset of format characters that is guaranteed not to use malloc
+*/
 #include "strus/base/snprintf.h"
 #include <math.h>
 
@@ -52,8 +53,10 @@ static void printfloat( char** bi, char* be, double num, unsigned int precision)
 	}
 	for (; *bi < be && precision > 0; ++*bi,--precision)
 	{
+		double trfl;
+
 		tr = tr * 10;
-		double trfl = floor(tr);
+		trfl = floor(tr);
 		tr -= trfl;
 		**bi = (char)(unsigned char)(unsigned int)(trfl) + '0';
 	}
@@ -61,10 +64,8 @@ static void printfloat( char** bi, char* be, double num, unsigned int precision)
 
 void strus_vsnprintf( char* bi, size_t bufsize, const char* format, va_list ap)
 {
-	if (bufsize == 0) return;
-	char* be = bi + bufsize-1;
-	char const* fi = format;
-
+	char* be;
+	char const* fi;
 	union
 	{
 		char* s;
@@ -73,6 +74,10 @@ void strus_vsnprintf( char* bi, size_t bufsize, const char* format, va_list ap)
 		char c;
 		double f;
 	} val;
+
+	if (bufsize == 0) return;
+	be = bi + bufsize-1;
+	fi = format;
 
 	for (; *fi && bi < be; ++fi)
 	{
@@ -92,13 +97,14 @@ void strus_vsnprintf( char* bi, size_t bufsize, const char* format, va_list ap)
 				}
 				case '.':
 				{
+					unsigned int precision;
 					char const* fibk = fi++;
 					if (*fi < '0' || *fi > '9')
 					{
 						*bi++ = '.';
 						break;
 					}
-					unsigned int precision = atoi(fi);
+					precision = atoi(fi);
 					for (; *fi >= '0' && *fi <= '9'; ++fi){}
 					if (*fi == 'f')
 					{

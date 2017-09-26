@@ -19,14 +19,15 @@
 #include <cstring>
 #include <algorithm>
 #include <functional>
+#include <limits>
 
 using namespace strus;
 
-DLL_PUBLIC unsigned int strus::createDir( const std::string& dirname, bool fail_ifexist)
+DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 {
 	if (0>::mkdir( dirname.c_str(), 0755))
 	{
-		unsigned int ec = errno;
+		int ec = errno;
 		if (!fail_ifexist && ec == EEXIST && isDir(dirname.c_str()))
 		{
 			ec = 0;
@@ -36,11 +37,20 @@ DLL_PUBLIC unsigned int strus::createDir( const std::string& dirname, bool fail_
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
+DLL_PUBLIC int strus::changeDir( const std::string& dirname)
+{
+	if (0>::chdir( dirname.c_str()))
+	{
+		return errno;
+	}
+	return 0;
+}
+
+DLL_PUBLIC int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
 {
 	if (0>::remove( filename.c_str()))
 	{
-		unsigned int ec = errno;
+		int ec = errno;
 		if (!fail_ifnofexist && ec == ENOENT)
 		{
 			ec = 0;
@@ -50,11 +60,11 @@ DLL_PUBLIC unsigned int strus::removeFile( const std::string& filename, bool fai
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::removeDir( const std::string& dirname, bool fail_ifnofexist)
+DLL_PUBLIC int strus::removeDir( const std::string& dirname, bool fail_ifnofexist)
 {
 	if (0>::rmdir( dirname.c_str()))
 	{
-		unsigned int ec = errno;
+		int ec = errno;
 		if (!fail_ifnofexist && ec == ENOENT)
 		{
 			ec = 0;
@@ -64,7 +74,56 @@ DLL_PUBLIC unsigned int strus::removeDir( const std::string& dirname, bool fail_
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::writeFile( const std::string& filename, const std::string& content)
+static int removeSubDirs_r( const std::string& dirname)
+{
+	std::vector<std::string> dirs;
+	std::vector<std::string> files;
+	int ec = 0;
+
+	ec = readDirSubDirs( dirname, dirs);
+	if (ec) return ec;
+	ec = readDirFiles( dirname, "", files);
+	if (ec) return ec;
+
+	std::vector<std::string>::const_iterator fi = files.begin(), fe = files.end();
+	for (; fi != fe; ++fi)
+	{
+		std::string fullpath = dirname + dirSeparator() + *fi;
+		int s_ec = removeFile( fullpath);
+		if (s_ec) ec = s_ec;
+	}
+	std::vector<std::string>::const_iterator di = dirs.begin(), de = dirs.end();
+	for (; di != de; ++di)
+	{
+		std::string fullpath = dirname + dirSeparator() + *di;
+		int s_ec = removeSubDirs_r( fullpath);
+		if (s_ec == 0)
+		{
+			s_ec = removeDir( fullpath);
+		}
+		if (s_ec) ec = s_ec;
+	}
+	return ec;
+}
+
+DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_ifnofexist)
+{
+	if (isDir( dirname))
+	{
+		int ec = removeSubDirs_r( dirname);
+		if (ec == 0)
+		{
+			ec = removeDir( dirname);
+		}
+		return ec;
+	}
+	else
+	{
+		return removeFile( dirname, fail_ifnofexist);
+	}
+}
+
+DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
 {
 	unsigned char ch;
 	FILE* fh = ::fopen( filename.c_str(), "wb");
@@ -90,7 +149,7 @@ DLL_PUBLIC unsigned int strus::writeFile( const std::string& filename, const std
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::appendFile( const std::string& filename, const std::string& content)
+DLL_PUBLIC int strus::appendFile( const std::string& filename, const std::string& content)
 {
 	unsigned char ch;
 	FILE* fh = ::fopen( filename.c_str(), "a");
@@ -116,9 +175,9 @@ DLL_PUBLIC unsigned int strus::appendFile( const std::string& filename, const st
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::readFileSize( const std::string& filename, std::size_t& size)
+DLL_PUBLIC int strus::readFileSize( const std::string& filename, std::size_t& size)
 {
-	unsigned int ec = 0;
+	int ec = 0;
 	FILE* fh = ::fopen( filename.c_str(), "rb");
 	if (!fh)
 	{
@@ -126,15 +185,16 @@ DLL_PUBLIC unsigned int strus::readFileSize( const std::string& filename, std::s
 	}
 	::fseek( fh, 0L, SEEK_END);
 	long filesize = size = ::ftell( fh);
-	if (filesize < 0)
+	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
 		ec = ::ferror( fh);
+		if (!ec) ec = 21/*EISIDR*/;
 	}
 	::fclose( fh);
 	return ec;
 }
 
-DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::string& res)
+DLL_PUBLIC int strus::readFile( const std::string& filename, std::string& res)
 {
 	FILE* fh = ::fopen( filename.c_str(), "rb");
 	if (!fh)
@@ -142,11 +202,24 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 		return errno;
 	}
 	::fseek( fh, 0L, SEEK_END);
-	std::size_t filesize = ::ftell( fh);
+	long filesize = ::ftell( fh);
+	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
+	{
+		::fclose( fh);
+		return 21/*EISIDR*/;
+	}
 	::fseek( fh, 0L, SEEK_SET);
 	try
 	{
-		res.reserve( res.size() + filesize);
+		try
+		{
+			res.reserve( res.size() + filesize);
+		}
+		catch (const std::bad_alloc&)
+		{
+			::fclose( fh);
+			return 12/*ENOMEM*/;
+		}
 	}
 	catch (const std::bad_alloc&)
 	{
@@ -171,7 +244,7 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 	}
 	if (!feof( fh))
 	{
-		unsigned int ec = ::ferror( fh);
+		int ec = ::ferror( fh);
 		::fclose( fh);
 		return ec;
 	}
@@ -182,7 +255,7 @@ DLL_PUBLIC unsigned int strus::readFile( const std::string& filename, std::strin
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::readStdin( std::string& res)
+DLL_PUBLIC int strus::readStdin( std::string& res)
 {
 	unsigned int nn;
 	enum {bufsize=(1<<12)};
@@ -271,7 +344,7 @@ DLL_PUBLIC bool strus::isTextFile( const std::string& path)
 	return vote > 0;
 }
 
-DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vector<std::string>& res)
+DLL_PUBLIC int strus::readDirSubDirs( const std::string& path, std::vector<std::string>& res)
 {
 	DIR *dir = ::opendir( path.c_str());
 	struct dirent *ent;
@@ -285,6 +358,9 @@ DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vec
 		std::size_t prevsize = res.size();
 		while (!!(ent = ::readdir(dir)))
 		{
+#ifdef __GNUC__
+			if (ent->d_type == DT_LNK) continue; //... do not follow symbolic links
+#endif
 			if (ent->d_name[0] == '.') continue;
 			std::string entry( path + dirSeparator() + ent->d_name);
 			if (isDir( entry))
@@ -293,7 +369,7 @@ DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vec
 			}
 		}
 		std::sort( res.begin()+prevsize, res.end(), std::less<std::string>());
-		unsigned int err = ::closedir(dir);
+		int err = ::closedir(dir);
 		if (err)
 		{
 			return err;
@@ -307,7 +383,7 @@ DLL_PUBLIC unsigned int strus::readDirSubDirs( const std::string& path, std::vec
 	return 0;
 }
 
-DLL_PUBLIC unsigned int strus::readDirFiles( const std::string& path, const std::string& ext, std::vector<std::string>& res)
+DLL_PUBLIC int strus::readDirFiles( const std::string& path, const std::string& ext, std::vector<std::string>& res)
 {
 	DIR *dir = ::opendir( path.c_str());
 	struct dirent *ent;
@@ -343,7 +419,7 @@ DLL_PUBLIC unsigned int strus::readDirFiles( const std::string& path, const std:
 			}
 		}
 		std::sort( res.begin()+prevsize, res.end(), std::less<std::string>());
-		unsigned int err = ::closedir(dir);
+		int err = ::closedir(dir);
 		return err;
 	}
 	catch (const std::bad_alloc&)
@@ -388,12 +464,71 @@ DLL_PUBLIC bool strus::isDir( const std::string& path)
 	return getPathType(path)==PathDir;
 }
 
+DLL_PUBLIC bool strus::isRelativePath( const std::string& path)
+{
+	return !path.empty() && path[0] != STRUS_FILEIO_DIRSEP;
+}
+
 DLL_PUBLIC char strus::dirSeparator()
 {
 	return STRUS_FILEIO_DIRSEP;
 }
 
-DLL_PUBLIC unsigned int strus::getParentPath( const std::string& path, std::string& dest)
+DLL_PUBLIC int strus::getAncestorPath( const std::string& path, int level, std::string& dest)
+{
+	try
+	{
+		char const* pt = path.c_str();
+		std::string pathbuf;
+		if (pt[0] == '.')
+		{
+			char cwd[2048];
+			const char* pwd = ::getcwd(cwd, sizeof(cwd));
+			if (!pwd) return 12/*ENOMEM*/;
+			pathbuf.append( pwd);
+			pathbuf.push_back( strus::dirSeparator());
+			pathbuf.append( pt);
+			pt = pathbuf.c_str();
+		}
+		char const* se = std::strchr( pt, '\0');
+		char const* si = pt;
+		while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+		while (se > si && level)
+		{
+			char const* pi = se;
+			while (pi > si && *(pi-1) != STRUS_FILEIO_DIRSEP) --pi;
+			if (pi == si)
+			{
+				break;
+			}
+			if (se-pi == 1 && pi[0] == '.')
+			{
+				se = pi;
+				while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+				continue;
+			}
+			if (se-pi == 2 && pi[0] == '.' && pi[1] == '.')
+			{
+				se = pi;
+				while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+				level += 1;
+				continue;
+			}
+			se = pi;
+			while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
+			--level;
+		}
+		if (level) return 22/*EINVAL*/;
+		dest = std::string( si, se-si);
+		return 0;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return 12/*ENOMEM*/;
+	}
+}
+
+DLL_PUBLIC int strus::getParentPath( const std::string& path, std::string& dest)
 {
 	const char* ri = path.c_str();
 	char const* re = path.c_str()+path.size();
@@ -410,13 +545,12 @@ DLL_PUBLIC unsigned int strus::getParentPath( const std::string& path, std::stri
 		try
 		{
 			dest.clear();
-			dest.append( ri, re-ri-1);
+			dest.append( ri, re-ri);
 		}
 		catch (const std::bad_alloc&)
 		{
 			return 12/*ENOMEM*/;
 		}
-		dest.clear();
 		return 0;
 	}
 }

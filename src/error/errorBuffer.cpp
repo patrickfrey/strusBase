@@ -25,7 +25,7 @@ ProcessErrorBuffer::ProcessErrorBuffer()
 	m_msgbuf[ 0] = '\0';
 }
 
-void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_list arg) const
+void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_list arg)
 {
 	if (!m_hasmsg)
 	{
@@ -47,7 +47,7 @@ void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_lis
 	}
 }
 
-void ProcessErrorBuffer::explain( FILE* logfilehandle, const char* format) const
+void ProcessErrorBuffer::explain( FILE* logfilehandle, const char* format)
 {
 	char newmsgbuf[ MsgBufSize];
 	if (!m_hasmsg) m_msgbuf[0] = '\0';
@@ -177,7 +177,7 @@ void ErrorBuffer::releaseContext()
 	}
 }
 
-void ErrorBuffer::report( const char* format, ...) const
+void ErrorBuffer::report( const char* format, ...)
 {
 	std::size_t ti = threadidx();
 	va_list ap;
@@ -188,7 +188,7 @@ void ErrorBuffer::report( const char* format, ...) const
 	va_end(ap);
 }
 
-void ErrorBuffer::explain( const char* format) const
+void ErrorBuffer::explain( const char* format)
 {
 	std::size_t ti = threadidx();
 	m_ar[ ti].explain( m_logfilehandle, format);

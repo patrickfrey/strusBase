@@ -28,7 +28,9 @@
 *.out
 *.app
 tests/byteOrder/src/testByteOrder
+tests/crc32/src/testCrc32
 tests/inputStream/src/testInputStream
+tests/numParser/src/testNumParser
 
 # Test data
 tests/inputStream/random.txt
@@ -61,4 +63,6 @@ dist/obs/strusbase-Debian_7.0.dsc
 dist/obs/strusbase-xUbuntu_12.04.dsc
 dist/redhat/strusbase.spec
 
-.travis.yml
+# Suggested build directory
+build
+

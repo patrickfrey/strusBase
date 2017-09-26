@@ -1,12 +1,15 @@
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # --------------------------------------
 # SOURCES AND INCLUDES
 # --------------------------------------
 set( source_files
 	cmdLineOpt.cpp
+	numParser.cpp
 	configParser.cpp
 	fileio.cpp
+	exec.cpp
+	env.cpp
 	inputStream.cpp
 	dataRecordFile.cpp
 	symbolTable.cpp
@@ -19,10 +22,12 @@ set( source_files
 include_directories(
 	"${Boost_INCLUDE_DIRS}"
 	"${Intl_INCLUDE_DIRS}"
-	"${PROJECT_SOURCE_DIR}/include" )
+	"${BASE_INCLUDE_DIRS}"
+)
 link_directories(
 	"${Boost_LIBRARY_DIRS}"
-	"${PROJECT_SOURCE_DIR}/src/utils" )
+	"${UTILS_LIBRARY_DIRS}"
+)
 
 
 # -------------------------------------------
@@ -30,7 +35,7 @@ link_directories(
 # Library with some helper functions used by strus libraries and programs but not part of the public interface
 # -------------------------------------------
 add_library( strus_base SHARED ${source_files} )
-target_link_libraries( strus_base ${Boost_LIBRARIES} strus_private_utils )
+target_link_libraries( strus_base ${Boost_LIBRARIES} strusbase_private_utils )
 set_target_properties(
     strus_base
     PROPERTIES

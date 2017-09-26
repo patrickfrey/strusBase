@@ -9,12 +9,16 @@
 /// \file numericVariant.hpp
 #ifndef _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
 #define _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
+#include "strus/base/stdint.h"
+#ifndef __STDC_FORMAT_MACROS
+#define __STDC_FORMAT_MACROS
+#endif
+#include <inttypes.h>
 #include <cstring>
 #include <stdio.h>
 #include <limits>
 
 namespace strus {
-
 
 /// \class NumericVariant
 /// \brief Atomic type that can hold numeric values of different type
@@ -23,7 +27,7 @@ class NumericVariant
 public:
 	/// \brief Constructor from a signed integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant( int value)
+	NumericVariant( int64_t value)
 	{
 		variant.Int = value;
 		type = Int;
@@ -31,7 +35,7 @@ public:
 
 	/// \brief Constructor from an unsigned integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant( unsigned int value)
+	NumericVariant( uint64_t value)
 	{
 		variant.UInt = value;
 		type = UInt;
@@ -50,7 +54,18 @@ public:
 	{
 		init();
 	}
-
+	static NumericVariant asint( int64_t val)
+	{
+		return NumericVariant( val);
+	}
+	static NumericVariant asuint( uint64_t val)
+	{
+		return NumericVariant( val);
+	}
+	static NumericVariant asdouble( double val)
+	{
+		return NumericVariant( val);
+	}
 	/// \brief Copy constructor 
 	/// \param[in] o numeric variant to copy
 	NumericVariant( const NumericVariant& o)
@@ -76,9 +91,9 @@ public:
 			switch (val.type)
 			{
 				case Null: break;
-				case Int: snprintf( m_buf, sizeof(m_buf), "%d", val.variant.Int); return;
-				case UInt: snprintf( m_buf, sizeof(m_buf), "%u", val.variant.UInt); return;
-				case Float: snprintf( m_buf, sizeof(m_buf), "%.5f", val.variant.Float); return;
+				case Int: snprintf( m_buf, sizeof(m_buf), "%" PRId64, val.variant.Int); return;
+				case UInt: snprintf( m_buf, sizeof(m_buf), "%" PRIu64, val.variant.UInt); return;
+				case Float: snprintf( m_buf, sizeof(m_buf), "%f", val.variant.Float); return;
 			}
 			m_buf[0] = '\0';
 		}
@@ -104,7 +119,7 @@ public:
 			init();
 			return true;
 		}
-		if (*si && *si == '-')
+		if (*si == '-')
 		{
 			sign_ = true;
 			++si;
@@ -114,18 +129,24 @@ public:
 		if (*si == '.')
 		{
 			for (++si; *si >= '0' && *si <= '9'; ++si){}
+			if ((*si|32) == 'e')
+			{
+				++si;
+				if (*si == '-') ++si;
+				for (; *si >= '0' && *si <= '9'; ++si){}
+			}
 			if (*si) return false;
 			sscanf( src, "%lf", &variant.Float);
 			type = Float;
 		}
 		else if (sign_)
 		{
-			sscanf( src, "%d", &variant.Int);
+			sscanf( src, "%" PRId64, &variant.Int);
 			type = Int;
 		}
 		else
 		{
-			sscanf( src, "%u", &variant.UInt);
+			sscanf( src, "%" PRIu64, &variant.UInt);
 			type = UInt;
 		}
 		return true;
@@ -159,26 +180,48 @@ public:
 		return cast<double>();
 	}
 	/// \brief Cast to a signed integer
-	operator int() const
+	operator int64_t() const
 	{
 		return cast<int>();
 	}
 	/// \brief Cast to an unsigned integer
-	operator unsigned int() const
+	operator uint64_t() const
 	{
-		return cast<unsigned int>();
+		return cast<uint64_t>();
 	}
 
 	/// \brief Cast to a signed integer
-	int toint() const
+	int64_t toint() const
 	{
-		return cast<int>();
+		if (type == Float)
+		{
+			if (variant.Float < 0.0)
+			{
+				return (int64_t)(variant.Float - 2*std::numeric_limits<double>::epsilon());
+			}
+			else if (variant.Float > 0.0)
+			{
+				return (int64_t)(variant.Float + 2*std::numeric_limits<double>::epsilon());
+			}
+		}
+		return cast<int64_t>();
 	}
 
 	/// \brief Cast to an unsigned integer
-	unsigned int touint() const
+	uint64_t touint() const
 	{
-		return cast<unsigned int>();
+		if (type == Float)
+		{
+			if (variant.Float < 0.0)
+			{
+				return 0;
+			}
+			else if (variant.Float > 0.0)
+			{
+				return (uint64_t)(variant.Float + 2*std::numeric_limits<double>::epsilon());
+			}
+		}
+		return cast<uint64_t>();
 	}
 
 	/// \brief Cast to an unsigned integer
@@ -202,6 +245,38 @@ public:
 		return !isequal(o);
 	}
 
+	/// \brief Test for greater or equal
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator >= (const NumericVariant& o) const
+	{
+		return compare(o) >= 0;
+	}
+
+	/// \brief Test for greater
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator > (const NumericVariant& o) const
+	{
+		return compare(o) > 0;
+	}
+
+	/// \brief Test for smaller or equal
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator <= (const NumericVariant& o) const
+	{
+		return compare(o) <= 0;
+	}
+
+	/// \brief Test for smaller
+	/// \param[in] o numeric variant to compare
+	/// \return true, if yes
+	bool operator < (const NumericVariant& o) const
+	{
+		return compare(o) < 0;
+	}
+
 	/// \brief Test for equality
 	/// \param[in] o numeric variant to compare
 	/// \return true, if yes
@@ -218,16 +293,67 @@ public:
 				{
 					double xx = variant.Float - o.variant.Float;
 					if (xx < 0) xx = -xx;
-					return xx <= std::numeric_limits<double>::epsilon();
+					return xx <= 2*std::numeric_limits<double>::epsilon();
 				}
 			}
 		}
 		return false;
 	}
 
+	/// \brief Comparison of numbers
+	/// \param[in] o numeric variant to compare
+	/// \return -1 <, +1 >, 0 =
+	int compare( const NumericVariant& o) const
+	{
+		switch (type)
+		{
+			case Null: return o.defined() ? -1:0;
+			case Int: 
+			{
+				int64_t vv = o.toint();
+				if (variant.Int < vv)
+				{
+					return -1;
+				}
+				else if (variant.Int > vv)
+				{
+					return +1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			case UInt:
+			{
+				uint64_t vv = o.touint();
+				if (variant.UInt < vv)
+				{
+					return -1;
+				}
+				else if (variant.UInt > vv)
+				{
+					return +1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			case Float:
+			{
+				double vv = o.tofloat();
+				double xx = variant.Float - vv;
+				double xxabs = (xx > 0.0) ? xx:-xx;
+				if (xxabs <= 2*std::numeric_limits<double>::epsilon()) return 0;
+				return xx < vv ? -1:+1;
+			}
+		}
+	}
+
 	/// \brief Assignment operator for a singed integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant& operator=( int value)
+	NumericVariant& operator=( int64_t value)
 	{
 		variant.Int = value;
 		type = Int;
@@ -236,7 +362,7 @@ public:
 
 	/// \brief Assignment operator for an unsinged integer
 	/// \param[in] value value to assign to this numeric variant
-	NumericVariant& operator=( unsigned int value)
+	NumericVariant& operator=( uint64_t value)
 	{
 		variant.UInt = value;
 		type = UInt;
@@ -267,11 +393,15 @@ public:
 		UInt,		///< unsigned integer number value
 		Float		///< floating point number value
 	};
+	typedef int64_t IntType;
+	typedef uint64_t UIntType;
+	typedef double FloatType;
+
 	Type type;				///< Type of this numeric variant
 	union
 	{
-		int Int;			///< value in case of a signed integer
-		unsigned int UInt;		///< value in case of an unsigned integer
+		int64_t Int;			///< value in case of a signed integer
+		uint64_t UInt;			///< value in case of an unsigned integer
 		double Float;			///< value in case of a floating point number
 	} variant;				///< Value of this numeric variant
 };
