@@ -18,6 +18,8 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="All"><param name="Local" value="namespacemembers.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Functions"><param name="Local" value="namespacemembers_func.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Typedefs"><param name="Local" value="namespacemembers_type.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Enumerations"><param name="Local" value="namespacemembers_enum.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Enumerator"><param name="Local" value="namespacemembers_eval.html"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
   </UL>
 <LI><OBJECT type="text/sitemap"><param name="Name" value="Classes"><param name="ImageNumber" value="1"></OBJECT>
@@ -138,6 +140,23 @@
         <LI><OBJECT type="text/sitemap"><param name="Name" value="readAhead"><param name="Local" value="classstrus_1_1InputStream.html#aee61449c7a2cf14b9ac073afcf2ae842"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="readLine"><param name="Local" value="classstrus_1_1InputStream.html#a7939ee52ee8f8519438df45ab4b21a43"><param name="ImageNumber" value="11"></OBJECT>
         </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="local_ptr"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="local_ptr"><param name="Local" value="classstrus_1_1local__ptr.html#affeef522247b0e5c1a6218c14295309a"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="LocalErrorBuffer"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="LocalErrorBuffer"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="~LocalErrorBuffer"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="allocContext"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="explain"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="fetchError"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="hasError"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="releaseContext"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="report"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#ac36a21531397bb878f3894501245615b"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="setLogFile"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="setMaxNofThreads"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SymbolTable"><param name="ImageNumber" value="1"></OBJECT>
         <UL>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="const_inv_iterator"><param name="Local" value="classstrus_1_1SymbolTable.html#aeb588cfd0d3f9f27e9992f82fedc33d5"><param name="ImageNumber" value="11"></OBJECT>
@@ -166,11 +185,11 @@
           </UL>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="~ErrorBufferInterface"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a179685b7ebca04a80bc8d7272e251db0"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="allocContext"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af16f01818299a300cd5fe54044da14d8"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="explain"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#aee6e4acdf60b4dfd39eda0d3c2381c40"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="explain"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af8b1a05ad0043444e877422fb640c681"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="fetchError"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af82a197b034599ed5bbae15dc3e85316"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="hasError"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a9da47cd71f02eb7e6b3f669e6958296e"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="releaseContext"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a9f93b3a9b13205b4231779f38e81fb38"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="report"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a17e56142ac5f03813409ccdabe733089"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="report"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#ad05c2c990efdb794b93526c9e2e40d94"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="setLogFile"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a69b4a542d5ced4f2ff428be3565e34af"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="setMaxNofThreads"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#ac3568d8a160bfea99a73e20d450f1dd7"><param name="ImageNumber" value="11"></OBJECT>
         </UL>
@@ -183,6 +202,9 @@
           <LI><OBJECT type="text/sitemap"><param name="Name" value="c_str"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#acb911271265404fb85c3b440afe06200"><param name="ImageNumber" value="11"></OBJECT>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="operator const char *"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#a3af5452fe34711f08d6c9e29917119fe"><param name="ImageNumber" value="11"></OBJECT>
           </UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="FloatType"><param name="Local" value="classstrus_1_1NumericVariant.html#a6e590022188e3027ef4de9a2a43baacb"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="IntType"><param name="Local" value="classstrus_1_1NumericVariant.html#ad6c5bd60236403572e675d7f73c0ad02"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="UIntType"><param name="Local" value="classstrus_1_1NumericVariant.html#a6a9e353036ccb8aa3551795003816224"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="Type"><param name="ImageNumber" value="1"></OBJECT>
           <UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="Null"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfda5c7f320463dcd6ac8b812646c57c2401"><param name="ImageNumber" value="11"></OBJECT>
@@ -190,34 +212,42 @@
           <LI><OBJECT type="text/sitemap"><param name="Name" value="UInt"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfdafe4fae6b73e6b0c006fc35513a38d149"><param name="ImageNumber" value="11"></OBJECT>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="Float"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfda01938a0ee2fe52269fe9976958c72d24"><param name="ImageNumber" value="11"></OBJECT>
           </UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a5bfa514332b1c9d48fbb04faa942b0ac"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#ab506d801badc464fa59f96e27fa98ca1"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#aa84aa51fdb07fbc17a68ec960fb4fd23"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a5251528c6a7cc42f34411fcdf03325a8"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#af7724158912f6388668c1c857c8df328"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a20755d407161449920e2acc1a77f46ce"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a344aee057dcc0ee2a38564e44cd26626"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="asdouble"><param name="Local" value="classstrus_1_1NumericVariant.html#aab46bfc9cd37b8c55415e5d19526ec48"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="asint"><param name="Local" value="classstrus_1_1NumericVariant.html#af13b720428bf8bdbd821b41732c43892"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="asuint"><param name="Local" value="classstrus_1_1NumericVariant.html#a132ea9189e946e8ae236062b90d6efb9"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="cast"><param name="Local" value="classstrus_1_1NumericVariant.html#aa6a639eb995a0160180d7ae357abb9ee"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="compare"><param name="Local" value="classstrus_1_1NumericVariant.html#a30e8f1ff67c7a72b362a5c38c00d7fad"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="defined"><param name="Local" value="classstrus_1_1NumericVariant.html#a29034ba561e774e48701a5c5ce2975a9"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="init"><param name="Local" value="classstrus_1_1NumericVariant.html#a01696a8760ed9ffb9865d2254677d69c"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="initFromString"><param name="Local" value="classstrus_1_1NumericVariant.html#aacc8a768c569a58a4813a8c3bd59c0bf"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="isequal"><param name="Local" value="classstrus_1_1NumericVariant.html#ad227424a3e4f07e7414823d6ca569a6a"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="operator double"><param name="Local" value="classstrus_1_1NumericVariant.html#a92d6ba1bbf2ec8044cf3725a941c904b"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator int"><param name="Local" value="classstrus_1_1NumericVariant.html#a9b2683fb65c996fca7b08e4c3ffb99c6"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator unsigned int"><param name="Local" value="classstrus_1_1NumericVariant.html#ad6733c69e6bae2602dc135aff11d3bd7"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator int64_t"><param name="Local" value="classstrus_1_1NumericVariant.html#aaaba3e52139c71993e451059ff58d589"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator uint64_t"><param name="Local" value="classstrus_1_1NumericVariant.html#a23a44faa13b6bb5b1c1b8a03937d81e5"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="operator!="><param name="Local" value="classstrus_1_1NumericVariant.html#aa41cd38bb157f521a939c972ec52a740"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#a7f7f3b35773e48c1db61f0ab4ae19264"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#ac6fec3550b3d9e8263e9371add73a68f"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator<"><param name="Local" value="classstrus_1_1NumericVariant.html#a90ba12748c371dca6a02e5354e1f9ef0"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator<="><param name="Local" value="classstrus_1_1NumericVariant.html#ae6ad0f41603d363ab8d097d6b4c0888e"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#a8aa9343595e519580da20abbb933ba74"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#ae7de6b13b3d7b7a6c607e55512034ddf"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#ac422279e1dfd79511f0faee0e59cd0b4"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#acb3cda79aea9988d121dec558be53c67"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="operator=="><param name="Local" value="classstrus_1_1NumericVariant.html#a3d59bb0fda87040441082d2852da9b6b"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator>"><param name="Local" value="classstrus_1_1NumericVariant.html#a61fde33d6c21db5e3e4ce0fd9c33e0fb"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="operator>="><param name="Local" value="classstrus_1_1NumericVariant.html#aefebacf7dae6b41b47155aaa1f2401d8"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="tofloat"><param name="Local" value="classstrus_1_1NumericVariant.html#a427f9a7c8eabae8aefeec94643c93190"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="toint"><param name="Local" value="classstrus_1_1NumericVariant.html#aaf733c4b00eda7d5c8a0760e6a147d5b"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="toint"><param name="Local" value="classstrus_1_1NumericVariant.html#a65568d4d6215aff847441ba757b4e643"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="tostring"><param name="Local" value="classstrus_1_1NumericVariant.html#a1ee15ec4e47270e58e97f4165e4c5bd9"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="touint"><param name="Local" value="classstrus_1_1NumericVariant.html#a09c7ba31c78c5002f30e1b0755ae5bdf"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="touint"><param name="Local" value="classstrus_1_1NumericVariant.html#a3ec6b3600642fda0e372dfbe9afdac6f"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="Float"><param name="Local" value="classstrus_1_1NumericVariant.html#a338c42e5fe004195dd7ee6b59fd791e4"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="Int"><param name="Local" value="classstrus_1_1NumericVariant.html#abdd35d087b70ab1d23a29340ebd2a0d4"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Int"><param name="Local" value="classstrus_1_1NumericVariant.html#a5bf1b41ba205914557990457a9af8b60"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="type"><param name="Local" value="classstrus_1_1NumericVariant.html#a7bc984fb0512d827a73a905677ea5ebd"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="UInt"><param name="Local" value="classstrus_1_1NumericVariant.html#a4402101f8c60374d29827b5f29589338"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="variant"><param name="Local" value="classstrus_1_1NumericVariant.html#a1aac244bcc4f50a55bea51635a9f4e11"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="UInt"><param name="Local" value="classstrus_1_1NumericVariant.html#a04aa18123a0ab8f4019e007936dd18a2"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="variant"><param name="Local" value="classstrus_1_1NumericVariant.html#a0a5e73dd4ceaed105ee072e87461d79b"><param name="ImageNumber" value="11"></OBJECT>
         </UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Reference"><param name="ImageNumber" value="1"></OBJECT>
         <UL>
@@ -239,6 +269,36 @@
       </UL>
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="Class Index"><param name="Local" value="classes.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Class Hierarchy"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="auto_ptr"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::local_ptr< T >"><param name="Local" value="classstrus_1_1local__ptr.html"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::BitOperations"><param name="Local" value="structstrus_1_1BitOperations.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< Scalar >"><param name="Local" value="classstrus_1_1ByteOrder.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< double >"><param name="Local" value="classstrus_1_1ByteOrder_3_01double_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< float >"><param name="Local" value="classstrus_1_1ByteOrder_3_01float_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< int16_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01int16__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< int32_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01int32__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< int64_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01int64__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< int8_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01int8__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< uint16_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01uint16__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< uint32_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01uint32__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< uint64_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01uint64__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ByteOrder< uint8_t >"><param name="Local" value="classstrus_1_1ByteOrder_3_01uint8__t_01_4.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::utils::Crc32"><param name="Local" value="classstrus_1_1utils_1_1Crc32.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::DataRecordFile"><param name="Local" value="classstrus_1_1DataRecordFile.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::ErrorBufferInterface"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::LocalErrorBuffer"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::InputStream"><param name="Local" value="classstrus_1_1InputStream.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::Reference< Object >"><param name="Local" value="classstrus_1_1Reference.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::NumericVariant::String"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="strus::SymbolTable"><param name="Local" value="classstrus_1_1SymbolTable.html"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="Class Members"><param name="ImageNumber" value="1"></OBJECT>
     <UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="All"><param name="Local" value="functions.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -279,10 +339,12 @@
             </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="configParser.hpp"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="addConfigStringItem"><param name="Local" value="configParser_8hpp.html#aa36e082800ba52a9b7e97c95519fd14a"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="extractBooleanFromConfigString"><param name="Local" value="configParser_8hpp.html#aa2fc7d28dca1bd0fa3af93713893f6a7"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="extractFloatFromConfigString"><param name="Local" value="configParser_8hpp.html#ae2426cc1ce17218a383827754de661bb"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="extractStringFromConfigString"><param name="Local" value="configParser_8hpp.html#acde3f4d202bbae85464e80ff9d9a3f11"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="extractUIntFromConfigString"><param name="Local" value="configParser_8hpp.html#ac5d6f29908da07c23ea8f36d3677cad4"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="getConfigStringItems"><param name="Local" value="configParser_8hpp.html#a01f7f751110ae8b438fb6d60c290731d"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="removeKeysFromConfigString"><param name="Local" value="configParser_8hpp.html#ab68012f8c5bd1d608424ba38178654d5"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="crc32.hpp"><param name="Local" value="crc32_8hpp.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -321,23 +383,38 @@
             <LI><OBJECT type="text/sitemap"><param name="Name" value="DLL_LOCAL"><param name="Local" value="dll__tags_8hpp.html#aca98bf98711e4a9d473c86d0015d9303"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="DLL_PUBLIC"><param name="Local" value="dll__tags_8hpp.html#a29047de4dfe891435d8254535634ac1d"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="env.hpp"><param name="ImageNumber" value="1"></OBJECT>
+            <UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="getenv"><param name="Local" value="env_8hpp.html#a4199ec42977d810a9b44db1150452816"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="getenv_list"><param name="Local" value="env_8hpp.html#aa3a89c89aeb226e2a7bc2ef9fe237848"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="separatorPathList"><param name="Local" value="env_8hpp.html#aade700bac5de17da96c6cabcb407445f"><param name="ImageNumber" value="11"></OBJECT>
+            </UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="exec.hpp"><param name="ImageNumber" value="1"></OBJECT>
+            <UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="execv_tostring"><param name="Local" value="exec_8hpp.html#a95f3d77decb21ce3feb5d0e5602c6a16"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="execve_tostring"><param name="Local" value="exec_8hpp.html#aad33b280e8d5b1a5124186b883abf9f5"><param name="ImageNumber" value="11"></OBJECT>
+            </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="fileio.hpp"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="appendFile"><param name="Local" value="fileio_8hpp.html#ad936d184533957651b86291b22a7cf6a"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="createDir"><param name="Local" value="fileio_8hpp.html#a41d91b146bbf5e71e6f66bbc3e575ed7"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="appendFile"><param name="Local" value="fileio_8hpp.html#a1be874db107a5d0860d7bc8cc0080b29"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="changeDir"><param name="Local" value="fileio_8hpp.html#abc9c517c719204c8091a32840e2e2c78"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="createDir"><param name="Local" value="fileio_8hpp.html#a7f7a44db49fbeca1053759754bee4353"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="dirSeparator"><param name="Local" value="fileio_8hpp.html#a5b3ce343266d03ac6d653667193d5ecc"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="getParentPath"><param name="Local" value="fileio_8hpp.html#ac9879ad1a2c6ed95f4e68461bc8b2283"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="getAncestorPath"><param name="Local" value="fileio_8hpp.html#ab0fc7dfc269740cc3b2df2ff2034fb12"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="getParentPath"><param name="Local" value="fileio_8hpp.html#ad706e795e176cbc2562644afb1fd348e"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="isDir"><param name="Local" value="fileio_8hpp.html#a91d5994cb49688ec0f8279b96cbefeb4"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="isFile"><param name="Local" value="fileio_8hpp.html#ab4e61267f08f6af3cbd3daf5f5c699f8"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="isRelativePath"><param name="Local" value="fileio_8hpp.html#a5c1496481176e6102994dfb397252d05"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="isTextFile"><param name="Local" value="fileio_8hpp.html#aefc5595861905e3ba4129127a7048bd3"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="readDirFiles"><param name="Local" value="fileio_8hpp.html#a05497adafee5ab32862d21220f7c92ee"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="readDirSubDirs"><param name="Local" value="fileio_8hpp.html#a849aabf03abdb5013b95e02ffe25b8b5"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="readFile"><param name="Local" value="fileio_8hpp.html#ad939966e67a85fe6bdc8640051ec310a"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="readFileSize"><param name="Local" value="fileio_8hpp.html#ae4eb90fcff0dbadb15ae9ea915bd5d31"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="readStdin"><param name="Local" value="fileio_8hpp.html#a51dd6e92f96b33bc80348977182aede7"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="removeDir"><param name="Local" value="fileio_8hpp.html#afd924a4ebcbd52167ff8245695ff1e9f"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="removeFile"><param name="Local" value="fileio_8hpp.html#acf8b912364ea9b04a46deab3c6dbe86a"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="writeFile"><param name="Local" value="fileio_8hpp.html#afd40b01315d08143aaccf358c3252ffe"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="readDirFiles"><param name="Local" value="fileio_8hpp.html#a01fffea4361bf22ba1226e86cf212463"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="readDirSubDirs"><param name="Local" value="fileio_8hpp.html#ab83828c33e53292246cb812f85737242"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="readFile"><param name="Local" value="fileio_8hpp.html#a38382929ce842461eecafbe50ff434d3"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="readFileSize"><param name="Local" value="fileio_8hpp.html#a14a7ba28a2834e8c263d1a7db2ff5a37"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="readStdin"><param name="Local" value="fileio_8hpp.html#a8a70904cffd08bc8f5a41ba5df293742"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="removeDir"><param name="Local" value="fileio_8hpp.html#a27ba09c2e9f7073a81650f9283085538"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="removeDirRecursive"><param name="Local" value="fileio_8hpp.html#a8b83da7fdf33c37005a45af23c7f7ed0"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="removeFile"><param name="Local" value="fileio_8hpp.html#a2020d18e377b9846ce293b419a91200c"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="writeFile"><param name="Local" value="fileio_8hpp.html#a960ed3efc794202e5ed214f6be7d224e"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="hton.hpp"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
@@ -420,6 +497,45 @@
               <LI><OBJECT type="text/sitemap"><param name="Name" value="readLine"><param name="Local" value="classstrus_1_1InputStream.html#a7939ee52ee8f8519438df45ab4b21a43"><param name="ImageNumber" value="11"></OBJECT>
               </UL>
             </UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="local_ptr.hpp"><param name="Local" value="local__ptr_8hpp.html"><param name="ImageNumber" value="11"></OBJECT>
+            <UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="local_ptr"><param name="ImageNumber" value="1"></OBJECT>
+              <UL>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="local_ptr"><param name="Local" value="classstrus_1_1local__ptr.html#affeef522247b0e5c1a6218c14295309a"><param name="ImageNumber" value="11"></OBJECT>
+              </UL>
+            </UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="localErrorBuffer.hpp"><param name="Local" value="localErrorBuffer_8hpp.html"><param name="ImageNumber" value="11"></OBJECT>
+            <UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="LocalErrorBuffer"><param name="ImageNumber" value="1"></OBJECT>
+              <UL>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="LocalErrorBuffer"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="~LocalErrorBuffer"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="allocContext"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="explain"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="fetchError"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="hasError"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="releaseContext"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="report"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#ac36a21531397bb878f3894501245615b"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="setLogFile"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="setMaxNofThreads"><param name="Local" value="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251"><param name="ImageNumber" value="11"></OBJECT>
+              </UL>
+            </UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="numParser.hpp"><param name="ImageNumber" value="1"></OBJECT>
+            <UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="NumParseError"><param name="ImageNumber" value="1"></OBJECT>
+              <UL>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="NumParserOk"><param name="Local" value="numParser_8hpp.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5a8afddc8a58a652da55339bd0774b42b6"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="NumParserErrNoMem"><param name="Local" value="numParser_8hpp.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5ae137f1a3ab3053f293159dc6597e4bfb"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="NumParserErrConversion"><param name="Local" value="numParser_8hpp.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5aed8ed5c560ba343db66a007e0e39669d"><param name="ImageNumber" value="11"></OBJECT>
+              <LI><OBJECT type="text/sitemap"><param name="Name" value="NumParserErrOutOfRange"><param name="Local" value="numParser_8hpp.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5a583e4903c6f0ce83e5200431d77171f8"><param name="ImageNumber" value="11"></OBJECT>
+              </UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="doubleFromString"><param name="Local" value="numParser_8hpp.html#a1ed2d349d4e66d35d546fa8995b76f48"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="doubleFromString"><param name="Local" value="numParser_8hpp.html#a3777c16b524f1b976d954f46b5b6e68f"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="intFromString"><param name="Local" value="numParser_8hpp.html#ae009ac1cf3e988b10f4553b5e61ea936"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="intFromString"><param name="Local" value="numParser_8hpp.html#aa645938c7fbfcd512ea5a3b1077ff52f"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="uintFromString"><param name="Local" value="numParser_8hpp.html#adad91e67687009bb27cdb5fa26527085"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="uintFromString"><param name="Local" value="numParser_8hpp.html#a319c6967e73e4c7e61cc310cf877bd57"><param name="ImageNumber" value="11"></OBJECT>
+            </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="snprintf.h"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="strus_snprintf"><param name="Local" value="snprintf_8h.html#affdae85c911410756476b14854917649"><param name="ImageNumber" value="11"></OBJECT>
@@ -500,16 +616,16 @@
               </UL>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="~ErrorBufferInterface"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a179685b7ebca04a80bc8d7272e251db0"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="allocContext"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af16f01818299a300cd5fe54044da14d8"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="explain"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#aee6e4acdf60b4dfd39eda0d3c2381c40"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="explain"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af8b1a05ad0043444e877422fb640c681"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="fetchError"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af82a197b034599ed5bbae15dc3e85316"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="hasError"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a9da47cd71f02eb7e6b3f669e6958296e"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="releaseContext"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a9f93b3a9b13205b4231779f38e81fb38"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="report"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a17e56142ac5f03813409ccdabe733089"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="report"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#ad05c2c990efdb794b93526c9e2e40d94"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="setLogFile"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#a69b4a542d5ced4f2ff428be3565e34af"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="setMaxNofThreads"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#ac3568d8a160bfea99a73e20d450f1dd7"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
           </UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="numericVariant.hpp"><param name="Local" value="numericVariant_8hpp.html"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="numericVariant.hpp"><param name="ImageNumber" value="1"></OBJECT>
           <UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
@@ -520,6 +636,9 @@
               <LI><OBJECT type="text/sitemap"><param name="Name" value="c_str"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#acb911271265404fb85c3b440afe06200"><param name="ImageNumber" value="11"></OBJECT>
               <LI><OBJECT type="text/sitemap"><param name="Name" value="operator const char *"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#a3af5452fe34711f08d6c9e29917119fe"><param name="ImageNumber" value="11"></OBJECT>
               </UL>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="FloatType"><param name="Local" value="classstrus_1_1NumericVariant.html#a6e590022188e3027ef4de9a2a43baacb"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="IntType"><param name="Local" value="classstrus_1_1NumericVariant.html#ad6c5bd60236403572e675d7f73c0ad02"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="UIntType"><param name="Local" value="classstrus_1_1NumericVariant.html#a6a9e353036ccb8aa3551795003816224"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="Type"><param name="ImageNumber" value="1"></OBJECT>
               <UL>
               <LI><OBJECT type="text/sitemap"><param name="Name" value="Null"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfda5c7f320463dcd6ac8b812646c57c2401"><param name="ImageNumber" value="11"></OBJECT>
@@ -527,34 +646,42 @@
               <LI><OBJECT type="text/sitemap"><param name="Name" value="UInt"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfdafe4fae6b73e6b0c006fc35513a38d149"><param name="ImageNumber" value="11"></OBJECT>
               <LI><OBJECT type="text/sitemap"><param name="Name" value="Float"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfda01938a0ee2fe52269fe9976958c72d24"><param name="ImageNumber" value="11"></OBJECT>
               </UL>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a5bfa514332b1c9d48fbb04faa942b0ac"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#ab506d801badc464fa59f96e27fa98ca1"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#aa84aa51fdb07fbc17a68ec960fb4fd23"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a5251528c6a7cc42f34411fcdf03325a8"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#af7724158912f6388668c1c857c8df328"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a20755d407161449920e2acc1a77f46ce"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="NumericVariant"><param name="Local" value="classstrus_1_1NumericVariant.html#a344aee057dcc0ee2a38564e44cd26626"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="asdouble"><param name="Local" value="classstrus_1_1NumericVariant.html#aab46bfc9cd37b8c55415e5d19526ec48"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="asint"><param name="Local" value="classstrus_1_1NumericVariant.html#af13b720428bf8bdbd821b41732c43892"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="asuint"><param name="Local" value="classstrus_1_1NumericVariant.html#a132ea9189e946e8ae236062b90d6efb9"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="cast"><param name="Local" value="classstrus_1_1NumericVariant.html#aa6a639eb995a0160180d7ae357abb9ee"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="compare"><param name="Local" value="classstrus_1_1NumericVariant.html#a30e8f1ff67c7a72b362a5c38c00d7fad"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="defined"><param name="Local" value="classstrus_1_1NumericVariant.html#a29034ba561e774e48701a5c5ce2975a9"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="init"><param name="Local" value="classstrus_1_1NumericVariant.html#a01696a8760ed9ffb9865d2254677d69c"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="initFromString"><param name="Local" value="classstrus_1_1NumericVariant.html#aacc8a768c569a58a4813a8c3bd59c0bf"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="isequal"><param name="Local" value="classstrus_1_1NumericVariant.html#ad227424a3e4f07e7414823d6ca569a6a"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="operator double"><param name="Local" value="classstrus_1_1NumericVariant.html#a92d6ba1bbf2ec8044cf3725a941c904b"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator int"><param name="Local" value="classstrus_1_1NumericVariant.html#a9b2683fb65c996fca7b08e4c3ffb99c6"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator unsigned int"><param name="Local" value="classstrus_1_1NumericVariant.html#ad6733c69e6bae2602dc135aff11d3bd7"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator int64_t"><param name="Local" value="classstrus_1_1NumericVariant.html#aaaba3e52139c71993e451059ff58d589"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator uint64_t"><param name="Local" value="classstrus_1_1NumericVariant.html#a23a44faa13b6bb5b1c1b8a03937d81e5"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="operator!="><param name="Local" value="classstrus_1_1NumericVariant.html#aa41cd38bb157f521a939c972ec52a740"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#a7f7f3b35773e48c1db61f0ab4ae19264"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#ac6fec3550b3d9e8263e9371add73a68f"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator<"><param name="Local" value="classstrus_1_1NumericVariant.html#a90ba12748c371dca6a02e5354e1f9ef0"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator<="><param name="Local" value="classstrus_1_1NumericVariant.html#ae6ad0f41603d363ab8d097d6b4c0888e"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#a8aa9343595e519580da20abbb933ba74"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#ae7de6b13b3d7b7a6c607e55512034ddf"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#ac422279e1dfd79511f0faee0e59cd0b4"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="operator="><param name="Local" value="classstrus_1_1NumericVariant.html#acb3cda79aea9988d121dec558be53c67"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="operator=="><param name="Local" value="classstrus_1_1NumericVariant.html#a3d59bb0fda87040441082d2852da9b6b"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator>"><param name="Local" value="classstrus_1_1NumericVariant.html#a61fde33d6c21db5e3e4ce0fd9c33e0fb"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="operator>="><param name="Local" value="classstrus_1_1NumericVariant.html#aefebacf7dae6b41b47155aaa1f2401d8"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="tofloat"><param name="Local" value="classstrus_1_1NumericVariant.html#a427f9a7c8eabae8aefeec94643c93190"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="toint"><param name="Local" value="classstrus_1_1NumericVariant.html#aaf733c4b00eda7d5c8a0760e6a147d5b"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="toint"><param name="Local" value="classstrus_1_1NumericVariant.html#a65568d4d6215aff847441ba757b4e643"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="tostring"><param name="Local" value="classstrus_1_1NumericVariant.html#a1ee15ec4e47270e58e97f4165e4c5bd9"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="touint"><param name="Local" value="classstrus_1_1NumericVariant.html#a09c7ba31c78c5002f30e1b0755ae5bdf"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="touint"><param name="Local" value="classstrus_1_1NumericVariant.html#a3ec6b3600642fda0e372dfbe9afdac6f"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="Float"><param name="Local" value="classstrus_1_1NumericVariant.html#a338c42e5fe004195dd7ee6b59fd791e4"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="Int"><param name="Local" value="classstrus_1_1NumericVariant.html#abdd35d087b70ab1d23a29340ebd2a0d4"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="Int"><param name="Local" value="classstrus_1_1NumericVariant.html#a5bf1b41ba205914557990457a9af8b60"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="type"><param name="Local" value="classstrus_1_1NumericVariant.html#a7bc984fb0512d827a73a905677ea5ebd"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="UInt"><param name="Local" value="classstrus_1_1NumericVariant.html#a4402101f8c60374d29827b5f29589338"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="variant"><param name="Local" value="classstrus_1_1NumericVariant.html#a1aac244bcc4f50a55bea51635a9f4e11"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="UInt"><param name="Local" value="classstrus_1_1NumericVariant.html#a04aa18123a0ab8f4019e007936dd18a2"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="variant"><param name="Local" value="classstrus_1_1NumericVariant.html#a0a5e73dd4ceaed105ee072e87461d79b"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="String"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
@@ -563,6 +690,7 @@
             <LI><OBJECT type="text/sitemap"><param name="Name" value="c_str"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#acb911271265404fb85c3b440afe06200"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="operator const char *"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#a3af5452fe34711f08d6c9e29917119fe"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="__STDC_FORMAT_MACROS"><param name="Local" value="numericVariant_8hpp.html#aacbb9e1f38be71e22df1584a37c56693"><param name="ImageNumber" value="11"></OBJECT>
           </UL>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="reference.hpp"><param name="Local" value="reference_8hpp.html"><param name="ImageNumber" value="11"></OBJECT>
           <UL>

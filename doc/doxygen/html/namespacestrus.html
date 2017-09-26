@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.14</span>
+   &#160;<span id="projectnumber">0.15</span>
    </div>
   </td>
  </tr>
@@ -56,6 +56,7 @@
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">strus Namespace Reference</div>  </div>
@@ -102,6 +103,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1InputStream.html">InputStream</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstraction of input stream.  <a href="classstrus_1_1InputStream.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1local__ptr.html">local_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1LocalErrorBuffer.html">LocalErrorBuffer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error buffer implementation for a context transforming the error message into an exceptions at the end of its scope.  <a href="classstrus_1_1LocalErrorBuffer.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html">SymbolTable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of strings to indices not freed till end of table life time.  <a href="classstrus_1_1SymbolTable.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,6 +128,15 @@ Typedefs</h2></td></tr>
 <tr class="memitem:abb47bf5ca5da4f242251265979a1c911"><td class="memItemLeft" align="right" valign="top">typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#abb47bf5ca5da4f242251265979a1c911">double_net_t</a></td></tr>
 <tr class="separator:abb47bf5ca5da4f242251265979a1c911"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a2b0d5737f93c1f97a95fa4f7d3c4c4b5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> { <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5a8afddc8a58a652da55339bd0774b42b6">NumParserOk</a> = 0x0, 
+<a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5ae137f1a3ab3053f293159dc6597e4bfb">NumParserErrNoMem</a> = 0x1, 
+<a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5aed8ed5c560ba343db66a007e0e39669d">NumParserErrConversion</a> = 0x2, 
+<a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5a583e4903c6f0ce83e5200431d77171f8">NumParserErrOutOfRange</a> = 0x3
+ }</td></tr>
+<tr class="separator:a2b0d5737f93c1f97a95fa4f7d3c4c4b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a754c08d4232eea36fec87a6f162b71cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a754c08d4232eea36fec87a6f162b71cc">printIndentMultilineString</a> (std::ostream &amp;out, std::size_t indentsize, const char *descr, <a class="el" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a> *errorhnd)</td></tr>
@@ -137,51 +152,95 @@ Functions</h2></td></tr>
 <tr class="separator:ae2426cc1ce17218a383827754de661bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab68012f8c5bd1d608424ba38178654d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab68012f8c5bd1d608424ba38178654d5">removeKeysFromConfigString</a> (std::string &amp;config, const char **keys, <a class="el" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a> *errorhnd)</td></tr>
 <tr class="separator:ab68012f8c5bd1d608424ba38178654d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4eb90fcff0dbadb15ae9ea915bd5d31"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ae4eb90fcff0dbadb15ae9ea915bd5d31">readFileSize</a> (const std::string &amp;filename, std::size_t &amp;size)</td></tr>
-<tr class="memdesc:ae4eb90fcff0dbadb15ae9ea915bd5d31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate the size of a file in bytes.  <a href="#ae4eb90fcff0dbadb15ae9ea915bd5d31">More...</a><br/></td></tr>
-<tr class="separator:ae4eb90fcff0dbadb15ae9ea915bd5d31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad939966e67a85fe6bdc8640051ec310a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ad939966e67a85fe6bdc8640051ec310a">readFile</a> (const std::string &amp;filename, std::string &amp;res)</td></tr>
-<tr class="memdesc:ad939966e67a85fe6bdc8640051ec310a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the complete content of a file to a string.  <a href="#ad939966e67a85fe6bdc8640051ec310a">More...</a><br/></td></tr>
-<tr class="separator:ad939966e67a85fe6bdc8640051ec310a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51dd6e92f96b33bc80348977182aede7"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a51dd6e92f96b33bc80348977182aede7">readStdin</a> (std::string &amp;res)</td></tr>
-<tr class="memdesc:a51dd6e92f96b33bc80348977182aede7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the complete input of stdin to a string.  <a href="#a51dd6e92f96b33bc80348977182aede7">More...</a><br/></td></tr>
-<tr class="separator:a51dd6e92f96b33bc80348977182aede7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd40b01315d08143aaccf358c3252ffe"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#afd40b01315d08143aaccf358c3252ffe">writeFile</a> (const std::string &amp;filename, const std::string &amp;content)</td></tr>
-<tr class="memdesc:afd40b01315d08143aaccf358c3252ffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a string to a file creating the file if it does not exist.  <a href="#afd40b01315d08143aaccf358c3252ffe">More...</a><br/></td></tr>
-<tr class="separator:afd40b01315d08143aaccf358c3252ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad936d184533957651b86291b22a7cf6a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ad936d184533957651b86291b22a7cf6a">appendFile</a> (const std::string &amp;filename, const std::string &amp;content)</td></tr>
-<tr class="memdesc:ad936d184533957651b86291b22a7cf6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a string to a file creating the file if it does not exist.  <a href="#ad936d184533957651b86291b22a7cf6a">More...</a><br/></td></tr>
-<tr class="separator:ad936d184533957651b86291b22a7cf6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8b912364ea9b04a46deab3c6dbe86a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#acf8b912364ea9b04a46deab3c6dbe86a">removeFile</a> (const std::string &amp;filename, bool fail_ifnofexist=false)</td></tr>
-<tr class="memdesc:acf8b912364ea9b04a46deab3c6dbe86a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a file.  <a href="#acf8b912364ea9b04a46deab3c6dbe86a">More...</a><br/></td></tr>
-<tr class="separator:acf8b912364ea9b04a46deab3c6dbe86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd924a4ebcbd52167ff8245695ff1e9f"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#afd924a4ebcbd52167ff8245695ff1e9f">removeDir</a> (const std::string &amp;dirname, bool fail_ifnofexist=false)</td></tr>
-<tr class="memdesc:afd924a4ebcbd52167ff8245695ff1e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an empty directory.  <a href="#afd924a4ebcbd52167ff8245695ff1e9f">More...</a><br/></td></tr>
-<tr class="separator:afd924a4ebcbd52167ff8245695ff1e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41d91b146bbf5e71e6f66bbc3e575ed7"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a41d91b146bbf5e71e6f66bbc3e575ed7">createDir</a> (const std::string &amp;dirname, bool fail_ifexist=true)</td></tr>
-<tr class="memdesc:a41d91b146bbf5e71e6f66bbc3e575ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory if it does not exist yet.  <a href="#a41d91b146bbf5e71e6f66bbc3e575ed7">More...</a><br/></td></tr>
-<tr class="separator:a41d91b146bbf5e71e6f66bbc3e575ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05497adafee5ab32862d21220f7c92ee"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a05497adafee5ab32862d21220f7c92ee">readDirFiles</a> (const std::string &amp;path, const std::string &amp;ext, std::vector&lt; std::string &gt; &amp;res)</td></tr>
-<tr class="memdesc:a05497adafee5ab32862d21220f7c92ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all file names matching to the extension ext of a directory to an array of strings.  <a href="#a05497adafee5ab32862d21220f7c92ee">More...</a><br/></td></tr>
-<tr class="separator:a05497adafee5ab32862d21220f7c92ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a849aabf03abdb5013b95e02ffe25b8b5"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a849aabf03abdb5013b95e02ffe25b8b5">readDirSubDirs</a> (const std::string &amp;path, std::vector&lt; std::string &gt; &amp;res)</td></tr>
-<tr class="memdesc:a849aabf03abdb5013b95e02ffe25b8b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all subdirectories of a directory to an array of strings.  <a href="#a849aabf03abdb5013b95e02ffe25b8b5">More...</a><br/></td></tr>
-<tr class="separator:a849aabf03abdb5013b95e02ffe25b8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa36e082800ba52a9b7e97c95519fd14a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aa36e082800ba52a9b7e97c95519fd14a">addConfigStringItem</a> (std::string &amp;config, const std::string &amp;key, const std::string &amp;value, <a class="el" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a> *errorhnd)</td></tr>
+<tr class="separator:aa36e082800ba52a9b7e97c95519fd14a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01f7f751110ae8b438fb6d60c290731d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair<br class="typebreak"/>
+&lt; std::string, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a01f7f751110ae8b438fb6d60c290731d">getConfigStringItems</a> (const std::string &amp;config, <a class="el" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a> *errorhnd)</td></tr>
+<tr class="separator:a01f7f751110ae8b438fb6d60c290731d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4199ec42977d810a9b44db1150452816"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a4199ec42977d810a9b44db1150452816">getenv</a> (const std::string &amp;var, std::string &amp;output)</td></tr>
+<tr class="memdesc:a4199ec42977d810a9b44db1150452816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an environment variable value as string.  <a href="#a4199ec42977d810a9b44db1150452816">More...</a><br/></td></tr>
+<tr class="separator:a4199ec42977d810a9b44db1150452816"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3a89c89aeb226e2a7bc2ef9fe237848"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aa3a89c89aeb226e2a7bc2ef9fe237848">getenv_list</a> (const std::string &amp;var, char sep, std::vector&lt; std::string &gt; &amp;output)</td></tr>
+<tr class="memdesc:aa3a89c89aeb226e2a7bc2ef9fe237848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an environment variable value as array of strings, separated by a separator character.  <a href="#aa3a89c89aeb226e2a7bc2ef9fe237848">More...</a><br/></td></tr>
+<tr class="separator:aa3a89c89aeb226e2a7bc2ef9fe237848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aade700bac5de17da96c6cabcb407445f"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aade700bac5de17da96c6cabcb407445f">separatorPathList</a> ()</td></tr>
+<tr class="memdesc:aade700bac5de17da96c6cabcb407445f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Separator character used for separating file paths in environment variables.  <a href="#aade700bac5de17da96c6cabcb407445f">More...</a><br/></td></tr>
+<tr class="separator:aade700bac5de17da96c6cabcb407445f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f3d77decb21ce3feb5d0e5602c6a16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a95f3d77decb21ce3feb5d0e5602c6a16">execv_tostring</a> (const char *filename, const char *const argv[], std::string &amp;output)</td></tr>
+<tr class="memdesc:a95f3d77decb21ce3feb5d0e5602c6a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execution of a command appending the output to a string.  <a href="#a95f3d77decb21ce3feb5d0e5602c6a16">More...</a><br/></td></tr>
+<tr class="separator:a95f3d77decb21ce3feb5d0e5602c6a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad33b280e8d5b1a5124186b883abf9f5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aad33b280e8d5b1a5124186b883abf9f5">execve_tostring</a> (const char *filename, const char *const argv[], const std::map&lt; std::string, std::string &gt; &amp;env, std::string &amp;output)</td></tr>
+<tr class="memdesc:aad33b280e8d5b1a5124186b883abf9f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execution of a command with some environment variables set, appending the output to a string.  <a href="#aad33b280e8d5b1a5124186b883abf9f5">More...</a><br/></td></tr>
+<tr class="separator:aad33b280e8d5b1a5124186b883abf9f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a7ba28a2834e8c263d1a7db2ff5a37"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a14a7ba28a2834e8c263d1a7db2ff5a37">readFileSize</a> (const std::string &amp;filename, std::size_t &amp;size)</td></tr>
+<tr class="memdesc:a14a7ba28a2834e8c263d1a7db2ff5a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate the size of a file in bytes.  <a href="#a14a7ba28a2834e8c263d1a7db2ff5a37">More...</a><br/></td></tr>
+<tr class="separator:a14a7ba28a2834e8c263d1a7db2ff5a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38382929ce842461eecafbe50ff434d3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a38382929ce842461eecafbe50ff434d3">readFile</a> (const std::string &amp;filename, std::string &amp;res)</td></tr>
+<tr class="memdesc:a38382929ce842461eecafbe50ff434d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the complete content of a file to a string.  <a href="#a38382929ce842461eecafbe50ff434d3">More...</a><br/></td></tr>
+<tr class="separator:a38382929ce842461eecafbe50ff434d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a70904cffd08bc8f5a41ba5df293742"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a8a70904cffd08bc8f5a41ba5df293742">readStdin</a> (std::string &amp;res)</td></tr>
+<tr class="memdesc:a8a70904cffd08bc8f5a41ba5df293742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the complete input of stdin to a string.  <a href="#a8a70904cffd08bc8f5a41ba5df293742">More...</a><br/></td></tr>
+<tr class="separator:a8a70904cffd08bc8f5a41ba5df293742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a960ed3efc794202e5ed214f6be7d224e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a960ed3efc794202e5ed214f6be7d224e">writeFile</a> (const std::string &amp;filename, const std::string &amp;content)</td></tr>
+<tr class="memdesc:a960ed3efc794202e5ed214f6be7d224e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a string to a file creating the file if it does not exist.  <a href="#a960ed3efc794202e5ed214f6be7d224e">More...</a><br/></td></tr>
+<tr class="separator:a960ed3efc794202e5ed214f6be7d224e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1be874db107a5d0860d7bc8cc0080b29"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a1be874db107a5d0860d7bc8cc0080b29">appendFile</a> (const std::string &amp;filename, const std::string &amp;content)</td></tr>
+<tr class="memdesc:a1be874db107a5d0860d7bc8cc0080b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a string to a file creating the file if it does not exist.  <a href="#a1be874db107a5d0860d7bc8cc0080b29">More...</a><br/></td></tr>
+<tr class="separator:a1be874db107a5d0860d7bc8cc0080b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2020d18e377b9846ce293b419a91200c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a2020d18e377b9846ce293b419a91200c">removeFile</a> (const std::string &amp;filename, bool fail_ifnofexist=false)</td></tr>
+<tr class="memdesc:a2020d18e377b9846ce293b419a91200c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a file.  <a href="#a2020d18e377b9846ce293b419a91200c">More...</a><br/></td></tr>
+<tr class="separator:a2020d18e377b9846ce293b419a91200c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27ba09c2e9f7073a81650f9283085538"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a27ba09c2e9f7073a81650f9283085538">removeDir</a> (const std::string &amp;dirname, bool fail_ifnofexist=false)</td></tr>
+<tr class="memdesc:a27ba09c2e9f7073a81650f9283085538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an empty directory.  <a href="#a27ba09c2e9f7073a81650f9283085538">More...</a><br/></td></tr>
+<tr class="separator:a27ba09c2e9f7073a81650f9283085538"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b83da7fdf33c37005a45af23c7f7ed0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a8b83da7fdf33c37005a45af23c7f7ed0">removeDirRecursive</a> (const std::string &amp;dirname, bool fail_ifnofexist=false)</td></tr>
+<tr class="memdesc:a8b83da7fdf33c37005a45af23c7f7ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a directory with all its contents.  <a href="#a8b83da7fdf33c37005a45af23c7f7ed0">More...</a><br/></td></tr>
+<tr class="separator:a8b83da7fdf33c37005a45af23c7f7ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f7a44db49fbeca1053759754bee4353"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a7f7a44db49fbeca1053759754bee4353">createDir</a> (const std::string &amp;dirname, bool fail_ifexist=true)</td></tr>
+<tr class="memdesc:a7f7a44db49fbeca1053759754bee4353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory if it does not exist yet.  <a href="#a7f7a44db49fbeca1053759754bee4353">More...</a><br/></td></tr>
+<tr class="separator:a7f7a44db49fbeca1053759754bee4353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc9c517c719204c8091a32840e2e2c78"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#abc9c517c719204c8091a32840e2e2c78">changeDir</a> (const std::string &amp;dirname)</td></tr>
+<tr class="memdesc:abc9c517c719204c8091a32840e2e2c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change current directory of the process.  <a href="#abc9c517c719204c8091a32840e2e2c78">More...</a><br/></td></tr>
+<tr class="separator:abc9c517c719204c8091a32840e2e2c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01fffea4361bf22ba1226e86cf212463"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a01fffea4361bf22ba1226e86cf212463">readDirFiles</a> (const std::string &amp;path, const std::string &amp;ext, std::vector&lt; std::string &gt; &amp;res)</td></tr>
+<tr class="memdesc:a01fffea4361bf22ba1226e86cf212463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all file names matching to the extension ext of a directory to an array of strings.  <a href="#a01fffea4361bf22ba1226e86cf212463">More...</a><br/></td></tr>
+<tr class="separator:a01fffea4361bf22ba1226e86cf212463"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab83828c33e53292246cb812f85737242"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab83828c33e53292246cb812f85737242">readDirSubDirs</a> (const std::string &amp;path, std::vector&lt; std::string &gt; &amp;res)</td></tr>
+<tr class="memdesc:ab83828c33e53292246cb812f85737242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all subdirectories of a directory to an array of strings.  <a href="#ab83828c33e53292246cb812f85737242">More...</a><br/></td></tr>
+<tr class="separator:ab83828c33e53292246cb812f85737242"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4e61267f08f6af3cbd3daf5f5c699f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8">isFile</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:ab4e61267f08f6af3cbd3daf5f5c699f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a file.  <a href="#ab4e61267f08f6af3cbd3daf5f5c699f8">More...</a><br/></td></tr>
 <tr class="separator:ab4e61267f08f6af3cbd3daf5f5c699f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91d5994cb49688ec0f8279b96cbefeb4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4">isDir</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a91d5994cb49688ec0f8279b96cbefeb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a directory.  <a href="#a91d5994cb49688ec0f8279b96cbefeb4">More...</a><br/></td></tr>
 <tr class="separator:a91d5994cb49688ec0f8279b96cbefeb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c1496481176e6102994dfb397252d05"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a5c1496481176e6102994dfb397252d05">isRelativePath</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a5c1496481176e6102994dfb397252d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path is a reference relative to the current path.  <a href="#a5c1496481176e6102994dfb397252d05">More...</a><br/></td></tr>
+<tr class="separator:a5c1496481176e6102994dfb397252d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefc5595861905e3ba4129127a7048bd3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aefc5595861905e3ba4129127a7048bd3">isTextFile</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:aefc5595861905e3ba4129127a7048bd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a file with text content (not binary)  <a href="#aefc5595861905e3ba4129127a7048bd3">More...</a><br/></td></tr>
 <tr class="separator:aefc5595861905e3ba4129127a7048bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9879ad1a2c6ed95f4e68461bc8b2283"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ac9879ad1a2c6ed95f4e68461bc8b2283">getParentPath</a> (const std::string &amp;path, std::string &amp;dest)</td></tr>
-<tr class="memdesc:ac9879ad1a2c6ed95f4e68461bc8b2283"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the parent (containing) path of a file or directory.  <a href="#ac9879ad1a2c6ed95f4e68461bc8b2283">More...</a><br/></td></tr>
-<tr class="separator:ac9879ad1a2c6ed95f4e68461bc8b2283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad706e795e176cbc2562644afb1fd348e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ad706e795e176cbc2562644afb1fd348e">getParentPath</a> (const std::string &amp;path, std::string &amp;dest)</td></tr>
+<tr class="memdesc:ad706e795e176cbc2562644afb1fd348e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the parent (containing) path of a file or directory.  <a href="#ad706e795e176cbc2562644afb1fd348e">More...</a><br/></td></tr>
+<tr class="separator:ad706e795e176cbc2562644afb1fd348e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0fc7dfc269740cc3b2df2ff2034fb12"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab0fc7dfc269740cc3b2df2ff2034fb12">getAncestorPath</a> (const std::string &amp;path, int level, std::string &amp;dest)</td></tr>
+<tr class="memdesc:ab0fc7dfc269740cc3b2df2ff2034fb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an ancestor (containing) path of a file or directory.  <a href="#ab0fc7dfc269740cc3b2df2ff2034fb12">More...</a><br/></td></tr>
+<tr class="separator:ab0fc7dfc269740cc3b2df2ff2034fb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b3ce343266d03ac6d653667193d5ecc"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a5b3ce343266d03ac6d653667193d5ecc">dirSeparator</a> ()</td></tr>
 <tr class="memdesc:a5b3ce343266d03ac6d653667193d5ecc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the OS path element separator.  <a href="#a5b3ce343266d03ac6d653667193d5ecc">More...</a><br/></td></tr>
 <tr class="separator:a5b3ce343266d03ac6d653667193d5ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ed2d349d4e66d35d546fa8995b76f48"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a1ed2d349d4e66d35d546fa8995b76f48">doubleFromString</a> (const std::string &amp;numstr, <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> &amp;err)</td></tr>
+<tr class="separator:a1ed2d349d4e66d35d546fa8995b76f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3777c16b524f1b976d954f46b5b6e68f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a3777c16b524f1b976d954f46b5b6e68f">doubleFromString</a> (const char *numstr, std::size_t numsize, <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> &amp;err)</td></tr>
+<tr class="separator:a3777c16b524f1b976d954f46b5b6e68f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae009ac1cf3e988b10f4553b5e61ea936"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ae009ac1cf3e988b10f4553b5e61ea936">intFromString</a> (const std::string &amp;numstr, uint64_t maxvalue, <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> &amp;err)</td></tr>
+<tr class="separator:ae009ac1cf3e988b10f4553b5e61ea936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa645938c7fbfcd512ea5a3b1077ff52f"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aa645938c7fbfcd512ea5a3b1077ff52f">intFromString</a> (const char *numstr, std::size_t numsize, uint64_t maxvalue, <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> &amp;err)</td></tr>
+<tr class="separator:aa645938c7fbfcd512ea5a3b1077ff52f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adad91e67687009bb27cdb5fa26527085"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#adad91e67687009bb27cdb5fa26527085">uintFromString</a> (const std::string &amp;numstr, uint64_t maxvalue, <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> &amp;err)</td></tr>
+<tr class="separator:adad91e67687009bb27cdb5fa26527085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a319c6967e73e4c7e61cc310cf877bd57"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a319c6967e73e4c7e61cc310cf877bd57">uintFromString</a> (const char *numstr, std::size_t numsize, uint64_t maxvalue, <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">NumParseError</a> &amp;err)</td></tr>
+<tr class="separator:a319c6967e73e4c7e61cc310cf877bd57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6165c79d3f7da1747ccf4f8cd9efcb4a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a6165c79d3f7da1747ccf4f8cd9efcb4a">string_format</a> (const char *fmt,...)</td></tr>
 <tr class="memdesc:a6165c79d3f7da1747ccf4f8cd9efcb4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string built from a format string and arguments.  <a href="#a6165c79d3f7da1747ccf4f8cd9efcb4a">More...</a><br/></td></tr>
 <tr class="separator:a6165c79d3f7da1747ccf4f8cd9efcb4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,10 +264,14 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Some helpers for command line processing. </p>
-<p>strus toplevel namespace</p>
 <p>Map of strings to indices not freed till end of table life time.</p>
 <p>Get a string built by a format string.</p>
+<p>Some functions to parse a number from a string.</p>
+<p>strus toplevel namespace</p>
+<p>Definition of <a class="el" href="classstrus_1_1local__ptr.html">strus::local_ptr</a> a substitute for std::auto_ptr used in a local scope without copying or std::unique_ptr for C++ &gt;= 11.</p>
 <p>Basic portable file read/write and related filesystem functions.</p>
+<p>Execution of a command appending results to string.</p>
+<p>Accessing environment variables.</p>
 <p>Basic portable file type for collections of equal sized records with random access.</p>
 <p>Method to calculate CRC32 values that can be used for hashing or checksums in messages.</p>
 <p>Some functions to parse a configuration string (e.g. strus storage configuration) </p>
@@ -237,13 +300,74 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad936d184533957651b86291b22a7cf6a"></a>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="a2b0d5737f93c1f97a95fa4f7d3c4c4b5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::appendFile </td>
+          <td class="memname">enum <a class="el" href="namespacestrus.html#a2b0d5737f93c1f97a95fa4f7d3c4c4b5">strus::NumParseError</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a2b0d5737f93c1f97a95fa4f7d3c4c4b5a8afddc8a58a652da55339bd0774b42b6"></a>NumParserOk</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a2b0d5737f93c1f97a95fa4f7d3c4c4b5ae137f1a3ab3053f293159dc6597e4bfb"></a>NumParserErrNoMem</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a2b0d5737f93c1f97a95fa4f7d3c4c4b5aed8ed5c560ba343db66a007e0e39669d"></a>NumParserErrConversion</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a2b0d5737f93c1f97a95fa4f7d3c4c4b5a583e4903c6f0ce83e5200431d77171f8"></a>NumParserErrOutOfRange</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aa36e082800ba52a9b7e97c95519fd14a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool strus::addConfigStringItem </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ErrorBufferInterface *&#160;</td>
+          <td class="paramname"><em>errorhnd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1be874db107a5d0860d7bc8cc0080b29"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::appendFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -274,12 +398,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a41d91b146bbf5e71e6f66bbc3e575ed7"></a>
+<a class="anchor" id="abc9c517c719204c8091a32840e2e2c78"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::createDir </td>
+          <td class="memname">int strus::changeDir </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dirname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Change current directory of the process. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dirname</td><td>path of directory to create </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7f7a44db49fbeca1053759754bee4353"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::createDir </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>dirname</em>, </td>
@@ -306,6 +455,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
 
 </div>
 </div>
@@ -350,6 +500,157 @@ Functions</h2></td></tr>
 
 <p>Get the OS path element separator. </p>
 <dl class="section return"><dt>Returns</dt><dd>the separator </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1ed2d349d4e66d35d546fa8995b76f48"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double strus::doubleFromString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>numstr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NumParseError &amp;&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3777c16b524f1b976d954f46b5b6e68f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double strus::doubleFromString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>numstr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>numsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NumParseError &amp;&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a95f3d77decb21ce3feb5d0e5602c6a16"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::execv_tostring </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *const&#160;</td>
+          <td class="paramname"><em>argv</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Execution of a command appending the output to a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>path of program to execute </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>NULL terminated list of arguments to pass to program </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>where to append the standard output to </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aad33b280e8d5b1a5124186b883abf9f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::execve_tostring </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *const&#160;</td>
+          <td class="paramname"><em>argv</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::map&lt; std::string, std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>env</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Execution of a command with some environment variables set, appending the output to a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>path of program to execute </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>NULL terminated list of arguments to pass to program </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">env</td><td>map of environment variables to set for the command execution </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>where to append the standard output to </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
 
 </div>
 </div>
@@ -505,12 +806,160 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac9879ad1a2c6ed95f4e68461bc8b2283"></a>
+<a class="anchor" id="ab0fc7dfc269740cc3b2df2ff2034fb12"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::getParentPath </td>
+          <td class="memname">int strus::getAncestorPath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>dest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get an ancestor (containing) path of a file or directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>file system path to get the containing path </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">level</td><td>how many levels to step back (level == 1 =&gt; getParentPath) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">dest</td><td>the containing path </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a01f7f751110ae8b438fb6d60c290731d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::pair&lt;std::string,std::string&gt; &gt; strus::getConfigStringItems </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ErrorBufferInterface *&#160;</td>
+          <td class="paramname"><em>errorhnd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4199ec42977d810a9b44db1150452816"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::getenv </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read an environment variable value as string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">var</td><td>environment variable name </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>where to write the value to </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa3a89c89aeb226e2a7bc2ef9fe237848"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::getenv_list </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read an environment variable value as array of strings, separated by a separator character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">var</td><td>environment variable name </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sep</td><td>separator character separating the list elements </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>where to append the values to </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad706e795e176cbc2562644afb1fd348e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::getParentPath </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -538,6 +987,76 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae009ac1cf3e988b10f4553b5e61ea936"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t strus::intFromString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>numstr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>maxvalue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NumParseError &amp;&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa645938c7fbfcd512ea5a3b1077ff52f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t strus::intFromString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>numstr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>numsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>maxvalue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NumParseError &amp;&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -581,6 +1100,31 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check if a file system path points to a file. </p>
+<dl class="section return"><dt>Returns</dt><dd>true, if yes </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>file system path to check </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5c1496481176e6102994dfb397252d05"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool strus::isRelativePath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a file system path is a reference relative to the current path. </p>
 <dl class="section return"><dt>Returns</dt><dd>true, if yes </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -666,12 +1210,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a05497adafee5ab32862d21220f7c92ee"></a>
+<a class="anchor" id="a01fffea4361bf22ba1226e86cf212463"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::readDirFiles </td>
+          <td class="memname">int strus::readDirFiles </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -709,12 +1253,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a849aabf03abdb5013b95e02ffe25b8b5"></a>
+<a class="anchor" id="ab83828c33e53292246cb812f85737242"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::readDirSubDirs </td>
+          <td class="memname">int strus::readDirSubDirs </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -745,12 +1289,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad939966e67a85fe6bdc8640051ec310a"></a>
+<a class="anchor" id="a38382929ce842461eecafbe50ff434d3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::readFile </td>
+          <td class="memname">int strus::readFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -781,12 +1325,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae4eb90fcff0dbadb15ae9ea915bd5d31"></a>
+<a class="anchor" id="a14a7ba28a2834e8c263d1a7db2ff5a37"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::readFileSize </td>
+          <td class="memname">int strus::readFileSize </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -817,12 +1361,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a51dd6e92f96b33bc80348977182aede7"></a>
+<a class="anchor" id="a8a70904cffd08bc8f5a41ba5df293742"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::readStdin </td>
+          <td class="memname">int strus::readStdin </td>
           <td>(</td>
           <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>res</em></td><td>)</td>
@@ -842,12 +1386,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afd924a4ebcbd52167ff8245695ff1e9f"></a>
+<a class="anchor" id="a27ba09c2e9f7073a81650f9283085538"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::removeDir </td>
+          <td class="memname">int strus::removeDir </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>dirname</em>, </td>
@@ -878,12 +1422,48 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acf8b912364ea9b04a46deab3c6dbe86a"></a>
+<a class="anchor" id="a8b83da7fdf33c37005a45af23c7f7ed0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::removeFile </td>
+          <td class="memname">int strus::removeDirRecursive </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dirname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>fail_ifnofexist</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes a directory with all its contents. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dirname</td><td>the name of the directory to remove </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fail_ifnofexist</td><td>return an error if the directory does not exist </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, errno on failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2020d18e377b9846ce293b419a91200c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int strus::removeFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -946,6 +1526,25 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aade700bac5de17da96c6cabcb407445f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char strus::separatorPathList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Separator character used for separating file paths in environment variables. </p>
+<dl class="section return"><dt>Returns</dt><dd>the separator </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>OS dependent </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6165c79d3f7da1747ccf4f8cd9efcb4a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -979,6 +1578,76 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the string built or an empty string in case of a memory allocation error </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="adad91e67687009bb27cdb5fa26527085"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t strus::uintFromString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>numstr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>maxvalue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NumParseError &amp;&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a319c6967e73e4c7e61cc310cf877bd57"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t strus::uintFromString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>numstr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>numsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>maxvalue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NumParseError &amp;&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1130,12 +1799,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afd40b01315d08143aaccf358c3252ffe"></a>
+<a class="anchor" id="a960ed3efc794202e5ed214f6be7d224e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int strus::writeFile </td>
+          <td class="memname">int strus::writeFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -1170,7 +1839,7 @@ Functions</h2></td></tr>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:36:00 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

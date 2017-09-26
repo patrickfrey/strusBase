@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.14</span>
+   &#160;<span id="projectnumber">0.15</span>
    </div>
   </td>
  </tr>
@@ -48,6 +48,7 @@
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -70,6 +71,15 @@
  <a href="classstrus_1_1ErrorBufferInterface.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="errorBufferInterface_8hpp_source.html">errorBufferInterface.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for strus::ErrorBufferInterface:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classstrus_1_1ErrorBufferInterface.png" usemap="#strus::ErrorBufferInterface_map" alt=""/>
+  <map id="strus::ErrorBufferInterface_map" name="strus::ErrorBufferInterface_map">
+<area href="classstrus_1_1LocalErrorBuffer.html" title="Error buffer implementation for a context transforming the error message into an exceptions at the en..." alt="strus::LocalErrorBuffer" shape="rect" coords="0,56,160,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -90,12 +100,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3568d8a160bfea99a73e20d450f1dd7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1ErrorBufferInterface.html#ac3568d8a160bfea99a73e20d450f1dd7">setMaxNofThreads</a> (unsigned int maxNofThreads)=0</td></tr>
 <tr class="memdesc:ac3568d8a160bfea99a73e20d450f1dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redefine the maximum number of threads using the error buffer.  <a href="#ac3568d8a160bfea99a73e20d450f1dd7">More...</a><br/></td></tr>
 <tr class="separator:ac3568d8a160bfea99a73e20d450f1dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17e56142ac5f03813409ccdabe733089"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1ErrorBufferInterface.html#a17e56142ac5f03813409ccdabe733089">report</a> (const char *format,...) const =0</td></tr>
-<tr class="memdesc:a17e56142ac5f03813409ccdabe733089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report an error.  <a href="#a17e56142ac5f03813409ccdabe733089">More...</a><br/></td></tr>
-<tr class="separator:a17e56142ac5f03813409ccdabe733089"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee6e4acdf60b4dfd39eda0d3c2381c40"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1ErrorBufferInterface.html#aee6e4acdf60b4dfd39eda0d3c2381c40">explain</a> (const char *format) const =0</td></tr>
-<tr class="memdesc:aee6e4acdf60b4dfd39eda0d3c2381c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report an error, overwriting the previous error.  <a href="#aee6e4acdf60b4dfd39eda0d3c2381c40">More...</a><br/></td></tr>
-<tr class="separator:aee6e4acdf60b4dfd39eda0d3c2381c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad05c2c990efdb794b93526c9e2e40d94"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1ErrorBufferInterface.html#ad05c2c990efdb794b93526c9e2e40d94">report</a> (const char *format,...)=0</td></tr>
+<tr class="memdesc:ad05c2c990efdb794b93526c9e2e40d94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report an error.  <a href="#ad05c2c990efdb794b93526c9e2e40d94">More...</a><br/></td></tr>
+<tr class="separator:ad05c2c990efdb794b93526c9e2e40d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b1a05ad0043444e877422fb640c681"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1ErrorBufferInterface.html#af8b1a05ad0043444e877422fb640c681">explain</a> (const char *format)=0</td></tr>
+<tr class="memdesc:af8b1a05ad0043444e877422fb640c681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report an error, overwriting the previous error.  <a href="#af8b1a05ad0043444e877422fb640c681">More...</a><br/></td></tr>
+<tr class="separator:af8b1a05ad0043444e877422fb640c681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af82a197b034599ed5bbae15dc3e85316"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1ErrorBufferInterface.html#af82a197b034599ed5bbae15dc3e85316">fetchError</a> ()=0</td></tr>
 <tr class="memdesc:af82a197b034599ed5bbae15dc3e85316"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check, if an error has occurred and return it.  <a href="#af82a197b034599ed5bbae15dc3e85316">More...</a><br/></td></tr>
 <tr class="separator:af82a197b034599ed5bbae15dc3e85316"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,9 +196,11 @@ Public Member Functions</h2></td></tr>
 <p>Allocate context for current thread. </p>
 <dl class="section remark"><dt>Remarks</dt><dd>allocContext &amp; releaseContext have only to be called if assignement of thread ids is not fix </dd></dl>
 
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">strus::LocalErrorBuffer</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="aee6e4acdf60b4dfd39eda0d3c2381c40"></a>
+<a class="anchor" id="af8b1a05ad0043444e877422fb640c681"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -200,7 +212,7 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>format</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -218,6 +230,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>must not throw </dd></dl>
+
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">strus::LocalErrorBuffer</a>.</p>
 
 </div>
 </div>
@@ -246,6 +260,8 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>an error string, if defined, NULL else </dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>resets the error </dd></dl>
 
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">strus::LocalErrorBuffer</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a9da47cd71f02eb7e6b3f669e6958296e"></a>
@@ -271,6 +287,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Check, if an error has occurred. </p>
 <dl class="section return"><dt>Returns</dt><dd>an error string, if defined, NULL else </dd></dl>
+
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">strus::LocalErrorBuffer</a>.</p>
 
 </div>
 </div>
@@ -298,9 +316,11 @@ Public Member Functions</h2></td></tr>
 <p>Dellocate context for current thread. </p>
 <dl class="section remark"><dt>Remarks</dt><dd>allocContext &amp; releaseContext have only to be called if assignement of thread ids is not fix </dd></dl>
 
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">strus::LocalErrorBuffer</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a17e56142ac5f03813409ccdabe733089"></a>
+<a class="anchor" id="ad05c2c990efdb794b93526c9e2e40d94"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -322,7 +342,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -340,6 +360,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>must not throw </dd></dl>
+
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#ac36a21531397bb878f3894501245615b">strus::LocalErrorBuffer</a>.</p>
 
 </div>
 </div>
@@ -373,6 +395,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">strus::LocalErrorBuffer</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ac3568d8a160bfea99a73e20d450f1dd7"></a>
@@ -405,6 +429,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">strus::LocalErrorBuffer</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -414,7 +440,7 @@ Public Member Functions</h2></td></tr>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:36:00 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
