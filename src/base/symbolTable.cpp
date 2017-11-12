@@ -177,17 +177,17 @@ DLL_PUBLIC StringMapKeyBlockList* SymbolTable::createKeystringBlocks()
 	}
 }
 
-DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const std::string& key)
+DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const std::string& key_)
 {
-	return getOrCreate( key.c_str(), key.size());
+	return getOrCreate( key_.c_str(), key_.size());
 }
 
 DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t keylen)
 {
 	try
 	{
-		Key key( keystr, keylen);
-		Map::const_iterator itr = m_map.find( key);
+		Key newkey( keystr, keylen);
+		Map::const_iterator itr = m_map.find( newkey);
 		m_isnew = (itr == m_map.end());
 		if (m_isnew)
 		{
@@ -195,8 +195,8 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 			{
 				throw std::bad_alloc();
 			}
-			m_invmap.push_back( m_keystring_blocks->allocKey( key.str, key.len));
-			m_map[ Key( m_invmap.back(), key.len)] = m_invmap.size();
+			m_invmap.push_back( m_keystring_blocks->allocKey( newkey.str, newkey.len));
+			m_map[ Key( m_invmap.back(), newkey.len)] = m_invmap.size();
 			return m_invmap.size();
 		}
 		else
@@ -210,9 +210,9 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 	}
 }
 
-DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key) const
+DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key_) const
 {
-	return get( key.c_str(), key.size());
+	return get( key_.c_str(), key_.size());
 }
 
 DLL_PUBLIC uint32_t SymbolTable::get( const char* keystr, std::size_t keylen) const
