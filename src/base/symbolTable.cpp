@@ -217,8 +217,8 @@ DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key_) const
 
 DLL_PUBLIC uint32_t SymbolTable::get( const char* keystr, std::size_t keylen) const
 {
-	Key key( keystr, keylen);
-	Map::const_iterator itr = m_map.find( key);
+	Key keystruct( keystr, keylen);
+	Map::const_iterator itr = m_map.find( keystruct);
 	if (itr != m_map.end())
 	{
 		return itr->second;
