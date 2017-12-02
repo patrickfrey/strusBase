@@ -66,7 +66,7 @@ private:
 
 public:
 	///\brief Default constructor
-	explicit SymbolTable()
+	SymbolTable()
 		:m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
 
 	{

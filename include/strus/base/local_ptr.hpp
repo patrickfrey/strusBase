@@ -9,7 +9,9 @@
 #ifndef _STRUS_BASE_LOCAL_PTR_HPP_INCLUDED
 #define _STRUS_BASE_LOCAL_PTR_HPP_INCLUDED
 #include <memory>
-
+#if __cplusplus < 201103L
+#include <boost/interprocess/smart_ptr/unique_ptr.hpp>
+#endif
 namespace strus {
 
 #if __cplusplus >= 201103L
@@ -23,12 +25,12 @@ public:
 };
 #else
 template <typename T>
-class local_ptr : public std::auto_ptr<T>
+class local_ptr : public boost::interprocess::unique_ptr<T>
 {
 public:
 	// implement the constructors for easier use
 	// in particular
-	explicit local_ptr( T* p = 0 ) :std::auto_ptr<T>(p) {}
+	explicit local_ptr( T* p = 0 ) :boost::interprocess::unique_ptr<T>(p) {}
 };
 #endif
 
