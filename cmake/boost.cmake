@@ -4,7 +4,6 @@ set(BOOST_LIBRARYDIR "${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_DIR}/strus")
 find_package( Boost 1.53.0 COMPONENTS atomic QUIET)
 
 INCLUDE(CheckCXXSourceCompiles)
-
 CHECK_CXX_SOURCE_COMPILES(
 "
 int main() {
