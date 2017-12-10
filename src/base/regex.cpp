@@ -13,12 +13,12 @@
 
 #undef USE_STD_REGEX
 #if __cplusplus >= 201103L
-#if defined __GNUC__
+#if defined __clang__
+#define USE_STD_REGEX
+#elif defined __GNUC__
 #if GCC_VERSION > 40900
 #define USE_STD_REGEX
 #endif // GCC_VERSION
-#elif defined __clang__
-#define USE_STD_REGEX
 #endif // __clang__
 #endif // __cplusplus
 
