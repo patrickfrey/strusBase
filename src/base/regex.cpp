@@ -11,12 +11,16 @@
 #include "private/internationalization.hpp"
 #include "strus/base/dll_tags.hpp"
 
+#undef USE_STD_REGEX
 #if __cplusplus >= 201103L
-#undef USE_STD_REGEX
-// ... should be defined here, but I did not get std regex to match even a simple regex like '[Ab]a' (will be fixed)
-#else
-#undef USE_STD_REGEX
-#endif
+#if defined __GNUC__
+#if GCC_VERSION > 40900
+#define USE_STD_REGEX
+#endif // GCC_VERSION
+#elif defined __clang__
+#define USE_STD_REGEX
+#endif // __clang__
+#endif // __cplusplus
 
 #ifdef USE_STD_REGEX
 #include <regex>
@@ -107,7 +111,7 @@ private:
 
 #ifdef USE_STD_REGEX
 #define REGEX_SYNTAX std::regex_constants::extended
-#define MATCH_FLAGS std::regex_constants::match_posix
+#define MATCH_FLAGS std::regex_constants::match_default
 #else
 #define REGEX_SYNTAX boost::regex::extended
 #define MATCH_FLAGS boost::match_posix
@@ -115,7 +119,7 @@ private:
 
 struct RegexSearchConfiguration
 {
-	boost::regex expression;
+	rx::regex expression;
 	unsigned int index;
 
 	RegexSearchConfiguration( const std::string& expressionstr, unsigned int index_)
