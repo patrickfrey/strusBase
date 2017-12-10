@@ -16,7 +16,7 @@
 #if defined __clang__
 #define USE_STD_REGEX
 #elif defined __GNUC__
-#if GCC_VERSION > 40900
+#if GCC_VERSION >= 40900
 #define USE_STD_REGEX
 #endif // GCC_VERSION
 #endif // __clang__
