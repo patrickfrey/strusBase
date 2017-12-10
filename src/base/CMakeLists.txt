@@ -9,6 +9,7 @@ set( source_files
 	configParser.cpp
 	fileio.cpp
 	exec.cpp
+	regex.cpp
 	env.cpp
 	inputStream.cpp
 	dataRecordFile.cpp
