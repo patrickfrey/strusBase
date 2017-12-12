@@ -11,6 +11,7 @@
 #include "strus/base/dll_tags.hpp"
 #include <string>
 #include <limits>
+#include <cmath>
 
 using namespace strus;
 
@@ -58,6 +59,41 @@ DLL_PUBLIC double strus::doubleFromString( const char* numstr, std::size_t numsi
 			}
 			got_dot = true;
 			frac = 0.1;
+		}
+		else if (*ci == 'E' || *ci == 'e')
+		{
+			++ci;
+			bool eesign = false;
+			if (ci != ce)
+			{
+				if (*ci == '-')
+				{
+					eesign = true;
+					++ci;
+				}
+				else if (*ci == '+')
+				{
+					++ci;
+				}
+				else
+				{
+					break;
+				}
+			}
+			else
+			{
+				--ci;
+				break;
+			}
+			if (ci == ce || *ci < '0' || *ci > '9') break;
+			int ee = 0;
+			for (; ci != ce && *ci >= '0' && *ci <= '9' && ee < 1000; ++ci)
+			{
+				ee *= 10;
+				ee += *ci - '0';
+			}
+			if (ee) rt *= std::pow( 10, eesign?-ee:ee);
+			break;
 		}
 		else if (*ci == '%')
 		{

@@ -18,6 +18,7 @@ set( source_files
 	crc32.cpp
 	snprintf.c
 	string_format.cpp
+	numericVariant.cpp
 )
 
 include_directories(
