@@ -49,6 +49,9 @@
 %define fedora 0
 %define fc24 0
 %define fc25 0
+%define fc26 0
+%define fc27 0
+%define frawhide 0
 %if 0%{?fedora_version} == 24
 %define dist fc24
 %define fc24 1
@@ -57,6 +60,21 @@
 %if 0%{?fedora_version} == 25
 %define dist fc25
 %define fc25 1
+%define fedora 1
+%endif
+%if 0%{?fedora_version} == 26
+%define dist fc26
+%define fc26 1
+%define fedora 1
+%endif
+%if 0%{?fedora_version} == 27
+%define dist fc27
+%define fc27 1
+%define fedora 1
+%endif
+%if 0%{?fedora_version} == 99
+%define dist frawhide
+%define frawhide 1
 %define fedora 1
 %endif
 
@@ -133,6 +151,12 @@ BuildRequires: sles-release
 %endif
 %endif
 
+%if %{fedora}
+%if %{fc27} || %{frawhide}
+%global debug_package %{nil}
+%endif
+%endif
+
 %if %{rhel} || %{centos} || %{scilin} || %{fedora}
 %if %{rhel6} || %{centos6} || %{scilin6}
 Requires: strusboost >= 1.53.0
@@ -142,6 +166,7 @@ Requires: boost >= 1.53.0
 Requires: boost-thread >= 1.53.0
 Requires: boost-system >= 1.53.0
 Requires: boost-date-time >= 1.53.0
+Requires: boost-regex >= 1.53.0
 BuildRequires: boost-devel
 %endif
 %endif
@@ -156,6 +181,7 @@ Requires: libboost_thread1_54_0 >= 1.54.0
 Requires: libboost_atomic1_54_0 >= 1.54.0
 Requires: libboost_system1_54_0 >= 1.54.0
 Requires: libboost_date_time1_54_0 >= 1.54.0
+Requires: libboost_regex1_54_0 >= 1.54.0
 BuildRequires: boost-devel
 %endif
 %if %{osufactory}
@@ -163,6 +189,7 @@ Requires: libboost_thread1_63_0 >= 1.63.0
 Requires: libboost_atomic1_63_0 >= 1.63.0
 Requires: libboost_system1_63_0 >= 1.63.0
 Requires: libboost_date_time1_63_0 >= 1.63.0
+Requires: libboost_regex1_63_0 >= 1.63.0
 BuildRequires: boost-devel
 %endif
 %endif
