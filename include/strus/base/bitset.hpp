@@ -75,20 +75,20 @@ public:
 	bool insert( int pos, bool value)
 	{
 		if (pos >= SIZE) return false;
-		int idx = pos / 64;
-		int ofs = pos % 64;
-		int ii = ArSize-1;
+		unsigned int idx = pos / 64;
+		unsigned int ofs = pos % 64;
+		unsigned int ii = ArSize-1;
 		for (; ii > idx; --ii)
 		{
 			if (ii < ArSize-1)
 			{
-				m_ar[ ii+1] |= (m_ar[ ii] & ((uint64_t)1 << 63)) >> 63;
+				m_ar[ ii+1] |= (m_ar[ ii] & ((uint64_t)1UL << 63)) >> 63;
 			}
 			m_ar[ ii] <<= 1;
 		}
 		if (ii < ArSize-1)
 		{
-			m_ar[ ii+1] |= (m_ar[ ii] & ((uint64_t)1 << 63)) >> 63;
+			m_ar[ ii+1] |= (m_ar[ ii] & ((uint64_t)1UL << 63)) >> 63;
 		}
 		uint64_t left( m_ar[ idx]);
 		uint64_t right( left);
@@ -109,10 +109,10 @@ public:
 	bool remove( int pos)
 	{
 		if (pos >= SIZE) return false;
-		int idx = pos / 64;
-		int ofs = pos % 64;
+		unsigned int idx = pos / 64;
+		unsigned int ofs = pos % 64;
 		uint64_t hibit = 0;
-		int ii = ArSize-1;
+		unsigned int ii = ArSize-1;
 		for (; ii > idx; --ii)
 		{
 			uint64_t lobit = m_ar[ ii] & 1;
