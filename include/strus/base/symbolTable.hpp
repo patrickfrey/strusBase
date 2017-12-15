@@ -9,7 +9,7 @@
 #ifndef _STRUS_BASE_SYMBOL_TABLE_HPP_INCLUDED
 #define _STRUS_BASE_SYMBOL_TABLE_HPP_INCLUDED
 #include "strus/base/crc32.hpp"
-#include <boost/unordered_map.hpp>
+#include "strus/base/unordered_map.hpp"
 #include <list>
 #include <vector>
 #include <string>
@@ -61,8 +61,8 @@ private:
 		}
 	};
 
-	typedef boost::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual> Map;
-	typedef boost::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual>::const_iterator const_iterator;
+	typedef strus::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual> Map;
+	typedef strus::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual>::const_iterator const_iterator;
 
 public:
 	///\brief Default constructor
