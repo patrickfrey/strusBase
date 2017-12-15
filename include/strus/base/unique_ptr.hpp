@@ -21,11 +21,24 @@ public:
 };
 } //namespace
 #else
+#if BOOST_VERSION < 105800
+#include <boost/interprocess/smart_ptr/unique_ptr.hpp>
+#else
 #include <boost/move/unique_ptr.hpp>
+#endif
 
 namespace strus {
 template <typename T>
-class unique_ptr : public boost::unique_ptr<T>
+struct DefaultDeleter
+{
+	void operator()(T* ptr) const	{delete ptr;}
+	template <class U>
+	void operator()(U* ptr) const	{delete[] ptr;}
+};
+
+template <typename T>
+class unique_ptr
+	:public boost::unique_ptr<T,DefaultDeleter<T> >
 {
 public:
 	explicit unique_ptr( T* p = 0 ) :boost::unique_ptr<T>(p) {}
