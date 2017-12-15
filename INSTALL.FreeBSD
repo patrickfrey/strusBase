@@ -34,7 +34,8 @@ Install packages with 'pkg install':
 Build using the clang/clang++ toolchain:
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release -DLIB_INSTALL_DIR=lib \
-	-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang .
+	-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang \
+	-DCPP_LANGUAGE_VERSION=11 -DC_LANGUAGE_VERSION=99 .
 make
 
 
