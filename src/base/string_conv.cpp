@@ -12,9 +12,8 @@
 #include "private/internationalization.hpp"
 #include <string>
 #include <stdexcept>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
 #include <stdlib.h>
+#include <cctype>
 
 using namespace strus;
 
@@ -51,7 +50,13 @@ DLL_PUBLIC std::string strus::tolower( const std::string& val, StringConvError& 
 {
 	try
 	{
-		return boost::algorithm::to_lower_copy( val);
+		std::string rt;
+		std::string::const_iterator vi = val.begin(), ve = val.end();
+		for (; vi != ve; ++vi)
+		{
+			rt.push_back( std::tolower( *vi));
+		}
+		return rt;
 	}
 	catch (const std::bad_alloc&)
 	{
@@ -64,7 +69,24 @@ DLL_PUBLIC std::string strus::trim( const std::string& val, StringConvError& err
 {
 	try
 	{
-		return boost::algorithm::trim_copy( val);
+		std::string rt;
+		std::string::const_iterator vi = val.begin(), ve = val.end();
+		for (; vi != ve; ++vi)
+		{
+			if ((unsigned char)*vi > 32) break;
+		}
+		std::string::const_iterator start = vi;
+		std::string::const_iterator last = val.end();
+		while (last != start)
+		{
+			--last;
+			if ((unsigned char)*last > 32)
+			{
+				++last;
+				break;
+			}
+		}
+		return std::string( start, last);
 	}
 	catch (const std::bad_alloc&)
 	{
@@ -75,26 +97,28 @@ DLL_PUBLIC std::string strus::trim( const std::string& val, StringConvError& err
 
 DLL_PUBLIC bool strus::caseInsensitiveEquals( const std::string& val1, const std::string& val2)
 {
-	try
+	std::string rt;
+	if (val1.size() != val2.size()) return false;
+	std::string::const_iterator vi = val1.begin(), ve = val1.end();
+	std::string::const_iterator oi = val2.begin(), oe = val2.end();
+	for (; vi != ve && oi != oe; ++vi,++oi)
 	{
-		return boost::algorithm::iequals( val1, val2);
+		if (std::tolower( *vi) != std::tolower( *oi)) return false;
 	}
-	catch (...)
-	{
-		return false;
-	}
+	return true;
 }
 
 DLL_PUBLIC bool strus::caseInsensitiveStartsWith( const std::string& val, const std::string& prefix)
 {
-	try
+	std::string rt;
+	if (val.size() < prefix.size()) return false;
+	std::string::const_iterator vi = val.begin(), ve = val.end();
+	std::string::const_iterator pi = prefix.begin(), pe = prefix.end();
+	for (; pi != pe; ++pi,++vi)
 	{
-		return boost::algorithm::istarts_with( val, prefix);
+		if (std::tolower( *vi) != std::tolower( *pi)) return false;
 	}
-	catch (...)
-	{
-		return false;
-	}
+	return pi == pe;
 }
 
 DLL_PUBLIC std::string strus::utf8clean( const std::string& name, StringConvError& err)
