@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/configParser.hpp"
-#include "strus/base/numParser.hpp"
+#include "strus/base/numstring.hpp"
 #include "strus/errorBufferInterface.hpp"
 #include "strus/base/dll_tags.hpp"
-#include "private/utils.hpp"
+#include "strus/base/string_conv.hpp"
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"
 #include <map>
@@ -99,11 +99,13 @@ DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config
 		std::string cfgkey;
 		const char* valuestart;
 		std::size_t valuesize;
+		StringConvError errcode = StringConvOk;
 
 		char const* cc = config.c_str();
 		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
 		{
-			rt.push_back( ConfigItem( utils::tolower(cfgkey), std::string( valuestart, valuesize)));
+			rt.push_back( ConfigItem( strus::tolower(cfgkey, errcode), std::string( valuestart, valuesize)));
+			if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		}
 		return rt;
 	}
@@ -122,7 +124,7 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 		char const* lastptr = cc;
 		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
 		{
-			if (utils::caseInsensitiveEquals( cfgkey, key))
+			if (strus::caseInsensitiveEquals( cfgkey, key))
 			{
 				res = std::string( valuestart, valuesize);
 				config = std::string( config.c_str(), lastptr) + std::string(cc);
@@ -137,7 +139,9 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 
 static bool yesNoFromString( const char* cfgname, const std::string& str)
 {
-	std::string lostr = utils::tolower( str);
+	StringConvError errcode = StringConvOk;
+	std::string lostr = strus::tolower( str, errcode);
+	if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 	if (lostr == "y") return true;
 	if (lostr == "n") return false;
 	if (lostr == "t") return true;
@@ -173,15 +177,15 @@ static bool checkError( NumParseError err, const char* type, ErrorBufferInterfac
 {
 	switch (err)
 	{
-		case NumParserOk:
+		case NumParseOk:
 			return true;
-		case NumParserErrNoMem:
+		case NumParseErrNoMem:
 			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("out of memory"));
 			return false;
-		case NumParserErrConversion:
+		case NumParseErrConversion:
 			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("conversion error"));
 			return false;
-		case NumParserErrOutOfRange:
+		case NumParseErrOutOfRange:
 			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("value out of range"));
 			return false;
 	}
@@ -194,7 +198,7 @@ DLL_PUBLIC bool strus::extractUIntFromConfigString( unsigned int& val, std::stri
 	std::string cfgval;
 	if (extractStringFromConfigString( cfgval, config, key, errorhnd))
 	{
-		NumParseError err;
+		NumParseError err = NumParseOk;
 		val = uintFromString( cfgval, std::numeric_limits<unsigned int>::max(), err);
 		return checkError( err, "UINT", errorhnd);
 	}
@@ -212,7 +216,7 @@ DLL_PUBLIC bool strus::extractFloatFromConfigString( double& val, std::string& c
 		std::string cfgval;
 		if (extractStringFromConfigString( cfgval, config, key, errorhnd))
 		{
-			NumParseError err;
+			NumParseError err = NumParseOk;
 			val = doubleFromString( cfgval, err);
 			return checkError( err, "FLOAT", errorhnd);
 		}

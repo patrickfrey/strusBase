@@ -8,13 +8,13 @@ set( source_files
 )
 
 include_directories(
-	"${Boost_INCLUDE_DIRS}"
+	${Boost_INCLUDE_DIRS}
 	"${BASE_INCLUDE_DIRS}"
 	"${ERROR_SOURCE_DIRS}" 
 )
 
 link_directories(
-	"${Boost_LIBRARY_DIRS}"
+	${Boost_LIBRARY_DIRS}
 	"${UTILS_LIBRARY_DIRS}"
 )
 

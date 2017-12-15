@@ -9,7 +9,7 @@
 /// \file numericVariant.cpp
 #include "strus/numericVariant.hpp"
 #include "strus/base/dll_tags.hpp"
-#include "strus/base/numParser.hpp"
+#include "strus/base/numstring.hpp"
 
 #ifndef __STDC_FORMAT_MACROS
 #define __STDC_FORMAT_MACROS
@@ -45,8 +45,15 @@ static bool signedIntFromString_( int64_t& res, const char* numstr, std::size_t 
 	uint64_t ures = 0;
 	if (numsize > 0 && numstr[0] == '-')
 	{
-		if (!unsignedIntFromString_( ures, numstr+1, numsize-1) || ures > (uint64_t)(std::numeric_limits<int64_t>::max()+1)) return false;
-		res = -(int64_t)ures;
+		if (!unsignedIntFromString_( ures, numstr+1, numsize-1) || ures > (uint64_t)((uint64_t)std::numeric_limits<int64_t>::max()+1)) return false;
+		if (ures == 0)
+		{
+			res = 0;
+		}
+		else
+		{
+			res = -(int64_t)(ures-1)-1;
+		}
 	}
 	else
 	{
@@ -58,9 +65,9 @@ static bool signedIntFromString_( int64_t& res, const char* numstr, std::size_t 
 
 static bool doubleFloatFromString_( double& res, const char* numstr, std::size_t numsize)
 {
-	NumParseError err = NumParserOk;
+	NumParseError err = NumParseOk;
 	res = doubleFromString( numstr, numsize, err);
-	return (err == NumParserOk);
+	return (err == NumParseOk);
 }
 
 DLL_PUBLIC NumericVariant::String::String( const NumericVariant& val, int precision)
@@ -104,7 +111,7 @@ DLL_PUBLIC bool NumericVariant::initFromString( const char* src)
 	if (*si == '.')
 	{
 		double val = 0;
-		if (doubleFloatFromString_( val, src, std::strlen(src)));
+		if (doubleFloatFromString_( val, src, std::strlen(src)))
 		{
 			type = Float;
 			variant.Float = val;
@@ -114,7 +121,7 @@ DLL_PUBLIC bool NumericVariant::initFromString( const char* src)
 	else if (sign_)
 	{
 		int64_t val = 0;
-		if (signedIntFromString_( val, src, std::strlen(src)));
+		if (signedIntFromString_( val, src, std::strlen(src)))
 		{
 			type = Int;
 			variant.Int = val;
@@ -124,7 +131,7 @@ DLL_PUBLIC bool NumericVariant::initFromString( const char* src)
 	else
 	{
 		uint64_t val = 0;
-		if (unsignedIntFromString_( val, src, std::strlen(src)));
+		if (unsignedIntFromString_( val, src, std::strlen(src)))
 		{
 			type = UInt;
 			variant.UInt = val;
@@ -145,9 +152,19 @@ DLL_PUBLIC bool NumericVariant::isequal( const NumericVariant& o) const
 			case UInt: return variant.UInt == o.variant.UInt;
 			case Float:
 			{
-				double xx = variant.Float - o.variant.Float;
-				if (xx < 0) xx = -xx;
-				return xx <= 2*std::numeric_limits<double>::epsilon();
+				double diff;
+				double a = variant.Float;
+				double b = o.variant.Float;
+				if (a > 1E3 || a < -1E3)
+				{
+					diff = 1.0 - a/b;
+					if (diff < 0.0) diff = -diff;
+				}
+				else
+				{
+					diff = a > b ? (a - b) : (b - a);
+				}
+				return (diff < std::numeric_limits<double>::epsilon()*100);
 			}
 		}
 	}
@@ -196,7 +213,7 @@ DLL_PUBLIC int NumericVariant::compare( const NumericVariant& o) const
 			double vv = o.tofloat();
 			double xx = variant.Float - vv;
 			double xxabs = (xx > 0.0) ? xx:-xx;
-			if (xxabs <= 2*std::numeric_limits<double>::epsilon()) return 0;
+			if (xxabs <= 100*std::numeric_limits<double>::epsilon()) return 0;
 			return xx < vv ? -1:+1;
 		}
 	}

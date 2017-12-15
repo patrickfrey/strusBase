@@ -10,7 +10,8 @@
 #ifndef _STRUS_ERROR_BUFFER_IMPLEMENTATION_HPP_INCLUDED
 #define _STRUS_ERROR_BUFFER_IMPLEMENTATION_HPP_INCLUDED
 #include "strus/errorBufferInterface.hpp"
-#include "private/utils.hpp"
+#include "strus/base/atomic.hpp"
+#include "strus/base/thread.hpp"
 #include <cstdio>
 #include <cstdarg>
 
@@ -84,8 +85,8 @@ private:
 	std::size_t m_size;
 	struct Slot
 	{
-		typedef utils::ThreadId::Type Id;
-		typedef utils::AtomicFlag Flag;
+		typedef strus::ThreadId::Type Id;
+		typedef strus::AtomicFlag Flag;
 
 		Slot(){}
 		~Slot(){}

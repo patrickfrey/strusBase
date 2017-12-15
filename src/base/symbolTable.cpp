@@ -7,7 +7,6 @@
  */
 #include "strus/base/symbolTable.hpp"
 #include "strus/base/dll_tags.hpp"
-#include "private/utils.hpp"
 #include <cstdlib>
 #include <cstring>
 
