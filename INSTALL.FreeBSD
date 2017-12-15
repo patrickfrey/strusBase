@@ -25,11 +25,11 @@ Running the tests:
 setenv LD_LIBRARY_PATH /usr/local/lib:/usr/local/lib/gcc48 
 make test
 
-FreeBSD 10.2 on x86_64, i686
+FreeBSD 10.3 on x86_64, i686
 ----------------------------
 
 Install packages with 'pkg install':
-- leveldb, snappy, cmake, boost-libs
+- cmake, boost-libs
 
 Build using the clang/clang++ toolchain:
 
