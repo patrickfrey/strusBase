@@ -6,18 +6,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /// \brief Some functions to parse a number from a string
-#include "strus/base/numParser.hpp"
+#include "strus/base/numstring.hpp"
 #include "strus/base/stdint.h"
 #include "strus/base/dll_tags.hpp"
+#include "private/internationalization.hpp"
 #include <string>
 #include <limits>
 #include <cmath>
 
 using namespace strus;
 
+DLL_PUBLIC std::runtime_error strus::numstring_exception( NumParseError errcode)
+{
+	switch (errcode)
+	{
+		case NumParseOk: return std::runtime_error( _TXT("ok"));
+		case NumParseErrNoMem: return std::runtime_error( _TXT("out of memory in string to number conversion"));
+		case NumParseErrConversion: return std::runtime_error( _TXT("string to number conversion error"));
+		case NumParseErrOutOfRange: return std::runtime_error( _TXT("parsed number out of range"));
+	}
+	return std::runtime_error( _TXT("uncaught string to number conversion error"));
+}
+
 DLL_PUBLIC double strus::doubleFromString( const char* numstr, std::size_t numsize, NumParseError& err)
 {
-	err = NumParserOk;
+	err = NumParseOk;
 	double rt = 0.0;
 	double frac = 0.0;
 	bool got_dot = false;
@@ -54,7 +67,7 @@ DLL_PUBLIC double strus::doubleFromString( const char* numstr, std::size_t numsi
 		{
 			if (got_dot)
 			{
-				err = NumParserErrConversion;
+				err = NumParseErrConversion;
 				return 0.0;
 			}
 			got_dot = true;
@@ -108,7 +121,7 @@ DLL_PUBLIC double strus::doubleFromString( const char* numstr, std::size_t numsi
 	}
 	if (ci != ce)
 	{
-		err = NumParserErrConversion;
+		err = NumParseErrConversion;
 		return 0.0;
 	}
 	if (sign) rt = -rt;
@@ -122,7 +135,7 @@ DLL_PUBLIC double strus::doubleFromString( const std::string& numstr, NumParseEr
 
 static uint64_t unsignedFromString_( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
 {
-	err = NumParserOk;
+	err = NumParseOk;
 	uint64_t rt = 0;
 	uint64_t rt_prev = 0;
 	char const* ci = numstr;
@@ -158,18 +171,18 @@ static uint64_t unsignedFromString_( const char* numstr, std::size_t numsize, ui
 		}
 		if (rt_prev > rt)
 		{
-			rt = NumParserErrOutOfRange;
+			rt = NumParseErrOutOfRange;
 			return 0;
 		}
 	}
 	if (ci != ce)
 	{
-		rt = NumParserErrConversion;
+		rt = NumParseErrConversion;
 		return 0;
 	}
 	if (rt > maxvalue)
 	{
-		rt = NumParserErrOutOfRange;
+		rt = NumParseErrOutOfRange;
 		return 0;
 	}
 	return rt;
@@ -188,7 +201,7 @@ DLL_PUBLIC uint64_t strus::uintFromString( const std::string& numstr, uint64_t m
 
 DLL_PUBLIC int64_t strus::intFromString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
 {
-	err = NumParserOk;
+	err = NumParseOk;
 	bool sign = false;
 	std::size_t ii = 0;
 	if (ii < numsize)

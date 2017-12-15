@@ -9,8 +9,9 @@
 /// \file errorBuffer.cpp
 #include "errorBuffer.hpp"
 #include "strus/base/snprintf.h"
+#include "strus/base/static_assert.hpp"
+#include "strus/base/malloc.hpp"
 #include "private/internationalization.hpp"
-#include "private/utils.hpp"
 #include <stdarg.h>
 #include <cstring>
 #include <cstdio>
@@ -21,7 +22,7 @@ ProcessErrorBuffer::ProcessErrorBuffer()
 	:m_hasmsg(false)
 {
 	STRUS_STATIC_ASSERT( sizeof(*this) == ObjSize);
-	STRUS_STATIC_ASSERT( ObjSize % CACHELINE_SIZE == 0);
+	STRUS_STATIC_ASSERT( ObjSize % STRUS_CACHELINE_SIZE == 0);
 	m_msgbuf[ 0] = '\0';
 }
 
@@ -81,8 +82,8 @@ void ErrorBuffer::clearBuffers()
 		m_slots[ii].~Slot();
 		m_ar[ii].~ProcessErrorBuffer();
 	}
-	utils::aligned_free( (void*)m_ar);
-	utils::aligned_free( (void*)m_slots);
+	strus::aligned_free( (void*)m_ar);
+	strus::aligned_free( (void*)m_slots);
 	m_ar = 0;
 	m_slots = 0;
 	m_size = 0;
@@ -92,8 +93,8 @@ bool ErrorBuffer::initMaxNofThreads( unsigned int maxNofThreads)
 {
 	if (maxNofThreads == 0) maxNofThreads = DefaultMaxNofThreads;
 
-	void* mem_slots = utils::aligned_malloc( maxNofThreads * sizeof(Slot), CACHELINE_SIZE);
-	void* mem_ar = utils::aligned_malloc( maxNofThreads * sizeof(ProcessErrorBuffer), CACHELINE_SIZE);
+	void* mem_slots = strus::aligned_malloc( maxNofThreads * sizeof(Slot), STRUS_CACHELINE_SIZE);
+	void* mem_ar = strus::aligned_malloc( maxNofThreads * sizeof(ProcessErrorBuffer), STRUS_CACHELINE_SIZE);
 	if (!mem_slots || !mem_ar) goto ERROR_EXIT;
 
 	if (m_slots || m_ar) clearBuffers();
@@ -105,8 +106,8 @@ bool ErrorBuffer::initMaxNofThreads( unsigned int maxNofThreads)
 	return true;
 
 ERROR_EXIT:
-	if (mem_slots) utils::aligned_free( mem_slots);
-	if (mem_ar) utils::aligned_free( mem_ar);
+	if (mem_slots) strus::aligned_free( mem_slots);
+	if (mem_ar) strus::aligned_free( mem_ar);
 	return false;
 }
 
@@ -130,7 +131,7 @@ void ErrorBuffer::setLogFile( FILE* hnd)
 
 std::size_t ErrorBuffer::threadidx() const
 {
-	utils::ThreadId::Type tid = utils::ThreadId::get();
+	strus::ThreadId::Type tid = strus::ThreadId::get();
 	std::size_t ti;
 	Slot xx;
 	for (ti=0; ti<m_size; ++ti)
@@ -164,7 +165,7 @@ void ErrorBuffer::allocContext()
 
 void ErrorBuffer::releaseContext()
 {
-	utils::ThreadId::Type tid = utils::ThreadId::get();
+	strus::ThreadId::Type tid = strus::ThreadId::get();
 	std::size_t ti;
 	for (ti=0; ti<m_size; ++ti)
 	{

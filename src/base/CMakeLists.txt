@@ -4,8 +4,9 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # SOURCES AND INCLUDES
 # --------------------------------------
 set( source_files
+	malloc.cpp
 	cmdLineOpt.cpp
-	numParser.cpp
+	numstring.cpp
 	configParser.cpp
 	fileio.cpp
 	exec.cpp
@@ -18,6 +19,7 @@ set( source_files
 	crc32.cpp
 	snprintf.c
 	string_format.cpp
+	string_conv.cpp
 	numericVariant.cpp
 )
 

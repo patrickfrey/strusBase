@@ -4,18 +4,18 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # SOURCES AND INCLUDES
 # --------------------------------------
 set( source_files
-	utils.cpp
 	internationalization.cpp
 )
 
 include_directories(
-	"${Boost_INCLUDE_DIRS}"
+	${Boost_INCLUDE_DIRS}
 	"${Intl_INCLUDE_DIRS}"
-	"${BASE_INCLUDE_DIRS}"
+	${BASE_INCLUDE_DIRS}
 )
 link_directories(
-	"${Boost_LIBRARY_DIRS}"
-	"${UTILS_LIBRARY_DIRS}" )
+	${Boost_LIBRARY_DIRS}
+	"${UTILS_LIBRARY_DIRS}"
+)
 
 
 # -------------------------------------------

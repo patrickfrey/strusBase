@@ -9,6 +9,6 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
-add_executable( testNumericVariant testNumericVariant.cpp)
-target_link_libraries( testNumericVariant strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
+add_executable( testThreads testThreads.cpp)
+target_link_libraries( testThreads strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 
