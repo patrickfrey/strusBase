@@ -80,7 +80,7 @@ static void test( const std::string& testfilename, unsigned int docsize)
 					{
 						eof = true;
 					}
-					else if (error != EINVAL)
+					else if (error != 22/*EINVAL*/)
 					{
 						throw std::runtime_error(::strerror(error));
 					}
