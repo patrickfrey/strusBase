@@ -8,7 +8,6 @@
 #include "strus/base/inputStream.hpp"
 #include "strus/base/stdint.h"
 #include "strus/base/fileio.hpp"
-#include "private/utils.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>

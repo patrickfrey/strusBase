@@ -17,8 +17,6 @@ template <typename T>
 class local_ptr : public std::unique_ptr<T>
 {
 public:
-	// implement the constructors for easier use
-	// in particular
 	explicit local_ptr( T* p = 0 ) :std::unique_ptr<T>(p) {}
 };
 #else
@@ -26,8 +24,6 @@ template <typename T>
 class local_ptr : public std::auto_ptr<T>
 {
 public:
-	// implement the constructors for easier use
-	// in particular
 	explicit local_ptr( T* p = 0 ) :std::auto_ptr<T>(p) {}
 };
 #endif

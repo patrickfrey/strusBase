@@ -48,7 +48,7 @@ template <>
 bool compareValue<double>( const double& a, const double& b)
 {
 	double diff;
-	if (a > 1000.0)
+	if (a > 1E3 || a < -1E3)
 	{
 		diff = 1.0 - a/b;
 		if (diff < 0.0) diff = -diff;
