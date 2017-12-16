@@ -121,6 +121,19 @@ DLL_PUBLIC bool strus::caseInsensitiveStartsWith( const std::string& val, const 
 	return pi == pe;
 }
 
+DLL_PUBLIC bool strus::stringStartsWith( const std::string& val, const std::string& prefix)
+{
+	std::string rt;
+	if (val.size() < prefix.size()) return false;
+	std::string::const_iterator vi = val.begin(), ve = val.end();
+	std::string::const_iterator pi = prefix.begin(), pe = prefix.end();
+	for (; pi != pe; ++pi,++vi)
+	{
+		if (*vi != *pi) return false;
+	}
+	return pi == pe;
+}
+
 DLL_PUBLIC std::string strus::utf8clean( const std::string& name, StringConvError& err)
 {
 	try

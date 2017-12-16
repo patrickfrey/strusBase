@@ -47,11 +47,17 @@ std::string trim( const std::string& val, StringConvError& err);
 /// \return true if strings are equal, false else
 bool caseInsensitiveEquals( const std::string& val1, const std::string& val2);
 
-/// \brief Test prefix on on Ascii letter caseinsensitive equality
+/// \brief Test prefix on Ascii letter caseinsensitive equality
 /// \param[in] val input string
 /// \param[in] prefix prefix to check
 /// \return true if string starts with prefix, false else
 bool caseInsensitiveStartsWith( const std::string& val, const std::string& prefix);
+
+/// \brief Test prefix on equality
+/// \param[in] val input string
+/// \param[in] prefix prefix to check
+/// \return true if string starts with prefix, false else
+bool stringStartsWith( const std::string& val, const std::string& prefix);
 
 /// \brief Convert possibly broken UTF-8 to valid UTF-8
 /// \param[in] val input string
