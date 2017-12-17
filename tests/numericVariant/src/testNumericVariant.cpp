@@ -18,7 +18,7 @@
 
 using namespace strus;
 
-#define PAPUGA_LOWLEVEL_DEBUG
+#define STRUS_LOWLEVEL_DEBUG
 
 static void convString( int64_t& output, const char* valuestr)
 {
