@@ -17,11 +17,20 @@ int main( int argc, const char* argv[])
 {
 	try {
 		int errcnt = 0;
-		if (!stringStartsWith( "prefix", "pre")) errcnt++;
-		if (stringStartsWith( "prefix", "nono")) errcnt++;
-		if (stringStartsWith( "PREFIX", "pre")) errcnt++;
-		if (!caseInsensitiveStartsWith( "PREFIX", "pre")) errcnt++;
-		if (stringStartsWith( "s", "muchlongerprefixthan")) errcnt++;
+		int testidx = 0;
+		testidx++; if (!stringStartsWith( "prefix", "pre")) errcnt++;
+		testidx++; if (stringStartsWith( "prefix", "nono")) errcnt++;
+		testidx++; if (stringStartsWith( "xxprefix", "pre")) errcnt++;
+		testidx++; if (stringStartsWith( "PREFIX", "pre")) errcnt++;
+		testidx++; if (!caseInsensitiveStartsWith( "PREFIX", "pre")) errcnt++;
+		testidx++; if (stringStartsWith( "s", "muchlongerprefixthan")) errcnt++;
+		if (errcnt)
+		{
+			char msgbuf[ 256];
+			std::snprintf( msgbuf, sizeof( msgbuf), "%d out of %d tests failed", errcnt, testidx);
+			throw std::runtime_error( msgbuf);
+		}
+		std::cerr << std::endl << "OK done " << testidx << " tests" << std::endl;
 		return 0;
 	}
 	catch (const std::runtime_error& err)

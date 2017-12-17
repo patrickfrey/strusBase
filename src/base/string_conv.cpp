@@ -112,14 +112,12 @@ DLL_PUBLIC bool strus::caseInsensitiveStartsWith( const std::string& val, const 
 {
 	std::string rt;
 	if (val.size() < prefix.size()) return false;
-	std::string::const_iterator vi = val.begin(), ve = val.end();
+	std::string::const_iterator vi = val.begin();
 	std::string::const_iterator pi = prefix.begin(), pe = prefix.end();
-	for (; pi != pe, vi != ve; ++pi,++vi)
+	for (; pi != pe; ++pi,++vi)
 	{
 		if (std::tolower( *vi) != std::tolower( *pi)) return false;
 	}
-	// val smaller than prefix, this is treated as a not-match
-	if (vi == ve) return false;
 	return pi == pe;
 }
 
@@ -127,14 +125,12 @@ DLL_PUBLIC bool strus::stringStartsWith( const std::string& val, const std::stri
 {
 	std::string rt;
 	if (val.size() < prefix.size()) return false;
-	std::string::const_iterator vi = val.begin(), ve = val.end();
+	std::string::const_iterator vi = val.begin();
 	std::string::const_iterator pi = prefix.begin(), pe = prefix.end();
-	for (; pi != pe, vi != ve; ++pi,++vi)
+	for (; pi != pe; ++pi,++vi)
 	{
 		if (*vi != *pi) return false;
 	}
-	// val smaller than prefix, this is treated as a not-match
-	if (vi == ve) return false;
 	return pi == pe;
 }
 
