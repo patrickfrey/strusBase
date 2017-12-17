@@ -9,6 +9,7 @@
 #include "strus/base/dll_tags.hpp"
 #include <cstdlib>
 #include <cstring>
+#include <limits>
 
 namespace strus {
 
