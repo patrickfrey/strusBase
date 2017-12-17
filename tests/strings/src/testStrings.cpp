@@ -8,6 +8,7 @@
 #include "strus/base/string_conv.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <cstdio>
 #include <cstring>
 #include <string>
 
