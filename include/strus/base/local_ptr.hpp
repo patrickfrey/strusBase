@@ -10,23 +10,29 @@
 #define _STRUS_BASE_LOCAL_PTR_HPP_INCLUDED
 #include <memory>
 
+#if __cplusplus >= 201103L
+#define STRUS_USE_STD_UNIQUE_PTR
+#else
+#undef STRUS_USE_STD_UNIQUE_PTR
+#endif
+
 namespace strus {
 
-#if __cplusplus >= 201103L
+#if defined STRUS_USE_STD_UNIQUE_PTR
 template <typename T>
 class local_ptr : public std::unique_ptr<T>
 {
 public:
 	explicit local_ptr( T* p = 0 ) :std::unique_ptr<T>(p) {}
 };
-#else
+#else //STRUS_USE_STD_UNIQUE_PTR
 template <typename T>
 class local_ptr : public std::auto_ptr<T>
 {
 public:
 	explicit local_ptr( T* p = 0 ) :std::auto_ptr<T>(p) {}
 };
-#endif
+#endif //STRUS_USE_STD_UNIQUE_PTR
 
 } //namespace
 #endif
