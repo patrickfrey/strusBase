@@ -31,6 +31,9 @@ tests/byteOrder/src/testByteOrder
 tests/crc32/src/testCrc32
 tests/inputStream/src/testInputStream
 tests/numParser/src/testNumParser
+tests/bitset/src/testBitSets
+tests/strings/src/testStrings
+tests/threads/src/testThreads
 
 # Test data
 tests/inputStream/random.txt
