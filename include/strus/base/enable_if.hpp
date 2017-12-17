@@ -34,7 +34,7 @@ struct enable_if :public std::enable_if<B,T> {};
 
 namespace strus {
 template< bool B, class T = void >
-struct enable_if :public boost::enable_if<B,T>{};
+struct enable_if :public boost::enable_if_c<B,T>{};
 }//namespace
 
 #endif //STRUS_USE_STD_ENABLE_IF
