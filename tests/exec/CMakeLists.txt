@@ -2,4 +2,4 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 add_subdirectory(src)
 
-add_test( Exec src/testExec )
+add_test( ExecuteProgram src/testExec )
