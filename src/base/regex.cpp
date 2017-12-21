@@ -13,8 +13,13 @@
 
 #undef USE_STD_REGEX
 #if __cplusplus >= 201103L
+
 #if defined __clang__
+#define CLANG_VERSION  (__clang_major__ * 10000 +  __clang_minor__ * 100 + __clang_patchlevel__)
+#if CLANG_VERSION >= 30300
 #define USE_STD_REGEX
+#endif
+
 #elif defined __GNUC__
 #if GCC_VERSION >= 40900
 #define USE_STD_REGEX
