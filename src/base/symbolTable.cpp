@@ -7,6 +7,7 @@
  */
 #include "strus/base/symbolTable.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "strus/base/unordered_map.hpp"
 #include <cstdlib>
 #include <cstring>
 #include <limits>
@@ -160,8 +161,28 @@ void StringMapKeyBlockList::clear()
 	m_ar.clear();
 }
 
+namespace strus {
+class InternalMap
+	:public strus::unordered_map<SymbolTable::Key,uint32_t,SymbolTable::HashFunc,SymbolTable::MapKeyEqual>
+{
+public:
+	InternalMap() :strus::unordered_map<SymbolTable::Key,uint32_t,SymbolTable::HashFunc,SymbolTable::MapKeyEqual>(){}
+};
+}
+
+DLL_PUBLIC SymbolTable::SymbolTable()
+	:m_map(new InternalMap()),m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
+{
+	if (!m_keystring_blocks)
+	{
+		if (!m_map) delete m_map;
+		throw std::bad_alloc();
+	}
+}
+
 DLL_PUBLIC SymbolTable::~SymbolTable()
 {
+	delete m_map;
 	delete m_keystring_blocks;
 }
 
@@ -187,16 +208,18 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 	try
 	{
 		Key newkey( keystr, keylen);
-		Map::const_iterator itr = m_map.find( newkey);
-		m_isnew = (itr == m_map.end());
+		InternalMap::const_iterator itr = m_map->find( newkey);
+		m_isnew = (itr == m_map->end());
 		if (m_isnew)
 		{
 			if (m_invmap.size() >= (std::size_t)std::numeric_limits<int32_t>::max()-1)
 			{
 				throw std::bad_alloc();
 			}
-			m_invmap.push_back( m_keystring_blocks->allocKey( newkey.str, newkey.len));
-			m_map[ Key( m_invmap.back(), newkey.len)] = m_invmap.size();
+			const char* keystr_copy = m_keystring_blocks->allocKey( newkey.str, newkey.len);
+			m_invmap.push_back( keystr_copy);
+			Key kk( keystr_copy, newkey.len);
+			(*m_map)[ kk] = m_invmap.size();
 			return m_invmap.size();
 		}
 		else
@@ -218,8 +241,8 @@ DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key_) const
 DLL_PUBLIC uint32_t SymbolTable::get( const char* keystr, std::size_t keylen) const
 {
 	Key keystruct( keystr, keylen);
-	Map::const_iterator itr = m_map.find( keystruct);
-	if (itr != m_map.end())
+	InternalMap::const_iterator itr = m_map->find( keystruct);
+	if (itr != m_map->end())
 	{
 		return itr->second;
 	}

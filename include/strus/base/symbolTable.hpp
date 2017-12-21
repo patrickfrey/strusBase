@@ -9,7 +9,6 @@
 #ifndef _STRUS_BASE_SYMBOL_TABLE_HPP_INCLUDED
 #define _STRUS_BASE_SYMBOL_TABLE_HPP_INCLUDED
 #include "strus/base/crc32.hpp"
-#include "strus/base/unordered_map.hpp"
 #include <list>
 #include <vector>
 #include <string>
@@ -20,12 +19,14 @@ namespace strus
 {
 ///\brief Forward declaration
 class StringMapKeyBlockList;
+///\brief Forward declaration
+class InternalMap;
 
 ///\brief Map of strings to indices not freed till end of table life time
 /// \note Suitable for symbol tables of languages (DSL)
 class SymbolTable
 {
-private:
+public:
 	///\brief Key of symbol table
 	struct Key
 	{
@@ -62,17 +63,9 @@ private:
 		}
 	};
 
-	typedef strus::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual> Map;
-	typedef strus::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual>::const_iterator const_iterator;
-
 public:
 	///\brief Default constructor
-	SymbolTable()
-		:m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
-
-	{
-		if (!m_keystring_blocks) throw std::bad_alloc();
-	}
+	SymbolTable();
 	///\brief Destructor
 	~SymbolTable();
 
@@ -101,16 +94,6 @@ public:
 	///\return the key string
 	const char* key( const uint32_t& id) const;
 
-	///\brief Get start iterator (unordered)
-	const_iterator begin() const
-	{
-		return m_map.begin();
-	}
-	///\brief Get end iterator (unordered)
-	const_iterator end() const
-	{
-		return m_map.end();
-	}
 	///\brief Get number of elements defined
 	///\return the number of elements defined
 	std::size_t size() const
@@ -152,7 +135,7 @@ private:
 	static StringMapKeyBlockList* createKeystringBlocks();
 
 private:
-	Map m_map;
+	InternalMap* m_map;
 	std::vector<const char*> m_invmap;
 	StringMapKeyBlockList* m_keystring_blocks;
 	bool m_isnew;
