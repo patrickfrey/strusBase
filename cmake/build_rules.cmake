@@ -46,4 +46,3 @@ string( REGEX  MATCH  "\\-std\\=c\\+\\+[1-7]+"  HAVE_CXX_11 "${CMAKE_CXX_FLAGS}"
 if( HAVE_CXX_11 )
 include( cmake/CXX11Features.cmake )
 endif( HAVE_CXX_11 )
-configure_file( "${PROJECT_SOURCE_DIR}/src/base/cxx11features.hpp.in"  "${CMAKE_BINARY_DIR}/src/base/cxx11features.hpp"  @ONLY )
