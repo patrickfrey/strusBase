@@ -27,6 +27,7 @@ int main()
 		if (!test_match( "b([Aa]+)", "xbAaabcdes")) return -1;
 		if (!test_match( "b([Aa]+)b", "xbAaabcdes")) return -1;
 		if (!test_match( "([Aa]+)b", "xbAaabcdes")) return -1;
+		return 0;
 	}
 	catch (const std::regex_error& err)
 	{
@@ -47,6 +48,9 @@ int main()
 		std::cerr << "ERROR " << (errstr ? errstr : "unknown") << std::endl;
 		return 1;
 	}
-	return test ? 0 : 1;
+	catch (...)
+	{
+		return -1;
+	}
 }
 
