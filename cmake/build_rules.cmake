@@ -1,11 +1,6 @@
 # -----------------------------------------------------------------------------------------------
 # Defines the flags for compiler and linker and some build environment settings
 # -----------------------------------------------------------------------------------------------
-# The following definition requires CMake >= 3.1
-set( CMAKE_CXX_COMPILE_FEATURES 
-	"cxx_long_long_type"     # because of boost using 'long long' 
-)
-# Temporary hack to build without warnings with CMake < 3.1:
 IF (CPP_LANGUAGE_VERSION STREQUAL "0x")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 ELSEIF (CPP_LANGUAGE_VERSION STREQUAL "11")
@@ -28,11 +23,11 @@ set_property(GLOBAL PROPERTY rule_launch_compile ccache)
 set_property(GLOBAL PROPERTY rule_launch_link ccache)
 
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wshadow  -pedantic -Wfatal-errors -fvisibility=hidden" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wshadow -pedantic -Wfatal-errors -fvisibility=hidden" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -Wall -pedantic -Wfatal-errors" )
 endif()
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "[cC]lang")
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wshadow  -pedantic -Wfatal-errors -fvisibility=hidden -Wno-unused-private-field" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wshadow -pedantic -Wfatal-errors -fvisibility=hidden -Wno-unused-private-field" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -Wall -pedantic -Wfatal-errors" )
 endif()
 
@@ -47,6 +42,8 @@ set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread" )
 endif()
 endif()
 
-foreach(flag ${CXX11_FEATURE_LIST})
-   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D${flag} -pthread" )
-endforeach()
+string( REGEX  MATCH  "\\-std\\=c\\+\\+[1-7]+"  HAVE_CXX_11 "${CMAKE_CXX_FLAGS}" )
+if( HAVE_CXX_11 )
+include( cmake/CXX11Features.cmake )
+endif( HAVE_CXX_11 )
+configure_file( "${PROJECT_SOURCE_DIR}/src/base/cxx11features.hpp.in"  "${CMAKE_BINARY_DIR}/src/base/cxx11features.hpp"  @ONLY )

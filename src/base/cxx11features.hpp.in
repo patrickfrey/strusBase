@@ -1,0 +1,31 @@
+/*
+ * Copyright (c) 2017 Patrick P. Frey
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+/// \brief Declare C++ features available
+#ifndef _STRUS_CXX11_FEATURES_HPP_INCLUDED
+#define _STRUS_CXX11_FEATURES_HPP_INCLUDED
+
+#define TRUE 1
+#define FALSE 0
+
+#define HAS_CXX11_AUTO @HAS_CXX11_AUTO@
+#define HAS_CXX11_NULLPTR @HAS_CXX11_NULLPTR@
+#define HAS_CXX11_LAMBDA @HAS_CXX11_LAMBDA@
+#define HAS_CXX11_STATIC_ASSERT @HAS_CXX11_STATIC_ASSERT@
+#define HAS_CXX11_RVALUE_REFERENCES @HAS_CXX11_RVALUE_REFERENCES@
+#define HAS_CXX11_DECLTYPE @HAS_CXX11_DECLTYPE@
+#define HAS_CXX11_CSTDINT_H @CXX11_CSTDINT_H@
+#define HAS_CXX11_LONG_LONG @HAS_CXX11_LONG_LONG@
+#define HAS_CXX11_VARIADIC_TEMPLATES @HAS_CXX11_VARIADIC_TEMPLATES@
+#define HAS_CXX11_CONSTEXPR @HAS_CXX11_CONSTEXPR@
+#define HAS_CXX11_SIZEOF_MEMBER @HAS_CXX11_SIZEOF_MEMBER@
+#define HAS_CXX11_FUNC @HAS_CXX11_FUNC@
+#define HAS_CXX11_STD_CHRONO @HAS_CXX11_STD_CHRONO@
+#define HAS_CXX11_REGEX @HAS_CXX11_REGEX@
+
+#endif
+

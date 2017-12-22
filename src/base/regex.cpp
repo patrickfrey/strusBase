@@ -10,18 +10,19 @@
 #include "strus/errorBufferInterface.hpp"
 #include "private/internationalization.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "cxx11features.hpp"
 
 #undef USE_STD_REGEX
 #if __cplusplus >= 201103L
 
 #if defined __clang__
 #define CLANG_VERSION  (__clang_major__ * 10000 +  __clang_minor__ * 100 + __clang_patchlevel__)
-#if CLANG_VERSION >= 30300
+#if CLANG_VERSION >= 30300 && HAS_CXX11_REGEX
 #define USE_STD_REGEX
 #endif
 
 #elif defined __GNUC__
-#if GCC_VERSION >= 40900
+#if GCC_VERSION >= 40900 && HAS_CXX11_REGEX
 #define USE_STD_REGEX
 #endif // GCC_VERSION
 #endif // __clang__
