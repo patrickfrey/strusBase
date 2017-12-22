@@ -20,7 +20,7 @@ include( cmake/link_rules.cmake )
 endif()
 
 set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
-configure_file( "${PROJECT_SOURCE_DIR}/include/strus/versionBase.hpp.in"  "${CMAKE_BINARY_DIR}/include/strus/versionBase.hpp"  @ONLY )
+configure_file( "${PROJECT_SOURCE_DIR}/include/strus/versionBase.hpp.in"  "${CMAKE_CURRENT_BINARY_DIR}/include/strus/versionBase.hpp"  @ONLY )
 configure_file( "${PROJECT_SOURCE_DIR}/dist/obs/deploy_to_obs.sh.in"  "${PROJECT_SOURCE_DIR}/dist/obs/deploy_to_obs.sh"  @ONLY )
 configure_file( "${PROJECT_SOURCE_DIR}/dist/archlinux/PKGBUILD.in"  "${PROJECT_SOURCE_DIR}/dist/archlinux/PKGBUILD"  @ONLY )
 configure_file( "${PROJECT_SOURCE_DIR}/dist/obs/strusbase.dsc.in"  "${PROJECT_SOURCE_DIR}/dist/obs/strusbase.dsc"  @ONLY )
@@ -60,6 +60,9 @@ include( cmake/report_build_settings.cmake )
 endif()
 
 # Install header files:
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/strus
+          DESTINATION include
+          FILES_MATCHING PATTERN "versionBase.hpp")
 install(DIRECTORY include/strus
           DESTINATION include
           FILES_MATCHING PATTERN "*.hpp")
