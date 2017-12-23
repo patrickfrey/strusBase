@@ -66,6 +66,7 @@ dist/obs/strusbase-Debian_7.0.dsc
 dist/obs/strusbase-xUbuntu_12.04.dsc
 dist/redhat/strusbase.spec
 
-# Suggested build directory
+# Suggested build directories
 build
+build_clang
 
