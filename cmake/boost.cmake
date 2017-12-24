@@ -1,8 +1,32 @@
 set(Boost_USE_MULTITHREADED ON)
 set(BOOST_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/include/strus")
 set(BOOST_LIBRARYDIR "${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_DIR}/strus")
-find_package( Boost 1.53.0 COMPONENTS atomic QUIET)
 
+if (BOOST_ROOT)
+set( BOOST_INSTALL_PATH ${BOOST_ROOT} )
+elseif (APPLE)
+execute_process( COMMAND  brew  --prefix  boost
+			   RESULT_VARIABLE  RET_BOOST_PATH
+			   OUTPUT_VARIABLE  OUTPUT_BOOST_PATH
+			   OUTPUT_STRIP_TRAILING_WHITESPACE )
+if( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
+set( BOOST_INSTALL_PATH ${OUTPUT_BOOST_PATH} )
+endif( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
+endif (BOOST_ROOT)
+
+if( BOOST_INSTALL_PATH )
+MESSAGE( STATUS "Installation path of boost: '${BOOST_INSTALL_PATH}' " )
+set( Boost_LIBRARY_DIRS "${BOOST_INSTALL_PATH}/lib" )
+set( Boost_INCLUDE_DIRS "${BOOST_INSTALL_PATH}/include" )
+if (HAS_CXX11_REGEX)
+set( Boost_LIBRARIES boost_thread boost_chrono boost_system boost_date_time boost_atomic )
+else (HAS_CXX11_REGEX)
+set( Boost_LIBRARIES boost_thread boost_chrono boost_system boost_date_time boost_atomic boost_regex )
+endif (HAS_CXX11_REGEX)
+
+elseif( BOOST_INSTALL_PATH )
+
+find_package( Boost 1.53.0 COMPONENTS atomic QUIET)
 if( Boost_ATOMIC_FOUND )
 	if (WIN32)
 		find_package( Boost 1.53.0 REQUIRED COMPONENTS thread-mt system date_time atomic-mt regex )
@@ -24,7 +48,7 @@ else()
 		find_package( Boost 1.53.0 REQUIRED COMPONENTS thread system date_time regex )
 	endif()
 endif()
-
+endif( APPLE)
 MESSAGE( STATUS "Boost includes: ${Boost_INCLUDE_DIRS}" )
 MESSAGE( STATUS "Boost library directories: ${Boost_LIBRARY_DIRS}" )
 MESSAGE( STATUS "Boost libraries: ${Boost_LIBRARIES}" )
