@@ -3,6 +3,7 @@ set(BOOST_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/include/strus")
 set(BOOST_LIBRARYDIR "${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_DIR}/strus")
 
 if (BOOST_ROOT)
+MESSAGE( STATUS "Boost root set: '${BOOST_ROOT}' " )
 set( BOOST_INSTALL_PATH ${BOOST_ROOT} )
 elseif (APPLE)
 execute_process( COMMAND  brew  --prefix  boost
@@ -12,6 +13,8 @@ execute_process( COMMAND  brew  --prefix  boost
 if( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
 MESSAGE( STATUS "Call brew  --prefix  boost result: '${OUTPUT_BOOST_PATH}' " )
 set( BOOST_INSTALL_PATH ${OUTPUT_BOOST_PATH} )
+else( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
+MESSAGE( STATUS "Call brew  --prefix  boost failed with error: '${RET_BOOST_PATH}' " )
 endif( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
 endif (BOOST_ROOT)
 
