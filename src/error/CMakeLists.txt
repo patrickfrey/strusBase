@@ -9,6 +9,7 @@ set( source_files
 
 include_directories(
 	${Boost_INCLUDE_DIRS}
+	"${Intl_INCLUDE_DIRS}"
 	"${BASE_INCLUDE_DIRS}"
 	"${ERROR_SOURCE_DIRS}" 
 )
