@@ -10,12 +10,13 @@ execute_process( COMMAND  brew  --prefix  boost
 			   OUTPUT_VARIABLE  OUTPUT_BOOST_PATH
 			   OUTPUT_STRIP_TRAILING_WHITESPACE )
 if( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
+MESSAGE( STATUS "Call brew  --prefix  boost result: '${OUTPUT_BOOST_PATH}' " )
 set( BOOST_INSTALL_PATH ${OUTPUT_BOOST_PATH} )
 endif( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
 endif (BOOST_ROOT)
 
 if( BOOST_INSTALL_PATH )
-MESSAGE( STATUS "Installation path of boost: '${BOOST_INSTALL_PATH}' " )
+MESSAGE( STATUS "Boost installation path: '${BOOST_INSTALL_PATH}' " )
 set( Boost_LIBRARY_DIRS "${BOOST_INSTALL_PATH}/lib" )
 set( Boost_INCLUDE_DIRS "${BOOST_INSTALL_PATH}/include" )
 if (HAS_CXX11_REGEX)
