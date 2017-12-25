@@ -5,7 +5,7 @@ include_directories(
 	"${BASE_INCLUDE_DIRS}"
 )
 link_directories(
-	"${Boost_LIBRARY_DIRS}"
+	${Boost_LIBRARY_DIRS}
 	"${BASE_LIBRARY_DIRS}"
 )
 

@@ -5,7 +5,7 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/include"
 )
 link_directories(
-	"${Boost_LIBRARY_DIRS}"
+	${Boost_LIBRARY_DIRS}
 )
 
 add_executable( testByteOrder testByteOrder.cpp)

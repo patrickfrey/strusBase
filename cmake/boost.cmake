@@ -29,6 +29,7 @@ set( Boost_LIBRARIES boost_thread boost_chrono boost_system boost_date_time boos
 endif (HAS_CXX11_REGEX)
 
 elseif( BOOST_INSTALL_PATH )
+MESSAGE( STATUS "Search for Boost ..." )
 
 find_package( Boost 1.53.0 COMPONENTS atomic QUIET)
 if( Boost_ATOMIC_FOUND )
