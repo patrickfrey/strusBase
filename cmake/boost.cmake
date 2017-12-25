@@ -2,10 +2,11 @@ set(Boost_USE_MULTITHREADED ON)
 set(BOOST_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/include/strus")
 set(BOOST_LIBRARYDIR "${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_DIR}/strus")
 
-if (BOOST_ROOT)
+if( BOOST_ROOT )
 MESSAGE( STATUS "Boost root set: '${BOOST_ROOT}' " )
 set( BOOST_INSTALL_PATH ${BOOST_ROOT} )
-elseif (APPLE)
+else( BOOST_ROOT )
+if (APPLE)
 execute_process( COMMAND  brew  --prefix  boost
 			   RESULT_VARIABLE  RET_BOOST_PATH
 			   OUTPUT_VARIABLE  OUTPUT_BOOST_PATH
@@ -16,6 +17,7 @@ set( BOOST_INSTALL_PATH ${OUTPUT_BOOST_PATH} )
 else( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
 MESSAGE( STATUS "Call brew  --prefix  boost failed with error: '${RET_BOOST_PATH}' " )
 endif( ${RET_BOOST_PATH} STREQUAL "" OR ${RET_BOOST_PATH} STREQUAL "0" )
+endif (APPLE)
 endif (BOOST_ROOT)
 
 if( BOOST_INSTALL_PATH )
@@ -23,12 +25,12 @@ MESSAGE( STATUS "Boost installation path: '${BOOST_INSTALL_PATH}' " )
 set( Boost_LIBRARY_DIRS "${BOOST_INSTALL_PATH}/lib" )
 set( Boost_INCLUDE_DIRS "${BOOST_INSTALL_PATH}/include" )
 if (HAS_CXX11_REGEX)
-set( Boost_LIBRARIES boost_thread boost_chrono boost_system boost_date_time boost_atomic )
+set( Boost_LIBRARIES boost_thread pthread boost_chrono boost_system boost_date_time boost_atomic )
 else (HAS_CXX11_REGEX)
-set( Boost_LIBRARIES boost_thread boost_chrono boost_system boost_date_time boost_atomic boost_regex )
+set( Boost_LIBRARIES boost_thread pthread boost_chrono boost_system boost_date_time boost_atomic boost_regex )
 endif (HAS_CXX11_REGEX)
 
-elseif( BOOST_INSTALL_PATH )
+else( BOOST_INSTALL_PATH )
 MESSAGE( STATUS "Search for Boost ..." )
 
 find_package( Boost 1.53.0 COMPONENTS atomic QUIET)
