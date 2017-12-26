@@ -120,6 +120,12 @@ int getParentPath( const std::string& path, std::string& dest);
 /// \return 0 on success, errno on failure
 int getAncestorPath( const std::string& path, int level, std::string& dest);
 
+/// \brief Get the extension (including '.') of a file or directory
+/// \param[in] path file system path to get the extension from
+/// \param[out] ext the extension
+/// \return 0 on success, errno on failure
+int getFileExtension( const std::string& path, std::string& ext);
+
 /// \brief Get the OS path element separator
 /// \return the separator
 char dirSeparator();

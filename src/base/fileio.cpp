@@ -555,4 +555,27 @@ DLL_PUBLIC int strus::getParentPath( const std::string& path, std::string& dest)
 	}
 }
 
+DLL_PUBLIC int strus::getFileExtension( const std::string& path, std::string& ext)
+{
+	const char* ri = path.c_str();
+	char const* re = path.c_str()+path.size();
+	ext.clear();
+	for (; re != ri && *(re-1) == STRUS_FILEIO_DIRSEP; --re){}
+	for (; re != ri && *(re-1) != STRUS_FILEIO_DIRSEP && *(re-1) != '.'; --re){}
+	if (re == ri || *(re-1) == STRUS_FILEIO_DIRSEP)
+	{}
+	else if (*(re-1) == '.')
+	{
+		--re;	//... include '.' in result
+		try
+		{
+			ext.append( re);
+		}
+		catch (const std::bad_alloc&)
+		{
+			return 12/*ENOMEM*/;
+		}
+	}
+	return 0;
+}
 
