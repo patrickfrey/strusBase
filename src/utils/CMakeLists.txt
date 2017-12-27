@@ -15,6 +15,7 @@ include_directories(
 link_directories(
 	${Boost_LIBRARY_DIRS}
 	"${UTILS_LIBRARY_DIRS}"
+	${Intl_LIBRARIES}
 )
 
 
