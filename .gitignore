@@ -34,6 +34,8 @@ tests/numParser/src/testNumParser
 tests/bitset/src/testBitSets
 tests/strings/src/testStrings
 tests/threads/src/testThreads
+tests/exec/src/testExec
+tests/numericVariant/src/testNumericVariant
 
 # Test data
 tests/inputStream/random.txt
