@@ -57,7 +57,7 @@ static bool signedIntFromString_( int64_t& res, const char* numstr, std::size_t 
 	}
 	else
 	{
-		if (!unsignedIntFromString_( ures, numstr, numsize) || ures > std::numeric_limits<int64_t>::max()) return false;
+		if (!unsignedIntFromString_( ures, numstr, numsize) || ures > (uint64_t)std::numeric_limits<int64_t>::max()) return false;
 		res = ures;
 	}
 	return true;
