@@ -65,8 +65,12 @@ dist/obs/strusbase.dsc
 dist/obs/strusbase-Debian_7.0.dsc
 dist/obs/strusbase-xUbuntu_12.04.dsc
 dist/redhat/strusbase.spec
+cxx11features.hpp
 
 # Suggested build directories
 build
 build_clang
+
+# deploy to obs tar:
+strusbase-*.tar.gz
 
