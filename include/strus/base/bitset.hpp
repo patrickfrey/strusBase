@@ -192,6 +192,7 @@ public:
 		{
 			if (m_ar[ai]) return false;
 		}
+		return true;
 	}
 
 private:
