@@ -205,7 +205,7 @@ Packager: Patrick Frey <patrickpfrey@yahoo.com>
 Implementing some libraries with common functions and interfaces for the project Strus.
 
 %package devel
-Summary: strusbase development files
+Summary: Development files for strusbase
 Group: Development/Libraries/C++
 
 %description devel
