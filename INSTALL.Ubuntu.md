@@ -11,19 +11,23 @@ Install packages with 'apt-get'/aptitude.
 ## Required packages
 	boost-all >= 1.57
 
+# Fetch sources
+	git clone https://github.com/patrickfrey/strusBase
+	cd strusBase
+
 # Configure with GNU C/C++
-	$ cmake -DCMAKE_BUILD_TYPE=Release .
+	cmake -DCMAKE_BUILD_TYPE=Release .
 
 # Configure with Clang C/C++
-	$ cmake -DCMAKE_BUILD_TYPE=Release \
+	cmake -DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" .
 
 # Build
-	$ make
+	make
 
 # Run tests
-	$ make test
+	make test
 
 # Install
-	$ make install
+	make install
 
