@@ -116,26 +116,6 @@ struct BitOperations
 #endif
 	}
 
-#ifdef __OpenBSD__
-	static inline int slow_loop_ffsl( long mask )
-	{
-		if (mask == 0) {
-			return 0;
-		}
-		int bit = 1;
-		unsigned long mm = mask;
-		while (mm & 0xF == 0)
-		{
-			mm >>= 4;
-			bit += 4;
-		}
-		for (; !(mm & 1); bit++) {
-			mm >>= 1;
-		}
-		return bit;
-	}
-#endif
-
 	static inline unsigned int bitScanForward( const uint64_t& idx)
 	{
 #ifdef __x86_64__
@@ -143,9 +123,8 @@ struct BitOperations
 		if (!idx) return 0;
 		asm(" bsfq %1, %0 \n" : "=r"(result) : "r"(idx) ); 
 		return (unsigned int)(result+1);
-#elif __LONG_MAX__ == 0x7FffFFff
+#elif __LONG_MAX__ == 0x7FffFFff || defined __OpenBSD__
 		if (!idx) return 0;
-		uint32_t result;
 		uint32_t result_incr = 1;
 		uint32_t idx_lo = idx;
 		if (!idx_lo)
@@ -153,14 +132,10 @@ struct BitOperations
 			result_incr += 32;
 			idx_lo = (idx >> 32);
 		}
-		asm(" bsf %1, %0 \n" : "=r"(result) : "r"(idx_lo) ); 
+		uint32_t result = ffs( idx_lo);
 		return (unsigned int)(result+result_incr);
 #else
-#ifdef __OpenBSD__
-		return slow_loop_ffsl( idx);
-#else
 		return ffsl( idx);
-#endif
 #endif
 	}
 

@@ -50,3 +50,4 @@ string( REGEX  MATCH  "\\-std\\=c\\+\\+[1-7]+"  SET_STD_CXX_11 "${CMAKE_CXX_FLAG
 if( SET_STD_CXX_11 )
 include( cmake/CXX11Features.cmake )
 endif( SET_STD_CXX_11 )
+include( cmake/ArchFeatures.cmake )
