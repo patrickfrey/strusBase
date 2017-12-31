@@ -125,7 +125,7 @@ struct BitOperations
 		return (unsigned int)(result+1);
 #elif __LONG_MAX__ == 0x7FffFFff || defined __OpenBSD__
 		if (!idx) return 0;
-		uint32_t result_incr = 1;
+		uint32_t result_incr = 0;
 		uint32_t idx_lo = idx;
 		if (!idx_lo)
 		{
