@@ -188,6 +188,9 @@ static bool checkError( NumParseError err, const char* type, ErrorBufferInterfac
 		case NumParseErrOutOfRange:
 			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("value out of range"));
 			return false;
+		case NumParseErrInvalidArg:
+			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("invalid argument"));
+			return false;
 	}
 	errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("undefined error code"));
 	return false;

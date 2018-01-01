@@ -24,6 +24,7 @@ DLL_PUBLIC std::runtime_error strus::numstring_exception( NumParseError errcode)
 		case NumParseErrNoMem: return std::runtime_error( _TXT("out of memory in string to number conversion"));
 		case NumParseErrConversion: return std::runtime_error( _TXT("string to number conversion error"));
 		case NumParseErrOutOfRange: return std::runtime_error( _TXT("parsed number out of range"));
+		case NumParseErrInvalidArg: return std::runtime_error( _TXT("invalid argument"));
 	}
 	return std::runtime_error( _TXT("uncaught string to number conversion error"));
 }
@@ -199,9 +200,14 @@ DLL_PUBLIC uint64_t strus::uintFromString( const std::string& numstr, uint64_t m
 	return strus::uintFromString( numstr.c_str(), numstr.size(), maxvalue, err);
 }
 
-DLL_PUBLIC int64_t strus::intFromString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
+DLL_PUBLIC int64_t strus::intFromString( const char* numstr, std::size_t numsize, int64_t maxvalue, NumParseError& err)
 {
 	err = NumParseOk;
+	if (maxvalue < 0)
+	{
+		err = NumParseErrInvalidArg;
+		return 0;
+	}
 	bool sign = false;
 	std::size_t ii = 0;
 	if (ii < numsize)
@@ -220,7 +226,7 @@ DLL_PUBLIC int64_t strus::intFromString( const char* numstr, std::size_t numsize
 	return sign?-(int64_t)val:(int64_t)val;
 }
 
-DLL_PUBLIC int64_t strus::intFromString( const std::string& numstr, uint64_t maxvalue, NumParseError& err)
+DLL_PUBLIC int64_t strus::intFromString( const std::string& numstr, int64_t maxvalue, NumParseError& err)
 {
 	return strus::intFromString( numstr.c_str(), numstr.size(), maxvalue, err);
 }

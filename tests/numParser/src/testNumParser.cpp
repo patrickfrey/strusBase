@@ -75,6 +75,8 @@ static void checkError( NumParseError err, const char* type)
 			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "conversion error"));
 		case NumParseErrOutOfRange:
 			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "value out of range"));
+		case NumParseErrInvalidArg:
+			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "invalid argument"));
 	}
 	throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "undefined error code"));
 }

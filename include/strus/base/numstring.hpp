@@ -18,7 +18,8 @@ enum NumParseError {
 	NumParseOk = 0x0,
 	NumParseErrNoMem = 0x1,
 	NumParseErrConversion = 0x2,
-	NumParseErrOutOfRange = 0x3
+	NumParseErrOutOfRange = 0x3,
+	NumParseErrInvalidArg = 0x4
 };
 
 /// \brief Convert string conversion error code into an exception
@@ -28,8 +29,8 @@ std::runtime_error numstring_exception( NumParseError errcode);
 double doubleFromString( const std::string& numstr, NumParseError& err);
 double doubleFromString( const char* numstr, std::size_t numsize, NumParseError& err);
 
-int64_t intFromString( const std::string& numstr, uint64_t maxvalue, NumParseError& err);
-int64_t intFromString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err);
+int64_t intFromString( const std::string& numstr, int64_t maxvalue, NumParseError& err);
+int64_t intFromString( const char* numstr, std::size_t numsize, int64_t maxvalue, NumParseError& err);
 
 uint64_t uintFromString( const std::string& numstr, uint64_t maxvalue, NumParseError& err);
 uint64_t uintFromString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err);
