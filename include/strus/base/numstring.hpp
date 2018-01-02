@@ -89,6 +89,18 @@ struct numstring_conv
 		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
 		return rt;
 	}
+	/// \brief Parsing an integer number from an Ascii string, throwing in case of error
+	/// \param[in] str the number to parse as Ascii string
+	/// \param[in] len length of str in bytes
+	/// \param[in] maxval the maximum value accepted for the result
+	/// \return the number parsed as an integer
+	static int64_t toint( const char* str, std::size_t len, int64_t maxval)
+	{
+		NumParseError errcode = NumParseOk;
+		int64_t rt = strus::intFromString( str, len, maxval, errcode);
+		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
+		return rt;
+	}
 	/// \brief Parsing an unsigned integer number from an Ascii string, throwing in case of error
 	/// \param[in] str the number to parse as Ascii string
 	/// \param[in] maxval the maximum value accepted for the result
@@ -100,6 +112,18 @@ struct numstring_conv
 		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
 		return rt;
 	}
+	/// \brief Parsing an unsigned integer number from an Ascii string, throwing in case of error
+	/// \param[in] str the number to parse as Ascii string
+	/// \param[in] len length of str in bytes
+	/// \param[in] maxval the maximum value accepted for the result
+	/// \return the number parsed as an unsigned integer
+	static uint64_t touint( const char* str, std::size_t len, uint64_t maxval)
+	{
+		NumParseError errcode = NumParseOk;
+		uint64_t rt = strus::uintFromString( str, len, maxval, errcode);
+		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
+		return rt;
+	}
 	/// \brief Parsing a double precision floating point number from an Ascii string, throwing in case of error
 	/// \param[in] str the number to parse as Ascii string
 	/// \return the number parsed as an unsigned integer
@@ -107,6 +131,17 @@ struct numstring_conv
 	{
 		NumParseError errcode = NumParseOk;
 		double rt = strus::doubleFromString( str, errcode);
+		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
+		return rt;
+	}
+	/// \brief Parsing a double precision floating point number from an Ascii string, throwing in case of error
+	/// \param[in] str the number to parse as Ascii string
+	/// \param[in] len length of str in bytes
+	/// \return the number parsed as an unsigned integer
+	static double todouble( const char* str, std::size_t len)
+	{
+		NumParseError errcode = NumParseOk;
+		double rt = strus::doubleFromString( str, len, errcode);
 		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
 		return rt;
 	}
