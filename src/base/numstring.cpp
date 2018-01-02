@@ -16,17 +16,22 @@
 
 using namespace strus;
 
-DLL_PUBLIC std::runtime_error strus::numstring_exception( NumParseError errcode)
+DLL_PUBLIC const char* strus::numstring_error( NumParseError errcode)
 {
 	switch (errcode)
 	{
-		case NumParseOk: return std::runtime_error( _TXT("ok"));
-		case NumParseErrNoMem: return std::runtime_error( _TXT("out of memory in string to number conversion"));
-		case NumParseErrConversion: return std::runtime_error( _TXT("string to number conversion error"));
-		case NumParseErrOutOfRange: return std::runtime_error( _TXT("parsed number out of range"));
-		case NumParseErrInvalidArg: return std::runtime_error( _TXT("invalid argument"));
+		case NumParseOk: return _TXT("ok");
+		case NumParseErrNoMem: return _TXT("out of memory in string to number conversion");
+		case NumParseErrConversion: return _TXT("string to number conversion error");
+		case NumParseErrOutOfRange: return _TXT("parsed number out of range");
+		case NumParseErrInvalidArg: return _TXT("invalid argument");
 	}
-	return std::runtime_error( _TXT("uncaught string to number conversion error"));
+	return _TXT("uncaught string to number conversion error");
+}
+
+DLL_PUBLIC std::runtime_error strus::numstring_exception( NumParseError errcode)
+{
+	return std::runtime_error( numstring_error( errcode));
 }
 
 DLL_PUBLIC double strus::doubleFromString( const char* numstr, std::size_t numsize, NumParseError& err)
@@ -172,18 +177,18 @@ static uint64_t unsignedFromString_( const char* numstr, std::size_t numsize, ui
 		}
 		if (rt_prev > rt)
 		{
-			rt = NumParseErrOutOfRange;
+			err = NumParseErrOutOfRange;
 			return 0;
 		}
 	}
 	if (ci != ce)
 	{
-		rt = NumParseErrConversion;
+		err = NumParseErrConversion;
 		return 0;
 	}
 	if (rt > maxvalue)
 	{
-		rt = NumParseErrOutOfRange;
+		err = NumParseErrOutOfRange;
 		return 0;
 	}
 	return rt;
@@ -222,8 +227,23 @@ DLL_PUBLIC int64_t strus::intFromString( const char* numstr, std::size_t numsize
 			++ii;
 		}
 	}
-	uint64_t val = unsignedFromString_( numstr+ii, numsize-ii, maxvalue, err);
-	return sign?-(int64_t)val:(int64_t)val;
+	uint64_t val = unsignedFromString_( numstr+ii, numsize-ii, (uint64_t)maxvalue+1, err);
+	if (sign && val)
+	{
+		return -(int64_t)(val-1)-1;
+	}
+	else
+	{
+		if (val == (uint64_t)maxvalue+1)
+		{
+			err = NumParseErrOutOfRange;
+			return 0;
+		}
+		else
+		{
+			return val;
+		}
+	}
 }
 
 DLL_PUBLIC int64_t strus::intFromString( const std::string& numstr, int64_t maxvalue, NumParseError& err)
