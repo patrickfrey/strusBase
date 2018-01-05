@@ -158,31 +158,31 @@ BuildRequires: sles-release
 %endif
 
 %if %{rhel} || %{centos} || %{scilin} || %{fedora}
-%if %{rhel6} || %{centos6} || %{scilin6}
-Requires: strusboost >= 1.53.0
-BuildRequires: strusboost-devel >= 1.53.0
+%if %{rhel6} || %{centos6} || %{scilin6} || %{rhel7} || %{centos7} || %{scilin7}
+Requires: strusboost >= 1.57.0
+BuildRequires: strusboost-devel >= 1.57.0
 %else
-Requires: boost >= 1.53.0
-Requires: boost-thread >= 1.53.0
-Requires: boost-system >= 1.53.0
-Requires: boost-date-time >= 1.53.0
-Requires: boost-regex >= 1.53.0
-BuildRequires: boost-devel
+Requires: boost >= 1.57.0
+Requires: boost-thread >= 1.57.0
+Requires: boost-system >= 1.57.0
+Requires: boost-date-time >= 1.57.0
+Requires: boost-regex >= 1.57.0
+BuildRequires: boost-devel >= 1.57.0
 %endif
 %endif
 
 %if %{suse} || %{sles}
 %if %{sles11}
-Requires: strusboost >= 1.53.0
-BuildRequires: strusboost-devel >= 1.53.0
+Requires: strusboost >= 1.57.0
+BuildRequires: strusboost-devel >= 1.57.0
 %endif
 %if %{sles12}
-Requires: libboost_thread1_54_0 >= 1.54.0
-Requires: libboost_atomic1_54_0 >= 1.54.0
-Requires: libboost_system1_54_0 >= 1.54.0
-Requires: libboost_date_time1_54_0 >= 1.54.0
-Requires: libboost_regex1_54_0 >= 1.54.0
-BuildRequires: boost-devel
+Requires: libboost_thread1.57.0 >= 1.57.0
+Requires: libboost_atomic1.57.0 >= 1.57.0
+Requires: libboost_system1.57.0 >= 1.57.0
+Requires: libboost_date_time1.57.0 >= 1.57.0
+Requires: libboost_regex1.57.0 >= 1.57.0
+BuildRequires: boost-devel >= 1.57.0
 %endif
 %if %{osufactory}
 Requires: libboost_thread1_63_0 >= 1.63.0
@@ -190,7 +190,7 @@ Requires: libboost_atomic1_63_0 >= 1.63.0
 Requires: libboost_system1_63_0 >= 1.63.0
 Requires: libboost_date_time1_63_0 >= 1.63.0
 Requires: libboost_regex1_63_0 >= 1.63.0
-BuildRequires: boost-devel
+BuildRequires: boost-devel >= 1.63.0
 %endif
 %endif
 
