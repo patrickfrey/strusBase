@@ -9,7 +9,7 @@ pkgdesc='Common base libraries for the Strus projects.'
 license=('MPL2')
 arch=('i686' 'x86_64')
 url="http://project-strus.net"
-depends=('boost>=1.53' 'boost-libs>=1.53')
+depends=('boost>=1.57' 'boost-libs>=1.57')
 makedepends=('cmake')
 source=("${pkgname}-${_mainpkgver}.tar.gz")
 
