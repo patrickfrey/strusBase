@@ -247,12 +247,11 @@ Requires: libboost_regex1.57.0 >= 1.57.0
 BuildRequires: boost-devel >= 1.57.0
 %endif
 %if %{osutumbleweed}
-Requires: libboost_thread1_66_0 >= 1.66.0
-Requires: libboost_atomic1_66_0 >= 1.66.0
-Requires: libboost_system1_66_0 >= 1.66.0
-Requires: libboost_date_time1_66_0 >= 1.66.0
-Requires: libboost_regex1_66_0 >= 1.66.0
-BuildRequires: boost-devel >= 1.66.0
+BuildRequires: libboost_thread1_66_0-devel >= 1.66.0
+BuildRequires: libboost_atomic1_66_0-devel >= 1.66.0
+BuildRequires: libboost_system1_66_0-devel >= 1.66.0
+BuildRequires: libboost_date_time1_66_0-devel >= 1.66.0
+BuildRequires: libboost_regex1_66_0-devel >= 1.66.0
 %endif
 %endif
 
