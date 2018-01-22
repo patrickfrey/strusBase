@@ -9,6 +9,7 @@
 /// \file errorBufferInterface.hpp
 #ifndef _STRUS_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
 #define _STRUS_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
+#include "strus/errorCodes.hpp"
 #include <cstdio>
 
 /// \brief strus toplevel namespace
