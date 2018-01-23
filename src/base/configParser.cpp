@@ -180,19 +180,19 @@ static bool checkError( NumParseError err, const char* type, ErrorBufferInterfac
 		case NumParseOk:
 			return true;
 		case NumParseErrNoMem:
-			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("out of memory"));
+			errorhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationParse,ErrorCauseOutOfMem), _TXT("failed to extract %s from configuration string: %s"), type, _TXT("out of memory"));
 			return false;
 		case NumParseErrConversion:
-			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("conversion error"));
+			errorhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationConversion,ErrorCauseSyntax), _TXT("failed to extract %s from configuration string: %s"), type, _TXT("conversion error"));
 			return false;
 		case NumParseErrOutOfRange:
-			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("value out of range"));
+			errorhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationConversion,ErrorCauseValueOutOfRange), _TXT("failed to extract %s from configuration string: %s"), type, _TXT("value out of range"));
 			return false;
 		case NumParseErrInvalidArg:
-			errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("invalid argument"));
+			errorhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationConversion,ErrorCauseInvalidArgument), _TXT("failed to extract %s from configuration string: %s"), type, _TXT("invalid argument"));
 			return false;
 	}
-	errorhnd->report(_TXT("failed to extract %s from configuration string: %s"), type, _TXT("undefined error code"));
+	errorhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationParse,ErrorCauseUnknown), _TXT("failed to extract %s from configuration string: %s"), type, _TXT("undefined error code"));
 	return false;
 }
 

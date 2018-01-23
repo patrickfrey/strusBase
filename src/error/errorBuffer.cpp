@@ -26,12 +26,17 @@ ProcessErrorBuffer::ProcessErrorBuffer()
 	m_msgbuf[ 0] = '\0';
 }
 
-void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_list arg)
+void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char* format, va_list arg)
 {
 	if (!m_hasmsg)
 	{
 		char newmsgbuf[ MsgBufSize];
-		strus_vsnprintf( newmsgbuf, sizeof(newmsgbuf), format, arg);
+		std::size_t hdrlen = 0;
+		if (errorcode)
+		{
+			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "##%d ", errorcode);
+		}
+		strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
 		if (logfilehandle)
 		{
 			fprintf( logfilehandle, "%s\n", newmsgbuf);
@@ -178,13 +183,13 @@ void ErrorBuffer::releaseContext()
 	}
 }
 
-void ErrorBuffer::report( const char* format, ...)
+void ErrorBuffer::report( int errorcode, const char* format, ...)
 {
 	std::size_t ti = threadidx();
 	va_list ap;
 	va_start(ap, format);
 
-	m_ar[ ti].report( m_logfilehandle, format, ap);
+	m_ar[ ti].report( errorcode, m_logfilehandle, format, ap);
 
 	va_end(ap);
 }
