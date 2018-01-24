@@ -17,17 +17,17 @@ namespace strus
 	{
 		StrusComponentUnknown=0,
 		StrusComponentBase=1,
-		StrusComponentCore=2,
-		StrusComponentAnalyzer=3,
-		StrusComponentTrace=4,
-		StrusComponentModule=5,
-		StrusComponentRpc=6,
-		StrusComponentVector=7,
-		StrusComponentPattern=8,
-		StrusComponentUtilities=9,
-		StrusComponentBindings=10,
-		StrusComponentWebService=11,
-		StrusComponentOther=20
+		StrusComponentCore=4,
+		StrusComponentAnalyzer=5,
+		StrusComponentTrace=11,
+		StrusComponentModule=12,
+		StrusComponentRpc=13,
+		StrusComponentVector=21,
+		StrusComponentPattern=22,
+		StrusComponentUtilities=31,
+		StrusComponentBindings=32,
+		StrusComponentWebService=33,
+		StrusComponentOther=41
 	};
 
 	enum ErrorOperation
@@ -119,7 +119,7 @@ namespace strus
 		void setComponent( const ErrorComponent& comp_)	{if (comp_) value = value -  ((value / 1000000) % 1000) + (int)comp_ * 1000000;}
 		void setOperation( const ErrorOperation& op_)	{if (op_) value = value -    ((value /    1000) % 1000) + (int)op_   *    1000;}
 		void setCause( const ErrorCause& cause_)	{if (cause_) value = value - ((value          ) % 1000) + (int)cause_;}
-		void setErrno( int errno_)			{if (errno_) value = value - ((value          ) % 1000) + (int)errno_;}
+		void setSysErrno( int errno_)			{if (errno_) value = value - ((value          ) % 1000) + (int)errno_;}
 	};
 }//namespace
 #endif
