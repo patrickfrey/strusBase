@@ -17,8 +17,8 @@ namespace strus
 	{
 		StrusComponentUnknown=0,
 		StrusComponentBase=1,
-		StrusComponentCore=4,
-		StrusComponentAnalyzer=5,
+		StrusComponentCore=2,
+		StrusComponentAnalyzer=3,
 		StrusComponentTrace=11,
 		StrusComponentModule=12,
 		StrusComponentRpc=13,
@@ -57,7 +57,7 @@ namespace strus
 	};
 	enum {MinErrorOperationWithErrnoCode=1,MaxErrorOperationWithErrnoCode=10};
 
-	/// \brief Application sub error codes used for ErrorOperation not inbetween MinErrorOperationWithErrnoCode and MaxErrorOperationWithErrnoCode
+	/// \brief Application sub error codes used for ErrorOperation not inbetween MinErrorOperationWithErrnoCode and MaxErrorOperationWithErrnoCode (these use errno codes as cause)
 	enum ErrorCause
 	{
 		ErrorCauseUnknown=0,
@@ -83,7 +83,6 @@ namespace strus
 		ErrorCauseMaximumLimitReached=20,
 		ErrorCauseBufferOverflow=21,
 		ErrorCauseMaxNofItemsExceeded=22,
-		ErrorCauseInputFormat=23,
 		ErrorCauseLogicError=24,
 		ErrorCauseRuntimeError=25,
 		ErrorCauseUncaughtException=26,
@@ -92,7 +91,8 @@ namespace strus
 		ErrorCausePlatformIncompatibility=29,
 		ErrorCausePlatformRequirements=30,
 		ErrorCauseHiddenError=31,
-		ErrorCauseEncoding=32
+		ErrorCauseInputFormat=41,
+		ErrorCauseEncoding=42
 	};
 
 	struct ErrorCode

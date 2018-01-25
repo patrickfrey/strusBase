@@ -35,4 +35,13 @@ DLL_PUBLIC ErrorBufferInterface* strus::createErrorBuffer_standard( FILE* logfil
 	}
 }
 
+DLL_PUBLIC int errorCodeFromMessage( char const*& msgitr)
+{
+	return ErrorBuffer::nextErrorCode( msgitr);
+}
+
+DLL_PUBLIC void removeErrorCodeFromMessage( char* msg)
+{
+	ErrorBuffer::removeErrorCodes( msg);
+}
 

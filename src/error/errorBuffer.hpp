@@ -75,6 +75,9 @@ public:
 	virtual void allocContext();
 	virtual void releaseContext();
 
+	static int nextErrorCode( char const*& msgitr);
+	static void removeErrorCodes( char* msg);
+
 private:
 	std::size_t threadidx() const;
 	bool initMaxNofThreads( unsigned int maxNofThreads);

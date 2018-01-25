@@ -26,6 +26,67 @@ ProcessErrorBuffer::ProcessErrorBuffer()
 	m_msgbuf[ 0] = '\0';
 }
 
+static int getDigit( unsigned char ch)
+{
+	if (ch >= '0' && ch <= '9')
+	{
+		return ch - '0';
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+int ErrorBuffer::nextErrorCode( char const*& msgitr)
+{
+	while (!!(msgitr = std::strstr( msgitr, "[#")))
+	{
+		int rt = 0;
+		int dg;
+		for (msgitr += 2; 0<(dg=getDigit(*msgitr)); ++msgitr)
+		{
+			rt *= 10;
+			rt += dg;
+		}
+		if (rt && *msgitr == ']')
+		{
+			return rt;
+		}
+	}
+	return 0;
+}
+
+void ErrorBuffer::removeErrorCodes( char* msg)
+{
+	char const* mi = msg;
+	while (*mi)
+	{
+		if (mi[0] == '[' && mi[1] == '#')
+		{
+			char* fw = msg;
+			*fw++ = *mi++;
+			*fw++ = *mi++;
+			int nm = 0;
+			int dg;
+			for (; 0<(dg=getDigit(*mi)); ++nm){*fw++ = *mi++;}
+			if (*mi == ']')
+			{
+				++mi;
+			}
+			else
+			{
+				msg = fw;
+			}
+		}
+		else
+		{
+			*msg++ = *mi++;
+		}
+	}
+	*msg = '\0';
+}
+
 void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char* format, va_list arg)
 {
 	if (!m_hasmsg)
@@ -34,7 +95,7 @@ void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char*
 		std::size_t hdrlen = 0;
 		if (errorcode)
 		{
-			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "##%d ", errorcode);
+			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "[#%d] ", errorcode);
 		}
 		strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
 		if (logfilehandle)
