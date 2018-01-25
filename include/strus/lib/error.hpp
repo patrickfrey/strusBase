@@ -24,11 +24,12 @@ ErrorBufferInterface* createErrorBuffer_standard( FILE* logfilehandle, std::size
 
 /// \brief Get the next error code in an error message printed by the standard error buffer implementation provided here
 /// \param[in,out] msgitr pointer to error message in, pointer to position after the error code extracted
+/// \return error code >= 0 or -1 if no error code found
 int errorCodeFromMessage( char const*& msgitr);
 
 /// \brief Remove all error codes in an error message printed by the standard error buffer implementation provided here
 /// \param[in] msg error message string to process
-void removeErrorCodeFromMessage( char* msg);
+void removeErrorCodesFromMessage( char* msg);
 
 }//namespace
 #endif
