@@ -26,12 +26,78 @@ ProcessErrorBuffer::ProcessErrorBuffer()
 	m_msgbuf[ 0] = '\0';
 }
 
-void ProcessErrorBuffer::report( FILE* logfilehandle, const char* format, va_list arg)
+static int getDigit( unsigned char ch)
+{
+	if (ch >= '0' && ch <= '9')
+	{
+		return ch - '0';
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+int ErrorBuffer::nextErrorCode( char const*& msgitr)
+{
+	while (!!(msgitr = std::strstr( msgitr, "[#")))
+	{
+		int rt = 0;
+		int dg;
+		for (msgitr += 2; 0<(dg=getDigit(*msgitr)); ++msgitr)
+		{
+			rt *= 10;
+			rt += dg;
+		}
+		if (rt && *msgitr == ']')
+		{
+			return rt;
+		}
+	}
+	return 0;
+}
+
+void ErrorBuffer::removeErrorCodes( char* msg)
+{
+	char const* mi = msg;
+	while (*mi)
+	{
+		if (mi[0] == '[' && mi[1] == '#')
+		{
+			char* fw = msg;
+			*fw++ = *mi++;
+			*fw++ = *mi++;
+			int nm = 0;
+			int dg;
+			for (; 0<(dg=getDigit(*mi)); ++nm){*fw++ = *mi++;}
+			if (*mi == ']')
+			{
+				++mi;
+			}
+			else
+			{
+				msg = fw;
+			}
+		}
+		else
+		{
+			*msg++ = *mi++;
+		}
+	}
+	*msg = '\0';
+}
+
+void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char* format, va_list arg)
 {
 	if (!m_hasmsg)
 	{
 		char newmsgbuf[ MsgBufSize];
-		strus_vsnprintf( newmsgbuf, sizeof(newmsgbuf), format, arg);
+		std::size_t hdrlen = 0;
+		if (errorcode)
+		{
+			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "[#%d] ", errorcode);
+		}
+		strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
 		if (logfilehandle)
 		{
 			fprintf( logfilehandle, "%s\n", newmsgbuf);
@@ -178,13 +244,13 @@ void ErrorBuffer::releaseContext()
 	}
 }
 
-void ErrorBuffer::report( const char* format, ...)
+void ErrorBuffer::report( int errorcode, const char* format, ...)
 {
 	std::size_t ti = threadidx();
 	va_list ap;
 	va_start(ap, format);
 
-	m_ar[ ti].report( m_logfilehandle, format, ap);
+	m_ar[ ti].report( errorcode, m_logfilehandle, format, ap);
 
 	va_end(ap);
 }

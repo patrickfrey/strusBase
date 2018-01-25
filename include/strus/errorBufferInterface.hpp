@@ -9,6 +9,7 @@
 /// \file errorBufferInterface.hpp
 #ifndef _STRUS_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
 #define _STRUS_ERROR_BUFFER_INTERFACE_HPP_INCLUDED
+#include "strus/errorCodes.hpp"
 #include <cstdio>
 
 /// \brief strus toplevel namespace
@@ -41,9 +42,9 @@ public:
 	/// \brief Report an error
 	/// \param[in] format error message format string
 	/// \remark must not throw
-	virtual void report( const char* format, ...)
+	virtual void report( int errorcode, const char* format, ...)
 #ifdef __GNUC__
-	__attribute__ ((format (printf, 2, 3)))
+	__attribute__ ((format (printf, 3, 4)))
 #endif
 	=0;
 	/// \brief Report an error, overwriting the previous error

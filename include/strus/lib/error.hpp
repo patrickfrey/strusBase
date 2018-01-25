@@ -17,7 +17,18 @@ namespace strus {
 /// \brief Forward declaration
 class ErrorBufferInterface;
 
+/// \brief Create an error buffer interface
+/// \param[in] logfilehandle where to log error messages
+/// \param[in] maximum number of threads simultaneously writing to and reading from the error buffer interface
 ErrorBufferInterface* createErrorBuffer_standard( FILE* logfilehandle, std::size_t maxNofThreads_);
+
+/// \brief Get the next error code in an error message printed by the standard error buffer implementation provided here
+/// \param[in,out] msgitr pointer to error message in, pointer to position after the error code extracted
+int errorCodeFromMessage( char const*& msgitr);
+
+/// \brief Remove all error codes in an error message printed by the standard error buffer implementation provided here
+/// \param[in] msg error message string to process
+void removeErrorCodeFromMessage( char* msg);
 
 }//namespace
 #endif

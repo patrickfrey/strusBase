@@ -39,11 +39,16 @@ public:
 		throw std::logic_error( "not implemented");
 	}
 
-	virtual void report( const char* format, ...)
+	virtual void report( int errorcode, const char* format, ...)
 	{
 		va_list ap;
 		va_start( ap, format);
-		std::vsnprintf( m_buf, sizeof(m_buf), format, ap);
+		std::size_t hdrlen = 0;
+		if (errorcode)
+		{
+			hdrlen = std::snprintf( m_buf, sizeof(m_buf), "##%d ", errorcode);
+		}
+		std::vsnprintf( m_buf + hdrlen, sizeof(m_buf) - hdrlen, format, ap);
 		m_buf[ sizeof(m_buf)-1] = 0;
 		va_end( ap);
 		m_hasError = true;

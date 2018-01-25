@@ -27,7 +27,7 @@ public:
 	ProcessErrorBuffer();
 	~ProcessErrorBuffer(){}
 
-	void report( FILE* logfilehandle, const char* format, va_list arg);
+	void report( int errorcode, FILE* logfilehandle, const char* format, va_list arg);
 	void explain( FILE* logfilehandle, const char* format);
 
 	const char* fetchError()
@@ -64,7 +64,7 @@ public:
 
 	virtual bool setMaxNofThreads( unsigned int maxNofThreads);
 
-	virtual void report( const char* format, ...);
+	virtual void report( int errorcode, const char* format, ...);
 
 	virtual void explain( const char* format);
 
@@ -74,6 +74,9 @@ public:
 
 	virtual void allocContext();
 	virtual void releaseContext();
+
+	static int nextErrorCode( char const*& msgitr);
+	static void removeErrorCodes( char* msg);
 
 private:
 	std::size_t threadidx() const;
