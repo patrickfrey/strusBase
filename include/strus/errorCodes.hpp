@@ -57,42 +57,42 @@ namespace strus
 	};
 	enum {MinErrorOperationWithErrnoCode=1,MaxErrorOperationWithErrnoCode=10};
 
-	/// \brief Application sub error codes used for ErrorOperation not inbetween MinErrorOperationWithErrnoCode and MaxErrorOperationWithErrnoCode (these use errno codes as cause)
+	/// \brief Application sub error codes beyond errno
 	enum ErrorCause
 	{
-		ErrorCauseUnknown=0,
-		ErrorCauseErrno=1,
-		ErrorCauseOutOfMem=2,
-		ErrorCauseDataCorruption=3,
-		ErrorCauseAvailability=4,
-		ErrorCauseNotAllowed=5,
-		ErrorCauseProtocolError=6,
-		ErrorCauseSyntax=7,
-		ErrorCauseNotFound=8,
-		ErrorCauseIOError=9,
-		ErrorCauseVersionMismatch=10,
-		ErrorCauseInvalidArgument=11,
-		ErrorCauseInvalidRegex=12,
-		ErrorCauseInvalidOperation=13,
-		ErrorCauseNotImplemented=14,
-		ErrorCauseIncompleteDefinition=15,
-		ErrorCauseBindingLanguageError=16,
-		ErrorCauseUnknownIdentifier=17,
-		ErrorCauseOperationOrder=18,
-		ErrorCauseValueOutOfRange=19,
-		ErrorCauseMaximumLimitReached=20,
-		ErrorCauseBufferOverflow=21,
-		ErrorCauseMaxNofItemsExceeded=22,
-		ErrorCauseLogicError=24,
-		ErrorCauseRuntimeError=25,
-		ErrorCauseUncaughtException=26,
-		ErrorCauseIncompleteRequest=27,
-		ErrorCauseUnexpectedEof=28,
-		ErrorCausePlatformIncompatibility=29,
-		ErrorCausePlatformRequirements=30,
-		ErrorCauseHiddenError=31,
-		ErrorCauseInputFormat=41,
-		ErrorCauseEncoding=42
+		ErrorCauseUnknown=200,
+		ErrorCauseErrno=201,
+		ErrorCauseOutOfMem=202,
+		ErrorCauseDataCorruption=203,
+		ErrorCauseAvailability=204,
+		ErrorCauseNotAllowed=205,
+		ErrorCauseProtocolError=206,
+		ErrorCauseSyntax=207,
+		ErrorCauseNotFound=208,
+		ErrorCauseIOError=209,
+		ErrorCauseVersionMismatch=210,
+		ErrorCauseInvalidArgument=211,
+		ErrorCauseInvalidRegex=212,
+		ErrorCauseInvalidOperation=213,
+		ErrorCauseNotImplemented=214,
+		ErrorCauseIncompleteDefinition=215,
+		ErrorCauseBindingLanguageError=216,
+		ErrorCauseUnknownIdentifier=217,
+		ErrorCauseOperationOrder=218,
+		ErrorCauseValueOutOfRange=219,
+		ErrorCauseMaximumLimitReached=220,
+		ErrorCauseBufferOverflow=221,
+		ErrorCauseMaxNofItemsExceeded=222,
+		ErrorCauseLogicError=224,
+		ErrorCauseRuntimeError=225,
+		ErrorCauseUncaughtException=226,
+		ErrorCauseIncompleteRequest=227,
+		ErrorCauseUnexpectedEof=228,
+		ErrorCausePlatformIncompatibility=229,
+		ErrorCausePlatformRequirements=230,
+		ErrorCauseHiddenError=231,
+		ErrorCauseInputFormat=241,
+		ErrorCauseEncoding=242
 	};
 
 	struct ErrorCode
@@ -112,9 +112,8 @@ namespace strus
 
 		ErrorComponent component() const		{return (ErrorComponent)((value / 1000000) % 1000);}
 		ErrorOperation operation() const		{return (ErrorOperation)((value /    1000) % 1000);}
-		bool hasSysErrno() const			{int op = (int)operation(); return (op >= MinErrorOperationWithErrnoCode && op <= MaxErrorOperationWithErrnoCode);}
-		ErrorCause cause() const			{return hasSysErrno() ? ErrorCauseErrno : (ErrorCause)(value % 1000);}
-		int syserrno() const				{return hasSysErrno() ? (value % 1000) : 0;}
+		ErrorCause cause() const			{int ec = value % 1000; return ec < 200 ? ErrorCauseErrno : (ErrorCause)(ec);}
+		int syserrno() const				{int ec = value % 1000; return ec < 200 ? ec : 0;}
 
 		void setComponent( const ErrorComponent& comp_)	{if (comp_) value = value -  ((value / 1000000) % 1000) + (int)comp_ * 1000000;}
 		void setOperation( const ErrorOperation& op_)	{if (op_) value = value -    ((value /    1000) % 1000) + (int)op_   *    1000;}

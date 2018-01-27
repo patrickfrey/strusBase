@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 set( source_files
 	malloc.cpp
 	cmdLineOpt.cpp
+	programOptions.cpp
 	numstring.cpp
 	configParser.cpp
 	fileio.cpp

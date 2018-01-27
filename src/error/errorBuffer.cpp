@@ -44,17 +44,18 @@ int ErrorBuffer::nextErrorCode( char const*& msgitr)
 	{
 		int rt = 0;
 		int dg;
-		for (msgitr += 2; 0<(dg=getDigit(*msgitr)); ++msgitr)
+		for (msgitr += 2; 0<=(dg=getDigit(*msgitr)); ++msgitr)
 		{
 			rt *= 10;
 			rt += dg;
 		}
-		if (rt && *msgitr == ']')
+		if (*msgitr == ']')
 		{
+			++msgitr;
 			return rt;
 		}
 	}
-	return 0;
+	return -1;
 }
 
 void ErrorBuffer::removeErrorCodes( char* msg)
@@ -69,7 +70,7 @@ void ErrorBuffer::removeErrorCodes( char* msg)
 			*fw++ = *mi++;
 			int nm = 0;
 			int dg;
-			for (; 0<(dg=getDigit(*mi)); ++nm){*fw++ = *mi++;}
+			for (; 0<=(dg=getDigit(*mi)); ++nm){*fw++ = *mi++;}
 			if (*mi == ']')
 			{
 				++mi;
