@@ -130,6 +130,17 @@ int getFileExtension( const std::string& path, std::string& ext);
 /// \return the separator
 char dirSeparator();
 
+/// \brief Return true, if the path contains an upper directory reference '..'
+/// \param[in] path file system path
+/// \return true if yes
+bool hasUpdirReference( const std::string& path);
+
+/// \brief Join two path with directory separator
+/// \param[in] parentpath left part of the resulting file system path
+/// \param[in] childpath right part of the resulting file system path
+/// \return the joined path or empty in case of a memory allocation error
+std::string joinFilePath( const std::string& parentpath, const std::string& childpath);
+
 }//namespace
 #endif
 

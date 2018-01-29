@@ -579,3 +579,33 @@ DLL_PUBLIC int strus::getFileExtension( const std::string& path, std::string& ex
 	return 0;
 }
 
+DLL_PUBLIC bool strus::hasUpdirReference( const std::string& path)
+{
+	char const* ri = path.c_str();
+	char const* re = path.c_str()+path.size();
+	if (path.size() < 2) return false;
+	if (ri[0] == '.' && ri[1] == '.') return true;
+
+	for (;ri != re; ++ri)
+	{
+		if (ri[0] == STRUS_FILEIO_DIRSEP && ri[1] == '.' && ri[2] == '.') return true;
+	}
+	return false;
+}
+
+
+DLL_PUBLIC std::string strus::joinFilePath( const std::string& parentpath, const std::string& childpath)
+{
+	try
+	{
+		char const* ri = childpath.c_str();
+		while (*ri == STRUS_FILEIO_DIRSEP) ++ri;
+		return parentpath + STRUS_FILEIO_DIRSEP + ri;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return std::string();
+	}
+}
+
+
