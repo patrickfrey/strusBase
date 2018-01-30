@@ -200,7 +200,6 @@ std::size_t ErrorBuffer::threadidx() const
 {
 	strus::ThreadId::Type tid = strus::ThreadId::get();
 	std::size_t ti;
-	Slot xx;
 	for (ti=0; ti<m_size; ++ti)
 	{
 		if (m_slots[ti].flag.test() && m_slots[ti].id == tid) break;
