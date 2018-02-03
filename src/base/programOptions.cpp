@@ -19,7 +19,7 @@
 
 using namespace strus;
 
-DLL_PUBLIC void ProgramOptions::OptMapDef::add( const char* arg)
+void ProgramOptions::OptMapDef::add( const char* arg)
 {
 	bool hasArg = false;
 	char alias = '\0';
@@ -63,7 +63,7 @@ DLL_PUBLIC void ProgramOptions::OptMapDef::add( const char* arg)
 	longnamemap[ longname] = hasArg;
 }
 
-DLL_PUBLIC bool ProgramOptions::OptMapDef::getOpt( const char* argv, std::vector<std::string>& optlist, std::string& optarg)
+bool ProgramOptions::OptMapDef::getOpt( const char* argv, std::vector<std::string>& optlist, std::string& optarg)
 {
 	optlist.clear();
 	optarg.clear();
