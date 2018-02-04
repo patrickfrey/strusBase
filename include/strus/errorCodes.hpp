@@ -51,9 +51,10 @@ namespace strus
 		ErrorOperationLoadModule=25,
 		ErrorOperationParse=31,
 		ErrorOperationBuildData=32,
-		ErrorOperationCallIndirection=33,
-		ErrorOperationConversion=34,
-		ErrorOperationScanInput=35
+		ErrorOperationConfiguration=33,
+		ErrorOperationCallIndirection=34,
+		ErrorOperationConversion=35,
+		ErrorOperationScanInput=36
 	};
 	enum {MinErrorOperationWithErrnoCode=1,MaxErrorOperationWithErrnoCode=10};
 
