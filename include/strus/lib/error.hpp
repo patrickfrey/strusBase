@@ -9,6 +9,7 @@
 /// \file error.hpp
 #ifndef _STRUS_STORAGE_ERROR_LIB_HPP_INCLUDED
 #define _STRUS_STORAGE_ERROR_LIB_HPP_INCLUDED
+#include "strus/errorCodes.hpp"
 #include <cstdio>
 
 /// \brief strus toplevel namespace
@@ -30,6 +31,11 @@ int errorCodeFromMessage( char const*& msgitr);
 /// \brief Remove all error codes in an error message printed by the standard error buffer implementation provided here
 /// \param[in] msg error message string to process
 void removeErrorCodesFromMessage( char* msg);
+
+/// \brief Get the name of an error component id as string
+/// \param[in] component component id
+/// \return component name as string ("other" if unknown)
+const char* errorComponentName( ErrorComponent component);
 
 }//namespace
 #endif

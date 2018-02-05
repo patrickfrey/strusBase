@@ -45,3 +45,24 @@ DLL_PUBLIC void strus::removeErrorCodesFromMessage( char* msg)
 	ErrorBuffer::removeErrorCodes( msg);
 }
 
+DLL_PUBLIC const char* strus::errorComponentName( ErrorComponent component)
+{
+	switch (component)
+	{
+		case StrusComponentUnknown: return "unknown";
+		case StrusComponentBase: return "base";
+		case StrusComponentCore: return "core";
+		case StrusComponentAnalyzer: return "analyzer";
+		case StrusComponentTrace: return "trace";
+		case StrusComponentModule: return "module";
+		case StrusComponentRpc: return "rpc";
+		case StrusComponentVector: return "vector";
+		case StrusComponentPattern: return "pattern";
+		case StrusComponentUtilities: return "utilities";
+		case StrusComponentBindings: return "bindings";
+		case StrusComponentWebService: return "webservice";
+		default: return "other";
+	}
+}
+
+
