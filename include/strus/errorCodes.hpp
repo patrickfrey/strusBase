@@ -62,7 +62,7 @@ namespace strus
 	/// \brief Application sub error codes beyond errno
 	enum ErrorCause
 	{
-		ErrorCauseUnknown=200,
+		ErrorCauseUnknown=0,
 		ErrorCauseErrno=201,
 		ErrorCauseOutOfMem=202,
 		ErrorCauseDataCorruption=203,
@@ -115,7 +115,7 @@ namespace strus
 
 		ErrorComponent component() const		{return (ErrorComponent)((value / 1000000) % 1000);}
 		ErrorOperation operation() const		{return (ErrorOperation)((value /    1000) % 1000);}
-		ErrorCause cause() const			{int ec = value % 1000; return ec < 200 ? ErrorCauseErrno : (ErrorCause)(ec);}
+		ErrorCause cause() const			{int ec = value % 1000; return ec ? (ec < 200 ? ErrorCauseErrno : (ErrorCause)(ec)) : ErrorCauseUnknown;}
 		int syserrno() const				{int ec = value % 1000; return ec < 200 ? ec : 0;}
 
 		void setComponent( const ErrorComponent& comp_)	{if (comp_) value = value -  ((value / 1000000) % 1000) + (int)comp_ * 1000000;}
