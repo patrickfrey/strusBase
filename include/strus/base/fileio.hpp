@@ -120,6 +120,12 @@ int getParentPath( const std::string& path, std::string& dest);
 /// \return 0 on success, errno on failure
 int getAncestorPath( const std::string& path, int level, std::string& dest);
 
+/// \brief Get the file name without parent path of a file or directory
+/// \param[in] path file system path to get the file name from
+/// \param[out] dest the file name
+/// \return 0 on success, errno on failure
+int getFileName( const std::string& path, std::string& dest, bool withExtension=true);
+
 /// \brief Get the extension (including '.') of a file or directory
 /// \param[in] path file system path to get the extension from
 /// \param[out] ext the extension
