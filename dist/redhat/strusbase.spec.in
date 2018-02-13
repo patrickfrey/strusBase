@@ -330,7 +330,7 @@ make test
 
 
 %changelog
-* Tue Feb 12 2017 Patrick Frey <patrickpfrey@yahoo.com> 0.15.6-0.1
+* Tue Feb 12 2018 Patrick Frey <patrickpfrey@yahoo.com> 0.15.6-0.1
 - added some functions for file handling
 - added mandatory error codes to error handling
 
