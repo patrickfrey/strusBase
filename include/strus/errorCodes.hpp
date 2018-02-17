@@ -95,7 +95,7 @@ namespace strus
 		ErrorCauseUnexpectedEof=271,
 		ErrorCauseHiddenError=272,
 		ErrorCauseInputFormat=281,
-		ErrorCauseEncoding=282,
+		ErrorCauseEncoding=282
 	};
 
 	struct ErrorCode
