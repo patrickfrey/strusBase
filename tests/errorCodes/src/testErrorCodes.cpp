@@ -49,7 +49,7 @@ int main( int, const char**)
 			int res_errcode[4] = {0,0,0,0};
 			while (ei < 4 && 0 <= (res_errcode[ei++] = strus::errorCodeFromMessage( msgitr))){}
 			char output[ 1024];
-			if ((int)sizeof(output) <= std::snprintf(output,sizeof(output),"%s",testitr->input)) throw std::runtime_error("local buffer (1K) too small for test input");
+			if ((int)sizeof(output)-1 <= std::snprintf(output,sizeof(output),"%s",testitr->input)) throw std::runtime_error("local buffer (1K) too small for test input");
 			strus::removeErrorCodesFromMessage( output);
 			std::cerr << "test " << testidx << strus::string_format("\n\tinp '%s'\n\toc=(%d,%d,%d,%d)\n\tec=(%d,%d,%d,%d)\n\tout '%s'\n\texp '%s'",
 					testitr->input,
