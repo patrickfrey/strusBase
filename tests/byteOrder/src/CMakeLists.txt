@@ -8,6 +8,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testByteOrder testByteOrder.cpp )
+
 add_executable( testByteOrder testByteOrder.cpp)
 target_link_libraries( testByteOrder ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 

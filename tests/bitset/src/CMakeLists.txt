@@ -9,6 +9,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testBitSets testBitSets.cpp )
+
 add_executable( testBitSets testBitSets.cpp)
 target_link_libraries( testBitSets strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 

@@ -49,9 +49,15 @@ public:
 	Match find( const char* begin, const char* end) const;
 
 private:
-	RegexSearch( const RegexSearch&){}			//< non copyable
-	void operator=( const RegexSearch&) const {}		//< non copyable
+#if __cplusplus >= 201103L
+	RegexSearch( const RegexSearch&) = delete;
+	void operator=( const RegexSearch&) = delete;
+#else
+	RegexSearch( const RegexSearch&){}			///> non copyable
+	void operator=( const RegexSearch&){}			///> non copyable
+#endif
 
+private:
 	void* m_config;						//< PIMPL for implementation
 	ErrorBufferInterface* m_errhnd;				//< where to report errors
 };
@@ -86,8 +92,15 @@ public:
 	const char* error() const;
 
 private:
-	RegexSubst( const RegexSubst&){}			//< non copyable
-	void operator=( const RegexSubst&) const {}		//< non copyable
+#if __cplusplus >= 201103L
+	RegexSubst( const RegexSubst&) = delete;
+	void operator=( const RegexSubst&) = delete;
+#else
+	RegexSubst( const RegexSubst&){}			///> non copyable
+	void operator=( const RegexSubst&){}			///> non copyable
+#endif
+
+private:
 	void reportError( const char* err);
 
 	void* m_config;						//< PIMPL for implementation

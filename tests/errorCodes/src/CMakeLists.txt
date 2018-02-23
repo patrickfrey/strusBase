@@ -9,6 +9,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testErrorCodes testErrorCodes.cpp )
+
 add_executable( testErrorCodes testErrorCodes.cpp)
 target_link_libraries( testErrorCodes strus_base strus_error ${Intl_LIBRARIES} )
 

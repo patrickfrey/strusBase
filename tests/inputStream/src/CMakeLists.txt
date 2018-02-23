@@ -10,6 +10,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testInputStream testInputStream.cpp )
+
 add_executable( testInputStream testInputStream.cpp)
 target_link_libraries( testInputStream strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 

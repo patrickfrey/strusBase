@@ -35,11 +35,12 @@ link_directories(
 	"${UTILS_LIBRARY_DIRS}"
 )
 
-
 # -------------------------------------------
 # UTILS LIBRARY
 # Library with some helper functions used by strus libraries and programs but not part of the public interface
 # -------------------------------------------
+add_cppcheck( strus_base ${source_files} )
+
 add_library( strus_base SHARED ${source_files} )
 target_link_libraries( strus_base ${Boost_LIBRARIES} strusbase_private_utils )
 set_target_properties(

@@ -9,6 +9,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testThreads testThreads.cpp )
+
 add_executable( testThreads testThreads.cpp)
 target_link_libraries( testThreads strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 

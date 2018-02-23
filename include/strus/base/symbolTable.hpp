@@ -129,9 +129,13 @@ public:
 	void* allocBlock( unsigned int blocksize, unsigned int elemsize);
 
 private:
+#if __cplusplus >= 201103L
+	SymbolTable( const SymbolTable&) = delete;
+	void operator=( const SymbolTable&) = delete;
+#else
 	SymbolTable( const SymbolTable&){}	///> non copyable
 	void operator=( const SymbolTable&){}	///> non copyable
-
+#endif
 	static StringMapKeyBlockList* createKeystringBlocks();
 
 private:

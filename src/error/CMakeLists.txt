@@ -22,6 +22,8 @@ link_directories(
 # -------------------------------------------
 # LIBRARY
 # -------------------------------------------
+add_cppcheck( strus_error ${source_files} )
+
 add_library( strus_error SHARED ${source_files} libstrus_error.cpp )
 target_link_libraries( strus_error strusbase_private_utils strus_base )
 

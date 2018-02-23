@@ -9,6 +9,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testNumericVariant testNumericVariant.cpp )
+
 add_executable( testNumericVariant testNumericVariant.cpp)
 target_link_libraries( testNumericVariant strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 

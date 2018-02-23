@@ -9,6 +9,8 @@ link_directories(
 	${Boost_LIBRARY_DIRS}
 )
 
+add_cppcheck( testNumParser testNumParser.cpp )
+
 add_executable( testNumParser testNumParser.cpp)
 target_link_libraries( testNumParser strus_base ${Boost_LIBRARIES} ${Intl_LIBRARIES} )
 
