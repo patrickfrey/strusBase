@@ -66,7 +66,7 @@ DLL_PUBLIC const char* strus::errorComponentName( ErrorComponent component)
 	}
 }
 
-DLL_PUBLIC const char* errorCauseMessage( ErrorCause cause)
+DLL_PUBLIC const char* strus::errorCauseMessage( ErrorCause cause)
 {
 	if ((int)cause < 200) return ::strerror((int)cause);
 	switch (cause)
