@@ -101,6 +101,7 @@ DLL_PUBLIC const char* strus::errorCauseMessage( ErrorCause cause)
 		case ErrorCauseMaxNofItemsExceeded:	return _TXT("maximum number if items exceeded");
 		case ErrorCauseRuntimeError:		return _TXT("runtime error");
 		case ErrorCauseIncompleteRequest:	return _TXT("incomplete request");
+		case ErrorCauseIncompleteResult:	return _TXT("incomplete result");
 		case ErrorCauseUnexpectedEof:		return _TXT("unexpected end of file/input");
 		case ErrorCauseHiddenError:		return _TXT("hidden error (interface does not allow to see details)");
 		case ErrorCauseInputFormat:		return _TXT("input format");

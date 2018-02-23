@@ -92,6 +92,7 @@ namespace strus
 		ErrorCauseMaxNofItemsExceeded=257,
 		ErrorCauseRuntimeError=258,
 		ErrorCauseIncompleteRequest=259,
+		ErrorCauseIncompleteResult=260,
 		ErrorCauseUnexpectedEof=271,
 		ErrorCauseHiddenError=272,
 		ErrorCauseInputFormat=281,
