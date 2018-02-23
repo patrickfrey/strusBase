@@ -37,6 +37,11 @@ void removeErrorCodesFromMessage( char* msg);
 /// \return component name as string ("other" if unknown)
 const char* errorComponentName( ErrorComponent component);
 
+/// \brief Get the error message as string
+/// \param[in] cause error number
+/// \return error message string
+const char* errorCauseMessage( ErrorCause cause);
+
 }//namespace
 #endif
 
