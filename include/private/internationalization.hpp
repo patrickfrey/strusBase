@@ -5,7 +5,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-/// \brief Provide exceptions with printf stype formating and parameter passing (better for gettext). Gettext support for internationalization of error messages
 #ifndef _STRUS_INTERNATIONALIZATION_HPP_INCLUDED
 #define _STRUS_INTERNATIONALIZATION_HPP_INCLUDED
 #include <libintl.h>
@@ -27,6 +26,15 @@ namespace strus
 std::runtime_error runtime_error( const char* format, ...)
 #ifdef __GNUC__
 	__attribute__ ((format (printf, 1, 2)))
+#endif
+	;
+
+/// \brief Substitute for std::runtime_error with arguments
+/// \param[in] msg c printf format string
+/// \param[in] nofargs number of arguments passed to be substituted in the format string
+std::runtime_error runtime_error( int apperrno, const char* format, ...)
+#ifdef __GNUC__
+	__attribute__ ((format (printf, 2, 3)))
 #endif
 	;
 
