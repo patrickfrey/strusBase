@@ -96,9 +96,10 @@ DLL_PUBLIC const char* strus::errorCauseMessage( ErrorCause cause)
 		case ErrorCauseUnknownIdentifier:	return _TXT("unknown identifier");
 		case ErrorCauseOperationOrder:		return _TXT("invalid order of operations");
 		case ErrorCauseValueOutOfRange:		return _TXT("value out of range");
-		case ErrorCauseMaximumLimitReached:	return _TXT("maximum limit reached");
+		case ErrorCauseMaxLimitReached:		return _TXT("maximum limit reached");
 		case ErrorCauseBufferOverflow:		return _TXT("buffer overflow");
 		case ErrorCauseMaxNofItemsExceeded:	return _TXT("maximum number if items exceeded");
+		case ErrorCauseMaxRecursionDepht:	return _TXT("maximum depth of recursion reached");
 		case ErrorCauseRuntimeError:		return _TXT("runtime error");
 		case ErrorCauseIncompleteRequest:	return _TXT("incomplete request");
 		case ErrorCauseIncompleteResult:	return _TXT("incomplete result");
