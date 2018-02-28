@@ -33,8 +33,8 @@ static inline char const* skipSpaces( char const* cc)
 static bool parseIdentifier( char const*& src, std::string& ident)
 {
 	ident.clear();
+	char const* cc = src;
 
-	char const* cc = skipSpaces(src);
 	while (isSpace(*cc) || *cc == ';') ++cc;
 	if (!*cc) return false;
 
@@ -108,6 +108,8 @@ static bool parseToken( char const*& src, Token& token, char delim)
 
 static bool parseNextConfigItem( char const*& src, std::string& key, Token& token)
 {
+	src = skipSpaces(src);
+	if (!*src) return false;
 	if (!parseIdentifier( src, key))
 	{
 		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s')"), src);
@@ -123,6 +125,9 @@ static bool parseNextConfigItem( char const*& src, std::string& key, Token& toke
 
 static bool parseNextSubConfigItem( char const*& src, std::string& key, Token& token)
 {
+	src = skipSpaces(src);
+	if (!*src) return false;
+
 	if (!parseIdentifier( src, key))
 	{
 		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s')"), src);
