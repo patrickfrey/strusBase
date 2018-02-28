@@ -19,46 +19,65 @@
 
 using namespace strus;
 
-static bool parseNextConfigItem( char const*& src, std::string& cfgkey, const char*& valuestart, std::size_t& valuesize)
+static inline bool isSpace( char ch)
 {
-	cfgkey.clear();
+	return (ch == '\n' || ch == '\t' || ch == '\r' || ch == ' ');
+}
 
-	char const* cc = src;
-	while (*cc && ((unsigned char)*cc <= 32 || *cc == ';')) ++cc;
-	//... skip spaces and delimiters
+static inline char const* skipSpaces( char const* cc)
+{
+	while (isSpace(*cc)) ++cc;
+	return cc;
+}
+
+static bool parseIdentifier( char const*& src, std::string& ident)
+{
+	ident.clear();
+
+	char const* cc = skipSpaces(src);
+	while (isSpace(*cc) || *cc == ';') ++cc;
 	if (!*cc) return false;
 
 	while (((*cc|32) >= 'a' && (*cc|32) <= 'z') || *cc == '_' || (*cc >= '0' && *cc <= '9'))
 	{
-		cfgkey.push_back( *cc++);
+		ident.push_back( *cc++);
 	}
-	if (cfgkey.empty())
-	{
-		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s' | '%s')"), cfgkey.c_str(), src);
-	}
-	if (*cc != '=')
-	{
-		throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s %s' | '%s')"), cfgkey.c_str(), cc, src);
-	}
-	++cc;
-	while (*cc && (unsigned char)*cc <= 32) ++cc;
-	const char* nextItem;
-	const char* endItem;
+	if (ident.empty()) return false;
+	src = cc;
+	return true;
+}
+
+struct Token
+{
+	char const* start;
+	char const* end;
+
+	Token() :start(0),end(0) {}
+
+	std::size_t size() const	{return end-start;}
+	std::string str() const		{return std::string( start, end-start);}
+};
+
+static bool parseToken( char const*& src, Token& token, char delim)
+{
+	char const* nextItem;
+	char const* cc = skipSpaces(src);
 	if (*cc == '"' || *cc == '\'')
 	{
-		// Value is a string (without any escaping of characters supported):
+		// ... value is a string (without any escaping of characters with backslash):
 		char eb = *cc++;
-		for (endItem=cc; *endItem != '\0' && *endItem != eb; ++endItem){}
-		if (*endItem)
+		token.start = cc;
+		for (token.end=cc; *token.end != '\0' && *token.end != eb; ++token.end){}
+		if (*token.end)
 		{
-			nextItem = endItem+1;
+			nextItem = token.end+1;
 		}
 		else
 		{
-			throw strus::runtime_error( "%s", _TXT( "string as configuration value not terminated"));
+			throw strus::runtime_error( "%s", _TXT( "string in configuration not terminated"));
 		}
-		while (*nextItem && (unsigned char)*nextItem <= 32) ++nextItem;
-		if (*nextItem == ';')
+		nextItem = skipSpaces( nextItem);
+		if (*nextItem == delim)
 		{
 			++nextItem;
 		}
@@ -69,23 +88,47 @@ static bool parseNextConfigItem( char const*& src, std::string& cfgkey, const ch
 	}
 	else
 	{
-		// Value is a token:
-		endItem = std::strchr( cc, ';');
-		if (endItem)
+		// ... value is a token:
+		token.start = cc;
+		token.end = std::strchr( cc, delim);
+		if (token.end)
 		{
-			nextItem = endItem+1;
+			nextItem = token.end+1;
 		}
 		else
 		{
-			nextItem = endItem = std::strchr( cc, '\0');
+			nextItem = token.end = std::strchr( cc, '\0');
 		}
 		// Left trim of value:
-		while (endItem > cc && (unsigned char)*(endItem-1) <= 32) --endItem;
+		while (token.end > cc && isSpace(*(token.end-1))) --token.end;
 	}
-	valuestart = cc;
-	valuesize = endItem - cc;
 	src = nextItem;
 	return true;
+}
+
+static bool parseNextConfigItem( char const*& src, std::string& key, Token& token)
+{
+	if (!parseIdentifier( src, key))
+	{
+		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s')"), src);
+	}
+	src = skipSpaces( src);
+	if (*src != '=')
+	{
+		throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s') at '%s')"), key.c_str(), src);
+	}
+	src = skipSpaces( src+1);
+	return parseToken( src, token, ';');
+}
+
+static bool parseNextSubConfigItem( char const*& src, std::string& key, Token& token)
+{
+	if (!parseIdentifier( src, key))
+	{
+		throw strus::runtime_error( _TXT( "expected item identifier as start of a declaration in a config string ('%s')"), src);
+	}
+	src = skipSpaces( src);
+	return parseToken( src, token, ',');
 }
 
 typedef std::pair<std::string,std::string> ConfigItem;
@@ -97,14 +140,13 @@ DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config
 	{
 		ConfigItemList rt;
 		std::string cfgkey;
-		const char* valuestart;
-		std::size_t valuesize;
+		Token token;
 		StringConvError errcode = StringConvOk;
 
 		char const* cc = config.c_str();
-		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
+		while (parseNextConfigItem( cc, cfgkey, token))
 		{
-			rt.push_back( ConfigItem( strus::tolower(cfgkey, errcode), std::string( valuestart, valuesize)));
+			rt.push_back( ConfigItem( strus::tolower( cfgkey, errcode), token.str()));
 			if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		}
 		return rt;
@@ -112,21 +154,41 @@ DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config
 	CATCH_ERROR_MAP_RETURN( _TXT("error parsing configuration string items: %s"), *errorhnd, ConfigItemList());
 }
 
+DLL_PUBLIC std::vector<std::pair<std::string,std::string> > strus::getSubConfigStringItems( const std::string& configelem, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		ConfigItemList rt;
+		std::string cfgkey;
+		Token token;
+		StringConvError errcode = StringConvOk;
+
+		char const* cc = configelem.c_str();
+		while (parseNextSubConfigItem( cc, cfgkey, token))
+		{
+			rt.push_back( ConfigItem( strus::tolower( cfgkey, errcode), token.str()));
+			if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		}
+		return rt;
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("error parsing sub configuration string items: %s"), *errorhnd, ConfigItemList());
+}
+
 DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::string& config, const char* key, ErrorBufferInterface* errorhnd)
 {
 	try
 	{
 		std::string cfgkey;
-		const char* valuestart;
-		std::size_t valuesize;
+		Token token;
 
 		char const* cc = config.c_str();
 		char const* lastptr = cc;
-		while (parseNextConfigItem( cc, cfgkey, valuestart, valuesize))
+
+		while (parseNextConfigItem( cc, cfgkey, token))
 		{
 			if (strus::caseInsensitiveEquals( cfgkey, key))
 			{
-				res = std::string( valuestart, valuesize);
+				res = token.str();
 				config = std::string( config.c_str(), lastptr) + std::string(cc);
 				return true;
 			}

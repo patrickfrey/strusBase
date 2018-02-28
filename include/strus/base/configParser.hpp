@@ -25,6 +25,7 @@ void removeKeysFromConfigString( std::string& config, const char** keys, ErrorBu
 
 bool addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd);
 std::vector<std::pair<std::string,std::string> > getConfigStringItems( const std::string& config, ErrorBufferInterface* errorhnd);
+std::vector<std::pair<std::string,std::string> > getSubConfigStringItems( const std::string& configelem, ErrorBufferInterface* errorhnd);
 
 }//namespace
 #endif
