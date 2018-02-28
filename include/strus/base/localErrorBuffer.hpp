@@ -9,6 +9,7 @@
 /// \file localErrorBuffer.hpp
 #ifndef _STRUS_LOCAL_ERROR_BUFFER_HPP_INCLUDED
 #define _STRUS_LOCAL_ERROR_BUFFER_HPP_INCLUDED
+#include "strus/errorCodes.hpp"
 #include <cstdio>
 #include <cstdarg>
 
@@ -22,7 +23,7 @@ class LocalErrorBuffer :public ErrorBufferInterface
 {
 public:
 	LocalErrorBuffer()
-		:m_hasError(false)
+		:m_errorCode(-1)
 	{
 		m_buf[0] = 0;
 	}
@@ -51,7 +52,7 @@ public:
 		std::vsnprintf( m_buf + hdrlen, sizeof(m_buf) - hdrlen, format, ap);
 		m_buf[ sizeof(m_buf)-1] = 0;
 		va_end( ap);
-		m_hasError = true;
+		m_errorCode = errorcode;
 	}
 
 	virtual void explain( const char* format)
@@ -69,9 +70,9 @@ public:
 
 	virtual const char* fetchError()
 	{
-		if (m_hasError)
+		if (m_errorCode >= 0)
 		{
-			m_hasError = false;
+			m_errorCode = -1;
 			return m_buf;
 		}
 		return 0;
@@ -79,7 +80,7 @@ public:
 
 	virtual bool hasError() const
 	{
-		return m_hasError;
+		return m_errorCode >= 0;
 	}
 
 	virtual void allocContext()
@@ -92,10 +93,15 @@ public:
 		throw std::logic_error( "not implemented");
 	}
 
+	ErrorCause cause() const
+	{
+		return ErrorCode(m_errorCode).cause();
+	}
+
 private:
 	enum {BufferSize=2048};
 	mutable char m_buf[ BufferSize];
-	bool m_hasError;
+	int m_errorCode;
 };
 
 }//namespace
