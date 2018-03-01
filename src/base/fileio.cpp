@@ -625,9 +625,17 @@ DLL_PUBLIC std::string strus::joinFilePath( const std::string& parentpath, const
 {
 	try
 	{
+		if (parentpath.empty())
+		{
+			char const* ri = childpath.c_str();
+			if (*ri != STRUS_FILEIO_DIRSEP) return childpath;
+		}
+		const char* pi = parentpath.c_str();
+		char const* pe = pi + parentpath.size();
+		while (pe != pi && *(pe-1) == STRUS_FILEIO_DIRSEP) --pe;
 		char const* ri = childpath.c_str();
 		while (*ri == STRUS_FILEIO_DIRSEP) ++ri;
-		return parentpath + STRUS_FILEIO_DIRSEP + ri;
+		return std::string(pi,pe-pi) + STRUS_FILEIO_DIRSEP + ri;
 	}
 	catch (const std::bad_alloc&)
 	{
