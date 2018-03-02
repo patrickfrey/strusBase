@@ -91,6 +91,7 @@ DLL_PUBLIC const char* strus::errorCauseMessage( ErrorCause cause)
 		case ErrorCauseInvalidRegex:		return _TXT("invalid regular expression");
 		case ErrorCauseInvalidOperation:	return _TXT("invalid operation");
 		case ErrorCauseNotImplemented:		return _TXT("not implemented");
+		case ErrorCauseIncompleteInitialization:return _TXT("incomplete initialization of object called");
 		case ErrorCauseIncompleteDefinition:	return _TXT("incomplete definition");
 		case ErrorCauseBindingLanguageError:	return _TXT("binding language error");
 		case ErrorCauseUnknownIdentifier:	return _TXT("unknown identifier");
