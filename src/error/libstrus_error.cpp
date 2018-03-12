@@ -46,69 +46,52 @@ DLL_PUBLIC void strus::removeErrorCodesFromMessage( char* msg)
 	ErrorBuffer::removeErrorCodes( msg);
 }
 
-DLL_PUBLIC const char* strus::errorComponentName( ErrorComponent component)
+DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 {
-	switch (component)
+	if (errcode < 200) return ::strerror( errcode);
+	switch ((ErrorCode)errcode)
 	{
-		case StrusComponentUnknown: return "unknown";
-		case StrusComponentBase: return "base";
-		case StrusComponentCore: return "core";
-		case StrusComponentAnalyzer: return "analyzer";
-		case StrusComponentTrace: return "trace";
-		case StrusComponentModule: return "module";
-		case StrusComponentRpc: return "rpc";
-		case StrusComponentVector: return "vector";
-		case StrusComponentPattern: return "pattern";
-		case StrusComponentUtilities: return "utilities";
-		case StrusComponentBindings: return "bindings";
-		case StrusComponentWebService: return "webservice";
-		default: return "other";
-	}
-}
-
-DLL_PUBLIC const char* strus::errorCauseMessage( ErrorCause cause)
-{
-	if ((int)cause < 200) return ::strerror((int)cause);
-	switch (cause)
-	{
-		case ErrorCauseUnknown:			return _TXT("unknown");
-		case ErrorCauseErrno:			return _TXT("unknown");
-		case ErrorCauseOutOfMem:		return _TXT("out of memory");
-		case ErrorCauseDataCorruption:		return _TXT("data corruption");
-		case ErrorCauseMutexLockFailed:		return _TXT("mutex lock failed");
-		case ErrorCauseLogicError:		return _TXT("logic error");
-		case ErrorCauseUncaughtException:	return _TXT("uncaught exception");
-		case ErrorCauseAvailability:		return _TXT("service not available");
-		case ErrorCauseNotAllowed:		return _TXT("access not allowed");
-		case ErrorCauseProtocolError:		return _TXT("protocol error");
-		case ErrorCausePlatformIncompatibility:	return _TXT("platform incompatibility");
-		case ErrorCausePlatformRequirements:	return _TXT("unsatisfied platform requirements");
-		case ErrorCauseSyntax:			return _TXT("syntax error");
-		case ErrorCauseNotFound:		return _TXT("resource not found");
-		case ErrorCauseIOError:			return _TXT("IO error");
-		case ErrorCauseVersionMismatch:		return _TXT("version mismatch");
-		case ErrorCauseInvalidArgument:		return _TXT("invalid argument");
-		case ErrorCauseInvalidRegex:		return _TXT("invalid regular expression");
-		case ErrorCauseInvalidOperation:	return _TXT("invalid operation");
-		case ErrorCauseNotImplemented:		return _TXT("not implemented");
-		case ErrorCauseIncompleteInitialization:return _TXT("incomplete initialization of object called");
-		case ErrorCauseIncompleteDefinition:	return _TXT("incomplete definition");
-		case ErrorCauseBindingLanguageError:	return _TXT("binding language error");
-		case ErrorCauseUnknownIdentifier:	return _TXT("unknown identifier");
-		case ErrorCauseOperationOrder:		return _TXT("invalid order of operations");
-		case ErrorCauseValueOutOfRange:		return _TXT("value out of range");
-		case ErrorCauseMaxLimitReached:		return _TXT("maximum limit reached");
-		case ErrorCauseBufferOverflow:		return _TXT("buffer overflow");
-		case ErrorCauseMaxNofItemsExceeded:	return _TXT("maximum number if items exceeded");
-		case ErrorCauseMaxRecursionDepht:	return _TXT("maximum depth of recursion reached");
-		case ErrorCauseRuntimeError:		return _TXT("runtime error");
-		case ErrorCauseIncompleteRequest:	return _TXT("incomplete request");
-		case ErrorCauseIncompleteResult:	return _TXT("incomplete result");
-		case ErrorCauseUnexpectedEof:		return _TXT("unexpected end of file/input");
-		case ErrorCauseHiddenError:		return _TXT("hidden error (interface does not allow to see details)");
-		case ErrorCauseInputFormat:		return _TXT("input format");
-		case ErrorCauseEncoding:		return _TXT("character encoding error");
-		case ErrorCauseRequestResolveError:	return _TXT("cannot resolve request (HTTP 404)");
+		case ErrorCodeUnknown:			return _TXT("unknown");
+		case ErrorCodeErrno:			return _TXT("unknown");
+		case ErrorCodeOutOfMem:			return _TXT("out of memory");
+		case ErrorCodeDataCorruption:		return _TXT("data corruption");
+		case ErrorCodeMutexLockFailed:		return _TXT("mutex lock failed");
+		case ErrorCodeLogicError:		return _TXT("logic error");
+		case ErrorCodeUncaughtException:	return _TXT("uncaught exception");
+		case ErrorCodeAvailability:		return _TXT("service not available");
+		case ErrorCodeNotAllowed:		return _TXT("access not allowed");
+		case ErrorCodeProtocolError:		return _TXT("protocol error");
+		case ErrorCodePlatformIncompatibility:	return _TXT("platform incompatibility");
+		case ErrorCodePlatformRequirements:	return _TXT("unsatisfied platform requirements");
+		case ErrorCodeSyntax:			return _TXT("syntax error");
+		case ErrorCodeNotFound:			return _TXT("resource not found");
+		case ErrorCodeIOError:			return _TXT("IO error");
+		case ErrorCodeVersionMismatch:		return _TXT("version mismatch");
+		case ErrorCodeInvalidArgument:		return _TXT("invalid argument");
+		case ErrorCodeInvalidRegex:		return _TXT("invalid regular expression");
+		case ErrorCodeInvalidOperation:		return _TXT("invalid operation");
+		case ErrorCodeInvalidFilePath:		return _TXT("invalid or not allowed file path");
+		case ErrorCodeLoadModuleFailed:		return _TXT("failed to load module");
+		case ErrorCodeNotImplemented:		return _TXT("not implemented");
+		case ErrorCodeIncompleteInitialization:	return _TXT("incomplete initialization of object called");
+		case ErrorCodeIncompleteDefinition:	return _TXT("incomplete definition");
+		case ErrorCodeIncompleteConfiguration:	return _TXT("incomplete configuration");
+		case ErrorCodeBindingLanguageError:	return _TXT("binding language error");
+		case ErrorCodeUnknownIdentifier:	return _TXT("unknown identifier");
+		case ErrorCodeOperationOrder:		return _TXT("invalid order of operations");
+		case ErrorCodeValueOutOfRange:		return _TXT("value out of range");
+		case ErrorCodeMaxLimitReached:		return _TXT("maximum limit reached");
+		case ErrorCodeBufferOverflow:		return _TXT("buffer overflow");
+		case ErrorCodeMaxNofItemsExceeded:	return _TXT("maximum number if items exceeded");
+		case ErrorCodeMaxRecursionDepht:	return _TXT("maximum depth of recursion reached");
+		case ErrorCodeRuntimeError:		return _TXT("runtime error");
+		case ErrorCodeIncompleteRequest:	return _TXT("incomplete request");
+		case ErrorCodeIncompleteResult:		return _TXT("incomplete result");
+		case ErrorCodeUnexpectedEof:		return _TXT("unexpected end of file/input");
+		case ErrorCodeHiddenError:		return _TXT("hidden error (interface does not allow to see details)");
+		case ErrorCodeInputFormat:		return _TXT("input format");
+		case ErrorCodeEncoding:			return _TXT("character encoding error");
+		case ErrorCodeRequestResolveError:	return _TXT("cannot resolve request (HTTP 404)");
 		default: return _TXT("unknown");
 	}
 }

@@ -58,9 +58,6 @@ Testing/
 tests/cmake_install.cmake.user
 cmake/build_rules.cmake.user
 src/queryeval/cmake_install.cmake.user
-include/strus/versionBase.hpp
-src/base/fileio_sys.hpp
-src/utils/internationalization.cpp
 dist/obs/deploy_to_obs.sh
 dist/archlinux/PKGBUILD
 dist/obs/strusbase.dsc

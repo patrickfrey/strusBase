@@ -93,9 +93,9 @@ public:
 		throw std::logic_error( "not implemented");
 	}
 
-	ErrorCause cause() const
+	int errorCode() const
 	{
-		return ErrorCode(m_errorCode).cause();
+		return m_errorCode;
 	}
 
 private:

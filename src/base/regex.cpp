@@ -142,7 +142,7 @@ DLL_PUBLIC RegexSearch::RegexSearch( const std::string& expression, int index, E
 	}
 	catch (const std::exception& err)
 	{
-		m_errhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationParse,ErrorCauseInvalidRegex), _TXT("error in constructor of regex search: %s"), err.what());
+		m_errhnd->report( ErrorCodeInvalidRegex, _TXT("error in constructor of regex search: %s"), err.what());
 	}
 }
 
@@ -170,7 +170,7 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 	}
 	catch (const std::exception& err)
 	{
-		m_errhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationScanInput,ErrorCauseRuntimeError), _TXT("error in regex search: %s"), err.what());
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
 		return Match();
 	}
 }
@@ -184,7 +184,7 @@ DLL_PUBLIC RegexSubst::RegexSubst( const std::string& expression, const std::str
 	}
 	catch (const std::exception& err)
 	{
-		m_errhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationParse,ErrorCauseInvalidRegex), _TXT("error in constructor of regex subst: %s"), err.what());
+		m_errhnd->report( ErrorCodeInvalidRegex, _TXT("error in constructor of regex subst: %s"), err.what());
 	}
 }
 
@@ -216,7 +216,7 @@ DLL_PUBLIC bool RegexSubst::exec( std::string& out, const std::string& input) co
 	}
 	catch (const std::exception& err)
 	{
-		m_errhnd->report( *ErrorCode(StrusComponentBase,ErrorOperationScanInput,ErrorCauseRuntimeError), _TXT("error in regex subst: %s"), err.what());
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex subst: %s"), err.what());
 		return false;
 	}
 }

@@ -32,15 +32,10 @@ int errorCodeFromMessage( char const*& msgitr);
 /// \param[in] msg error message string to process
 void removeErrorCodesFromMessage( char* msg);
 
-/// \brief Get the name of an error component id as string
-/// \param[in] component component id
-/// \return component name as string ("other" if unknown)
-const char* errorComponentName( ErrorComponent component);
-
 /// \brief Get the error message as string
-/// \param[in] cause error number
+/// \param[in] errcode error number (errno or strus::ErrorCode)
 /// \return error message string
-const char* errorCauseMessage( ErrorCause cause);
+const char* errorCodeToString( int errcode);
 
 }//namespace
 #endif
