@@ -62,6 +62,12 @@ int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
 /// \return 0 on success, errno on failure
 int removeDirRecursive( const std::string& dirname, bool fail_ifnofexist=false);
 
+/// \brief Moves (renames) a file
+/// \param[in] old_filename the name of the file to rename
+/// \param[in] new_filename the new name of the file
+/// \return 0 on success, errno on failure
+int renameFile( const std::string& old_filename, const std::string& new_filename);
+
 /// \brief Creates a directory if it does not exist yet
 /// \param[in] dirname path of directory to create
 /// \param[in] fail_ifexist return an error if the directory already exists

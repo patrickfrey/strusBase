@@ -123,6 +123,16 @@ DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_
 	}
 }
 
+DLL_PUBLIC int strus::renameFile( const std::string& old_filename, const std::string& new_filename)
+{
+	if (0>::rename( old_filename.c_str(), new_filename.c_str()))
+	{
+		int ec = errno;
+		return ec;
+	}
+	return 0;
+}
+
 DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
 {
 	unsigned char ch;
