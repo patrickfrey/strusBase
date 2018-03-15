@@ -1,3 +1,11 @@
+strusbase (0.15.7-1) unstable; urgency=low
+  * added make target cppcheck for static code analysis
+  * changed error handling: simplified error codes
+  * added some more fileio functions
+  * fixed wrong handling of double '//' in join file path
+  * added some more error codes
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 15 Mar 2018 10:00:00 +0100
+
 strusbase (0.15.6-1) unstable; urgency=low
   * added some functions for file handling
   * added mandatory error codes to error handling
