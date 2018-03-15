@@ -337,7 +337,7 @@ make test
 - fixed wrong handling of double '//' in join file path
 - added some more error codes
 
-* Tue Feb 12 2018 Patrick Frey <patrickpfrey@yahoo.com> 0.15.6-0.1
+* Mon Feb 12 2018 Patrick Frey <patrickpfrey@yahoo.com> 0.15.6-0.1
 - added some functions for file handling
 - added mandatory error codes to error handling
 
