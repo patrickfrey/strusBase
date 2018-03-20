@@ -10,8 +10,11 @@
 #ifndef _STRUS_LOCAL_ERROR_BUFFER_HPP_INCLUDED
 #define _STRUS_LOCAL_ERROR_BUFFER_HPP_INCLUDED
 #include "strus/errorCodes.hpp"
+#include "strus/errorBufferInterface.hpp"
 #include <cstdio>
 #include <cstdarg>
+#include <cstring>
+#include <stdexcept>
 
 /// \brief strus toplevel namespace
 namespace strus
@@ -64,7 +67,7 @@ public:
 			len = sizeof(tmpbuf)-1;
 			tmpbuf[ len] = 0;
 		}
-		memcpy( m_buf, tmpbuf, len);
+		std::memcpy( m_buf, tmpbuf, len);
 		m_buf[ len] = 0;
 	}
 

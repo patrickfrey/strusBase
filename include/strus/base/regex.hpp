@@ -48,6 +48,12 @@ public:
 	///\return a description of the match
 	Match find( const char* begin, const char* end) const;
 
+	///\brief Match the regex to the start of the source
+	///\param[in] begin pointer to the start of the string to search
+	///\param[in] end pointer to the end of the string to search
+	///\return length of the match in byte or -1 if it did not match
+	int match_start( const char* begin, const char* end) const;
+
 private:
 #if __cplusplus >= 201103L
 	RegexSearch( const RegexSearch&) = delete;

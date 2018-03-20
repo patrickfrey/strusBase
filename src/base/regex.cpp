@@ -107,9 +107,11 @@ private:
 #ifdef USE_STD_REGEX
 #define REGEX_SYNTAX std::regex_constants::extended
 #define MATCH_FLAGS std::regex_constants::match_default
+#define MATCH_START_FLAGS std::regex_constants::match_continuous
 #else
 #define REGEX_SYNTAX boost::regex::extended
 #define MATCH_FLAGS boost::match_posix
+#define MATCH_START_FLAGS boost::regex_constants::match_continuous
 #endif
 
 struct RegexSearchConfiguration
@@ -172,6 +174,30 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 	{
 		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
 		return Match();
+	}
+}
+
+DLL_PUBLIC int RegexSearch::match_start( const char* start, const char* end) const
+{
+	try
+	{
+		if (m_config)
+		{
+			rx::match_results<char const*> match;
+			char const* si = start;
+			char const* se = end;
+			if (rx::regex_search( si, se, match, ((RegexSearchConfiguration*)m_config)->expression, MATCH_START_FLAGS))
+			{
+				int idx = ((RegexSearchConfiguration*)m_config)->index;
+				return match.length( idx);
+			}
+		}
+		return -1;
+	}
+	catch (const std::exception& err)
+	{
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
+		return -1;
 	}
 }
 
