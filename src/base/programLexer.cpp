@@ -228,6 +228,13 @@ DLL_PUBLIC const ProgramLexem& ProgramLexer::next()
 	CATCH_ERROR_MAP_RETURN( _TXT("error in lexer get next: %s"), *m_errhnd, m_lexem = ProgramLexem( ProgramLexem::Error));
 }
 
+DLL_PUBLIC const char* ProgramLexer::nextpos()
+{
+	if (m_errhnd->hasError()) return NULL;
+	skipSpaces( m_src, m_eolncomment);
+	return *m_src ? m_src : NULL;
+}
+
 DLL_PUBLIC bool ProgramLexer::skipto( char const* pos_)
 {
 	if (m_src > pos_ || m_end < pos_)

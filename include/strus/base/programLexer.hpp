@@ -67,6 +67,7 @@ public:
 
 	/// \brief Get the next lexem
 	const ProgramLexem& next();
+	/// \brief Get the current lexem
 	const ProgramLexem& current()		{return m_lexem;}
 
 	/// \brief Get the current line number
@@ -80,7 +81,13 @@ public:
 	std::size_t len() const			{return m_end - m_src;}
 
 	/// \brief Skip to a defined position is the parsed source
-	bool skipto( char const* pos_);
+	/// \param[in] pos pointer to position to set scanner to
+	/// \remark pos must be inside of the parsed source
+	bool skipto( char const* pos);
+
+	/// \brief Get the start of the next token
+	/// \return the position of the next token or NULL, if an error occurred or if we got to the end of source
+	const char* nextpos();
 
 	/// \brief Get an excerpt of the current source location starting from a position with a marker inserted
 	/// \param[in] posincr increment of the current position to show
