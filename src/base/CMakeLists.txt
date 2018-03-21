@@ -7,7 +7,7 @@ set( source_files
 	malloc.cpp
 	cmdLineOpt.cpp
 	programOptions.cpp
-#	programLexer.cpp
+	programLexer.cpp
 	numstring.cpp
 	configParser.cpp
 	fileio.cpp

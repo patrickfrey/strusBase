@@ -12,10 +12,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
-#include <cmath>
 #include <vector>
 #include <string>
-#include <limits>
 
 using namespace strus;
 
