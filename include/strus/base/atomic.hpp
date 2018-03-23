@@ -145,7 +145,7 @@ public:
 
 	///\brief Evaluate the current value
 	///\return the current value
-	bool test()
+	bool test() const
 	{
 		return strus::atomic<bool>::load( STRUS_MEMORY_ORDER_ATOMIC_COUNTER);
 	}

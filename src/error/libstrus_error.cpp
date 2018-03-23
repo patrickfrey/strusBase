@@ -12,17 +12,69 @@
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"
 #include "errorBuffer.hpp"
+#include "debugTrace.hpp"
 #include <stdexcept>
 #include <cstdio>
 #include <cstring>
+#include <iostream>
+#include <fstream>
 
 using namespace strus;
 
-DLL_PUBLIC ErrorBufferInterface* strus::createErrorBuffer_standard( FILE* logfilehandle, std::size_t maxNofThreads_)
+DLL_PUBLIC DebugTraceInterface* strus::createDebugTrace_standard( std::size_t maxNofThreads_)
 {
 	try
 	{
-		return new ErrorBuffer( logfilehandle, maxNofThreads_);
+		return new DebugTrace( maxNofThreads_);
+	}
+	catch (const std::bad_alloc&)
+	{
+		return 0;
+	}
+	catch (const std::exception& err)
+	{
+		return 0;
+	}
+}
+
+DLL_PUBLIC bool strus::dumpDebugTrace( DebugTraceInterface* debugTrace, const char* filename)
+{
+	try
+	{
+		std::vector<DebugTraceMessage> msglist = debugTrace->fetchMessages();
+		std::vector<DebugTraceMessage>::const_iterator mi = msglist.begin(), me = msglist.end();
+		if (filename)
+		{
+			std::ofstream ostrm( filename, std::ios::binary);
+			for (; mi != me; ++mi)
+			{
+				ostrm << mi->typeName() << ' ' << mi->component << ' ' << mi->id << ' ' << mi->content << '\n';
+			}
+		}
+		else
+		{
+			for (; mi != me; ++mi)
+			{
+				std::cerr << mi->typeName() << ' ' << mi->component << ' ' << mi->id << ' ' << mi->content << '\n';
+			}
+		}
+		return true;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return false;
+	}
+	catch (const std::exception& err)
+	{
+		return false;
+	}
+}
+
+DLL_PUBLIC ErrorBufferInterface* strus::createErrorBuffer_standard( FILE* logfilehandle, std::size_t maxNofThreads_, DebugTraceInterface* dbgtrace_)
+{
+	try
+	{
+		return new ErrorBuffer( logfilehandle, maxNofThreads_, dbgtrace_);
 	}
 	catch (const std::bad_alloc&)
 	{

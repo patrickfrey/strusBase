@@ -18,6 +18,8 @@
 /// \brief strus toplevel namespace
 namespace strus
 {
+/// \brief Forward declaration
+class DebugTraceInterface;
 
 /// \class ProcessErrorBuffer
 /// \brief Error buffer context for one thread
@@ -57,7 +59,13 @@ class ErrorBuffer
 public:
 	enum {DefaultMaxNofThreads=32};
 
-	ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_);
+	/// \brief Constructor
+	/// \param[in] logfilehandle_ handle for logfile
+	/// \param[in] maxNofThreads_ maximum number of simultaneus threads open, using the error buffer
+	/// \param[in] dbgtrace_ debug trace interface (passed with ownership)
+	ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_, DebugTraceInterface* dbgtrace_);
+
+	/// \brief Destructor
 	virtual ~ErrorBuffer();
 
 	virtual void setLogFile( FILE* hnd);
@@ -74,6 +82,11 @@ public:
 
 	virtual void allocContext();
 	virtual void releaseContext();
+
+	virtual DebugTraceInterface* debugTrace() const
+	{
+		return m_dbgtrace;
+	}
 
 	static int nextErrorCode( char const*& msgitr);
 	static void removeErrorCodes( char* msg);
@@ -100,6 +113,7 @@ private:
 
 	Slot* m_slots;
 	ProcessErrorBuffer* m_ar;
+	DebugTraceInterface* m_dbgtrace;
 };
 
 }//namespace

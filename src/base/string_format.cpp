@@ -13,12 +13,10 @@
 
 using namespace strus;
 
-DLL_PUBLIC std::string strus::string_format( const char* fmt, ...)
+DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
 {
 	std::string rt;
 	char msgbuf[ 4096];
-	va_list ap;
-	va_start( ap, fmt);
 	int len = ::vsnprintf( msgbuf, sizeof(msgbuf), fmt, ap);
 	if (len < (int)sizeof( msgbuf))
 	{
@@ -28,6 +26,7 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, ...)
 		}
 		catch (const std::bad_alloc&)
 		{
+			return std::string();
 		}
 	}
 	else
@@ -47,7 +46,16 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, ...)
 			}
 		}
 	}
-	va_end(ap);
+	return rt;
+}
+
+DLL_PUBLIC std::string strus::string_format( const char* fmt, ...)
+{
+	std::string rt;
+	va_list ap;
+	va_start( ap, fmt);
+	rt = string_format( fmt, ap);
+	va_end( ap);
 	return rt;
 }
 

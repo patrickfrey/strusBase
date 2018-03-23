@@ -17,11 +17,23 @@ namespace strus {
 
 /// \brief Forward declaration
 class ErrorBufferInterface;
+/// \brief Forward declaration
+class DebugTraceInterface;
+
+/// \brief Create an debug trace interface
+/// \param[in] maximum number of threads simultaneously writing to and reading from the error buffer interface
+DebugTraceInterface* createDebugTrace_standard( std::size_t maxNofThreads_);
+
+/// \brief Dump the trace content in a convenient form to a file specified
+/// \param[in] debugTrace debug trace to dump for the current thread
+/// \param[in] filename name of file to dump to, stderr if NULL is specified
+bool dumpDebugTrace( DebugTraceInterface* debugTrace, const char* filename);
 
 /// \brief Create an error buffer interface
 /// \param[in] logfilehandle where to log error messages
 /// \param[in] maximum number of threads simultaneously writing to and reading from the error buffer interface
-ErrorBufferInterface* createErrorBuffer_standard( FILE* logfilehandle, std::size_t maxNofThreads_);
+/// \param[in] debugTrace debug trace interface to use or NULL if undefined, (passed with ownership)
+ErrorBufferInterface* createErrorBuffer_standard( FILE* logfilehandle, std::size_t maxNofThreads_, DebugTraceInterface* debugTrace);
 
 /// \brief Get the next error code in an error message printed by the standard error buffer implementation provided here
 /// \param[in,out] msgitr pointer to error message in, pointer to position after the error code extracted

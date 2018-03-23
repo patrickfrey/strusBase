@@ -38,6 +38,60 @@ static int getDigit( unsigned char ch)
 	}
 }
 
+void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char* format, va_list arg)
+{
+	if (!m_hasmsg)
+	{
+		char newmsgbuf[ MsgBufSize];
+		std::size_t hdrlen = 0;
+		if (errorcode)
+		{
+			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "[#%d] ", errorcode);
+		}
+		strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
+		if (logfilehandle)
+		{
+			fprintf( logfilehandle, "%s\n", newmsgbuf);
+			fflush( logfilehandle);
+		}
+		std::memcpy( m_msgbuf, newmsgbuf, sizeof(m_msgbuf));
+		m_hasmsg = true;
+	}
+	else if (logfilehandle)
+	{
+		char linebuf[ MsgBufSize];
+		strus_vsnprintf( linebuf, sizeof(linebuf), format, arg);
+		fprintf( logfilehandle, "%s\n", linebuf);
+	}
+}
+
+void ProcessErrorBuffer::explain( FILE* logfilehandle, const char* format)
+{
+	char newmsgbuf[ MsgBufSize];
+	if (!m_hasmsg) m_msgbuf[0] = '\0';
+	strus_snprintf( newmsgbuf, sizeof(newmsgbuf), format, m_msgbuf);
+	if (logfilehandle)
+	{
+		fprintf( logfilehandle, "%s\n", newmsgbuf);
+		fflush( logfilehandle);
+	}
+	std::strcpy( m_msgbuf, newmsgbuf);
+	m_hasmsg = true;
+}
+
+
+ErrorBuffer::ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_, DebugTraceInterface* dbgtrace_)
+	:m_logfilehandle(logfilehandle_),m_size(0),m_slots(0),m_ar(0),m_dbgtrace(dbgtrace_)
+{
+	if (!initMaxNofThreads( maxNofThreads_==0?DefaultMaxNofThreads:maxNofThreads_)) throw std::bad_alloc();
+}
+
+ErrorBuffer::~ErrorBuffer()
+{
+	clearBuffers();
+	if (m_dbgtrace) delete m_dbgtrace;
+}
+
 int ErrorBuffer::nextErrorCode( char const*& msgitr)
 {
 	while (!!(msgitr = std::strstr( msgitr, "[#")))
@@ -88,59 +142,6 @@ void ErrorBuffer::removeErrorCodes( char* msg)
 	*msg = '\0';
 }
 
-void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char* format, va_list arg)
-{
-	if (!m_hasmsg)
-	{
-		char newmsgbuf[ MsgBufSize];
-		std::size_t hdrlen = 0;
-		if (errorcode)
-		{
-			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "[#%d] ", errorcode);
-		}
-		strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
-		if (logfilehandle)
-		{
-			fprintf( logfilehandle, "%s\n", newmsgbuf);
-			fflush( logfilehandle);
-		}
-		std::memcpy( m_msgbuf, newmsgbuf, sizeof(m_msgbuf));
-		m_hasmsg = true;
-	}
-	else if (logfilehandle)
-	{
-		char linebuf[ MsgBufSize];
-		strus_vsnprintf( linebuf, sizeof(linebuf), format, arg);
-		fprintf( logfilehandle, "%s\n", linebuf);
-	}
-}
-
-void ProcessErrorBuffer::explain( FILE* logfilehandle, const char* format)
-{
-	char newmsgbuf[ MsgBufSize];
-	if (!m_hasmsg) m_msgbuf[0] = '\0';
-	strus_snprintf( newmsgbuf, sizeof(newmsgbuf), format, m_msgbuf);
-	if (logfilehandle)
-	{
-		fprintf( logfilehandle, "%s\n", newmsgbuf);
-		fflush( logfilehandle);
-	}
-	std::strcpy( m_msgbuf, newmsgbuf);
-	m_hasmsg = true;
-}
-
-
-ErrorBuffer::ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_)
-	:m_logfilehandle(logfilehandle_),m_size(0),m_slots(0),m_ar(0)
-{
-	if (!initMaxNofThreads( maxNofThreads_==0?DefaultMaxNofThreads:maxNofThreads_)) throw std::bad_alloc();
-}
-
-ErrorBuffer::~ErrorBuffer()
-{
-	clearBuffers();
-}
-
 void ErrorBuffer::clearBuffers()
 {
 	std::size_t ii=0;
@@ -159,7 +160,10 @@ void ErrorBuffer::clearBuffers()
 bool ErrorBuffer::initMaxNofThreads( unsigned int maxNofThreads)
 {
 	if (maxNofThreads == 0) maxNofThreads = DefaultMaxNofThreads;
-
+	if (m_dbgtrace && !m_dbgtrace->setMaxNofThreads( maxNofThreads))
+	{
+		return false;
+	}
 	void* mem_slots = strus::aligned_malloc( maxNofThreads * sizeof(Slot), STRUS_CACHELINE_SIZE);
 	void* mem_ar = strus::aligned_malloc( maxNofThreads * sizeof(ProcessErrorBuffer), STRUS_CACHELINE_SIZE);
 	if (!mem_slots || !mem_ar) goto ERROR_EXIT;

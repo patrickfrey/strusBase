@@ -96,6 +96,11 @@ public:
 		throw std::logic_error( "not implemented");
 	}
 
+	virtual DebugTraceInterface* debugTrace() const
+	{
+		return NULL;
+	}
+
 	int errorCode() const
 	{
 		return m_errorCode;
