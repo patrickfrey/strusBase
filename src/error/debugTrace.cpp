@@ -61,7 +61,7 @@ void ProcessDebugTrace::close( const char* component)
 	if (checkThreadId()) try
 	{
 		int idx = m_stk.back();
-		if (idx >= 0 && idx < m_msgar.size())
+		if (idx >= 0 && idx < (int)m_msgar.size())
 		{
 			const DebugTraceMessage& openmsg = m_msgar[ idx];
 			if (0==std::strcmp( component, openmsg.component))
