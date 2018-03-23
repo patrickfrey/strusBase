@@ -50,7 +50,7 @@ private:
 	std::vector<DebugTraceMessage> m_msgar;
 	enum {SizeOfEnableList = 256};
 	char* m_enablelist[ SizeOfEnableList];
-	std::size_t m_enablelistsize;
+	int m_enablelistsize;
 };
 
 
