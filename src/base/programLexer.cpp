@@ -203,12 +203,12 @@ DLL_PUBLIC const ProgramLexem& ProgramLexer::next()
 		{
 			return m_lexem = ProgramLexem( ProgramLexem::DQString, 0, parse_STRING( m_src));
 		}
-		int len;
-		int lidx = findLexemInList( m_lexems, m_src, m_end, len);
+		int ll = 0;
+		int lidx = findLexemInList( m_lexems, m_src, m_end, ll);
 		if (lidx >= 0)
 		{
 			int errlen;
-			if (0<=findLexemInList( m_errlexems, m_src, m_end, errlen) && errlen > len)
+			if (0<=findLexemInList( m_errlexems, m_src, m_end, errlen) && errlen > ll)
 			{
 				std::string errpos = escString( m_src, 30);
 				m_errhnd->report( ErrorCodeSyntax, _TXT("syntax error on line %d of source, bad token at '%s..'"), lineno(), errpos.c_str());
@@ -217,8 +217,8 @@ DLL_PUBLIC const ProgramLexem& ProgramLexer::next()
 			else
 			{
 				char const* tok = m_src;
-				m_src += len;
-				return m_lexem = ProgramLexem( ProgramLexem::Token, lidx, std::string( tok, len));
+				m_src += ll;
+				return m_lexem = ProgramLexem( ProgramLexem::Token, lidx, std::string( tok, ll));
 			}
 		}
 		std::string errpos = escString( m_src, 30);
