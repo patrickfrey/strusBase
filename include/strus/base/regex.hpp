@@ -31,8 +31,9 @@ public:
 			:pos(pos_),len(len_){}
 		Match( const Match& o)
 			:pos(o.pos),len(o.len){}
-
-		bool valid() const	{return pos>0;}
+		Match& operator=( const Match& o)
+			{pos=o.pos;len=o.len; return *this;}
+		bool valid() const	{return pos>=0;}
 	};
 
 	///\brief Constructor

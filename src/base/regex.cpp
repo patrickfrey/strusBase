@@ -165,15 +165,17 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 			if (rx::regex_search( si, se, pieces_match, ((RegexSearchConfiguration*)m_config)->expression, MATCH_FLAGS))
 			{
 				int idx = ((RegexSearchConfiguration*)m_config)->index;
-				return Match( pieces_match.position( idx), pieces_match.length( idx));
+				int mpos = pieces_match.position( idx);
+				int mlen = pieces_match.length( idx);
+				return RegexSearch::Match( mpos, mlen);
 			}
 		}
-		return Match();
+		return RegexSearch::Match();
 	}
 	catch (const std::exception& err)
 	{
 		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
-		return Match();
+		return RegexSearch::Match();
 	}
 }
 
