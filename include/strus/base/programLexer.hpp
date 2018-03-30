@@ -38,6 +38,7 @@ public:
 		:m_type(o.m_type),m_id(o.m_id),m_value(o.m_value){}
 	ProgramLexem( Type type_, int id_, const std::string& value_)
 		:m_type(type_),m_id(id_),m_value(value_){}
+	operator bool() const		{return !end();}
 
 	bool end() const		{return m_type == Eof || m_type == Error;}
 	bool isToken( int id_) const	{return m_type == Token && m_id == id_;}
