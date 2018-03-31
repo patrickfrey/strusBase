@@ -48,14 +48,14 @@ DLL_PUBLIC bool strus::dumpDebugTrace( DebugTraceInterface* debugTrace, const ch
 			std::ofstream ostrm( filename, std::ios::binary);
 			for (; mi != me; ++mi)
 			{
-				ostrm << mi->typeName() << ' ' << mi->component << ' ' << mi->id << ' ' << mi->content << '\n';
+				ostrm << mi->typeName() << ' ' << mi->component() << ' ' << mi->id() << ' ' << mi->content() << '\n';
 			}
 		}
 		else
 		{
 			for (; mi != me; ++mi)
 			{
-				std::cerr << mi->typeName() << ' ' << mi->component << ' ' << mi->id << ' ' << mi->content << '\n';
+				std::cerr << mi->typeName() << ' ' << mi->component() << ' ' << mi->id() << ' ' << mi->content() << '\n';
 			}
 		}
 		return true;

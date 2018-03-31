@@ -22,23 +22,30 @@ namespace strus
 struct DebugTraceMessage
 {
 	enum Type {Open, Close, Event};
+
+	DebugTraceMessage( Type type_, const char* component_, const char* id_, const std::string& content_)
+		:m_type(type_),m_component(component_),m_id(id_),m_content(content_){}
+	DebugTraceMessage( const DebugTraceMessage& o)
+		:m_type(o.m_type),m_component(o.m_component),m_id(o.m_id),m_content(o.m_content){}
+
 	static const char* typeName( Type tp)
 	{
 		static const char* ar[] = {"open","close","event"};
 		return ar[tp];
 	}
 
-	Type type;
-	const char* component;
-	const char* id;
-	std::string content;
+	Type type() const			{return m_type;}
+	const char* component() const		{return m_component;}
+	const char* id() const			{return m_id;}
+	const std::string& content() const	{return m_content;}
 
-	DebugTraceMessage( Type type_, const char* component_, const char* id_, const std::string& content_)
-		:type(type_),component(component_),id(id_),content(content_){}
-	DebugTraceMessage( const DebugTraceMessage& o)
-		:type(o.type),component(o.component),id(o.id),content(o.content){}
+	const char* typeName() const	{return typeName( m_type);}
 
-	const char* typeName() const	{return typeName( type);}
+private:
+	Type m_type;
+	const char* m_component;
+	const char* m_id;
+	std::string m_content;
 };
 
 /// \class DebugTraceContextInterface

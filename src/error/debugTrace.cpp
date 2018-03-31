@@ -64,9 +64,9 @@ void ProcessDebugTrace::close( const char* component)
 		if (idx >= 0 && idx < (int)m_msgar.size())
 		{
 			const DebugTraceMessage& openmsg = m_msgar[ idx];
-			if (0==std::strcmp( component, openmsg.component))
+			if (0==std::strcmp( component, openmsg.component()))
 			{
-				m_msgar.push_back( DebugTraceMessage( DebugTraceMessage::Close, openmsg.component, openmsg.id, openmsg.content));
+				m_msgar.push_back( DebugTraceMessage( DebugTraceMessage::Close, openmsg.component(), openmsg.id(), openmsg.content()));
 				m_stk.pop_back();
 			}
 			else
