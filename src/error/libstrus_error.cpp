@@ -143,7 +143,8 @@ DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 		case ErrorCodeHiddenError:		return _TXT("hidden error (interface does not allow to see details)");
 		case ErrorCodeInputFormat:		return _TXT("input format");
 		case ErrorCodeEncoding:			return _TXT("character encoding error");
-		case ErrorCodeRequestResolveError:	return _TXT("cannot resolve request (HTTP 404)");
+		case ErrorCodeRequestResolveError:	return _TXT("cannot resolve request");
+		case ErrorCodeNotAcceptable:		return _TXT("possible response not acceptable by client");
 		default: return _TXT("unknown");
 	}
 }

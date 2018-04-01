@@ -56,7 +56,8 @@ namespace strus
 		ErrorCodeHiddenError=272,
 		ErrorCodeInputFormat=281,
 		ErrorCodeEncoding=282,
-		ErrorCodeRequestResolveError=283
+		ErrorCodeRequestResolveError=283,
+		ErrorCodeNotAcceptable=284
 	};
 }//namespace
 #endif
