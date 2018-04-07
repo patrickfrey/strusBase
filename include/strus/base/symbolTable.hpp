@@ -56,7 +56,8 @@ public:
 			return a.len == b.len && std::memcmp( a.str, b.str, a.len) == 0;
 		}
 	};
-	struct HashFunc{
+	struct HashFunc
+	{
 		int operator()( const Key& key)const
 		{
 			return utils::Crc32::calc( key.str, key.len);

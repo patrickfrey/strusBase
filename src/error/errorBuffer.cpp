@@ -11,6 +11,7 @@
 #include "strus/base/snprintf.h"
 #include "strus/base/static_assert.hpp"
 #include "strus/base/malloc.hpp"
+#include "strus/base/platform.hpp"
 #include "private/internationalization.hpp"
 #include <stdarg.h>
 #include <cstring>
@@ -22,7 +23,7 @@ ProcessErrorBuffer::ProcessErrorBuffer()
 	:m_hasmsg(false)
 {
 	STRUS_STATIC_ASSERT( sizeof(*this) == ObjSize);
-	STRUS_STATIC_ASSERT( ObjSize % STRUS_CACHELINE_SIZE == 0);
+	STRUS_STATIC_ASSERT( ObjSize % strus::platform::CacheLineSize == 0);
 	m_msgbuf[ 0] = '\0';
 }
 
@@ -164,8 +165,8 @@ bool ErrorBuffer::initMaxNofThreads( unsigned int maxNofThreads)
 	{
 		return false;
 	}
-	void* mem_slots = strus::aligned_malloc( maxNofThreads * sizeof(Slot), STRUS_CACHELINE_SIZE);
-	void* mem_ar = strus::aligned_malloc( maxNofThreads * sizeof(ProcessErrorBuffer), STRUS_CACHELINE_SIZE);
+	void* mem_slots = strus::aligned_malloc( maxNofThreads * sizeof(Slot), strus::platform::CacheLineSize);
+	void* mem_ar = strus::aligned_malloc( maxNofThreads * sizeof(ProcessErrorBuffer), strus::platform::CacheLineSize);
 	if (!mem_slots || !mem_ar) goto ERROR_EXIT;
 
 	if (m_slots || m_ar) clearBuffers();

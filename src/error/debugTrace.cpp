@@ -11,6 +11,7 @@
 #include "strus/base/string_format.hpp"
 #include "strus/base/malloc.hpp"
 #include "strus/base/static_assert.hpp"
+#include "strus/base/platform.hpp"
 #include <cstring>
 #include <cstdlib>
 
@@ -208,8 +209,8 @@ bool DebugTrace::initMaxNofThreads( unsigned int maxNofThreads)
 	if (maxNofThreads == 0) maxNofThreads = DefaultMaxNofThreads;
 	if (m_size >= maxNofThreads) return true;
 
-	Slot* mem_slots = (Slot*)strus::aligned_malloc( maxNofThreads * sizeof(Slot), STRUS_CACHELINE_SIZE);
-	ProcessDebugTraceRef* mem_ar = (ProcessDebugTraceRef*)strus::aligned_malloc( maxNofThreads * sizeof(ProcessDebugTraceRef), STRUS_CACHELINE_SIZE);
+	Slot* mem_slots = (Slot*)strus::aligned_malloc( maxNofThreads * sizeof(Slot), strus::platform::CacheLineSize);
+	ProcessDebugTraceRef* mem_ar = (ProcessDebugTraceRef*)strus::aligned_malloc( maxNofThreads * sizeof(ProcessDebugTraceRef), strus::platform::CacheLineSize);
 	if (!mem_slots || !mem_ar) goto ERROR_EXIT;
 
 	std::memset( mem_ar, 0, maxNofThreads * sizeof(ProcessDebugTraceRef));

@@ -25,9 +25,6 @@
 #endif // __clang__
 #endif // __cplusplus
 
-#define STRUS_CACHELINE_SIZE 64
-//... TODO: Probing of this constant
-
 #ifdef STRUS_USE_STD_THREAD
 #include <mutex>
 #include <condition_variable>
