@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/platform.hpp"
+#include "strus/base/dll_tags.hpp"
 
 #define PLATFORM_UNKNOWN 0
 #define PLATFORM_CPP11 1
@@ -39,7 +40,7 @@
 using namespace strus;
 using namespace strus::platform;
 
-int platform::cores()
+DLL_PUBLIC int platform::cores()
 {
 #if PLATFORM==PLATFORM_CPP11
 	return std::thread::hardware_concurrency();
