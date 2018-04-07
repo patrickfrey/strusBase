@@ -74,7 +74,7 @@ static bool parseToken( char const*& src, Token& token, char delim)
 		}
 		else
 		{
-			throw strus::runtime_error( "%s", _TXT( "string in configuration not terminated"));
+			throw std::runtime_error( _TXT( "string in configuration not terminated"));
 		}
 		nextItem = skipSpaces( nextItem);
 		if (*nextItem == delim)
@@ -83,7 +83,7 @@ static bool parseToken( char const*& src, Token& token, char delim)
 		}
 		else if (*nextItem)
 		{
-			throw strus::runtime_error( "%s", _TXT( "extra token found after string value in configuration string"));
+			throw std::runtime_error( _TXT( "extra token found after string value in configuration string"));
 		}
 	}
 	else
@@ -327,15 +327,15 @@ DLL_PUBLIC bool strus::addConfigStringItem( std::string& config, const std::stri
 		std::string::const_iterator ci = value.begin(), ce = value.end();
 		for (; ci != ce; ++ci)
 		{
-			if ((unsigned char)*ci < 32) throw strus::runtime_error( "%s", _TXT( "unsupported control character in configuration value"));
+			if ((unsigned char)*ci < 32) throw std::runtime_error( _TXT( "unsupported control character in configuration value"));
 			if (*ci == '"')
 			{
-				if (valueType == DQString) throw strus::runtime_error( "%s", _TXT( "cannot add configuration value with to types of quotes"));
+				if (valueType == DQString) throw std::runtime_error( _TXT( "cannot add configuration value with to types of quotes"));
 				valueType = SQString;
 			}
 			else if (*ci == '\'')
 			{
-				if (valueType == SQString) throw strus::runtime_error( "%s", _TXT( "cannot add configuration value with to types of quotes"));
+				if (valueType == SQString) throw std::runtime_error( _TXT( "cannot add configuration value with to types of quotes"));
 				valueType = DQString;
 			}
 			else if (*ci == ';' || *ci == ' ')

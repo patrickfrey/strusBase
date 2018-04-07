@@ -92,11 +92,11 @@ static std::string parse_STRING( char const*& src)
 	char eb = *src++;
 	while (*src != eb)
 	{
-		if (*src == '\0' || *src == '\n' || *src == '\r') throw strus::runtime_error( "%s", _TXT("unterminated string"));
+		if (*src == '\0' || *src == '\n' || *src == '\r') throw std::runtime_error( _TXT("unterminated string"));
 		if (*src == '\\')
 		{
 			src++;
-			if (*src == '\0' || *src == '\n' || *src == '\r') throw strus::runtime_error( "%s", _TXT("unterminated string"));
+			if (*src == '\0' || *src == '\n' || *src == '\r') throw std::runtime_error( _TXT("unterminated string"));
 			if (*src == 'n')
 			{
 				rt.push_back( '\n');
