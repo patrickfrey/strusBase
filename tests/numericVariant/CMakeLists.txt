@@ -2,4 +2,4 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 add_subdirectory(src)
 
-add_test( NumericVariant src/testNumericVariant )
+add_test( NumericVariant ${CMAKE_CURRENT_BINARY_DIR}/src/testNumericVariant )
