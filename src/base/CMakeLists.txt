@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 set( source_files
 	platform.cpp
 	malloc.cpp
+	sleep.cpp
 	cmdLineOpt.cpp
 	programOptions.cpp
 	programLexer.cpp
@@ -24,6 +25,7 @@ set( source_files
 	string_format.cpp
 	string_conv.cpp
 	numericVariant.cpp
+	pseudoRandom.cpp
 )
 
 include_directories(
