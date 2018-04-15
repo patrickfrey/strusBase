@@ -9,6 +9,7 @@
 #ifndef _STRUS_PERIODIC_TIMER_EVENT_HPP_INCLUDED
 #define _STRUS_PERIODIC_TIMER_EVENT_HPP_INCLUDED
 #include <stdexcept>
+#include <new>
 
 namespace strus {
 
