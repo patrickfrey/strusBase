@@ -26,6 +26,7 @@ set( source_files
 	string_conv.cpp
 	numericVariant.cpp
 	pseudoRandom.cpp
+	periodicTimerEvent.cpp
 )
 
 include_directories(

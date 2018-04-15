@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /// \brief Retrieve Platform dependent constants
+/// \file strus/base/platform.hpp
 #ifndef _STRUS_PLATFORM_HPP_INCLUDED
 #define _STRUS_PLATFORM_HPP_INCLUDED
 
