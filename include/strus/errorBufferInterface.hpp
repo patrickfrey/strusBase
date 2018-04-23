@@ -18,7 +18,9 @@ namespace strus
 {
 
 /// \class ErrorBufferInterface
-/// \brief Interface for reporting and catching errors in the core (storage)
+/// \brief Interface for reporting and catching errors in modules
+/// \note C++ Coding Standards: 101 Rules, Guidelines, and Best Practices by Andrei Alexandrescu, Herb Sutter:
+///	62. Don’t allow exceptions to propagate across module boundaries
 class ErrorBufferInterface
 {
 public:
