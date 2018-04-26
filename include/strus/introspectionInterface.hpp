@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /// \brief Interface for introspection
-/// \file IntrospectionInterface.hpp
+/// \file introspectionInterface.hpp
 #ifndef _STRUS_BASE_INTROSPECTION_INTERFACE_HPP_INCLUDED
 #define _STRUS_BASE_INTROSPECTION_INTERFACE_HPP_INCLUDED
 #include "strus/errorCodes.hpp"
@@ -16,6 +16,8 @@
 /// \brief strus toplevel namespace
 namespace strus
 {
+/// \brief Forward declaration
+class ErrorBufferInterface;
 
 /// \class IntrospectionInterface
 /// \brief Interface for introspection
@@ -28,7 +30,7 @@ public:
 	/// \brief Open a new deeper level of introspection
 	/// \param[in] name name of the element to open
 	/// \return an introspection interface (with ownership)
-	virtual IntrospectionInterface* open( const std::string& name)=0;
+	virtual IntrospectionInterface* open( const std::string& name) const=0;
 
 	/// \brief Get the element Value
 	/// \return the value as string
@@ -38,6 +40,8 @@ public:
 	/// \return the list of element names that can be opened
 	virtual std::vector<std::string> list() const=0;
 };
+
+typedef IntrospectionInterface* (*IntrospectionConstructor)( const void* self, ErrorBufferInterface* errhnd);
 
 }//namespace
 #endif
