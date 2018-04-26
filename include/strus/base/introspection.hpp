@@ -113,15 +113,15 @@ private:
 };
 
 /// \class MapTypeIntrospection
-/// \brief Template for building introspection of a std::map like structure with string as key and an atomic as value
+/// \brief Template for building introspection of a std::map like structure with string as key
 template <typename VALUE>
 class MapTypeIntrospection
 	:public IntrospectionInterface
 {
 public:
-	MapTypeIntrospection( const VALUE* val_, ErrorBufferInterface* errhnd_)
-		:m_val(val_),m_errhnd(errhnd_){}
-	
+	MapTypeIntrospection( const VALUE* val_, ErrorBufferInterface* errhnd_, IntrospectionConstructor elementConstructor_)
+		:m_val(val_),m_elementConstructor(elementConstructor_),m_errhnd(errhnd_){}
+
 	virtual ~MapTypeIntrospection(){}
 
 	virtual IntrospectionInterface* open( const std::string& name) const
@@ -130,7 +130,7 @@ public:
 		{
 			typename VALUE::const_iterator mi = m_val->find( name);
 			if (mi == m_val->end()) return NULL;
-			return new AtomicTypeIntrospection<typename VALUE::mapped_type>( &mi->second, m_errhnd);
+			return (*m_elementConstructor)( &mi->second, m_errhnd);
 		}
 		catch (const std::bad_alloc&)
 		{
@@ -158,11 +158,11 @@ public:
 		}
 	}
 
-	static IntrospectionInterface* constructor( const void* self, ErrorBufferInterface* errhnd)
+	static IntrospectionInterface* constructor( const void* self, ErrorBufferInterface* errhnd, IntrospectionConstructor elementConstructor)
 	{
 		try
 		{
-			return new MapTypeIntrospection<VALUE>( (VALUE*)self, errhnd);
+			return new MapTypeIntrospection<VALUE>( (VALUE*)self, errhnd, elementConstructor);
 		}
 		catch (const std::bad_alloc&)
 		{
@@ -173,18 +173,37 @@ public:
 
 private:
 	const VALUE* m_val;
+	IntrospectionConstructor m_elementConstructor;
 	mutable ErrorBufferInterface* m_errhnd;
 };
 
+/// \class MapTypeIntrospection
+/// \brief Template for building introspection of a std::map like structure with string as key and an atomic as value
+template <typename VALUE>
+class AtomicMapTypeIntrospection
+	:public MapTypeIntrospection<VALUE>
+{
+public:
+	AtomicMapTypeIntrospection( const VALUE* val_, ErrorBufferInterface* errhnd_)
+		:MapTypeIntrospection<VALUE>(val_,errhnd_,&AtomicTypeIntrospection<typename VALUE::mapped_type>::constructor){}
+	virtual ~AtomicMapTypeIntrospection(){}
+
+	static IntrospectionInterface* constructor( const void* self, ErrorBufferInterface* errhnd)
+	{
+		IntrospectionConstructor elementConstructor = &AtomicTypeIntrospection<typename VALUE::mapped_type>::constructor;
+		return MapTypeIntrospection<VALUE>::constructor( self, errhnd, elementConstructor);
+	}
+};
+
 /// \class VectorTypeIntrospection
-/// \brief Template for building introspection of a std::vector like structure with the element index string as key and an atomic as value
+/// \brief Template for building introspection of a std::vector like structure with the element index string as key
 template <typename VALUE>
 class VectorTypeIntrospection
 	:public IntrospectionInterface
 {
 public:
-	explicit VectorTypeIntrospection( const VALUE* val_, ErrorBufferInterface* errhnd_)
-		:m_val(val_),m_errhnd(errhnd_){}
+	explicit VectorTypeIntrospection( const VALUE* val_, ErrorBufferInterface* errhnd_, IntrospectionConstructor elementConstructor_)
+		:m_val(val_),m_elementConstructor(elementConstructor_),m_errhnd(errhnd_){}
 	virtual ~VectorTypeIntrospection(){}
 
 	virtual IntrospectionInterface* open( const std::string& name) const
@@ -193,7 +212,7 @@ public:
 		{
 			NumParseError err = NumParseOk;
 			std::size_t idx = strus::uintFromString( name.c_str(), name.size(), m_val->size(), err);
-			return new AtomicTypeIntrospection<typename VALUE::value_type>( &(*m_val)[ idx], m_errhnd);
+			return (*m_elementConstructor)( &(*m_val)[ idx], m_errhnd);
 		}
 		catch (const std::bad_alloc&)
 		{
@@ -225,11 +244,11 @@ public:
 		}
 	}
 
-	static IntrospectionInterface* constructor( const void* self, ErrorBufferInterface* errhnd)
+	static IntrospectionInterface* constructor( const void* self, ErrorBufferInterface* errhnd, IntrospectionConstructor elementConstructor_)
 	{
 		try
 		{
-			return new VectorTypeIntrospection<VALUE>( (VALUE*)self, errhnd);
+			return new VectorTypeIntrospection<VALUE>( (VALUE*)self, errhnd, elementConstructor_);
 		}
 		catch (const std::bad_alloc&)
 		{
@@ -240,10 +259,28 @@ public:
 
 private:
 	const VALUE* m_val;
+	IntrospectionConstructor m_elementConstructor;
 	mutable ErrorBufferInterface* m_errhnd;
 };
 
-typedef VectorTypeIntrospection<std::vector<std::string> > StringVectorIntrospection;
+/// \brief Template for building introspection of a std::vector like structure with the element index string as key and an atomic as value
+template <typename VALUE>
+class AtomicVectorTypeIntrospection
+	:public VectorTypeIntrospection<VALUE>
+{
+public:
+	explicit AtomicVectorTypeIntrospection( const VALUE* val_, ErrorBufferInterface* errhnd_)
+		:VectorTypeIntrospection<VALUE>(val_,errhnd_,&AtomicTypeIntrospection<typename VALUE::value_type>::constructor){}
+	virtual ~AtomicVectorTypeIntrospection(){}
+
+	static IntrospectionInterface* constructor( const void* self, ErrorBufferInterface* errhnd)
+	{
+		IntrospectionConstructor elementConstructor = &AtomicTypeIntrospection<typename VALUE::value_type>::constructor;
+		return VectorTypeIntrospection<VALUE>::constructor( self, errhnd, elementConstructor);
+	}
+};
+
+typedef AtomicVectorTypeIntrospection<std::vector<std::string> > StringVectorIntrospection;
 
 struct ElementDescription
 {
@@ -347,7 +384,7 @@ private:
 	const Description* m_descr;
 };
 
-std::vector<std::string> getIntrospectionElementList( const char* ar);
+std::vector<std::string> getIntrospectionElementList( const char** ar, class ErrorBufferInterface* errorhnd);
 
 std::string introspection_tostring( const IntrospectionInterface* introspection, int maxdepth);
 

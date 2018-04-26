@@ -16,12 +16,20 @@
 
 using namespace strus;
 
-DLL_PUBLIC std::vector<std::string> strus::getIntrospectionElementList( const char* ar)
+DLL_PUBLIC std::vector<std::string> strus::getIntrospectionElementList( const char** ar, class ErrorBufferInterface* errorhnd)
 {
-	std::vector<std::string> rt;
-	char const* ai = ar;
-	if (ai) for (; *ai; ++ai) rt.push_back(ai);
-	return rt;
+	try
+	{
+		std::vector<std::string> rt;
+		char const** ai = ar;
+		if (ai) for (; *ai; ++ai) rt.push_back( *ai);
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory building an introspection element list"));
+		return std::vector<std::string>();
+	}
 }
 
 DLL_PUBLIC char const* strus::introspectionBadAllocError()
