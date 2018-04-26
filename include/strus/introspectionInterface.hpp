@@ -41,8 +41,6 @@ public:
 	virtual std::vector<std::string> list() const=0;
 };
 
-typedef IntrospectionInterface* (*IntrospectionConstructor)( const void* self, ErrorBufferInterface* errhnd);
-
 }//namespace
 #endif
 

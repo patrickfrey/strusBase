@@ -20,6 +20,8 @@
 namespace strus
 {
 
+typedef IntrospectionInterface* (*IntrospectionConstructor)( const void* self, ErrorBufferInterface* errhnd);
+
 char const* introspectionBadAllocError();
 
 /// \class ConstIntrospection
