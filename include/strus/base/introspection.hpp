@@ -306,6 +306,7 @@ public:
 		const STRUCT* base = 0;
 		int ofs = (const char*)&(base->*memb) - (const char*)base;
 		m_ar.push_back( ElementDescription( name, ofs, constructor));
+		return *this;
 	}
 
 	IntrospectionInterface* open( const STRUCT* st, const std::string& name, ErrorBufferInterface* errhnd) const
