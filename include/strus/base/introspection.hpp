@@ -298,7 +298,14 @@ template <typename STRUCT>
 class StructTypeIntrospectionDescription
 {
 public:
-	explicit StructTypeIntrospectionDescription(){}
+	explicit StructTypeIntrospectionDescription()
+		:m_name(0){}
+
+	StructTypeIntrospectionDescription& operator[]( const char* value)
+	{
+		m_name = value;
+		return *this;
+	}
 
 	template <typename ELEMENT>
 	StructTypeIntrospectionDescription& operator()( const char* name, ELEMENT STRUCT::*memb, IntrospectionConstructor constructor)
@@ -311,6 +318,7 @@ public:
 
 	IntrospectionInterface* open( const STRUCT* st, const std::string& name, ErrorBufferInterface* errhnd) const
 	{
+		if (m_name && name == "name") return new ConstIntrospection( m_name, errhnd);
 		std::vector<ElementDescription>::const_iterator ai = m_ar.begin(), ae = m_ar.end();
 		for (; ai != ae; ++ai)
 		{
@@ -325,11 +333,13 @@ public:
 	std::vector<std::string> list() const
 	{
 		std::vector<std::string> rt;
+		if (m_name) rt.push_back( "name");
 		std::vector<ElementDescription>::const_iterator ai = m_ar.begin(), ae = m_ar.end();
 		for (; ai != ae; ++ai) rt.push_back( ai->name);
 		return rt;
 	}
 private:
+	const char* m_name;
 	std::vector<ElementDescription> m_ar;
 };
 
