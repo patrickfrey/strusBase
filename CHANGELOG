@@ -1,3 +1,10 @@
+strusBase (0.16.0)
+  * implemented pseudo random number generator from snippets of other strus* libraries
+  * change handling of gettext to avoid warning: return a const char* 
+  * implemented debug trace interface
+  * fixed bug in regex implementation: search result with position 0 considered as not found
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Fri, 11 May 2018 15:00:00 +0100
+
 strusBase (0.15.7)
   * added make target cppcheck for static code analysis
   * changed error handling: simplified error codes

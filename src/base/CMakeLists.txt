@@ -27,7 +27,6 @@ set( source_files
 	numericVariant.cpp
 	pseudoRandom.cpp
 	periodicTimerEvent.cpp
-	introspection.cpp
 )
 
 include_directories(

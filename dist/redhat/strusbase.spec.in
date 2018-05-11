@@ -330,6 +330,12 @@ make test
 
 
 %changelog
+* Fri May 11 2018 Patrick Frey <patrickpfrey@yahoo.com> 0.16.0-0.1
+- implemented pseudo random number generator from snippets of other strus* libraries
+- change handling of gettext to avoid warning: return a const char* 
+- implemented debug trace interface
+- fixed bug in regex implementation: search result with position 0 considered as not found
+ 
 * Thu Mar 15 2018 Patrick Frey <patrickpfrey@yahoo.com> 0.15.7-0.1
 - added make target cppcheck for static code analysis
 - changed error handling: simplified error codes
