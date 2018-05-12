@@ -17,6 +17,8 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
 {
 	std::string rt;
 	char msgbuf[ 4096];
+	va_list apcopy;
+	va_copy( apcopy, ap);
 	int len = ::vsnprintf( msgbuf, sizeof(msgbuf), fmt, ap);
 	if (len < (int)sizeof( msgbuf))
 	{
@@ -32,9 +34,9 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
 	else
 	{
 		char* msgptr = (char*)std::malloc( len+1);
-		::vsnprintf( msgptr, len+1, fmt, ap);
 		if (msgptr)
 		{
+			::vsnprintf( msgptr, len+1, fmt, apcopy);
 			try
 			{
 				rt.append( msgptr, len);
@@ -43,6 +45,7 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
 			catch (const std::bad_alloc&)
 			{
 				std::free( msgptr);
+				return std::string();
 			}
 		}
 	}
