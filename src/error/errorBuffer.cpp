@@ -82,7 +82,7 @@ void ProcessErrorBuffer::explain( FILE* logfilehandle, const char* format)
 
 
 ErrorBuffer::ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_, DebugTraceInterface* dbgtrace_)
-	:m_logfilehandle(logfilehandle_),m_size(0),m_slots(0),m_ar(0),m_dbgtrace(dbgtrace_)
+	:m_logfilehandle(logfilehandle_),m_size(0),m_slots(0),m_ar(0),m_debugtrace(dbgtrace_)
 {
 	if (!initMaxNofThreads( maxNofThreads_==0?DefaultMaxNofThreads:maxNofThreads_)) throw std::bad_alloc();
 }
@@ -90,7 +90,7 @@ ErrorBuffer::ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_, Debu
 ErrorBuffer::~ErrorBuffer()
 {
 	clearBuffers();
-	if (m_dbgtrace) delete m_dbgtrace;
+	if (m_debugtrace) delete m_debugtrace;
 }
 
 int ErrorBuffer::nextErrorCode( char const*& msgitr)
@@ -161,7 +161,7 @@ void ErrorBuffer::clearBuffers()
 bool ErrorBuffer::initMaxNofThreads( unsigned int maxNofThreads)
 {
 	if (maxNofThreads == 0) maxNofThreads = DefaultMaxNofThreads;
-	if (m_dbgtrace && !m_dbgtrace->setMaxNofThreads( maxNofThreads))
+	if (m_debugtrace && !m_debugtrace->setMaxNofThreads( maxNofThreads))
 	{
 		return false;
 	}

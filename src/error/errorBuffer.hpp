@@ -85,7 +85,7 @@ public:
 
 	virtual DebugTraceInterface* debugTrace() const
 	{
-		return m_dbgtrace;
+		return m_debugtrace;
 	}
 
 	static int nextErrorCode( char const*& msgitr);
@@ -113,7 +113,7 @@ private:
 
 	Slot* m_slots;
 	ProcessErrorBuffer* m_ar;
-	DebugTraceInterface* m_dbgtrace;
+	DebugTraceInterface* m_debugtrace;
 };
 
 }//namespace
