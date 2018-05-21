@@ -21,7 +21,9 @@ DLL_PUBLIC ProgramLexer::ProgramLexer( const char* src_, const char* eolncomment
 	,m_start(src_)
 	,m_end(src_+std::strlen(src_))
 	,m_src(src_)
+	,m_prevsrc(src_)
 	,m_lexem( ProgramLexem::Error)
+	,m_opt(0)
 {
 	try
 	{
@@ -86,7 +88,7 @@ static inline void skipSpaces( char const*& src, const char* eolcomment)
 	}
 }
 
-static std::string parse_STRING( char const*& src)
+static std::string parse_STRING( char const*& src, bool keepStringEsc)
 {
 	std::string rt;
 	char eb = *src++;
@@ -95,27 +97,35 @@ static std::string parse_STRING( char const*& src)
 		if (*src == '\0' || *src == '\n' || *src == '\r') throw std::runtime_error( _TXT("unterminated string"));
 		if (*src == '\\')
 		{
-			src++;
-			if (*src == '\0' || *src == '\n' || *src == '\r') throw std::runtime_error( _TXT("unterminated string"));
-			if (*src == 'n')
+			if (keepStringEsc)
 			{
-				rt.push_back( '\n');
-			}
-			else if (*src == 'b')
-			{
-				rt.push_back( '\b');
-			}
-			else if (*src == 'r')
-			{
-				rt.push_back( '\r');
-			}
-			else if (*src == 't')
-			{
-				rt.push_back( '\t');
+				rt.push_back( *src++);
+				rt.push_back( *src++);
 			}
 			else
 			{
-				rt.push_back( *src++);
+				src++;
+				if (*src == '\0' || *src == '\n' || *src == '\r') throw std::runtime_error( _TXT("unterminated string"));
+				if (*src == 'n')
+				{
+					rt.push_back( '\n');
+				}
+				else if (*src == 'b')
+				{
+					rt.push_back( '\b');
+				}
+				else if (*src == 'r')
+				{
+					rt.push_back( '\r');
+				}
+				else if (*src == 't')
+				{
+					rt.push_back( '\t');
+				}
+				else
+				{
+					rt.push_back( *src++);
+				}
 			}
 		}
 		else
@@ -161,6 +171,27 @@ static std::string escString( const char* str, std::size_t len)
 	return rt;
 }
 
+static bool getProgramLexerOption( int optset, ProgramLexer::Option opt)
+{
+	int mask = 1 << (int)opt;
+	return ((int)optset & mask) != 0;
+}
+
+DLL_PUBLIC bool ProgramLexer::setOption( ProgramLexer::Option opt_, bool value)
+{
+	int mask = 1 << (int)opt_;
+	bool rt = ((int)m_opt & mask) != 0;
+	if (value)
+	{
+		m_opt |= mask;
+	}
+	else
+	{
+		m_opt &= ~mask;
+	}
+	return rt;
+}
+
 DLL_PUBLIC std::string ProgramLexer::currentLocationString( int posincr, int size, const char* marker) const
 {
 	try
@@ -185,23 +216,26 @@ DLL_PUBLIC std::string ProgramLexer::currentLocationString( int posincr, int siz
 		}
 		return escString( rt.c_str(), rt.size());
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error in lexer get current location string: %s"), *m_errhnd, std::string());
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error in %s: %s"), "lexer get current location string", *m_errhnd, std::string());
 }
 
 DLL_PUBLIC const ProgramLexem& ProgramLexer::next()
 {
 	try
 	{
+		m_prevsrc = m_src;
 		if (m_errhnd->hasError()) return m_lexem = ProgramLexem( ProgramLexem::Error);
 		skipSpaces( m_src, m_eolncomment);
 		if (!*m_src) return m_lexem = ProgramLexem( ProgramLexem::Eof);
 		if (*m_src == '\'')
 		{
-			return m_lexem = ProgramLexem( ProgramLexem::SQString, 0, parse_STRING( m_src));
+			bool keepStringEsc = getProgramLexerOption( m_opt, KeepStringEscaping);
+			return m_lexem = ProgramLexem( ProgramLexem::SQString, 0, parse_STRING( m_src, keepStringEsc));
 		}
 		else if (*m_src == '\"')
 		{
-			return m_lexem = ProgramLexem( ProgramLexem::DQString, 0, parse_STRING( m_src));
+			bool keepStringEsc = getProgramLexerOption( m_opt, KeepStringEscaping);
+			return m_lexem = ProgramLexem( ProgramLexem::DQString, 0, parse_STRING( m_src, keepStringEsc));
 		}
 		int ll = 0;
 		int lidx = findLexemInList( m_lexems, m_src, m_end, ll);
@@ -225,7 +259,17 @@ DLL_PUBLIC const ProgramLexem& ProgramLexer::next()
 		m_errhnd->report( ErrorCodeSyntax, _TXT("syntax error on line %d of source, unknown token at '%s..'"), lineno(), errpos.c_str());
 		return m_lexem = ProgramLexem( ProgramLexem::Error);
 	}
-	CATCH_ERROR_MAP_RETURN( _TXT("error in lexer get next: %s"), *m_errhnd, m_lexem = ProgramLexem( ProgramLexem::Error));
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error in %s: %s"), "lexer get next", *m_errhnd, m_lexem = ProgramLexem( ProgramLexem::Error));
+}
+
+DLL_PUBLIC const ProgramLexem& ProgramLexer::rescanCurrent()
+{
+	try
+	{
+		m_src = m_prevsrc;
+		return next();
+	}
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error in %s: %s"), "lexer rescan current", *m_errhnd, m_lexem = ProgramLexem( ProgramLexem::Error));
 }
 
 DLL_PUBLIC const char* ProgramLexer::nextpos()
@@ -237,7 +281,7 @@ DLL_PUBLIC const char* ProgramLexer::nextpos()
 
 DLL_PUBLIC bool ProgramLexer::skipto( char const* pos_)
 {
-	if (m_src > pos_ || m_end < pos_)
+	if (m_start > pos_ || m_end < pos_)
 	{
 		m_errhnd->report( ErrorCodeLogicError, _TXT("skip to illegal position in source"));
 		return false;

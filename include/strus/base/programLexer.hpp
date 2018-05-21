@@ -70,6 +70,15 @@ public:
 	const ProgramLexem& next();
 	/// \brief Get the current lexem
 	const ProgramLexem& current()		{return m_lexem;}
+	/// \brief Rescan the current lexem (with different options)
+	const ProgramLexem& rescanCurrent();
+
+	enum Option {KeepStringEscaping=1};
+	/// \brief Switch lexer option on/off
+	/// \param[in] opt option identifier
+	/// \param[in] value true=on, false=off
+	/// \return previous option value
+	bool setOption( Option opt_, bool value);
 
 	/// \brief Get the current line number
 	/// \remark expensive operation, if scans the source every time it is called, because it is thought to be used only for error messages
@@ -113,7 +122,9 @@ private:
 	const char* m_start;
 	const char* m_end;
 	char const* m_src;
+	char const* m_prevsrc;
 	ProgramLexem m_lexem;
+	int m_opt;
 };
 
 } //namespace
