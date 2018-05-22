@@ -10,6 +10,7 @@
 #include "strus/base/dll_tags.hpp"
 #include <cstdio>
 #include <cstdlib>
+#include <cstdarg>
 
 using namespace strus;
 
@@ -17,8 +18,6 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
 {
 	std::string rt;
 	char msgbuf[ 4096];
-	va_list apcopy;
-	va_copy( apcopy, ap);
 	int len = ::vsnprintf( msgbuf, sizeof(msgbuf), fmt, ap);
 	if (len < (int)sizeof( msgbuf))
 	{
@@ -36,7 +35,7 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
 		char* msgptr = (char*)std::malloc( len+1);
 		if (msgptr)
 		{
-			::vsnprintf( msgptr, len+1, fmt, apcopy);
+			::vsnprintf( msgptr, len+1, fmt, ap);
 			try
 			{
 				rt.append( msgptr, len);
