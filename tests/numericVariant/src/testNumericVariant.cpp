@@ -105,9 +105,11 @@ int main( int argc, const char* argv[])
 		errcnt += (int)!testToString<uint64_t>( ++testidx, (uint64_t)1 << 32);
 		errcnt += (int)!testToString<int64_t>( ++testidx, (uint64_t)1 << 62);
 		errcnt += (int)!testToString<uint64_t>( ++testidx, (uint64_t)1 << 62);
+#if __cplusplus >= 201103L
 		errcnt += (int)!testToString<int64_t>( ++testidx, +99170709832174LL);
 		errcnt += (int)!testToString<uint64_t>( ++testidx, +99170709832174LL);
 		errcnt += (int)!testToString<int64_t>( ++testidx, -921391321311323LL);
+#endif
 		errcnt += (int)!testToString<int64_t>( ++testidx, std::numeric_limits<unsigned int>::max());
 		errcnt += (int)!testToString<uint64_t>( ++testidx, std::numeric_limits<unsigned int>::max());
 		errcnt += (int)!testToString<int64_t>( ++testidx, std::numeric_limits<unsigned int>::min());
