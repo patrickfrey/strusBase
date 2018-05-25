@@ -20,7 +20,6 @@ include( cmake/build_rules.cmake )
 include( cmake/boost.cmake)
 include( cmake/link_rules.cmake )
 include( cmake/intl.cmake )
-include( cmake/libdl.cmake )
 include( cmake/cppcheck.cmake )
 endif()
 
