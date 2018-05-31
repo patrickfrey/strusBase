@@ -106,7 +106,7 @@ static bool parseToken( char const*& src, Token& token, char delim)
 	return true;
 }
 
-static bool parseNextConfigItem( char const*& src, std::string& key, Token& token)
+static bool parseNextConfigItem( char const*& src, std::string& key, Token& token, char separator)
 {
 	src = skipSpaces(src);
 	if (!*src) return false;
@@ -120,7 +120,7 @@ static bool parseNextConfigItem( char const*& src, std::string& key, Token& toke
 		throw strus::runtime_error( _TXT( "'=' expected after item identifier in a config string ('%s') at '%s')"), key.c_str(), src);
 	}
 	src = skipSpaces( src+1);
-	return parseToken( src, token, ';');
+	return parseToken( src, token, separator);
 }
 
 static bool parseNextSubConfigItem( char const*& src, std::string& key, Token& token)
@@ -149,7 +149,7 @@ DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config
 		StringConvError errcode = StringConvOk;
 
 		char const* cc = config.c_str();
-		while (parseNextConfigItem( cc, cfgkey, token))
+		while (parseNextConfigItem( cc, cfgkey, token, ';'))
 		{
 			rt.push_back( ConfigItem( strus::tolower( cfgkey, errcode), token.str()));
 			if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
@@ -157,6 +157,26 @@ DLL_PUBLIC ConfigItemList strus::getConfigStringItems( const std::string& config
 		return rt;
 	}
 	CATCH_ERROR_MAP_RETURN( _TXT("error parsing configuration string items: %s"), *errorhnd, ConfigItemList());
+}
+
+DLL_PUBLIC ConfigItemList strus::getAssignmentListItems( const std::string& config, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		ConfigItemList rt;
+		std::string cfgkey;
+		Token token;
+		StringConvError errcode = StringConvOk;
+
+		char const* cc = config.c_str();
+		while (parseNextConfigItem( cc, cfgkey, token, ','))
+		{
+			rt.push_back( ConfigItem( strus::tolower( cfgkey, errcode), token.str()));
+			if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		}
+		return rt;
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("error parsing assignment list items: %s"), *errorhnd, ConfigItemList());
 }
 
 DLL_PUBLIC std::vector<std::pair<std::string,std::string> > strus::getSubConfigStringItems( const std::string& configelem, ErrorBufferInterface* errorhnd)
@@ -189,7 +209,7 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 		char const* cc = config.c_str();
 		char const* lastptr = cc;
 
-		while (parseNextConfigItem( cc, cfgkey, token))
+		while (parseNextConfigItem( cc, cfgkey, token, ';'))
 		{
 			if (strus::caseInsensitiveEquals( cfgkey, key))
 			{
