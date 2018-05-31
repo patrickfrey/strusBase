@@ -50,9 +50,9 @@ public:
 
 	bool set( int pos, bool value)
 	{
-		if (pos >= SIZE) return false;
-		int idx = pos / 64;
-		int ofs = pos % 64;
+		if ((unsigned int)pos >= SIZE) return false;
+		int idx = (unsigned int)pos / 64;
+		int ofs = (unsigned int)pos % 64;
 		if (value)
 		{
 			m_ar[ idx] |= ((uint64_t)1 << ofs);
@@ -66,17 +66,17 @@ public:
 
 	bool test( int pos) const
 	{
-		if (pos >= SIZE) return false;
-		int idx = pos / 64;
-		int ofs = pos % 64;
+		if ((unsigned int)pos >= SIZE) return false;
+		int idx = (unsigned int)pos / 64;
+		int ofs = (unsigned int)pos % 64;
 		return (m_ar[ idx] & ((uint64_t)1 << ofs)) != 0;
 	}
 
 	bool insert( int pos, bool value)
 	{
-		if (pos >= SIZE) return false;
-		unsigned int idx = pos / 64;
-		unsigned int ofs = pos % 64;
+		if ((unsigned int)pos >= SIZE) return false;
+		unsigned int idx = (unsigned int)pos / 64;
+		unsigned int ofs = (unsigned int)pos % 64;
 		unsigned int ii = ArSize-1;
 		for (; ii > idx; --ii)
 		{
@@ -108,9 +108,9 @@ public:
 
 	bool remove( int pos)
 	{
-		if (pos >= SIZE) return false;
-		unsigned int idx = pos / 64;
-		unsigned int ofs = pos % 64;
+		if ((unsigned int)pos >= SIZE) return false;
+		unsigned int idx = (unsigned int)pos / 64;
+		unsigned int ofs = (unsigned int)pos % 64;
 		uint64_t hibit = 0;
 		unsigned int ii = ArSize-1;
 		for (; ii > idx; --ii)
@@ -150,8 +150,8 @@ public:
 	int next( int pos) const
 	{
 		++pos;
-		int idx = pos / 64;
-		int ofs = pos % 64;
+		int idx = (unsigned int)pos / 64;
+		int ofs = (unsigned int)pos % 64;
 		if (idx >= ArSize) return -1;
 		uint64_t start = m_ar[ idx];
 		start &= ~((((uint64_t)1) << ofs) - 1);
