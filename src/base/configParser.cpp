@@ -123,6 +123,20 @@ static bool parseNextConfigItem( char const*& src, std::string& key, Token& toke
 	return parseToken( src, token, separator);
 }
 
+static bool parseNextAssignmentItem( char const*& src, std::string& key, Token& token, char separator)
+{
+	src = skipSpaces(src);
+	if (!*src) return false;
+	Token keytoken;
+	if (!parseToken( src, keytoken, '='))
+	{
+		throw strus::runtime_error( _TXT( "expected key token as start of a declaration in an assigment list ('%s')"), src);
+	}
+	key = keytoken.str();
+	src = skipSpaces( src);
+	return parseToken( src, token, separator);
+}
+
 static bool parseNextSubConfigItem( char const*& src, std::string& key, Token& token)
 {
 	src = skipSpaces(src);
@@ -169,9 +183,9 @@ DLL_PUBLIC ConfigItemList strus::getAssignmentListItems( const std::string& conf
 		StringConvError errcode = StringConvOk;
 
 		char const* cc = config.c_str();
-		while (parseNextConfigItem( cc, cfgkey, token, ','))
+		while (parseNextAssignmentItem( cc, cfgkey, token, ','))
 		{
-			rt.push_back( ConfigItem( strus::tolower( cfgkey, errcode), token.str()));
+			rt.push_back( ConfigItem( cfgkey, token.str()));
 			if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		}
 		return rt;
