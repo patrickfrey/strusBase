@@ -90,8 +90,8 @@ public:
 	/// \brief Get the rest length to parse
 	std::size_t len() const			{return m_end - m_src;}
 
-	/// \brief Skip to a defined position is the parsed source
-	/// \param[in] pos pointer to position to set scanner to
+	/// \brief Skip to a defined position is the parsed source and scan the next token
+	/// \param[in] pos pointer to position to set scanner to for restart scanning
 	/// \remark pos must be inside of the parsed source
 	bool skipto( char const* pos);
 

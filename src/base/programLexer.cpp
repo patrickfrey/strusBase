@@ -295,6 +295,7 @@ DLL_PUBLIC bool ProgramLexer::skipto( char const* pos_)
 		return false;
 	}
 	m_src = pos_;
+	next();
 	return true;
 }
 
