@@ -99,6 +99,10 @@ public:
 	/// \return the position of the next token or NULL, if an error occurred or if we got to the end of source
 	const char* nextpos();
 
+	/// \brief Get the start of the current token
+	/// \return the position of the current token or NULL, if an error occurred or if we got to the end of source
+	const char* currentpos();
+
 	/// \brief Get an excerpt of the current source location starting from a position with a marker inserted
 	/// \param[in] posincr increment of the current position to show
 	/// \param[in] marker marker to insert in the result at the current position

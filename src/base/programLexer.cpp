@@ -279,6 +279,14 @@ DLL_PUBLIC const char* ProgramLexer::nextpos()
 	return *m_src ? m_src : NULL;
 }
 
+DLL_PUBLIC const char* ProgramLexer::currentpos()
+{
+	if (m_errhnd->hasError()) return NULL;
+	char const* srcptr = m_prevsrc;
+	skipSpaces( srcptr, m_eolncomment);
+	return *srcptr ? srcptr : NULL;
+}
+
 DLL_PUBLIC bool ProgramLexer::skipto( char const* pos_)
 {
 	if (m_start > pos_ || m_end < pos_)
