@@ -31,7 +31,7 @@ public:
 	/// \brief Get the absolute path of a resource file
 	/// \param[in] filename name of the resource file
 	/// \return the full path of the file with the filename passed as argument
-	virtual std::string getResourcePath( const std::string& filename) const=0;
+	virtual std::string getResourceFilePath( const std::string& filename) const=0;
 
 	/// \brief Define the working directory where to write files to
 	/// \param[in] workdir directory path specifying the root directory of all files written
@@ -40,6 +40,10 @@ public:
 	/// \brief Get the current working directory, the root directory of files and directories written
 	/// \return the working directory
 	virtual std::string getWorkDir() const=0;
+
+	/// \brief Get all resource paths
+	/// \return the list of resource paths
+	virtual std::vector<std::string> getResourcePaths() const=0;
 };
 
 }//namespace

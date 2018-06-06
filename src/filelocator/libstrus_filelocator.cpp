@@ -55,7 +55,7 @@ public:
 		CATCH_ERROR_ARG1_MAP( _TXT("error in '%s': %s"), "FileLocator::addResourcePath", *m_errorhnd);
 	}
 
-	virtual std::string getResourcePath( const std::string& filename) const
+	virtual std::string getResourceFilePath( const std::string& filename) const
 	{
 		try
 		{
@@ -94,7 +94,20 @@ public:
 
 	virtual std::string getWorkDir() const
 	{
-		return m_workDir;
+		try
+		{
+			return m_workDir;
+		}
+		CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error in '%s': %s"), "FileLocator::getWorkDir", *m_errorhnd, std::string());
+	}
+
+	virtual std::vector<std::string> getResourcePaths() const
+	{
+		try
+		{
+			return m_resourcePaths;
+		}
+		CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error in '%s': %s"), "FileLocator::getResourcePaths", *m_errorhnd, std::vector<std::string>());
 	}
 
 private:

@@ -314,12 +314,15 @@ make test
 %{_libdir}/strus/libstrus_base.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
 %{_libdir}/strus/libstrus_error.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@
 %{_libdir}/strus/libstrus_error.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
+%{_libdir}/strus/libstrus_filelocator.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@
+%{_libdir}/strus/libstrus_filelocator.so.@STRUS_MAJOR_VERSION@.@STRUS_MINOR_VERSION@.@STRUS_PATCH_VERSION@
 
 
 %files devel
 %defattr( -, root, root )
 %{_libdir}/strus/libstrus_base.so
 %{_libdir}/strus/libstrus_error.so
+%{_libdir}/strus/libstrus_filelocator.so
 %dir %{_includedir}/strus
 %{_includedir}/strus/*.hpp
 %dir %{_includedir}/strus/lib
