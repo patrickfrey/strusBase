@@ -13,6 +13,7 @@
 #include "strus/base/dll_tags.hpp"
 #include "strus/base/string_conv.hpp"
 #include <cstring>
+#include <cstdarg>
 
 using namespace strus;
 
