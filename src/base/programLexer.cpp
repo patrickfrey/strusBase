@@ -11,6 +11,7 @@
 #include "strus/errorBufferInterface.hpp"
 #include "private/errorUtils.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "strus/base/string_conv.hpp"
 #include <cstring>
 
 using namespace strus;
@@ -49,6 +50,25 @@ DLL_PUBLIC ProgramLexer::~ProgramLexer()
 	for (;li != le; ++li) {delete *li;}
 	li = m_errlexems.begin(), le = m_errlexems.end();
 	for (;li != le; ++li) {delete *li;}
+}
+
+DLL_PUBLIC int ProgramLexem::checkKeyword( const std::string& id, int nn, ...) const
+{
+	int rt = -1;
+	va_list argp;
+	va_start( argp, nn);
+
+	for (int ii=0; ii<nn; ++ii)
+	{
+		const char* keyword = va_arg( argp, const char*);
+		if (strus::caseInsensitiveEquals( id, keyword))
+		{
+			rt = ii;
+			break;
+		}
+	}
+	va_end( argp);
+	return rt;
 }
 
 static inline bool isSpace( char ch)
