@@ -40,13 +40,13 @@ public:
 		:m_type(type_),m_id(id_),m_value(value_){}
 	operator bool() const		{return !end();}
 
-	bool end() const						{return m_type == Eof || m_type == Error;}
-	bool isToken( int id_) const					{return m_type == Token && m_id == id_;}
-	bool isToken() const						{return m_type == Token;}
-	bool isString() const						{return m_type == SQString || m_type == DQString;}
-	bool isError() const						{return m_type == Error;}
-	bool isEof() const						{return m_type == Eof;}
-	int checkKeyword( const std::string& id, int nn, ...) const;
+	bool end() const				{return m_type == Eof || m_type == Error;}
+	bool isToken( int id_) const			{return m_type == Token && m_id == id_;}
+	bool isToken() const				{return m_type == Token;}
+	bool isString() const				{return m_type == SQString || m_type == DQString;}
+	bool isError() const				{return m_type == Error;}
+	bool isEof() const				{return m_type == Eof;}
+	int checkKeyword( int nn, ...) const;
 
 private:
 	Type m_type;			// lexem type

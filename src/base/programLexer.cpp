@@ -52,7 +52,7 @@ DLL_PUBLIC ProgramLexer::~ProgramLexer()
 	for (;li != le; ++li) {delete *li;}
 }
 
-DLL_PUBLIC int ProgramLexem::checkKeyword( const std::string& id, int nn, ...) const
+DLL_PUBLIC int ProgramLexem::checkKeyword( int nn, ...) const
 {
 	int rt = -1;
 	va_list argp;
@@ -61,7 +61,7 @@ DLL_PUBLIC int ProgramLexem::checkKeyword( const std::string& id, int nn, ...) c
 	for (int ii=0; ii<nn; ++ii)
 	{
 		const char* keyword = va_arg( argp, const char*);
-		if (strus::caseInsensitiveEquals( id, keyword))
+		if (strus::caseInsensitiveEquals( m_value, keyword))
 		{
 			rt = ii;
 			break;
