@@ -74,6 +74,21 @@ public:
 	/// \brief Rescan the current lexem (with different options)
 	const ProgramLexem& rescanCurrent();
 
+	/// \brief Get the current lexem and skip to the following lexem
+	ProgramLexem fetchCurrent()
+	{
+		ProgramLexem rt = current();
+		next();
+		return rt;
+	}
+	/// \brief Get the next lexem and skip to its follower
+	ProgramLexem fetchNext()
+	{
+		ProgramLexem rt = current();
+		next();
+		return rt;
+	}
+
 	enum Option {KeepStringEscaping=1};
 	/// \brief Switch lexer option on/off
 	/// \param[in] opt option identifier
