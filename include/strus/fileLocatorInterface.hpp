@@ -35,11 +35,11 @@ public:
 
 	/// \brief Define the working directory where to write files to
 	/// \param[in] workdir directory path specifying the root directory of all files written
-	virtual void defineWorkDir( const std::string& workdir)=0;
+	virtual void defineWorkingDirectory( const std::string& workdir)=0;
 
 	/// \brief Get the current working directory, the root directory of files and directories written
 	/// \return the working directory
-	virtual std::string getWorkDir() const=0;
+	virtual std::string getWorkingDirectory() const=0;
 
 	/// \brief Get all resource paths
 	/// \return the list of resource paths

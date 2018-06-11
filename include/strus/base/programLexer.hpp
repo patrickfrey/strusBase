@@ -74,19 +74,15 @@ public:
 	/// \brief Rescan the current lexem (with different options)
 	const ProgramLexem& rescanCurrent();
 
-	/// \brief Get the current lexem and skip to the following lexem
-	ProgramLexem fetchCurrent()
+	/// \brief Skip to next and return true if the current lexem is a token with a defined id
+	bool consumeToken( int tokid)
 	{
-		ProgramLexem rt = current();
-		next();
-		return rt;
-	}
-	/// \brief Get the next lexem and skip to its follower
-	ProgramLexem fetchNext()
-	{
-		ProgramLexem rt = current();
-		next();
-		return rt;
+		if (current().isToken( tokid))
+		{
+			next();
+			return true;
+		}
+		return false;
 	}
 
 	enum Option {KeepStringEscaping=1};

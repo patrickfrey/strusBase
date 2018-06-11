@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2014 Patrick P. Frey
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -82,17 +82,18 @@ public:
 		CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error in '%s': %s"), "FileLocator::getResourcePath", *m_errorhnd, std::string());
 	}
 
-	virtual void defineWorkDir( const std::string& path)
+	virtual void defineWorkingDirectory( const std::string& path)
 	{
 		try
 		{
 			if (m_debugtrace) m_debugtrace->event( "workdir", "path %s", path.c_str());
-			m_resourcePaths.push_back( path);
+			if (!m_workDir.empty() || 0!=std::strchr( path.c_str(), STRUS_FILEIO_PATHSEP)) throw std::runtime_error(_TXT("multiple definitions of working directory"));
+			m_workDir = path;
 		}
-		CATCH_ERROR_ARG1_MAP( _TXT("error in '%s': %s"), "FileLocator::defineWorkDir", *m_errorhnd);
+		CATCH_ERROR_ARG1_MAP( _TXT("error in '%s': %s"), "FileLocator::defineWorkingDirectory", *m_errorhnd);
 	}
 
-	virtual std::string getWorkDir() const
+	virtual std::string getWorkingDirectory() const
 	{
 		try
 		{
