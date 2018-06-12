@@ -144,7 +144,7 @@ DLL_PUBLIC RegexSearch::RegexSearch( const std::string& expression, int index, E
 	}
 	catch (const std::exception& err)
 	{
-		m_errhnd->report( ErrorCodeInvalidRegex, _TXT("error in constructor of regex search: %s"), err.what());
+		m_errhnd->report( ErrorCodeInvalidRegex, _TXT("error in constructor of regex search '%s': %s"), expression.c_str(), err.what());
 	}
 }
 
@@ -212,7 +212,7 @@ DLL_PUBLIC RegexSubst::RegexSubst( const std::string& expression, const std::str
 	}
 	catch (const std::exception& err)
 	{
-		m_errhnd->report( ErrorCodeInvalidRegex, _TXT("error in constructor of regex subst: %s"), err.what());
+		m_errhnd->report( ErrorCodeInvalidRegex, _TXT("error in constructor of regex subst '%s' -> '%s': %s"), expression.c_str(), fmtstring.c_str(), err.what());
 	}
 }
 
