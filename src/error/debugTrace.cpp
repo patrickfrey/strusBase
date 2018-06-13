@@ -211,23 +211,30 @@ bool DebugTrace::initMaxNofThreads( unsigned int maxNofThreads)
 
 	Slot* mem_slots = (Slot*)strus::aligned_malloc( maxNofThreads * sizeof(Slot), strus::platform::CacheLineSize);
 	ProcessDebugTraceRef* mem_ar = (ProcessDebugTraceRef*)strus::aligned_malloc( maxNofThreads * sizeof(ProcessDebugTraceRef), strus::platform::CacheLineSize);
-	if (!mem_slots || !mem_ar) goto ERROR_EXIT;
+	if (!mem_slots || !mem_ar)
+	{
+		if (mem_slots) strus::aligned_free( mem_slots);
+		if (mem_ar) strus::aligned_free( mem_ar);
+		return false;
+	}
+	if (maxNofThreads < m_size)
+	{
+		maxNofThreads = m_size;
+	}
+	new(mem_slots)Slot[ maxNofThreads];
+	new(mem_ar)ProcessDebugTraceRef[ maxNofThreads];
+	std::size_t si = 0, se = m_size;
+	for (; si != se; ++si)
+	{
+		mem_ar[ si] = m_ar[ si];
+		mem_slots[ si] = m_slots[ si];
+	}
+	clearBuffers();
 
-	std::memset( mem_ar, 0, maxNofThreads * sizeof(ProcessDebugTraceRef));
-	std::memcpy( mem_ar, m_ar, m_size * sizeof(ProcessDebugTraceRef));
-	std::memset( mem_slots, 0, maxNofThreads * sizeof(Slot));
-	std::memcpy( mem_slots, m_slots, m_size * sizeof(Slot));
-	new(mem_slots + m_size)Slot[ maxNofThreads - m_size];
-	new(mem_ar + m_size)ProcessDebugTraceRef[ m_size];
 	m_slots = mem_slots;
 	m_ar = mem_ar;
 	m_size = maxNofThreads;
 	return true;
-
-ERROR_EXIT:
-	if (mem_slots) strus::aligned_free( mem_slots);
-	if (mem_ar) strus::aligned_free( mem_ar);
-	return false;
 }
 
 bool DebugTrace::setMaxNofThreads( unsigned int maxNofThreads)

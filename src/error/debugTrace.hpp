@@ -108,8 +108,11 @@ private:
 		typedef strus::ThreadId::Type Id;
 		typedef strus::AtomicFlag Flag;
 
-		Slot(){}
+		Slot():id(),flag(){}
+		Slot( const Slot& o):id(o.id){flag.set( o.flag.test());}
 		~Slot(){}
+
+		Slot& operator=( const Slot& o) {id=o.id; flag.set( o.flag.test()); return *this;}
 
 		Id id;
 		Flag flag;
