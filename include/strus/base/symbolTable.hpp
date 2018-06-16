@@ -14,19 +14,61 @@
 #include <string>
 #include <cstring>
 #include <stdexcept>
+#include <new>
 
 namespace strus
 {
+/// \brief Forward declaration
+class ErrorBufferInterface;
 ///\brief Forward declaration
 class StringMapKeyBlockList;
 ///\brief Forward declaration
 class InternalMap;
+
+class BlockAllocator
+{
+public:
+	explicit BlockAllocator( ErrorBufferInterface* errorhnd_)
+		:m_errorhnd(errorhnd_),m_blocks(createBlocks())
+	{
+		if (!m_blocks)
+		{
+			deleteBlocks( m_blocks);
+			throw std::bad_alloc();
+		}
+	}
+	~BlockAllocator();
+
+	const char* allocStringCopy( const char* str, std::size_t size);
+	const char* allocStringCopy( const std::string& str);
+
+private:
+	static StringMapKeyBlockList* createBlocks();
+	static void deleteBlocks( StringMapKeyBlockList* ptr);
+
+private:
+	ErrorBufferInterface* m_errorhnd;
+	StringMapKeyBlockList* m_blocks;
+};
+
 
 ///\brief Map of strings to indices not freed till end of table life time
 /// \note Suitable for symbol tables of languages (DSL)
 class SymbolTable
 {
 public:
+	///\brief Default constructor
+	explicit SymbolTable( ErrorBufferInterface* errorhnd_)
+		:m_errorhnd(errorhnd_),m_map(createInternalMap()),m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
+	{
+		if (!m_keystring_blocks || !m_map)
+		{
+			if (!m_keystring_blocks) deleteKeystringBlocks( m_keystring_blocks);
+			if (!m_map) deleteInternalMap( m_map);
+			throw std::bad_alloc();
+		}
+	}
+
 	///\brief Key of symbol table
 	struct Key
 	{
@@ -65,8 +107,6 @@ public:
 	};
 
 public:
-	///\brief Default constructor
-	SymbolTable();
 	///\brief Destructor
 	~SymbolTable();
 
@@ -138,8 +178,12 @@ private:
 	void operator=( const SymbolTable&){}	///> non copyable
 #endif
 	static StringMapKeyBlockList* createKeystringBlocks();
+	static void deleteKeystringBlocks( StringMapKeyBlockList* ptr);
+	static InternalMap* createInternalMap();
+	static void deleteInternalMap( InternalMap* ptr);
 
 private:
+	ErrorBufferInterface* m_errorhnd;
 	InternalMap* m_map;
 	std::vector<const char*> m_invmap;
 	StringMapKeyBlockList* m_keystring_blocks;
