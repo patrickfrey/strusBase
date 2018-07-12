@@ -9,7 +9,7 @@ gcc >= 4.9 (has C++11 support). Build with C++98 is possible.
 Install packages with 'apt-get'/aptitude.
 
 ## Required packages
-	boost-all >= 1.53
+	boost-all >= 1.57
 
 # Fetch sources
 	git clone https://github.com/patrickfrey/strusBase

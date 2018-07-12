@@ -31,6 +31,13 @@ std::string tolower( const char* val, StringConvError& err);
 
 /// \brief Convert ASCII letters in string to lowercase
 /// \param[in] val input string
+/// \param[in] size input string size in bytes
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string tolower( const char* val, std::size_t size, StringConvError& err);
+
+/// \brief Convert ASCII letters in string to lowercase
+/// \param[in] val input string
 /// \param[out] err error code in case of error (not set on success)
 /// \return converted string or empty string in case of error
 std::string tolower( const std::string& val, StringConvError& err);
@@ -40,6 +47,13 @@ std::string tolower( const std::string& val, StringConvError& err);
 /// \param[out] err error code in case of error (not set on success)
 /// \return converted string or empty string in case of error
 std::string trim( const std::string& val, StringConvError& err);
+
+/// \brief Trim trailing and heading whitespace and control characters
+/// \param[in] val input string
+/// \param[in] size input string size in bytes
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string trim( const char* val, std::size_t size, StringConvError& err);
 
 /// \brief Compare on Ascii letter caseinsensitive equality
 /// \param[in] val1 input string
@@ -81,10 +95,24 @@ struct string_conv
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}
+	static std::string tolower( const char* str, std::size_t strsize)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::tolower( str, strsize, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
 	static std::string trim( const std::string& str)
 	{
 		StringConvError errcode = StringConvOk;
 		std::string rt = strus::trim( str, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
+	static std::string trim( const char* str, std::size_t strsize)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::trim( str, strsize, errcode);
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}

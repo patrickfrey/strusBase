@@ -28,30 +28,14 @@ DLL_PUBLIC std::runtime_error strus::stringconv_exception( StringConvError errco
 	return std::runtime_error( _TXT("uncaught string conversion error"));
 }
 
-DLL_PUBLIC std::string strus::tolower( const char* val, StringConvError& err)
-{
-	try
-	{
-		std::size_t len = std::strlen(val)+1;
-		std::string rt;
-		rt.reserve( len);
-		char const* vv = val;
-		while (*vv) rt.push_back( std::tolower(*vv++));
-		return rt;
-	}
-	catch (const std::bad_alloc&)
-	{
-		err = StringConvErrNoMem;
-		return std::string();
-	}
-}
-
-DLL_PUBLIC std::string strus::tolower( const std::string& val, StringConvError& err)
+DLL_PUBLIC std::string strus::tolower( const char* val, std::size_t size, StringConvError& err)
 {
 	try
 	{
 		std::string rt;
-		std::string::const_iterator vi = val.begin(), ve = val.end();
+		rt.reserve( size+1);
+		char const* vi = val;
+		const char* ve = vi  + size;
 		for (; vi != ve; ++vi)
 		{
 			rt.push_back( std::tolower( *vi));
@@ -65,18 +49,29 @@ DLL_PUBLIC std::string strus::tolower( const std::string& val, StringConvError& 
 	}
 }
 
-DLL_PUBLIC std::string strus::trim( const std::string& val, StringConvError& err)
+DLL_PUBLIC std::string strus::tolower( const char* val, StringConvError& err)
+{
+	return strus::tolower( val, std::strlen(val), err);
+}
+
+DLL_PUBLIC std::string strus::tolower( const std::string& val, StringConvError& err)
+{
+	return strus::tolower( val.c_str(), val.size(), err);
+}
+
+DLL_PUBLIC std::string strus::trim( const char* val, std::size_t size, StringConvError& err)
 {
 	try
 	{
 		std::string rt;
-		std::string::const_iterator vi = val.begin(), ve = val.end();
+		char const* vi = val;
+		const char* ve = vi + size;
 		for (; vi != ve; ++vi)
 		{
 			if ((unsigned char)*vi > 32) break;
 		}
-		std::string::const_iterator start = vi;
-		std::string::const_iterator last = val.end();
+		const char* start = vi;
+		char const* last = ve;
 		while (last != start)
 		{
 			--last;
@@ -86,13 +81,18 @@ DLL_PUBLIC std::string strus::trim( const std::string& val, StringConvError& err
 				break;
 			}
 		}
-		return std::string( start, last);
+		return std::string( start, last-start);
 	}
 	catch (const std::bad_alloc&)
 	{
 		err = StringConvErrNoMem;
 		return std::string();
 	}
+}
+
+DLL_PUBLIC std::string strus::trim( const std::string& val, StringConvError& err)
+{
+	return strus::trim( val.c_str(), val.size(), err);
 }
 
 DLL_PUBLIC bool strus::caseInsensitiveEquals( const std::string& val1, const std::string& val2)

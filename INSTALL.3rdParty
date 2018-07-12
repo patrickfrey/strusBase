@@ -1,8 +1,0 @@
-Library dependencies of strusBase:
-	- boost (headers and -lboost_system)
-	- gettext
-
-Ubuntu:
-	sudo apt-get install liboost-all-dev
-
-
