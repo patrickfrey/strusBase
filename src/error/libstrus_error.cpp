@@ -37,6 +37,17 @@ DLL_PUBLIC DebugTraceInterface* strus::createDebugTrace_standard( std::size_t ma
 	}
 }
 
+static std::string encodeMessage( const std::string& msg)
+{
+	std::string rt;
+	std::string::const_iterator mi = msg.begin(), me = msg.end();
+	for (; mi != me; ++mi)
+	{
+		if ((unsigned char)*mi < 32) rt.push_back( ' '); else rt.push_back( *mi);
+	}
+	return rt;
+}
+
 DLL_PUBLIC bool strus::dumpDebugTrace( DebugTraceInterface* debugTrace, const char* filename)
 {
 	try
@@ -48,14 +59,14 @@ DLL_PUBLIC bool strus::dumpDebugTrace( DebugTraceInterface* debugTrace, const ch
 			std::ofstream ostrm( filename, std::ios::binary);
 			for (; mi != me; ++mi)
 			{
-				ostrm << mi->typeName() << ' ' << mi->component() << ' ' << mi->id() << ' ' << mi->content() << '\n';
+				ostrm << mi->typeName() << ' ' << mi->component() << ' ' << mi->id() << ' ' << encodeMessage(mi->content()) << '\n';
 			}
 		}
 		else
 		{
 			for (; mi != me; ++mi)
 			{
-				std::cerr << mi->typeName() << ' ' << mi->component() << ' ' << mi->id() << ' ' << mi->content() << '\n';
+				std::cerr << mi->typeName() << ' ' << mi->component() << ' ' << mi->id() << ' ' << encodeMessage(mi->content()) << '\n';
 			}
 		}
 		return true;
