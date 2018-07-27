@@ -17,8 +17,8 @@
 extern "C" {
 #endif
 
-extern void strus_vsnprintf( char* buf, size_t bufsize, const char* format, va_list arg);
-extern void strus_snprintf( char* buf, size_t bufsize, const char* format, ...);
+extern int strus_vsnprintf( char* buf, size_t bufsize, const char* format, va_list arg);
+extern int strus_snprintf( char* buf, size_t bufsize, const char* format, ...);
 
 #ifdef __cplusplus
 }

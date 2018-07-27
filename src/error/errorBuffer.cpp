@@ -43,19 +43,37 @@ void ProcessErrorBuffer::report( int errorcode, FILE* logfilehandle, const char*
 {
 	if (!m_hasmsg)
 	{
+		char errid[ 32];
 		char newmsgbuf[ MsgBufSize];
-		std::size_t hdrlen = 0;
-		if (errorcode)
+		int msglen = 0;
+		int hdrlen = 0;
+		if (errorcode > 0)
 		{
-			hdrlen = std::snprintf( newmsgbuf, sizeof(newmsgbuf), "[#%d] ", errorcode);
+			hdrlen = std::snprintf( errid, sizeof(errid), "[#%d] ", errorcode);
+			std::memcpy( newmsgbuf, errid, hdrlen);
+			errid[ hdrlen-1] = 0;
 		}
-		strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
+		msglen = hdrlen + strus_vsnprintf( newmsgbuf+hdrlen, sizeof(newmsgbuf)-hdrlen, format, arg);
+		char const* newmsg = newmsgbuf;
+
+		char const* mptr = std::strstr( newmsgbuf+hdrlen, errid);
+		if (mptr)
+		{
+			char const* mi = mptr + hdrlen;
+			char const* pi = newmsgbuf + hdrlen;
+			while (*mi && *mi != '[' && *mi != ':' && *pi == *mi) {++mi;++pi;}
+			if (*mi == '[' || *mi == ':' || *mi == '\0')
+			{
+				msglen -= (mptr - newmsg);
+				newmsg = mptr;
+			}
+		}
 		if (logfilehandle)
 		{
-			fprintf( logfilehandle, "%s\n", newmsgbuf);
+			fprintf( logfilehandle, "%s\n", newmsg);
 			fflush( logfilehandle);
 		}
-		std::memcpy( m_msgbuf, newmsgbuf, sizeof(m_msgbuf));
+		std::memcpy( m_msgbuf, newmsg, msglen);
 		m_hasmsg = true;
 	}
 	else if (logfilehandle)
