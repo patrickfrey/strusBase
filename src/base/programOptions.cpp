@@ -132,7 +132,7 @@ DLL_PUBLIC ProgramOptions::ProgramOptions( ErrorBufferInterface* errorhnd_, int 
 				if (li == optmapdef.longnamemap.end()) throw strus::runtime_error( _TXT("unknown option '--%s'"), oi->c_str());
 				if (li->second && oi+1 == oe)
 				{
-					if (optarg.empty() && m_argc > 1 && m_argv[1][0] != '-')
+					if (optarg.empty() && m_argc > 1 && (m_argv[1][0] != '-' || m_argv[1][1] == '\0'))
 					{
 						if (m_argv[1][0] == '=')
 						{
