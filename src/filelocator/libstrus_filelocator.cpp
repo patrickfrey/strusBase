@@ -71,7 +71,7 @@ public:
 			{
 				std::string absfilename = strus::joinFilePath( *pi, filename);
 				if (m_debugtrace) m_debugtrace->event( "search-path", "path '%s'", pi->c_str());
-				if (strus::isFile( absfilename))
+				if (strus::isFile( absfilename) || strus::isDir( absfilename))
 				{
 					if (m_debugtrace) m_debugtrace->event( "found-resource", "path '%s'", absfilename.c_str());
 					return absfilename;
