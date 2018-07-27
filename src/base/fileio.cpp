@@ -23,6 +23,34 @@
 
 using namespace strus;
 
+static int mkdirp_( const std::string& dirname)
+{
+	int ec = strus::createDir( dirname, false/*fail_ifexist*/);
+	if (ec == 1/*EPERM*/)
+	{
+		std::string parentpath;
+		ec = getParentPath( dirname, parentpath);
+		if (ec) return ec;
+		if (parentpath.empty() || dirname.size() >= parentpath.size()) return 1/*EPERM*/;
+		ec = mkdirp_( parentpath);
+		if (ec) return ec;
+		ec = strus::createDir( dirname, false/*fail_ifexist*/);
+	}
+	return ec;
+}
+
+DLL_PUBLIC int strus::mkdirp( const std::string& dirname)
+{
+	try
+	{
+		return mkdirp_( dirname);
+	}
+	catch (...)
+	{
+		return 12/*ENOMEM*/;
+	}
+}
+
 DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 {
 	if (0>::mkdir( dirname.c_str(), 0755))
