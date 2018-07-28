@@ -158,6 +158,12 @@ bool hasUpdirReference( const std::string& path);
 /// \return the joined path or empty in case of a memory allocation error
 std::string joinFilePath( const std::string& parentpath, const std::string& childpath);
 
+/// \brief Resolve upper directory references in a path, e.g. replace "/home/john/../jack" by "/home/jack"
+/// \param[in,out] path path to resolve updir references in
+/// \note Does not care about permissions, it is just mapping a string to another
+/// \return 0 on success, errno on failure (ENOMEM,EINVAL)
+int resolveUpdirReferences( std::string& path);
+
 }//namespace
 #endif
 

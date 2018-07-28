@@ -681,4 +681,90 @@ DLL_PUBLIC std::string strus::joinFilePath( const std::string& parentpath, const
 	}
 }
 
+DLL_PUBLIC int strus::resolveUpdirReferences( std::string& path)
+{
+	try
+	{
+		char ptstart = '\0';
+		std::vector<int> dirstarts;
+		char const* pi = path.c_str();
+		if (*pi == STRUS_FILEIO_DIRSEP)
+		{
+			for (++pi; *pi == STRUS_FILEIO_DIRSEP; ++pi){}
+			ptstart = STRUS_FILEIO_DIRSEP;
+			if (*pi) dirstarts.push_back( pi - path.c_str());
+		}
+		else if (*pi == '.')
+		{
+			if (pi[1] == STRUS_FILEIO_DIRSEP)
+			{
+				for (++pi; *pi == STRUS_FILEIO_DIRSEP; ++pi){}
+				ptstart = '.';
+				dirstarts.push_back( pi - path.c_str());
+			}
+			else if (pi[1] == '.' && (pi[2] == STRUS_FILEIO_DIRSEP || pi[2] == '\0'))
+			{
+				return 22/*EINVAL*/;
+			}
+			else
+			{
+				dirstarts.push_back( 0);
+			}
+		}
+		else
+		{
+			dirstarts.push_back( 0);
+		}
+		for (; *pi; ++pi)
+		{
+			if (*pi == STRUS_FILEIO_DIRSEP)
+			{
+				while (pi[1] == STRUS_FILEIO_DIRSEP) ++pi;
+				if (pi[1] == '.' && pi[2] == '.' && (pi[3] == STRUS_FILEIO_DIRSEP || pi[3] == '\0'))
+				{
+					pi += 2;
+					if (dirstarts.empty()) return 22/*EINVAL*/;
+					dirstarts.pop_back();
+				}
+				else if (pi[1] == '.' && (pi[2] == STRUS_FILEIO_DIRSEP || pi[2] == '\0'))
+				{
+					pi += 1;
+					/// ... self reference "/./", skip
+				}
+				else
+				{
+					dirstarts.push_back( pi - path.c_str() + 1);
+				}
+			}
+		}
+		std::string respath;
+		if (ptstart == STRUS_FILEIO_DIRSEP)
+		{
+			respath.append( "/");
+		}
+		else if (ptstart == '.')
+		{
+			respath.append( "./");
+		}
+		std::vector<int>::const_iterator di = dirstarts.begin(), de = dirstarts.end();
+		for (; di != de; ++di)
+		{
+			pi = path.c_str() + *di;
+			for (; *pi && *pi != STRUS_FILEIO_DIRSEP; ++pi)
+			{
+				respath.push_back( *pi);
+			}
+			if (*pi == STRUS_FILEIO_DIRSEP)
+			{
+				respath.push_back( STRUS_FILEIO_DIRSEP);
+			}
+		}
+		path = respath;
+		return 0/*OK*/;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return 12/*ENOMEM*/;
+	}
+}
 
