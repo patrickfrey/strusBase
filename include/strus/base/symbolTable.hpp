@@ -141,6 +141,10 @@ public:
 	{
 		return m_invmap.size();
 	}
+	
+	///\brief Evaluate if the symbol table is empty, without any definitions
+	///\return true if yes
+	bool empty() const;
 
 	typedef std::vector<const char*>::const_iterator const_inv_iterator;
 
