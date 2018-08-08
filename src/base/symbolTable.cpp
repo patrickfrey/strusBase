@@ -7,9 +7,12 @@
  */
 #include "strus/base/symbolTable.hpp"
 #include "strus/base/dll_tags.hpp"
-#include "private/utils.hpp"
+#include "strus/base/unordered_map.hpp"
+#include "strus/errorBufferInterface.hpp"
+#include "private/internationalization.hpp"
 #include <cstdlib>
 #include <cstring>
+#include <limits>
 
 namespace strus {
 
@@ -74,6 +77,46 @@ private:
 }//namespace
 
 using namespace strus;
+
+DLL_PUBLIC BlockAllocator::~BlockAllocator()
+{
+	if (m_blocks) delete m_blocks;
+}
+
+DLL_PUBLIC const char* BlockAllocator::allocStringCopy( const std::string& str)
+{
+	return allocStringCopy( str.c_str(), str.size());
+}
+
+DLL_PUBLIC const char* BlockAllocator::allocStringCopy( const char* str, std::size_t size)
+{
+	try
+	{
+		return m_blocks->allocKey( str, size);
+	}
+	catch (const std::exception&)
+	{
+		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
+		return 0;
+	}
+}
+
+DLL_PUBLIC StringMapKeyBlockList* BlockAllocator::createBlocks()
+{
+	try
+	{
+		return new StringMapKeyBlockList();
+	}
+	catch (const std::exception&)
+	{
+		return 0;
+	}
+}
+
+DLL_PUBLIC void BlockAllocator::deleteBlocks( StringMapKeyBlockList* ptr)
+{
+	delete ptr;
+}
 
 StringMapKeyBlock::StringMapKeyBlock( std::size_t blksize_, std::size_t elemsize_)
 	:m_blk((char*)std::calloc(blksize_,elemsize_)),m_blksize(blksize_*elemsize_),m_blkpos(0)
@@ -160,8 +203,18 @@ void StringMapKeyBlockList::clear()
 	m_ar.clear();
 }
 
+namespace strus {
+class InternalMap
+	:public strus::unordered_map<SymbolTable::Key,uint32_t,SymbolTable::HashFunc,SymbolTable::MapKeyEqual>
+{
+public:
+	InternalMap() :strus::unordered_map<SymbolTable::Key,uint32_t,SymbolTable::HashFunc,SymbolTable::MapKeyEqual>(){}
+};
+}
+
 DLL_PUBLIC SymbolTable::~SymbolTable()
 {
+	delete m_map;
 	delete m_keystring_blocks;
 }
 
@@ -177,32 +230,16 @@ DLL_PUBLIC StringMapKeyBlockList* SymbolTable::createKeystringBlocks()
 	}
 }
 
-DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const std::string& key)
+DLL_PUBLIC void SymbolTable::deleteKeystringBlocks( StringMapKeyBlockList* ptr)
 {
-	return getOrCreate( key.c_str(), key.size());
+	delete ptr;
 }
 
-DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t keylen)
+DLL_PUBLIC InternalMap* SymbolTable::createInternalMap()
 {
 	try
 	{
-		Key key( keystr, keylen);
-		Map::const_iterator itr = m_map.find( key);
-		m_isnew = (itr == m_map.end());
-		if (m_isnew)
-		{
-			if (m_invmap.size() >= (std::size_t)std::numeric_limits<int32_t>::max()-1)
-			{
-				throw std::bad_alloc();
-			}
-			m_invmap.push_back( m_keystring_blocks->allocKey( key.str, key.len));
-			m_map[ Key( m_invmap.back(), key.len)] = m_invmap.size();
-			return m_invmap.size();
-		}
-		else
-		{
-			return itr->second;
-		}
+		return new InternalMap();
 	}
 	catch (const std::exception&)
 	{
@@ -210,16 +247,62 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 	}
 }
 
-DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key) const
+DLL_PUBLIC void SymbolTable::deleteInternalMap( InternalMap* ptr)
 {
-	return get( key.c_str(), key.size());
+	delete ptr;
+}
+
+DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const std::string& key_)
+{
+	return getOrCreate( key_.c_str(), key_.size());
+}
+
+DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t keylen)
+{
+	try
+	{
+		Key newkey( keystr, keylen);
+		InternalMap::const_iterator itr = m_map->find( newkey);
+		m_isnew = (itr == m_map->end());
+		if (m_isnew)
+		{
+			if (m_invmap.size() >= (std::size_t)std::numeric_limits<int32_t>::max()-1)
+			{
+				throw std::bad_alloc();
+			}
+			const char* keystr_copy = m_keystring_blocks->allocKey( newkey.str, newkey.len);
+			m_invmap.push_back( keystr_copy);
+			Key kk( keystr_copy, newkey.len);
+			(*m_map)[ kk] = m_invmap.size();
+			return m_invmap.size();
+		}
+		else
+		{
+			return itr->second;
+		}
+	}
+	catch (const std::bad_alloc&)
+	{
+		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
+		return 0;
+	}
+	catch (const std::exception& err)
+	{
+		m_errorhnd->report( ErrorCodeRuntimeError, "%s", err.what());
+		return 0;
+	}
+}
+
+DLL_PUBLIC uint32_t SymbolTable::get( const std::string& key_) const
+{
+	return get( key_.c_str(), key_.size());
 }
 
 DLL_PUBLIC uint32_t SymbolTable::get( const char* keystr, std::size_t keylen) const
 {
-	Key key( keystr, keylen);
-	Map::const_iterator itr = m_map.find( key);
-	if (itr != m_map.end())
+	Key keystruct( keystr, keylen);
+	InternalMap::const_iterator itr = m_map->find( keystruct);
+	if (itr != m_map->end())
 	{
 		return itr->second;
 	}

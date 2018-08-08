@@ -23,6 +23,34 @@
 
 using namespace strus;
 
+static int mkdirp_( const std::string& dirname)
+{
+	int ec = strus::createDir( dirname, false/*fail_ifexist*/);
+	if (ec == 1/*EPERM*/)
+	{
+		std::string parentpath;
+		ec = getParentPath( dirname, parentpath);
+		if (ec) return ec;
+		if (parentpath.empty() || dirname.size() >= parentpath.size()) return 1/*EPERM*/;
+		ec = mkdirp_( parentpath);
+		if (ec) return ec;
+		ec = strus::createDir( dirname, false/*fail_ifexist*/);
+	}
+	return ec;
+}
+
+DLL_PUBLIC int strus::mkdirp( const std::string& dirname)
+{
+	try
+	{
+		return mkdirp_( dirname);
+	}
+	catch (...)
+	{
+		return 12/*ENOMEM*/;
+	}
+}
+
 DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 {
 	if (0>::mkdir( dirname.c_str(), 0755))
@@ -121,6 +149,16 @@ DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_
 	{
 		return removeFile( dirname, fail_ifnofexist);
 	}
+}
+
+DLL_PUBLIC int strus::renameFile( const std::string& old_filename, const std::string& new_filename)
+{
+	if (0>::rename( old_filename.c_str(), new_filename.c_str()))
+	{
+		int ec = errno;
+		return ec;
+	}
+	return 0;
 }
 
 DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
@@ -412,7 +450,7 @@ DLL_PUBLIC int strus::readDirFiles( const std::string& path, const std::string& 
 			else
 			{
 				const char* ee = entry.c_str() + entry.size() - ext.size();
-				if (entry[0] != '.' && 0==std::memcmp( ee, ext.c_str(), ext.size()))
+				if (0==std::memcmp( ee, ext.c_str(), ext.size()))
 				{
 					res.push_back( entry );
 				}
@@ -466,7 +504,7 @@ DLL_PUBLIC bool strus::isDir( const std::string& path)
 
 DLL_PUBLIC bool strus::isRelativePath( const std::string& path)
 {
-	return !path.empty() && path[0] != STRUS_FILEIO_DIRSEP;
+	return !path.empty() && path[0] != STRUS_FILEIO_DIRSEP && !(path.size() > 1 && path[0] == '.' && path[1] == STRUS_FILEIO_DIRSEP);
 }
 
 DLL_PUBLIC char strus::dirSeparator()
@@ -555,4 +593,178 @@ DLL_PUBLIC int strus::getParentPath( const std::string& path, std::string& dest)
 	}
 }
 
+DLL_PUBLIC int strus::getFileName( const std::string& path, std::string& dest, bool withExtension)
+{
+	const char* ri = path.c_str();
+	char const* re = path.c_str()+path.size();
+	for (; re != ri && *(re-1) == STRUS_FILEIO_DIRSEP; --re){}
+	char const* namend = re;
+	if (!withExtension)
+	{
+		for (; re != ri && *(re-1) != STRUS_FILEIO_DIRSEP && *(re-1) != '.'; --re){}
+		if (re != ri && *(re-1) == '.')
+		{
+			namend = re-1;
+		}
+	}
+	for (; re != ri && *(re-1) != STRUS_FILEIO_DIRSEP; --re){}
+	try
+	{
+		dest.clear();
+		dest.append( re, namend - re);
+	}
+	catch (const std::bad_alloc&)
+	{
+		return 12/*ENOMEM*/;
+	}
+	return 0;
+}
+
+DLL_PUBLIC int strus::getFileExtension( const std::string& path, std::string& ext)
+{
+	const char* ri = path.c_str();
+	char const* re = path.c_str()+path.size();
+	ext.clear();
+	for (; re != ri && *(re-1) == STRUS_FILEIO_DIRSEP; --re){}
+	for (; re != ri && *(re-1) != STRUS_FILEIO_DIRSEP && *(re-1) != '.'; --re){}
+	if (re == ri || *(re-1) == STRUS_FILEIO_DIRSEP)
+	{}
+	else if (*(re-1) == '.')
+	{
+		--re;	//... include '.' in result
+		try
+		{
+			ext.append( re);
+		}
+		catch (const std::bad_alloc&)
+		{
+			return 12/*ENOMEM*/;
+		}
+	}
+	return 0;
+}
+
+DLL_PUBLIC bool strus::hasUpdirReference( const std::string& path)
+{
+	char const* ri = path.c_str();
+	char const* re = path.c_str()+path.size();
+	if (path.size() < 2) return false;
+	if (ri[0] == '.' && ri[1] == '.') return true;
+
+	for (;ri != re; ++ri)
+	{
+		if (ri[0] == STRUS_FILEIO_DIRSEP && ri[1] == '.' && ri[2] == '.') return true;
+	}
+	return false;
+}
+
+
+DLL_PUBLIC std::string strus::joinFilePath( const std::string& parentpath, const std::string& childpath)
+{
+	try
+	{
+		if (parentpath.empty())
+		{
+			char const* ri = childpath.c_str();
+			if (*ri != STRUS_FILEIO_DIRSEP) return childpath;
+		}
+		const char* pi = parentpath.c_str();
+		char const* pe = pi + parentpath.size();
+		while (pe != pi && *(pe-1) == STRUS_FILEIO_DIRSEP) --pe;
+		char const* ri = childpath.c_str();
+		while (*ri == STRUS_FILEIO_DIRSEP) ++ri;
+		return std::string(pi,pe-pi) + STRUS_FILEIO_DIRSEP + ri;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return std::string();
+	}
+}
+
+DLL_PUBLIC int strus::resolveUpdirReferences( std::string& path)
+{
+	try
+	{
+		char ptstart = '\0';
+		std::vector<int> dirstarts;
+		char const* pi = path.c_str();
+		if (*pi == STRUS_FILEIO_DIRSEP)
+		{
+			for (++pi; *pi == STRUS_FILEIO_DIRSEP; ++pi){}
+			ptstart = STRUS_FILEIO_DIRSEP;
+			if (*pi) dirstarts.push_back( pi - path.c_str());
+		}
+		else if (*pi == '.')
+		{
+			if (pi[1] == STRUS_FILEIO_DIRSEP)
+			{
+				for (++pi; *pi == STRUS_FILEIO_DIRSEP; ++pi){}
+				ptstart = '.';
+				dirstarts.push_back( pi - path.c_str());
+			}
+			else if (pi[1] == '.' && (pi[2] == STRUS_FILEIO_DIRSEP || pi[2] == '\0'))
+			{
+				return 22/*EINVAL*/;
+			}
+			else
+			{
+				dirstarts.push_back( 0);
+			}
+		}
+		else
+		{
+			dirstarts.push_back( 0);
+		}
+		for (; *pi; ++pi)
+		{
+			if (*pi == STRUS_FILEIO_DIRSEP)
+			{
+				while (pi[1] == STRUS_FILEIO_DIRSEP) ++pi;
+				if (pi[1] == '.' && pi[2] == '.' && (pi[3] == STRUS_FILEIO_DIRSEP || pi[3] == '\0'))
+				{
+					pi += 2;
+					if (dirstarts.empty()) return 22/*EINVAL*/;
+					dirstarts.pop_back();
+				}
+				else if (pi[1] == '.' && (pi[2] == STRUS_FILEIO_DIRSEP || pi[2] == '\0'))
+				{
+					pi += 1;
+					/// ... self reference "/./", skip
+				}
+				else
+				{
+					dirstarts.push_back( pi - path.c_str() + 1);
+				}
+			}
+		}
+		std::string respath;
+		if (ptstart == STRUS_FILEIO_DIRSEP)
+		{
+			respath.append( "/");
+		}
+		else if (ptstart == '.')
+		{
+			respath.append( "./");
+		}
+		std::vector<int>::const_iterator di = dirstarts.begin(), de = dirstarts.end();
+		for (; di != de; ++di)
+		{
+			pi = path.c_str() + *di;
+			for (; *pi && *pi != STRUS_FILEIO_DIRSEP; ++pi)
+			{
+				respath.push_back( *pi);
+			}
+			if (*pi == STRUS_FILEIO_DIRSEP)
+			{
+				respath.push_back( STRUS_FILEIO_DIRSEP);
+			}
+		}
+		path = respath;
+		return 0/*OK*/;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return 12/*ENOMEM*/;
+	}
+}
 

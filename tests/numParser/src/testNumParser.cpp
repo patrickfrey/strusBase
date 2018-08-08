@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#include "strus/base/numParser.hpp"
+#include "strus/base/numstring.hpp"
 #include "strus/base/string_format.hpp"
 #include <stdexcept>
 #include <iostream>
@@ -67,14 +67,16 @@ static void checkError( NumParseError err, const char* type)
 {
 	switch (err)
 	{
-		case NumParserOk:
+		case NumParseOk:
 			return;
-		case NumParserErrNoMem:
+		case NumParseErrNoMem:
 			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "out of memory"));
-		case NumParserErrConversion:
+		case NumParseErrConversion:
 			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "conversion error"));
-		case NumParserErrOutOfRange:
+		case NumParseErrOutOfRange:
 			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "value out of range"));
+		case NumParseErrInvalidArg:
+			throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "invalid argument"));
 	}
 	throw std::runtime_error( strus::string_format( "failed to convert string to %s: %s", type, "undefined error code"));
 }
@@ -91,7 +93,7 @@ static void testParseDouble( unsigned int times)
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot string " << valstr << std::endl;
 #endif
-		NumParseError err;
+		NumParseError err = NumParseOk;
 		double val_test = strus::doubleFromString( valstr, err);
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot result (" << (unsigned int)err << ") " << val_test << std::endl;
@@ -122,7 +124,7 @@ static void testParseUInt( unsigned int times)
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot string " << valstr << std::endl;
 #endif
-		NumParseError err;
+		NumParseError err = NumParseOk;
 		unsigned int val_test = strus::uintFromString( valstr, std::numeric_limits<unsigned int>::max(), err);
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot result (" << (unsigned int)err << ") " << val_test << std::endl;
@@ -151,7 +153,7 @@ static void testParseInt( unsigned int times)
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot string " << valstr << std::endl;
 #endif
-		NumParseError err;
+		NumParseError err = NumParseOk;
 		int val_test = strus::intFromString( valstr, (unsigned int)std::numeric_limits<int>::max() +1, err);
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot result (" << (unsigned int)err << ") " << val_test << std::endl;

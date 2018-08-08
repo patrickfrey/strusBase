@@ -9,22 +9,66 @@
 #ifndef _STRUS_BASE_SYMBOL_TABLE_HPP_INCLUDED
 #define _STRUS_BASE_SYMBOL_TABLE_HPP_INCLUDED
 #include "strus/base/crc32.hpp"
-#include <boost/unordered_map.hpp>
 #include <list>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <stdexcept>
+#include <new>
 
 namespace strus
 {
+/// \brief Forward declaration
+class ErrorBufferInterface;
 ///\brief Forward declaration
 class StringMapKeyBlockList;
+///\brief Forward declaration
+class InternalMap;
+
+class BlockAllocator
+{
+public:
+	explicit BlockAllocator( ErrorBufferInterface* errorhnd_)
+		:m_errorhnd(errorhnd_),m_blocks(createBlocks())
+	{
+		if (!m_blocks)
+		{
+			deleteBlocks( m_blocks);
+			throw std::bad_alloc();
+		}
+	}
+	~BlockAllocator();
+
+	const char* allocStringCopy( const char* str, std::size_t size);
+	const char* allocStringCopy( const std::string& str);
+
+private:
+	static StringMapKeyBlockList* createBlocks();
+	static void deleteBlocks( StringMapKeyBlockList* ptr);
+
+private:
+	ErrorBufferInterface* m_errorhnd;
+	StringMapKeyBlockList* m_blocks;
+};
+
 
 ///\brief Map of strings to indices not freed till end of table life time
 /// \note Suitable for symbol tables of languages (DSL)
 class SymbolTable
 {
-private:
+public:
+	///\brief Default constructor
+	explicit SymbolTable( ErrorBufferInterface* errorhnd_)
+		:m_errorhnd(errorhnd_),m_map(createInternalMap()),m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
+	{
+		if (!m_keystring_blocks || !m_map)
+		{
+			if (!m_keystring_blocks) deleteKeystringBlocks( m_keystring_blocks);
+			if (!m_map) deleteInternalMap( m_map);
+			throw std::bad_alloc();
+		}
+	}
+
 	///\brief Key of symbol table
 	struct Key
 	{
@@ -54,24 +98,15 @@ private:
 			return a.len == b.len && std::memcmp( a.str, b.str, a.len) == 0;
 		}
 	};
-	struct HashFunc{
+	struct HashFunc
+	{
 		int operator()( const Key& key)const
 		{
 			return utils::Crc32::calc( key.str, key.len);
 		}
 	};
 
-	typedef boost::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual> Map;
-	typedef boost::unordered_map<Key,uint32_t,HashFunc,MapKeyEqual>::const_iterator const_iterator;
-
 public:
-	///\brief Default constructor
-	explicit SymbolTable()
-		:m_keystring_blocks(createKeystringBlocks()),m_isnew(false)
-
-	{
-		if (!m_keystring_blocks) throw std::bad_alloc();
-	}
 	///\brief Destructor
 	~SymbolTable();
 
@@ -100,21 +135,18 @@ public:
 	///\return the key string
 	const char* key( const uint32_t& id) const;
 
-	///\brief Get start iterator (unordered)
-	const_iterator begin() const
-	{
-		return m_map.begin();
-	}
-	///\brief Get end iterator (unordered)
-	const_iterator end() const
-	{
-		return m_map.end();
-	}
 	///\brief Get number of elements defined
 	///\return the number of elements defined
 	std::size_t size() const
 	{
 		return m_invmap.size();
+	}
+	
+	///\brief Evaluate if the symbol table is empty, without any definitions
+	///\return true if yes
+	bool empty() const
+	{
+		return m_invmap.empty();
 	}
 
 	typedef std::vector<const char*>::const_iterator const_inv_iterator;
@@ -145,13 +177,21 @@ public:
 	void* allocBlock( unsigned int blocksize, unsigned int elemsize);
 
 private:
+#if __cplusplus >= 201103L
+	SymbolTable( const SymbolTable&) = delete;
+	void operator=( const SymbolTable&) = delete;
+#else
 	SymbolTable( const SymbolTable&){}	///> non copyable
 	void operator=( const SymbolTable&){}	///> non copyable
-
+#endif
 	static StringMapKeyBlockList* createKeystringBlocks();
+	static void deleteKeystringBlocks( StringMapKeyBlockList* ptr);
+	static InternalMap* createInternalMap();
+	static void deleteInternalMap( InternalMap* ptr);
 
 private:
-	Map m_map;
+	ErrorBufferInterface* m_errorhnd;
+	InternalMap* m_map;
 	std::vector<const char*> m_invmap;
 	StringMapKeyBlockList* m_keystring_blocks;
 	bool m_isnew;

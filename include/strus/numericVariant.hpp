@@ -10,10 +10,6 @@
 #ifndef _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
 #define _STRUS_STORAGE_NUMERIC_VARIANT_TYPE_HPP_INCLUDED
 #include "strus/base/stdint.h"
-#ifndef __STDC_FORMAT_MACROS
-#define __STDC_FORMAT_MACROS
-#endif
-#include <inttypes.h>
 #include <cstring>
 #include <stdio.h>
 #include <limits>
@@ -48,7 +44,12 @@ public:
 		variant.Float = value;
 		type = Float;
 	}
-
+	/// \brief Constructor from a string
+	/// \param[in] value value to parse and assign to this numeric variant
+	NumericVariant( const char* val_)
+	{
+		if (!initFromString( val_)) init();
+	}
 	/// \brief Default constructor (as undefined value)
 	NumericVariant()
 	{
@@ -86,17 +87,7 @@ public:
 			m_buf[0] = '\0';
 		}
 
-		String( const NumericVariant& val)
-		{
-			switch (val.type)
-			{
-				case Null: break;
-				case Int: snprintf( m_buf, sizeof(m_buf), "%" PRId64, val.variant.Int); return;
-				case UInt: snprintf( m_buf, sizeof(m_buf), "%" PRIu64, val.variant.UInt); return;
-				case Float: snprintf( m_buf, sizeof(m_buf), "%f", val.variant.Float); return;
-			}
-			m_buf[0] = '\0';
-		}
+		explicit String( const NumericVariant& val, int precision=-1);
 
 		operator const char*() const	{return m_buf;}
 		const char* c_str() const	{return m_buf;}
@@ -105,52 +96,15 @@ public:
 		char m_buf[ 128];
 	};
 
-	String tostring() const
+	String tostring( int precision=-1) const
 	{
-		return String( *this);
+		return String( *this, precision);
 	}
 
-	bool initFromString( const char* src)
-	{
-		char const* si = src;
-		bool sign_ = false;
-		if (!*si)
-		{
-			init();
-			return true;
-		}
-		if (*si == '-')
-		{
-			sign_ = true;
-			++si;
-		}
-		if (*si < '0' || *si > '9') return false;
-		for (; *si >= '0' && *si <= '9'; ++si){}
-		if (*si == '.')
-		{
-			for (++si; *si >= '0' && *si <= '9'; ++si){}
-			if ((*si|32) == 'e')
-			{
-				++si;
-				if (*si == '-') ++si;
-				for (; *si >= '0' && *si <= '9'; ++si){}
-			}
-			if (*si) return false;
-			sscanf( src, "%lf", &variant.Float);
-			type = Float;
-		}
-		else if (sign_)
-		{
-			sscanf( src, "%" PRId64, &variant.Int);
-			type = Int;
-		}
-		else
-		{
-			sscanf( src, "%" PRIu64, &variant.UInt);
-			type = UInt;
-		}
-		return true;
-	}
+	/// \brief Initialize numeric variant parsed from a Ascii source string
+	/// \param[in] src source string to parse
+	/// \return bool true on success, false on failure
+	bool initFromString( const char* src);
 
 	/// \brief Find out if this value is defined
 	/// \return true, if yes
@@ -280,76 +234,12 @@ public:
 	/// \brief Test for equality
 	/// \param[in] o numeric variant to compare
 	/// \return true, if yes
-	bool isequal( const NumericVariant& o) const
-	{
-		if (type == o.type)
-		{
-			switch (type)
-			{
-				case Null: return true;
-				case Int: return variant.Int == o.variant.Int;
-				case UInt: return variant.UInt == o.variant.UInt;
-				case Float:
-				{
-					double xx = variant.Float - o.variant.Float;
-					if (xx < 0) xx = -xx;
-					return xx <= 2*std::numeric_limits<double>::epsilon();
-				}
-			}
-		}
-		return false;
-	}
+	bool isequal( const NumericVariant& o) const;
 
 	/// \brief Comparison of numbers
 	/// \param[in] o numeric variant to compare
 	/// \return -1 <, +1 >, 0 =
-	int compare( const NumericVariant& o) const
-	{
-		switch (type)
-		{
-			case Null: return o.defined() ? -1:0;
-			case Int: 
-			{
-				int64_t vv = o.toint();
-				if (variant.Int < vv)
-				{
-					return -1;
-				}
-				else if (variant.Int > vv)
-				{
-					return +1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-			case UInt:
-			{
-				uint64_t vv = o.touint();
-				if (variant.UInt < vv)
-				{
-					return -1;
-				}
-				else if (variant.UInt > vv)
-				{
-					return +1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-			case Float:
-			{
-				double vv = o.tofloat();
-				double xx = variant.Float - vv;
-				double xxabs = (xx > 0.0) ? xx:-xx;
-				if (xxabs <= 2*std::numeric_limits<double>::epsilon()) return 0;
-				return xx < vv ? -1:+1;
-			}
-		}
-	}
+	int compare( const NumericVariant& o) const;
 
 	/// \brief Assignment operator for a singed integer
 	/// \param[in] value value to assign to this numeric variant
@@ -396,6 +286,9 @@ public:
 	typedef int64_t IntType;
 	typedef uint64_t UIntType;
 	typedef double FloatType;
+
+	/// \brief Get the name of a type as string
+	static const char* typeName( Type type);
 
 	Type type;				///< Type of this numeric variant
 	union

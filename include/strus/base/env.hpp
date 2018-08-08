@@ -6,8 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /// \brief Accessing environment variables
-#ifndef _STRUS_BASE_EXEC_HPP_INCLUDED
-#define _STRUS_BASE_EXEC_HPP_INCLUDED
+#ifndef _STRUS_BASE_ENV_HPP_INCLUDED
+#define _STRUS_BASE_ENV_HPP_INCLUDED
 #include <string>
 #include <vector>
 

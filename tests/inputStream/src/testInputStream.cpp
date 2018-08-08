@@ -8,7 +8,6 @@
 #include "strus/base/inputStream.hpp"
 #include "strus/base/stdint.h"
 #include "strus/base/fileio.hpp"
-#include "private/utils.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -81,7 +80,7 @@ static void test( const std::string& testfilename, unsigned int docsize)
 					{
 						eof = true;
 					}
-					else if (error != EINVAL)
+					else if (error != 22/*EINVAL*/)
 					{
 						throw std::runtime_error(::strerror(error));
 					}
@@ -110,7 +109,7 @@ static void test( const std::string& testfilename, unsigned int docsize)
 					{
 						eof = true;
 					}
-					else if (error != EINVAL)
+					else if (error != 22/*EINVAL*/)
 					{
 						throw std::runtime_error(::strerror(error));
 					}
@@ -142,7 +141,7 @@ static void test( const std::string& testfilename, unsigned int docsize)
 					{
 						eof = true;
 					}
-					else if (error != EINVAL)
+					else if (error != 22/*EINVAL*/)
 					{
 						throw std::runtime_error(::strerror(error));
 					}

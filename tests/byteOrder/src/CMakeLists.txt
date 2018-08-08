@@ -5,8 +5,10 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/include"
 )
 link_directories(
-	"${Boost_LIBRARY_DIRS}"
+	${Boost_LIBRARY_DIRS}
 )
+
+add_cppcheck( testByteOrder testByteOrder.cpp )
 
 add_executable( testByteOrder testByteOrder.cpp)
 target_link_libraries( testByteOrder ${Boost_LIBRARIES} ${Intl_LIBRARIES} )

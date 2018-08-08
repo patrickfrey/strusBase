@@ -10,13 +10,16 @@
 #ifndef _STRUS_ERROR_BUFFER_IMPLEMENTATION_HPP_INCLUDED
 #define _STRUS_ERROR_BUFFER_IMPLEMENTATION_HPP_INCLUDED
 #include "strus/errorBufferInterface.hpp"
-#include "private/utils.hpp"
+#include "strus/base/atomic.hpp"
+#include "strus/base/thread.hpp"
 #include <cstdio>
 #include <cstdarg>
 
 /// \brief strus toplevel namespace
 namespace strus
 {
+/// \brief Forward declaration
+class DebugTraceInterface;
 
 /// \class ProcessErrorBuffer
 /// \brief Error buffer context for one thread
@@ -26,7 +29,7 @@ public:
 	ProcessErrorBuffer();
 	~ProcessErrorBuffer(){}
 
-	void report( FILE* logfilehandle, const char* format, va_list arg);
+	void report( int errorcode, FILE* logfilehandle, const char* format, va_list arg);
 	void explain( FILE* logfilehandle, const char* format);
 
 	const char* fetchError()
@@ -56,14 +59,20 @@ class ErrorBuffer
 public:
 	enum {DefaultMaxNofThreads=32};
 
-	ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_);
+	/// \brief Constructor
+	/// \param[in] logfilehandle_ handle for logfile
+	/// \param[in] maxNofThreads_ maximum number of simultaneus threads open, using the error buffer
+	/// \param[in] dbgtrace_ debug trace interface (passed with ownership)
+	ErrorBuffer( FILE* logfilehandle_, std::size_t maxNofThreads_, DebugTraceInterface* dbgtrace_);
+
+	/// \brief Destructor
 	virtual ~ErrorBuffer();
 
 	virtual void setLogFile( FILE* hnd);
 
 	virtual bool setMaxNofThreads( unsigned int maxNofThreads);
 
-	virtual void report( const char* format, ...);
+	virtual void report( int errorcode, const char* format, ...);
 
 	virtual void explain( const char* format);
 
@@ -73,6 +82,14 @@ public:
 
 	virtual void allocContext();
 	virtual void releaseContext();
+
+	virtual DebugTraceInterface* debugTrace() const
+	{
+		return m_debugtrace;
+	}
+
+	static int nextErrorCode( char const*& msgitr);
+	static void removeErrorCodes( char* msg);
 
 private:
 	std::size_t threadidx() const;
@@ -84,8 +101,8 @@ private:
 	std::size_t m_size;
 	struct Slot
 	{
-		typedef utils::ThreadId::Type Id;
-		typedef utils::AtomicFlag Flag;
+		typedef strus::ThreadId::Type Id;
+		typedef strus::AtomicFlag Flag;
 
 		Slot(){}
 		~Slot(){}
@@ -96,6 +113,7 @@ private:
 
 	Slot* m_slots;
 	ProcessErrorBuffer* m_ar;
+	DebugTraceInterface* m_debugtrace;
 };
 
 }//namespace

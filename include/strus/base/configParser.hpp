@@ -24,7 +24,9 @@ bool extractFloatFromConfigString( double& val, std::string& config, const char*
 void removeKeysFromConfigString( std::string& config, const char** keys, ErrorBufferInterface* errorhnd);
 
 bool addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd);
+std::vector<std::pair<std::string,std::string> > getAssignmentListItems( const std::string& config, ErrorBufferInterface* errorhnd);
 std::vector<std::pair<std::string,std::string> > getConfigStringItems( const std::string& config, ErrorBufferInterface* errorhnd);
+std::vector<std::pair<std::string,std::string> > getSubConfigStringItems( const std::string& configelem, ErrorBufferInterface* errorhnd);
 
 }//namespace
 #endif

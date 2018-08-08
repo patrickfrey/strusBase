@@ -87,8 +87,13 @@ private:
 	void* m_hdrbuf;
 
 private:
-	DataRecordFile( const DataRecordFile&){}				///< non copyable
-	DataRecordFile& operator=( const DataRecordFile&){return *this;}	///< non copyable
+#if __cplusplus >= 201103L
+	DataRecordFile( const DataRecordFile&) = delete;
+	void operator=( const DataRecordFile&) = delete;
+#else
+	DataRecordFile( const DataRecordFile&){} ///> non copyable
+	void operator=( const DataRecordFile&){} ///> non copyable
+#endif
 };
 #endif
 

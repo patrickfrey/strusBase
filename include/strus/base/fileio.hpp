@@ -62,11 +62,22 @@ int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
 /// \return 0 on success, errno on failure
 int removeDirRecursive( const std::string& dirname, bool fail_ifnofexist=false);
 
+/// \brief Moves (renames) a file
+/// \param[in] old_filename the name of the file to rename
+/// \param[in] new_filename the new name of the file
+/// \return 0 on success, errno on failure
+int renameFile( const std::string& old_filename, const std::string& new_filename);
+
 /// \brief Creates a directory if it does not exist yet
 /// \param[in] dirname path of directory to create
 /// \param[in] fail_ifexist return an error if the directory already exists
 /// \return 0 on success, errno on failure
 int createDir( const std::string& dirname, bool fail_ifexist=true);
+
+/// \brief Creates a directory path (mkdir -p)
+/// \param[in] dirname path of directory to create
+/// \return 0 on success, errno on failure
+int mkdirp( const std::string& dirname);
 
 /// \brief Change current directory of the process
 /// \param[in] dirname path of directory to create
@@ -120,9 +131,38 @@ int getParentPath( const std::string& path, std::string& dest);
 /// \return 0 on success, errno on failure
 int getAncestorPath( const std::string& path, int level, std::string& dest);
 
+/// \brief Get the file name without parent path of a file or directory
+/// \param[in] path file system path to get the file name from
+/// \param[out] dest the file name
+/// \return 0 on success, errno on failure
+int getFileName( const std::string& path, std::string& dest, bool withExtension=true);
+
+/// \brief Get the extension (including '.') of a file or directory
+/// \param[in] path file system path to get the extension from
+/// \param[out] ext the extension
+/// \return 0 on success, errno on failure
+int getFileExtension( const std::string& path, std::string& ext);
+
 /// \brief Get the OS path element separator
 /// \return the separator
 char dirSeparator();
+
+/// \brief Return true, if the path contains an upper directory reference '..'
+/// \param[in] path file system path
+/// \return true if yes
+bool hasUpdirReference( const std::string& path);
+
+/// \brief Join two path with directory separator
+/// \param[in] parentpath left part of the resulting file system path
+/// \param[in] childpath right part of the resulting file system path
+/// \return the joined path or empty in case of a memory allocation error
+std::string joinFilePath( const std::string& parentpath, const std::string& childpath);
+
+/// \brief Resolve upper directory references in a path, e.g. replace "/home/john/../jack" by "/home/jack"
+/// \param[in,out] path path to resolve updir references in
+/// \note Does not care about permissions, it is just mapping a string to another
+/// \return 0 on success, errno on failure (ENOMEM,EINVAL)
+int resolveUpdirReferences( std::string& path);
 
 }//namespace
 #endif

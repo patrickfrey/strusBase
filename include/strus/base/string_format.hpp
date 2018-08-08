@@ -16,6 +16,12 @@ namespace strus {
 
 /// \brief Get a string built from a format string and arguments
 /// \param[in] fmt C printf format string
+/// \param[in] ap argument list
+/// \return the string built or an empty string in case of a memory allocation error
+std::string string_format( const char* fmt, va_list ap);
+
+/// \brief Get a string built from a format string and arguments
+/// \param[in] fmt C printf format string
 /// \param[in] ... argument list
 /// \return the string built or an empty string in case of a memory allocation error
 #ifdef __GNUC__

@@ -34,8 +34,8 @@ public:
 	/// \brief Read a line
 	/// \param[in,out] buf where to write to
 	/// \param[in] bufsize allocation size of 'buf' (capacity) 
-	/// \param[in] failOnNoLine true, if an error shozuld be reported in case of buffer too small for line read
-	/// \return pointer to the line read or NULL in case of no line to read left
+	/// \param[in] failOnNoLine true, if an error should be reported in case of buffer too small for line read
+	/// \return pointer to the \0 terminated line read or NULL in case of no line to read left
 	const char* readLine( char* buf, std::size_t bufsize, bool failOnNoLine=false);
 
 	/// \brief Read some data and keep it in a buffer for the next read

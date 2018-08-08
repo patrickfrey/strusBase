@@ -62,8 +62,9 @@ static void printfloat( char** bi, char* be, double num, unsigned int precision)
 	}
 }
 
-void strus_vsnprintf( char* bi, size_t bufsize, const char* format, va_list ap)
+int strus_vsnprintf( char* buf, size_t bufsize, const char* format, va_list ap)
 {
+	char* bi = buf;
 	char* be;
 	char const* fi;
 	union
@@ -75,7 +76,8 @@ void strus_vsnprintf( char* bi, size_t bufsize, const char* format, va_list ap)
 		double f;
 	} val;
 
-	if (bufsize == 0) return;
+	if (bufsize == 0) return 0;
+	
 	be = bi + bufsize-1;
 	fi = format;
 
@@ -150,14 +152,16 @@ void strus_vsnprintf( char* bi, size_t bufsize, const char* format, va_list ap)
 		}
 	}
 	*bi = 0;
+	return bi - buf;
 }
 
-void strus_snprintf( char* bi, size_t bufsize, const char* format, ...)
+int strus_snprintf( char* bi, size_t bufsize, const char* format, ...)
 {
 	va_list ap;
 	va_start(ap, format);
-	strus_vsnprintf( bi, bufsize, format, ap);
+	int rt = strus_vsnprintf( bi, bufsize, format, ap);
 	va_end(ap);
+	return rt;
 }
 
 
