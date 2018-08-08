@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -72,7 +72,7 @@
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacestrus"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html">strus</a></td></tr>
-<tr class="memdesc:namespacestrus"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some helpers for command line processing. <br/></td></tr>
+<tr class="memdesc:namespacestrus"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper to structures needed for atomic counters. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -101,9 +101,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a8b83da7fdf33c37005a45af23c7f7ed0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a8b83da7fdf33c37005a45af23c7f7ed0">strus::removeDirRecursive</a> (const std::string &amp;dirname, bool fail_ifnofexist=false)</td></tr>
 <tr class="memdesc:a8b83da7fdf33c37005a45af23c7f7ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a directory with all its contents.  <a href="#a8b83da7fdf33c37005a45af23c7f7ed0">More...</a><br/></td></tr>
 <tr class="separator:a8b83da7fdf33c37005a45af23c7f7ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c17326d51d51032128a1b13697df052"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a9c17326d51d51032128a1b13697df052">strus::renameFile</a> (const std::string &amp;old_filename, const std::string &amp;new_filename)</td></tr>
+<tr class="memdesc:a9c17326d51d51032128a1b13697df052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves (renames) a file.  <a href="#a9c17326d51d51032128a1b13697df052">More...</a><br/></td></tr>
+<tr class="separator:a9c17326d51d51032128a1b13697df052"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f7a44db49fbeca1053759754bee4353"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a7f7a44db49fbeca1053759754bee4353">strus::createDir</a> (const std::string &amp;dirname, bool fail_ifexist=true)</td></tr>
 <tr class="memdesc:a7f7a44db49fbeca1053759754bee4353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory if it does not exist yet.  <a href="#a7f7a44db49fbeca1053759754bee4353">More...</a><br/></td></tr>
 <tr class="separator:a7f7a44db49fbeca1053759754bee4353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a528a4ee9373a9e45e030df4f9dde67c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a528a4ee9373a9e45e030df4f9dde67c7">strus::mkdirp</a> (const std::string &amp;dirname)</td></tr>
+<tr class="memdesc:a528a4ee9373a9e45e030df4f9dde67c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory path (mkdir -p)  <a href="#a528a4ee9373a9e45e030df4f9dde67c7">More...</a><br/></td></tr>
+<tr class="separator:a528a4ee9373a9e45e030df4f9dde67c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc9c517c719204c8091a32840e2e2c78"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#abc9c517c719204c8091a32840e2e2c78">strus::changeDir</a> (const std::string &amp;dirname)</td></tr>
 <tr class="memdesc:abc9c517c719204c8091a32840e2e2c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change current directory of the process.  <a href="#abc9c517c719204c8091a32840e2e2c78">More...</a><br/></td></tr>
 <tr class="separator:abc9c517c719204c8091a32840e2e2c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,15 +137,30 @@ Functions</h2></td></tr>
 <tr class="memitem:ab0fc7dfc269740cc3b2df2ff2034fb12"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab0fc7dfc269740cc3b2df2ff2034fb12">strus::getAncestorPath</a> (const std::string &amp;path, int level, std::string &amp;dest)</td></tr>
 <tr class="memdesc:ab0fc7dfc269740cc3b2df2ff2034fb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an ancestor (containing) path of a file or directory.  <a href="#ab0fc7dfc269740cc3b2df2ff2034fb12">More...</a><br/></td></tr>
 <tr class="separator:ab0fc7dfc269740cc3b2df2ff2034fb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b83adf6079971ed8868d73f64d853b5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a8b83adf6079971ed8868d73f64d853b5">strus::getFileName</a> (const std::string &amp;path, std::string &amp;dest, bool withExtension=true)</td></tr>
+<tr class="memdesc:a8b83adf6079971ed8868d73f64d853b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file name without parent path of a file or directory.  <a href="#a8b83adf6079971ed8868d73f64d853b5">More...</a><br/></td></tr>
+<tr class="separator:a8b83adf6079971ed8868d73f64d853b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6429b6b8a7eafc87eef6c3173e67b849"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a6429b6b8a7eafc87eef6c3173e67b849">strus::getFileExtension</a> (const std::string &amp;path, std::string &amp;ext)</td></tr>
+<tr class="memdesc:a6429b6b8a7eafc87eef6c3173e67b849"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the extension (including '.') of a file or directory.  <a href="#a6429b6b8a7eafc87eef6c3173e67b849">More...</a><br/></td></tr>
+<tr class="separator:a6429b6b8a7eafc87eef6c3173e67b849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b3ce343266d03ac6d653667193d5ecc"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a5b3ce343266d03ac6d653667193d5ecc">strus::dirSeparator</a> ()</td></tr>
 <tr class="memdesc:a5b3ce343266d03ac6d653667193d5ecc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the OS path element separator.  <a href="#a5b3ce343266d03ac6d653667193d5ecc">More...</a><br/></td></tr>
 <tr class="separator:a5b3ce343266d03ac6d653667193d5ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6e0bffc7d0e729f8eb7afa2ffc90da7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ae6e0bffc7d0e729f8eb7afa2ffc90da7">strus::hasUpdirReference</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:ae6e0bffc7d0e729f8eb7afa2ffc90da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true, if the path contains an upper directory reference '..'.  <a href="#ae6e0bffc7d0e729f8eb7afa2ffc90da7">More...</a><br/></td></tr>
+<tr class="separator:ae6e0bffc7d0e729f8eb7afa2ffc90da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15b4ceab4c07c867422284216c96bdab"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a15b4ceab4c07c867422284216c96bdab">strus::joinFilePath</a> (const std::string &amp;parentpath, const std::string &amp;childpath)</td></tr>
+<tr class="memdesc:a15b4ceab4c07c867422284216c96bdab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Join two path with directory separator.  <a href="#a15b4ceab4c07c867422284216c96bdab">More...</a><br/></td></tr>
+<tr class="separator:a15b4ceab4c07c867422284216c96bdab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa5c5b39c3d756c8e62f8cb663e05ff5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aaa5c5b39c3d756c8e62f8cb663e05ff5">strus::resolveUpdirReferences</a> (std::string &amp;path)</td></tr>
+<tr class="memdesc:aaa5c5b39c3d756c8e62f8cb663e05ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve upper directory references in a path, e.g. replace "/home/john/../jack" by "/home/jack".  <a href="#aaa5c5b39c3d756c8e62f8cb663e05ff5">More...</a><br/></td></tr>
+<tr class="separator:aaa5c5b39c3d756c8e62f8cb663e05ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

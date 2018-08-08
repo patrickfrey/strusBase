@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -64,31 +64,43 @@
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="crc32_8hpp_source.html">strus/base/crc32.hpp</a>&quot;</code><br/>
-<code>#include &lt;boost/unordered_map.hpp&gt;</code><br/>
 <code>#include &lt;list&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;cstring&gt;</code><br/>
 <code>#include &lt;stdexcept&gt;</code><br/>
+<code>#include &lt;new&gt;</code><br/>
 </div>
 <p><a href="symbolTable_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1BlockAllocator.html">strus::BlockAllocator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html">strus::SymbolTable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of strings to indices not freed till end of table life time.  <a href="classstrus_1_1SymbolTable.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1Key.html">strus::SymbolTable::Key</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structstrus_1_1SymbolTable_1_1Key.html" title="Key of symbol table. ">Key</a> of symbol table.  <a href="structstrus_1_1SymbolTable_1_1Key.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1MapKeyLess.html">strus::SymbolTable::MapKeyLess</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1MapKeyEqual.html">strus::SymbolTable::MapKeyEqual</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1HashFunc.html">strus::SymbolTable::HashFunc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacestrus"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html">strus</a></td></tr>
-<tr class="memdesc:namespacestrus"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some helpers for command line processing. <br/></td></tr>
+<tr class="memdesc:namespacestrus"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper to structures needed for atomic counters. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

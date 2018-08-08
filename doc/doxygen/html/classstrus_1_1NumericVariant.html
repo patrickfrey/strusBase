@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -107,6 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af7724158912f6388668c1c857c8df328"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#af7724158912f6388668c1c857c8df328">NumericVariant</a> (double value)</td></tr>
 <tr class="memdesc:af7724158912f6388668c1c857c8df328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a single precision floating point number.  <a href="#af7724158912f6388668c1c857c8df328">More...</a><br/></td></tr>
 <tr class="separator:af7724158912f6388668c1c857c8df328"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d5a87111c3ad61d30cf1238ccbb2d56"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a5d5a87111c3ad61d30cf1238ccbb2d56">NumericVariant</a> (const char *val_)</td></tr>
+<tr class="memdesc:a5d5a87111c3ad61d30cf1238ccbb2d56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a string.  <a href="#a5d5a87111c3ad61d30cf1238ccbb2d56">More...</a><br/></td></tr>
+<tr class="separator:a5d5a87111c3ad61d30cf1238ccbb2d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20755d407161449920e2acc1a77f46ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a20755d407161449920e2acc1a77f46ce">NumericVariant</a> ()</td></tr>
 <tr class="memdesc:a20755d407161449920e2acc1a77f46ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor (as undefined value)  <a href="#a20755d407161449920e2acc1a77f46ce">More...</a><br/></td></tr>
 <tr class="separator:a20755d407161449920e2acc1a77f46ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,9 +118,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a344aee057dcc0ee2a38564e44cd26626"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01696a8760ed9ffb9865d2254677d69c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a01696a8760ed9ffb9865d2254677d69c">init</a> ()</td></tr>
 <tr class="separator:a01696a8760ed9ffb9865d2254677d69c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ee15ec4e47270e58e97f4165e4c5bd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstrus_1_1NumericVariant_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a1ee15ec4e47270e58e97f4165e4c5bd9">tostring</a> () const </td></tr>
-<tr class="separator:a1ee15ec4e47270e58e97f4165e4c5bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d869c0340d086aa2fa00cc6872a6a77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstrus_1_1NumericVariant_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a7d869c0340d086aa2fa00cc6872a6a77">tostring</a> (int precision=-1) const </td></tr>
+<tr class="separator:a7d869c0340d086aa2fa00cc6872a6a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacc8a768c569a58a4813a8c3bd59c0bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#aacc8a768c569a58a4813a8c3bd59c0bf">initFromString</a> (const char *src)</td></tr>
+<tr class="memdesc:aacc8a768c569a58a4813a8c3bd59c0bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize numeric variant parsed from a Ascii source string.  <a href="#aacc8a768c569a58a4813a8c3bd59c0bf">More...</a><br/></td></tr>
 <tr class="separator:aacc8a768c569a58a4813a8c3bd59c0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29034ba561e774e48701a5c5ce2975a9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a29034ba561e774e48701a5c5ce2975a9">defined</a> () const </td></tr>
 <tr class="memdesc:a29034ba561e774e48701a5c5ce2975a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find out if this value is defined.  <a href="#a29034ba561e774e48701a5c5ce2975a9">More...</a><br/></td></tr>
@@ -189,25 +193,28 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a132ea9189e946e8ae236062b90d6efb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab46bfc9cd37b8c55415e5d19526ec48"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classstrus_1_1NumericVariant.html">NumericVariant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#aab46bfc9cd37b8c55415e5d19526ec48">asdouble</a> (double val)</td></tr>
 <tr class="separator:aab46bfc9cd37b8c55415e5d19526ec48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abee7eaf7100c01ebff5580c0d915f3e4"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#abee7eaf7100c01ebff5580c0d915f3e4">typeName</a> (<a class="el" href="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfd">Type</a> <a class="el" href="classstrus_1_1NumericVariant.html#a7bc984fb0512d827a73a905677ea5ebd">type</a>)</td></tr>
+<tr class="memdesc:abee7eaf7100c01ebff5580c0d915f3e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of a type as string.  <a href="#abee7eaf7100c01ebff5580c0d915f3e4">More...</a><br/></td></tr>
+<tr class="separator:abee7eaf7100c01ebff5580c0d915f3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a7bc984fb0512d827a73a905677ea5ebd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfd">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a7bc984fb0512d827a73a905677ea5ebd">type</a></td></tr>
 <tr class="memdesc:a7bc984fb0512d827a73a905677ea5ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of this numeric variant.  <a href="#a7bc984fb0512d827a73a905677ea5ebd">More...</a><br/></td></tr>
 <tr class="separator:a7bc984fb0512d827a73a905677ea5ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a5e73dd4ceaed105ee072e87461d79b"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:aaf125be205d703157bbda353eea54f4d"><td class="memItemLeft" >&#160;&#160;&#160;int64_t&#160;&#160;&#160;<a class="el" href="classstrus_1_1NumericVariant.html#a5bf1b41ba205914557990457a9af8b60">Int</a></td></tr>
-<tr class="memdesc:aaf125be205d703157bbda353eea54f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">value in case of a signed integer  <a href="#aaf125be205d703157bbda353eea54f4d">More...</a><br/></td></tr>
-<tr class="separator:aaf125be205d703157bbda353eea54f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e9876fbf76f85964916398f3bf3ef88"><td class="memItemLeft" >&#160;&#160;&#160;uint64_t&#160;&#160;&#160;<a class="el" href="classstrus_1_1NumericVariant.html#a04aa18123a0ab8f4019e007936dd18a2">UInt</a></td></tr>
-<tr class="memdesc:a7e9876fbf76f85964916398f3bf3ef88"><td class="mdescLeft">&#160;</td><td class="mdescRight">value in case of an unsigned integer  <a href="#a7e9876fbf76f85964916398f3bf3ef88">More...</a><br/></td></tr>
-<tr class="separator:a7e9876fbf76f85964916398f3bf3ef88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4596a977d43285adaa89cd5fc116c6c"><td class="memItemLeft" >&#160;&#160;&#160;double&#160;&#160;&#160;<a class="el" href="classstrus_1_1NumericVariant.html#a338c42e5fe004195dd7ee6b59fd791e4">Float</a></td></tr>
-<tr class="memdesc:aa4596a977d43285adaa89cd5fc116c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">value in case of a floating point number  <a href="#aa4596a977d43285adaa89cd5fc116c6c">More...</a><br/></td></tr>
-<tr class="separator:aa4596a977d43285adaa89cd5fc116c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a5e73dd4ceaed105ee072e87461d79b"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a0a5e73dd4ceaed105ee072e87461d79b">variant</a></td></tr>
-<tr class="memdesc:a0a5e73dd4ceaed105ee072e87461d79b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value of this numeric variant.  <a href="#a0a5e73dd4ceaed105ee072e87461d79b">More...</a><br/></td></tr>
-<tr class="separator:a0a5e73dd4ceaed105ee072e87461d79b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a655d94c2b770b6341b7ae8cde6ae590a"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:aecd002105317705390af81a048428193"><td class="memItemLeft" >&#160;&#160;&#160;int64_t&#160;&#160;&#160;<a class="el" href="classstrus_1_1NumericVariant.html#a5bf1b41ba205914557990457a9af8b60">Int</a></td></tr>
+<tr class="memdesc:aecd002105317705390af81a048428193"><td class="mdescLeft">&#160;</td><td class="mdescRight">value in case of a signed integer  <a href="#aecd002105317705390af81a048428193">More...</a><br/></td></tr>
+<tr class="separator:aecd002105317705390af81a048428193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a144f16763d620a0ed1c41a305f1431a3"><td class="memItemLeft" >&#160;&#160;&#160;uint64_t&#160;&#160;&#160;<a class="el" href="classstrus_1_1NumericVariant.html#a04aa18123a0ab8f4019e007936dd18a2">UInt</a></td></tr>
+<tr class="memdesc:a144f16763d620a0ed1c41a305f1431a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">value in case of an unsigned integer  <a href="#a144f16763d620a0ed1c41a305f1431a3">More...</a><br/></td></tr>
+<tr class="separator:a144f16763d620a0ed1c41a305f1431a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f7dc9029d1a1e92bca8f2a3e7143c0a"><td class="memItemLeft" >&#160;&#160;&#160;double&#160;&#160;&#160;<a class="el" href="classstrus_1_1NumericVariant.html#a338c42e5fe004195dd7ee6b59fd791e4">Float</a></td></tr>
+<tr class="memdesc:a0f7dc9029d1a1e92bca8f2a3e7143c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">value in case of a floating point number  <a href="#a0f7dc9029d1a1e92bca8f2a3e7143c0a">More...</a><br/></td></tr>
+<tr class="separator:a0f7dc9029d1a1e92bca8f2a3e7143c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a655d94c2b770b6341b7ae8cde6ae590a"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1NumericVariant.html#a655d94c2b770b6341b7ae8cde6ae590a">variant</a></td></tr>
+<tr class="memdesc:a655d94c2b770b6341b7ae8cde6ae590a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value of this numeric variant.  <a href="#a655d94c2b770b6341b7ae8cde6ae590a">More...</a><br/></td></tr>
+<tr class="separator:a655d94c2b770b6341b7ae8cde6ae590a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Atomic type that can hold numeric values of different type. </p>
@@ -368,6 +375,38 @@ Public Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>value to assign to this numeric variant </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5d5a87111c3ad61d30cf1238ccbb2d56"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">strus::NumericVariant::NumericVariant </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>val_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor from a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>value to parse and assign to this numeric variant </td></tr>
   </table>
   </dd>
 </dl>
@@ -540,9 +579,6 @@ template&lt;typename TYPE &gt; </div>
 <a class="anchor" id="a30e8f1ff67c7a72b362a5c38c00d7fad"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int strus::NumericVariant::compare </td>
@@ -552,11 +588,6 @@ template&lt;typename TYPE &gt; </div>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Comparison of numbers. </p>
@@ -622,9 +653,6 @@ template&lt;typename TYPE &gt; </div>
 <a class="anchor" id="aacc8a768c569a58a4813a8c3bd59c0bf"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool strus::NumericVariant::initFromString </td>
@@ -634,21 +662,22 @@ template&lt;typename TYPE &gt; </div>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Initialize numeric variant parsed from a Ascii source string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td>source string to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool true on success, false on failure </dd></dl>
 
 </div>
 </div>
 <a class="anchor" id="ad227424a3e4f07e7414823d6ca569a6a"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool strus::NumericVariant::isequal </td>
@@ -658,11 +687,6 @@ template&lt;typename TYPE &gt; </div>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Test for equality. </p>
@@ -1127,7 +1151,7 @@ template&lt;typename TYPE &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a1ee15ec4e47270e58e97f4165e4c5bd9"></a>
+<a class="anchor" id="a7d869c0340d086aa2fa00cc6872a6a77"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1137,7 +1161,8 @@ template&lt;typename TYPE &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classstrus_1_1NumericVariant_1_1String.html">String</a> strus::NumericVariant::tostring </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>precision</em> = <code>-1</code></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1172,6 +1197,32 @@ template&lt;typename TYPE &gt; </div>
 </div><div class="memdoc">
 
 <p>Cast to an unsigned integer. </p>
+
+</div>
+</div>
+<a class="anchor" id="abee7eaf7100c01ebff5580c0d915f3e4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* strus::NumericVariant::typeName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfd">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the name of a type as string. </p>
 
 </div>
 </div>
@@ -1232,7 +1283,7 @@ template&lt;typename TYPE &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a0a5e73dd4ceaed105ee072e87461d79b"></a>
+<a class="anchor" id="a655d94c2b770b6341b7ae8cde6ae590a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1253,7 +1304,7 @@ template&lt;typename TYPE &gt; </div>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

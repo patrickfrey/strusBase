@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -69,107 +69,131 @@
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef _STRUS_LOCAL_ERROR_BUFFER_HPP_INCLUDED</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _STRUS_LOCAL_ERROR_BUFFER_HPP_INCLUDED</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;cstdio&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;cstdarg&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>strus</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="errorCodes_8hpp.html">strus/errorCodes.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="errorBufferInterface_8hpp.html">strus/errorBufferInterface.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;cstdio&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;cstdarg&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classstrus_1_1LocalErrorBuffer.html">LocalErrorBuffer</a> :<span class="keyword">public</span> <a class="code" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815">   24</a></span>&#160;        <a class="code" href="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815">LocalErrorBuffer</a>()</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                :m_hasError(false)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                m_buf[0] = 0;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419">   30</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419">~LocalErrorBuffer</a>(){}</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">   32</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">setLogFile</a>( FILE* )</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">   37</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">setMaxNofThreads</a>( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#ac36a21531397bb878f3894501245615b">   42</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#ac36a21531397bb878f3894501245615b">report</a>( <span class="keyword">const</span> <span class="keywordtype">char</span>* format, ...)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                va_list ap;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                va_start( ap, format);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                std::vsnprintf( m_buf, <span class="keyword">sizeof</span>(m_buf), format, ap);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                m_buf[ <span class="keyword">sizeof</span>(m_buf)-1] = 0;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                va_end( ap);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                m_hasError = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">   52</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">explain</a>( <span class="keyword">const</span> <span class="keywordtype">char</span>* format)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordtype">char</span> tmpbuf[ BufferSize];</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                std::size_t len = std::snprintf( tmpbuf, <span class="keyword">sizeof</span>(tmpbuf), format, m_buf);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordflow">if</span> (len &gt;= <span class="keyword">sizeof</span>(tmpbuf))</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        len = <span class="keyword">sizeof</span>(tmpbuf)-1;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        tmpbuf[ len] = 0;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                memcpy( m_buf, tmpbuf, len);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                m_buf[ len] = 0;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">   65</a></span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">fetchError</a>()</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">if</span> (m_hasError)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        m_hasError = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        <span class="keywordflow">return</span> m_buf;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">   75</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">hasError</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">        </span>{</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">return</span> m_hasError;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">   80</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">allocContext</a>()</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">   85</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">releaseContext</a>()</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">enum</span> {BufferSize=2048};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keyword">mutable</span> <span class="keywordtype">char</span> m_buf[ BufferSize];</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordtype">bool</span> m_hasError;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}<span class="comment">//namespace</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"></span></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_afb595008b9d249a2e1a222295d987815"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815">strus::LocalErrorBuffer::LocalErrorBuffer</a></div><div class="ttdeci">LocalErrorBuffer()</div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:24</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a015003bf18e962224abd947f9cedf251"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">strus::LocalErrorBuffer::setMaxNofThreads</a></div><div class="ttdeci">virtual bool setMaxNofThreads(unsigned int)</div><div class="ttdoc">Redefine the maximum number of threads using the error buffer. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:37</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a9cf054d0dbb8acff55a2a6a00a77262a"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">strus::LocalErrorBuffer::explain</a></div><div class="ttdeci">virtual void explain(const char *format)</div><div class="ttdoc">Report an error, overwriting the previous error. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:52</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a4a6c91fb84241c3e5464e123dc3cb7c2"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">strus::LocalErrorBuffer::setLogFile</a></div><div class="ttdeci">virtual void setLogFile(FILE *)</div><div class="ttdoc">Define error log file. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:32</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a2041ed7b4d07305a86e8a0c0380ff2b1"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">strus::LocalErrorBuffer::releaseContext</a></div><div class="ttdeci">virtual void releaseContext()</div><div class="ttdoc">Dellocate context for current thread. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:85</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a1bb984f18e50578815a8b1a68dca13aa"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">strus::LocalErrorBuffer::allocContext</a></div><div class="ttdeci">virtual void allocContext()</div><div class="ttdoc">Allocate context for current thread. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:80</div></div>
-<div class="ttc" id="classstrus_1_1ErrorBufferInterface_html"><div class="ttname"><a href="classstrus_1_1ErrorBufferInterface.html">strus::ErrorBufferInterface</a></div><div class="ttdoc">Interface for reporting and catching errors in the core (storage) </div><div class="ttdef"><b>Definition:</b> errorBufferInterface.hpp:20</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html">strus::LocalErrorBuffer</a></div><div class="ttdoc">Error buffer implementation for a context transforming the error message into an exceptions at the en...</div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:21</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a447d9de7f416a1fc9f008a1240753f15"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">strus::LocalErrorBuffer::fetchError</a></div><div class="ttdeci">virtual const char * fetchError()</div><div class="ttdoc">Check, if an error has occurred and return it. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:65</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_ac85d89da0b207e70e03ba287ba2c1a8f"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">strus::LocalErrorBuffer::hasError</a></div><div class="ttdeci">virtual bool hasError() const </div><div class="ttdoc">Check, if an error has occurred. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:75</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a31ef003f447a12fc4515e34fc9c38419"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419">strus::LocalErrorBuffer::~LocalErrorBuffer</a></div><div class="ttdeci">virtual ~LocalErrorBuffer()</div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:30</div></div>
-<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_ac36a21531397bb878f3894501245615b"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#ac36a21531397bb878f3894501245615b">strus::LocalErrorBuffer::report</a></div><div class="ttdeci">virtual void report(const char *format,...)</div><div class="ttdoc">Report an error. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:42</div></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>strus</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classstrus_1_1LocalErrorBuffer.html">LocalErrorBuffer</a> :<span class="keyword">public</span> <a class="code" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815">   28</a></span>&#160;        <a class="code" href="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815">LocalErrorBuffer</a>()</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                :m_errorCode(-1)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                m_buf[0] = 0;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419">   34</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419">~LocalErrorBuffer</a>(){}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">   36</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">setLogFile</a>( FILE* )</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">   41</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">setMaxNofThreads</a>( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a21979c2238ce2a9d91e058bf8858f94c">   46</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a21979c2238ce2a9d91e058bf8858f94c">report</a>( <span class="keywordtype">int</span> errorcode, <span class="keyword">const</span> <span class="keywordtype">char</span>* format, ...)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                va_list ap;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                va_start( ap, format);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                std::size_t hdrlen = 0;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">if</span> (errorcode)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        hdrlen = std::snprintf( m_buf, <span class="keyword">sizeof</span>(m_buf), <span class="stringliteral">&quot;##%d &quot;</span>, errorcode);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                std::vsnprintf( m_buf + hdrlen, <span class="keyword">sizeof</span>(m_buf) - hdrlen, format, ap);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                m_buf[ <span class="keyword">sizeof</span>(m_buf)-1] = 0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                va_end( ap);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                m_errorCode = errorcode;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">   61</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">explain</a>( <span class="keyword">const</span> <span class="keywordtype">char</span>* format)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordtype">char</span> tmpbuf[ BufferSize];</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                std::size_t len = std::snprintf( tmpbuf, <span class="keyword">sizeof</span>(tmpbuf), format, m_buf);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">if</span> (len &gt;= <span class="keyword">sizeof</span>(tmpbuf))</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                        len = <span class="keyword">sizeof</span>(tmpbuf)-1;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        tmpbuf[ len] = 0;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                std::memcpy( m_buf, tmpbuf, len);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                m_buf[ len] = 0;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">   74</a></span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">fetchError</a>()</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordflow">if</span> (m_errorCode &gt;= 0)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                        m_errorCode = -1;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                        <span class="keywordflow">return</span> m_buf;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">   84</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">hasError</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">        </span>{</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">return</span> m_errorCode &gt;= 0;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">   89</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">allocContext</a>()</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">   94</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">releaseContext</a>()</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">throw</span> std::logic_error( <span class="stringliteral">&quot;not implemented&quot;</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a26d73b89d90ee6e2daff7fd87e9ac769">   99</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classstrus_1_1DebugTraceInterface.html">DebugTraceInterface</a>* <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a26d73b89d90ee6e2daff7fd87e9ac769">debugTrace</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">        </span>{</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="classstrus_1_1LocalErrorBuffer.html#a515aad1256fa41a2e755f014a3fa2e05">  104</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classstrus_1_1LocalErrorBuffer.html#a515aad1256fa41a2e755f014a3fa2e05">errorCode</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">        </span>{</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="keywordflow">return</span> m_errorCode;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">enum</span> {BufferSize=2048};</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keyword">mutable</span> <span class="keywordtype">char</span> m_buf[ BufferSize];</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordtype">int</span> m_errorCode;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;};</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}<span class="comment">//namespace</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor"></span></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_afb595008b9d249a2e1a222295d987815"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#afb595008b9d249a2e1a222295d987815">strus::LocalErrorBuffer::LocalErrorBuffer</a></div><div class="ttdeci">LocalErrorBuffer()</div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:28</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a015003bf18e962224abd947f9cedf251"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a015003bf18e962224abd947f9cedf251">strus::LocalErrorBuffer::setMaxNofThreads</a></div><div class="ttdeci">virtual bool setMaxNofThreads(unsigned int)</div><div class="ttdoc">Redefine the maximum number of threads using the error buffer. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:41</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a21979c2238ce2a9d91e058bf8858f94c"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a21979c2238ce2a9d91e058bf8858f94c">strus::LocalErrorBuffer::report</a></div><div class="ttdeci">virtual void report(int errorcode, const char *format,...)</div><div class="ttdoc">Report an error. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:46</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a9cf054d0dbb8acff55a2a6a00a77262a"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a9cf054d0dbb8acff55a2a6a00a77262a">strus::LocalErrorBuffer::explain</a></div><div class="ttdeci">virtual void explain(const char *format)</div><div class="ttdoc">Report an error, overwriting the previous error. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:61</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a26d73b89d90ee6e2daff7fd87e9ac769"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a26d73b89d90ee6e2daff7fd87e9ac769">strus::LocalErrorBuffer::debugTrace</a></div><div class="ttdeci">virtual DebugTraceInterface * debugTrace() const </div><div class="ttdoc">Fetches the debug trace interface if defined. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:99</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a4a6c91fb84241c3e5464e123dc3cb7c2"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a4a6c91fb84241c3e5464e123dc3cb7c2">strus::LocalErrorBuffer::setLogFile</a></div><div class="ttdeci">virtual void setLogFile(FILE *)</div><div class="ttdoc">Define error log file. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:36</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a2041ed7b4d07305a86e8a0c0380ff2b1"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a2041ed7b4d07305a86e8a0c0380ff2b1">strus::LocalErrorBuffer::releaseContext</a></div><div class="ttdeci">virtual void releaseContext()</div><div class="ttdoc">Dellocate context for current thread. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:94</div></div>
+<div class="ttc" id="classstrus_1_1DebugTraceInterface_html"><div class="ttname"><a href="classstrus_1_1DebugTraceInterface.html">strus::DebugTraceInterface</a></div><div class="ttdoc">Managing interface for reporting debug trace messages in a uniform way. </div><div class="ttdef"><b>Definition:</b> debugTraceInterface.hpp:81</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a1bb984f18e50578815a8b1a68dca13aa"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a1bb984f18e50578815a8b1a68dca13aa">strus::LocalErrorBuffer::allocContext</a></div><div class="ttdeci">virtual void allocContext()</div><div class="ttdoc">Allocate context for current thread. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:89</div></div>
+<div class="ttc" id="classstrus_1_1ErrorBufferInterface_html"><div class="ttname"><a href="classstrus_1_1ErrorBufferInterface.html">strus::ErrorBufferInterface</a></div><div class="ttdoc">Interface for reporting and catching errors in modules. </div><div class="ttdef"><b>Definition:</b> errorBufferInterface.hpp:24</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html">strus::LocalErrorBuffer</a></div><div class="ttdoc">Error buffer implementation for a context transforming the error message into an exceptions at the en...</div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:25</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a447d9de7f416a1fc9f008a1240753f15"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a447d9de7f416a1fc9f008a1240753f15">strus::LocalErrorBuffer::fetchError</a></div><div class="ttdeci">virtual const char * fetchError()</div><div class="ttdoc">Check, if an error has occurred and return it. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:74</div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a515aad1256fa41a2e755f014a3fa2e05"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a515aad1256fa41a2e755f014a3fa2e05">strus::LocalErrorBuffer::errorCode</a></div><div class="ttdeci">int errorCode() const </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:104</div></div>
+<div class="ttc" id="errorCodes_8hpp_html"><div class="ttname"><a href="errorCodes_8hpp.html">errorCodes.hpp</a></div><div class="ttdoc">Structured error codes for strus components. </div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_ac85d89da0b207e70e03ba287ba2c1a8f"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#ac85d89da0b207e70e03ba287ba2c1a8f">strus::LocalErrorBuffer::hasError</a></div><div class="ttdeci">virtual bool hasError() const </div><div class="ttdoc">Check, if an error has occurred. </div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:84</div></div>
+<div class="ttc" id="errorBufferInterface_8hpp_html"><div class="ttname"><a href="errorBufferInterface_8hpp.html">errorBufferInterface.hpp</a></div><div class="ttdoc">Interface for reporting and catching errors. </div></div>
+<div class="ttc" id="classstrus_1_1LocalErrorBuffer_html_a31ef003f447a12fc4515e34fc9c38419"><div class="ttname"><a href="classstrus_1_1LocalErrorBuffer.html#a31ef003f447a12fc4515e34fc9c38419">strus::LocalErrorBuffer::~LocalErrorBuffer</a></div><div class="ttdeci">virtual ~LocalErrorBuffer()</div><div class="ttdef"><b>Definition:</b> localErrorBuffer.hpp:34</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

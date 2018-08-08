@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -73,6 +73,18 @@
 
 <p><code>#include &lt;<a class="el" href="symbolTable_8hpp_source.html">symbolTable.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1HashFunc.html">HashFunc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1Key.html">Key</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structstrus_1_1SymbolTable_1_1Key.html" title="Key of symbol table. ">Key</a> of symbol table.  <a href="structstrus_1_1SymbolTable_1_1Key.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1MapKeyEqual.html">MapKeyEqual</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstrus_1_1SymbolTable_1_1MapKeyLess.html">MapKeyLess</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:aeb588cfd0d3f9f27e9992f82fedc33d5"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; const <br class="typebreak"/>
@@ -81,9 +93,9 @@ char * &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae34a83fbf03df7d203e00aa6ea356310"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#ae34a83fbf03df7d203e00aa6ea356310">SymbolTable</a> ()</td></tr>
-<tr class="memdesc:ae34a83fbf03df7d203e00aa6ea356310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#ae34a83fbf03df7d203e00aa6ea356310">More...</a><br/></td></tr>
-<tr class="separator:ae34a83fbf03df7d203e00aa6ea356310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f07293453d933e5a1b4e8cc4c6d931a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a> (<a class="el" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a> *errorhnd_)</td></tr>
+<tr class="memdesc:a1f07293453d933e5a1b4e8cc4c6d931a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a1f07293453d933e5a1b4e8cc4c6d931a">More...</a><br/></td></tr>
+<tr class="separator:a1f07293453d933e5a1b4e8cc4c6d931a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab390ce6ccea7a1a4668e10941cc6680f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#ab390ce6ccea7a1a4668e10941cc6680f">~SymbolTable</a> ()</td></tr>
 <tr class="memdesc:ab390ce6ccea7a1a4668e10941cc6680f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#ab390ce6ccea7a1a4668e10941cc6680f">More...</a><br/></td></tr>
 <tr class="separator:ab390ce6ccea7a1a4668e10941cc6680f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,15 +114,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a23db3f3829fc48f26419ef41b9a3225f"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#a23db3f3829fc48f26419ef41b9a3225f">key</a> (const uint32_t &amp;id) const </td></tr>
 <tr class="memdesc:a23db3f3829fc48f26419ef41b9a3225f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse lookup, get key of handle.  <a href="#a23db3f3829fc48f26419ef41b9a3225f">More...</a><br/></td></tr>
 <tr class="separator:a23db3f3829fc48f26419ef41b9a3225f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb43f3576272969c7692bfd5494c1812"><td class="memItemLeft" align="right" valign="top">const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#aeb43f3576272969c7692bfd5494c1812">begin</a> () const </td></tr>
-<tr class="memdesc:aeb43f3576272969c7692bfd5494c1812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get start iterator (unordered)  <a href="#aeb43f3576272969c7692bfd5494c1812">More...</a><br/></td></tr>
-<tr class="separator:aeb43f3576272969c7692bfd5494c1812"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb1215cdfa0f638b7f48024a823e72ae"><td class="memItemLeft" align="right" valign="top">const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#aeb1215cdfa0f638b7f48024a823e72ae">end</a> () const </td></tr>
-<tr class="memdesc:aeb1215cdfa0f638b7f48024a823e72ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get end iterator (unordered)  <a href="#aeb1215cdfa0f638b7f48024a823e72ae">More...</a><br/></td></tr>
-<tr class="separator:aeb1215cdfa0f638b7f48024a823e72ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad08042ada25b1b7178e7c8190fa38eb5"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#ad08042ada25b1b7178e7c8190fa38eb5">size</a> () const </td></tr>
 <tr class="memdesc:ad08042ada25b1b7178e7c8190fa38eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of elements defined.  <a href="#ad08042ada25b1b7178e7c8190fa38eb5">More...</a><br/></td></tr>
 <tr class="separator:ad08042ada25b1b7178e7c8190fa38eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af460a3ac181e25d723bb37f67ade2366"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#af460a3ac181e25d723bb37f67ade2366">empty</a> () const </td></tr>
+<tr class="memdesc:af460a3ac181e25d723bb37f67ade2366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate if the symbol table is empty, without any definitions.  <a href="#af460a3ac181e25d723bb37f67ade2366">More...</a><br/></td></tr>
+<tr class="separator:af460a3ac181e25d723bb37f67ade2366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0b1d78a0d36723211810e60c0848458"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstrus_1_1SymbolTable.html#aeb588cfd0d3f9f27e9992f82fedc33d5">const_inv_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstrus_1_1SymbolTable.html#af0b1d78a0d36723211810e60c0848458">inv_begin</a> () const </td></tr>
 <tr class="memdesc:af0b1d78a0d36723211810e60c0848458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get start iterator of inv.  <a href="#af0b1d78a0d36723211810e60c0848458">More...</a><br/></td></tr>
 <tr class="separator:af0b1d78a0d36723211810e60c0848458"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +150,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae34a83fbf03df7d203e00aa6ea356310"></a>
+<a class="anchor" id="a1f07293453d933e5a1b4e8cc4c6d931a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -151,7 +160,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">strus::SymbolTable::SymbolTable </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a> *&#160;</td>
+          <td class="paramname"><em>errorhnd_</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -221,7 +231,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeb43f3576272969c7692bfd5494c1812"></a>
+<a class="anchor" id="af460a3ac181e25d723bb37f67ade2366"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -229,7 +239,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_iterator strus::SymbolTable::begin </td>
+          <td class="memname">bool strus::SymbolTable::empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -242,32 +252,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get start iterator (unordered) </p>
-
-</div>
-</div>
-<a class="anchor" id="aeb1215cdfa0f638b7f48024a823e72ae"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const_iterator strus::SymbolTable::end </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get end iterator (unordered) </p>
+<p>Evaluate if the symbol table is empty, without any definitions. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if yes </dd></dl>
 
 </div>
 </div>
@@ -527,7 +513,7 @@ Public Member Functions</h2></td></tr>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

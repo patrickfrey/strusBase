@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -69,23 +69,41 @@
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef _STRUS_STORAGE_ERROR_LIB_HPP_INCLUDED</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _STRUS_STORAGE_ERROR_LIB_HPP_INCLUDED</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;cstdio&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>strus {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span>ErrorBufferInterface;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;ErrorBufferInterface* <a class="code" href="namespacestrus.html#af4e8e72da9b5b8bab95339311335c21f">createErrorBuffer_standard</a>( FILE* logfilehandle, std::size_t maxNofThreads_);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}<span class="comment">//namespace</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span></div>
-<div class="ttc" id="namespacestrus_html_af4e8e72da9b5b8bab95339311335c21f"><div class="ttname"><a href="namespacestrus.html#af4e8e72da9b5b8bab95339311335c21f">strus::createErrorBuffer_standard</a></div><div class="ttdeci">ErrorBufferInterface * createErrorBuffer_standard(FILE *logfilehandle, std::size_t maxNofThreads_)</div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="errorCodes_8hpp.html">strus/errorCodes.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;cstdio&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>strus {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">class </span>ErrorBufferInterface;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">class </span>DebugTraceInterface;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;DebugTraceInterface* <a class="code" href="namespacestrus.html#a4ffc4919a377ceaaf5351a38c2d2bd1d">createDebugTrace_standard</a>( std::size_t maxNofThreads_);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestrus.html#a61de85c3a876d9e7d90697df72c42e3e">dumpDebugTrace</a>( DebugTraceInterface* debugTrace, <span class="keyword">const</span> <span class="keywordtype">char</span>* filename);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;ErrorBufferInterface* <a class="code" href="namespacestrus.html#a4c23ed4b351f8cf4a8e04f9fe70863aa">createErrorBuffer_standard</a>( FILE* logfilehandle, std::size_t maxNofThreads_, DebugTraceInterface* debugTrace);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespacestrus.html#a6c2877ef513df08466dc980c5f915fa0">errorCodeFromMessage</a>( <span class="keywordtype">char</span> <span class="keyword">const</span>*&amp; msgitr);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacestrus.html#a57f82302b37e570c2a6bf9e7e6759b0e">removeErrorCodesFromMessage</a>( <span class="keywordtype">char</span>* msg);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="namespacestrus.html#a531c2ec611590004b8a493be881461d5">errorCodeToString</a>( <span class="keywordtype">int</span> errcode);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}<span class="comment">//namespace</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span></div>
+<div class="ttc" id="namespacestrus_html_a6c2877ef513df08466dc980c5f915fa0"><div class="ttname"><a href="namespacestrus.html#a6c2877ef513df08466dc980c5f915fa0">strus::errorCodeFromMessage</a></div><div class="ttdeci">int errorCodeFromMessage(char const *&amp;msgitr)</div><div class="ttdoc">Get the next error code in an error message printed by the standard error buffer implementation provi...</div></div>
+<div class="ttc" id="namespacestrus_html_a4ffc4919a377ceaaf5351a38c2d2bd1d"><div class="ttname"><a href="namespacestrus.html#a4ffc4919a377ceaaf5351a38c2d2bd1d">strus::createDebugTrace_standard</a></div><div class="ttdeci">DebugTraceInterface * createDebugTrace_standard(std::size_t maxNofThreads_)</div><div class="ttdoc">Create an debug trace interface. </div></div>
+<div class="ttc" id="namespacestrus_html_a61de85c3a876d9e7d90697df72c42e3e"><div class="ttname"><a href="namespacestrus.html#a61de85c3a876d9e7d90697df72c42e3e">strus::dumpDebugTrace</a></div><div class="ttdeci">bool dumpDebugTrace(DebugTraceInterface *debugTrace, const char *filename)</div><div class="ttdoc">Dump the trace content in a convenient form to a file specified. </div></div>
+<div class="ttc" id="namespacestrus_html_a57f82302b37e570c2a6bf9e7e6759b0e"><div class="ttname"><a href="namespacestrus.html#a57f82302b37e570c2a6bf9e7e6759b0e">strus::removeErrorCodesFromMessage</a></div><div class="ttdeci">void removeErrorCodesFromMessage(char *msg)</div><div class="ttdoc">Remove all error codes in an error message printed by the standard error buffer implementation provid...</div></div>
+<div class="ttc" id="namespacestrus_html_a531c2ec611590004b8a493be881461d5"><div class="ttname"><a href="namespacestrus.html#a531c2ec611590004b8a493be881461d5">strus::errorCodeToString</a></div><div class="ttdeci">const char * errorCodeToString(int errcode)</div><div class="ttdoc">Get the error message as string. </div></div>
+<div class="ttc" id="errorCodes_8hpp_html"><div class="ttname"><a href="errorCodes_8hpp.html">errorCodes.hpp</a></div><div class="ttdoc">Structured error codes for strus components. </div></div>
+<div class="ttc" id="namespacestrus_html_a4c23ed4b351f8cf4a8e04f9fe70863aa"><div class="ttname"><a href="namespacestrus.html#a4c23ed4b351f8cf4a8e04f9fe70863aa">strus::createErrorBuffer_standard</a></div><div class="ttdeci">ErrorBufferInterface * createErrorBuffer_standard(FILE *logfilehandle, std::size_t maxNofThreads_, DebugTraceInterface *debugTrace)</div><div class="ttdoc">Create an error buffer interface. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

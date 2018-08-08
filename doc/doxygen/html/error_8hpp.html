@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.15</span>
+   &#160;<span id="projectnumber">0.16</span>
    </div>
   </td>
  </tr>
@@ -66,20 +66,37 @@
 
 <p>Exported functions of the strus error library implementing the standard error buffer interface.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdio&gt;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="errorCodes_8hpp_source.html">strus/errorCodes.hpp</a>&quot;</code><br/>
+<code>#include &lt;cstdio&gt;</code><br/>
 </div>
 <p><a href="error_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacestrus"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html">strus</a></td></tr>
-<tr class="memdesc:namespacestrus"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some helpers for command line processing. <br/></td></tr>
+<tr class="memdesc:namespacestrus"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper to structures needed for atomic counters. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af4e8e72da9b5b8bab95339311335c21f"><td class="memItemLeft" align="right" valign="top">ErrorBufferInterface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#af4e8e72da9b5b8bab95339311335c21f">strus::createErrorBuffer_standard</a> (FILE *logfilehandle, std::size_t maxNofThreads_)</td></tr>
-<tr class="separator:af4e8e72da9b5b8bab95339311335c21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ffc4919a377ceaaf5351a38c2d2bd1d"><td class="memItemLeft" align="right" valign="top">DebugTraceInterface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a4ffc4919a377ceaaf5351a38c2d2bd1d">strus::createDebugTrace_standard</a> (std::size_t maxNofThreads_)</td></tr>
+<tr class="memdesc:a4ffc4919a377ceaaf5351a38c2d2bd1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an debug trace interface.  <a href="#a4ffc4919a377ceaaf5351a38c2d2bd1d">More...</a><br/></td></tr>
+<tr class="separator:a4ffc4919a377ceaaf5351a38c2d2bd1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61de85c3a876d9e7d90697df72c42e3e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a61de85c3a876d9e7d90697df72c42e3e">strus::dumpDebugTrace</a> (DebugTraceInterface *debugTrace, const char *filename)</td></tr>
+<tr class="memdesc:a61de85c3a876d9e7d90697df72c42e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump the trace content in a convenient form to a file specified.  <a href="#a61de85c3a876d9e7d90697df72c42e3e">More...</a><br/></td></tr>
+<tr class="separator:a61de85c3a876d9e7d90697df72c42e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c23ed4b351f8cf4a8e04f9fe70863aa"><td class="memItemLeft" align="right" valign="top">ErrorBufferInterface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a4c23ed4b351f8cf4a8e04f9fe70863aa">strus::createErrorBuffer_standard</a> (FILE *logfilehandle, std::size_t maxNofThreads_, DebugTraceInterface *debugTrace)</td></tr>
+<tr class="memdesc:a4c23ed4b351f8cf4a8e04f9fe70863aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an error buffer interface.  <a href="#a4c23ed4b351f8cf4a8e04f9fe70863aa">More...</a><br/></td></tr>
+<tr class="separator:a4c23ed4b351f8cf4a8e04f9fe70863aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c2877ef513df08466dc980c5f915fa0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a6c2877ef513df08466dc980c5f915fa0">strus::errorCodeFromMessage</a> (char const *&amp;msgitr)</td></tr>
+<tr class="memdesc:a6c2877ef513df08466dc980c5f915fa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next error code in an error message printed by the standard error buffer implementation provided here.  <a href="#a6c2877ef513df08466dc980c5f915fa0">More...</a><br/></td></tr>
+<tr class="separator:a6c2877ef513df08466dc980c5f915fa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57f82302b37e570c2a6bf9e7e6759b0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a57f82302b37e570c2a6bf9e7e6759b0e">strus::removeErrorCodesFromMessage</a> (char *msg)</td></tr>
+<tr class="memdesc:a57f82302b37e570c2a6bf9e7e6759b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all error codes in an error message printed by the standard error buffer implementation provided here.  <a href="#a57f82302b37e570c2a6bf9e7e6759b0e">More...</a><br/></td></tr>
+<tr class="separator:a57f82302b37e570c2a6bf9e7e6759b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a531c2ec611590004b8a493be881461d5"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a531c2ec611590004b8a493be881461d5">strus::errorCodeToString</a> (int errcode)</td></tr>
+<tr class="memdesc:a531c2ec611590004b8a493be881461d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the error message as string.  <a href="#a531c2ec611590004b8a493be881461d5">More...</a><br/></td></tr>
+<tr class="separator:a531c2ec611590004b8a493be881461d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Exported functions of the strus error library implementing the standard error buffer interface. </p>
@@ -87,7 +104,7 @@ Functions</h2></td></tr>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 26 2017 22:38:26 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
