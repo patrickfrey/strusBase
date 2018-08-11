@@ -55,6 +55,17 @@ std::string trim( const std::string& val, StringConvError& err);
 /// \return converted string or empty string in case of error
 std::string trim( const char* val, std::size_t size, StringConvError& err);
 
+/// \brief Evaluate if a string is empty or contains only space characters
+/// \param[in] val pointer to input string
+/// \param[in] size size of to input string in bytes
+/// \return true if string is empty
+bool isEmptyString( const char* val, std::size_t size);
+
+/// \brief Evaluate if a string is empty or contains only space characters
+/// \param[in] val input string
+/// \return true if string is empty
+bool isEmptyString( const std::string& val);
+
 /// \brief Compare on Ascii letter caseinsensitive equality
 /// \param[in] val1 input string
 /// \param[in] val2 other input string

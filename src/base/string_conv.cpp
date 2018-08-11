@@ -95,6 +95,19 @@ DLL_PUBLIC std::string strus::trim( const std::string& val, StringConvError& err
 	return strus::trim( val.c_str(), val.size(), err);
 }
 
+DLL_PUBLIC bool strus::isEmptyString( const char* val, std::size_t size)
+{
+	char const* vi = val;
+	const char* ve = vi + size;
+	for (; vi != ve && (unsigned char)*vi <= 32; ++vi){}
+	return vi == ve;
+}
+
+DLL_PUBLIC bool strus::isEmptyString( const std::string& val)
+{
+	return isEmptyString( val.c_str(), val.size());
+}
+
 DLL_PUBLIC bool strus::caseInsensitiveEquals( const std::string& val1, const std::string& val2)
 {
 	std::string rt;
