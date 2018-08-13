@@ -97,6 +97,18 @@ int readDirFiles( const std::string& path, const std::string& ext, std::vector<s
 /// \return 0 on success, errno on failure
 int readDirSubDirs( const std::string& path, std::vector<std::string>& res);
 
+/// \brief Reads all items (directory or file) of a directory to an array of strings
+/// \param[in] path the name of director to read
+/// \param[out] res the returned matching items of the directory read
+/// \return 0 on success, errno on failure
+int readDirItems( const std::string& path, std::vector<std::string>& res);
+
+/// \brief Get all items matching a file path pattern (with '?' and '*' as substitutes)
+/// \param[in] pathPattern file path pattern
+/// \param[out] res the returned matching paths
+/// \return 0 on success, errno on failure
+int expandFilePattern( const std::string& pathPattern, std::vector<std::string>& res);
+
 /// \brief Check if a file system path points to a file
 /// \return true, if yes
 /// \param[in] path file system path to check

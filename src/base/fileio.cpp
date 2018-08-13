@@ -26,12 +26,12 @@ using namespace strus;
 static int mkdirp_( const std::string& dirname)
 {
 	int ec = strus::createDir( dirname, false/*fail_ifexist*/);
-	if (ec == 1/*EPERM*/)
+	if (ec == 1/*EPERM*/ || ec == 2/*ENOENT*/)
 	{
 		std::string parentpath;
 		ec = getParentPath( dirname, parentpath);
 		if (ec) return ec;
-		if (parentpath.empty() || dirname.size() >= parentpath.size()) return 1/*EPERM*/;
+		if (parentpath.empty() || dirname.size() <= parentpath.size()) return 1/*EPERM*/;
 		ec = mkdirp_( parentpath);
 		if (ec) return ec;
 		ec = strus::createDir( dirname, false/*fail_ifexist*/);
@@ -116,14 +116,14 @@ static int removeSubDirs_r( const std::string& dirname)
 	std::vector<std::string>::const_iterator fi = files.begin(), fe = files.end();
 	for (; fi != fe; ++fi)
 	{
-		std::string fullpath = dirname + dirSeparator() + *fi;
+		std::string fullpath = dirname + STRUS_FILEIO_DIRSEP + *fi;
 		int s_ec = removeFile( fullpath);
 		if (s_ec) ec = s_ec;
 	}
 	std::vector<std::string>::const_iterator di = dirs.begin(), de = dirs.end();
 	for (; di != de; ++di)
 	{
-		std::string fullpath = dirname + dirSeparator() + *di;
+		std::string fullpath = dirname + STRUS_FILEIO_DIRSEP + *di;
 		int s_ec = removeSubDirs_r( fullpath);
 		if (s_ec == 0)
 		{
@@ -400,11 +400,47 @@ DLL_PUBLIC int strus::readDirSubDirs( const std::string& path, std::vector<std::
 			if (ent->d_type == DT_LNK) continue; //... do not follow symbolic links
 #endif
 			if (ent->d_name[0] == '.') continue;
-			std::string entry( path + dirSeparator() + ent->d_name);
+			std::string entry( path + STRUS_FILEIO_DIRSEP + ent->d_name);
 			if (isDir( entry))
 			{
 				res.push_back( ent->d_name);
 			}
+		}
+		std::sort( res.begin()+prevsize, res.end(), std::less<std::string>());
+		int err = ::closedir(dir);
+		if (err)
+		{
+			return err;
+		}
+	}
+	catch (const std::bad_alloc&)
+	{
+		::closedir(dir);
+		return 12/*ENOMEM*/;
+	}
+	return 0;
+}
+
+DLL_PUBLIC int strus::readDirItems( const std::string& path, std::vector<std::string>& res)
+{
+	DIR *dir = ::opendir( path.c_str());
+	struct dirent *ent;
+
+	if (!dir)
+	{
+		return errno;
+	}
+	try
+	{
+		std::size_t prevsize = res.size();
+		while (!!(ent = ::readdir(dir)))
+		{
+#ifdef __GNUC__
+			if (ent->d_type == DT_LNK) continue; //... do not follow symbolic links
+#endif
+			if (ent->d_name[0] == '.') continue;
+			std::string entry( path + STRUS_FILEIO_DIRSEP + ent->d_name);
+			res.push_back( ent->d_name);
 		}
 		std::sort( res.begin()+prevsize, res.end(), std::less<std::string>());
 		int err = ::closedir(dir);
@@ -441,7 +477,7 @@ DLL_PUBLIC int strus::readDirFiles( const std::string& path, const std::string& 
 			{
 				continue;
 			}
-			std::string entrypath( path + dirSeparator() + entry);
+			std::string entrypath( path + STRUS_FILEIO_DIRSEP + entry);
 			if (isDir( entrypath)) continue;
 			if (ext.empty())
 			{
@@ -463,6 +499,98 @@ DLL_PUBLIC int strus::readDirFiles( const std::string& path, const std::string& 
 	catch (const std::bad_alloc&)
 	{
 		::closedir(dir);
+		return 12/*ENOMEM*/;
+	}
+}
+
+static bool matchFileNamePattern( const char* pt, const char* name)
+{
+	char const* pi = pt;
+	char const* ni = name;
+
+	while (*pi && *ni)
+	{
+		if (*pi == '*')
+		{
+			++pi;
+			if (!*pi) return true;
+
+			char const* gi = ni;
+			for (; *gi; ++gi)
+			{
+				if (matchFileNamePattern( pi, gi)) return true;
+			}
+			return false;
+		}
+		if (*pi == '?' || *pi == *ni)
+		{
+			++pi;
+			++ni;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	if (*pi)
+	{
+		while (*pi == '*') ++pi;
+	}
+	return (!*pi && !*ni);
+}
+
+static int expandFilePattern_( const std::string& pathPattern, std::vector<std::string>& res)
+{
+	char const* xi = std::strchr( pathPattern.c_str(), '*');
+	char const* yi = std::strchr( pathPattern.c_str(), '?');
+	if (!xi && !yi)
+	{
+		res.push_back( pathPattern);
+		return 0;
+	}
+	char const* pi;
+	char const* pe;
+	if (yi && xi) pi = (yi < xi) ? yi : xi; else pi = xi ? xi : yi;
+	pe = pi + 1;
+	for (; pi != pathPattern.c_str() && *(pi-1) != STRUS_FILEIO_DIRSEP; --pi){}
+	for (; *pe && *pe != STRUS_FILEIO_DIRSEP; ++pe){}
+
+	std::string itemPattern( pi, pe-pi);
+	std::string path;
+	if (pi == pathPattern.c_str())
+	{
+		path.append( ".");
+	}
+	else
+	{
+		path.append( pathPattern.c_str(), pi - pathPattern.c_str() - 1);
+	}
+	std::vector<std::string> items;
+	int ec = readDirItems( path, items);
+	if (ec) return ec;
+
+	std::vector<std::string>::const_iterator ti = items.begin(), te = items.end();
+	for (; ti != te; ++ti)
+	{
+		if (matchFileNamePattern( itemPattern.c_str(), ti->c_str()))
+		{
+			std::string expandPattern = strus::joinFilePath( path, *ti);
+			if (*pe) expandPattern = strus::joinFilePath( expandPattern, pe+1);
+			ec = expandFilePattern_( expandPattern, res);
+			if (ec) return ec;
+		}
+	}
+	return 0;
+}
+
+DLL_PUBLIC int strus::expandFilePattern( const std::string& pathPattern, std::vector<std::string>& res)
+{
+	try
+	{
+		return expandFilePattern_( pathPattern, res);
+	}
+	catch (const std::bad_alloc&)
+	{
 		return 12/*ENOMEM*/;
 	}
 }
@@ -524,7 +652,7 @@ DLL_PUBLIC int strus::getAncestorPath( const std::string& path, int level, std::
 			const char* pwd = ::getcwd(cwd, sizeof(cwd));
 			if (!pwd) return 12/*ENOMEM*/;
 			pathbuf.append( pwd);
-			pathbuf.push_back( strus::dirSeparator());
+			pathbuf.push_back( STRUS_FILEIO_DIRSEP);
 			pathbuf.append( pt);
 			pt = pathbuf.c_str();
 		}
