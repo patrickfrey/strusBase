@@ -76,14 +76,15 @@ private:
 	class OptMapDef
 	{
 	public:
-		OptMapDef(){}
+		explicit OptMapDef( ErrorBufferInterface* errorhnd_) :m_errorhnd(errorhnd_){}
 
 		void add( const char* arg);
 
 		bool getOpt( const char* argv, std::vector<std::string>& optlist, std::string& optarg);
 
-		std::map<std::string,bool> longnamemap;
-		std::map<char,std::string> aliasmap;
+		ErrorBufferInterface* m_errorhnd;
+		std::map<std::string,bool> m_longnamemap;
+		std::map<char,std::string> m_aliasmap;
 	};
 
 private:
