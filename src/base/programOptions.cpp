@@ -202,10 +202,9 @@ DLL_PUBLIC const char* ProgramOptions::operator[]( const std::string& optname) c
 	{
 		if (m_opt.count( optname) > 1)
 		{
-			throw strus::runtime_error( _TXT("option '%s' specified more than once"), optname.c_str());
+			m_errorhnd->report( ErrorCodeInvalidArgument, _TXT("option '%s' specified more than once"), optname.c_str());
 		}
-		std::map<std::string,std::string>::const_iterator
-			oi = m_opt.find( optname);
+		std::map<std::string,std::string>::const_iterator oi = m_opt.find( optname);
 		if (oi == m_opt.end()) return 0;
 		return oi->second.c_str();
 	}
@@ -218,10 +217,9 @@ DLL_PUBLIC int ProgramOptions::asInt( const std::string& optname) const
 	{
 		if (m_opt.count( optname) > 1)
 		{
-			throw strus::runtime_error( _TXT("option '%s' specified more than once"), optname.c_str());
+			m_errorhnd->report( ErrorCodeInvalidArgument, _TXT("option '%s' specified more than once"), optname.c_str());
 		}
-		std::map<std::string,std::string>::const_iterator
-			oi = m_opt.find( optname);
+		std::map<std::string,std::string>::const_iterator oi = m_opt.find( optname);
 		if (oi == m_opt.end()) return 0;
 		try
 		{
@@ -251,8 +249,7 @@ DLL_PUBLIC std::vector<std::string> ProgramOptions::list( const std::string& opt
 	try
 	{
 		std::vector<std::string> rt;
-		std::pair<OptMap::const_iterator,OptMap::const_iterator>
-			range = m_opt.equal_range( optname);
+		std::pair<OptMap::const_iterator,OptMap::const_iterator> range = m_opt.equal_range( optname);
 		OptMap::const_iterator ei = range.first, ee = range.second;
 		for (; ei != ee; ++ei)
 		{
