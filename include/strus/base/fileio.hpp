@@ -119,10 +119,15 @@ bool isFile( const std::string& path);
 /// \return true, if yes
 bool isDir( const std::string& path);
 
-/// \brief Check if a file system path is path starting with a name and not with a directive referencing the current path './' or the file system root '/'.
+/// \brief Check if a file system path is a path starting with a name and not with a directive referencing the current path './' or the file system root '/'.
 /// \return true, if yes
 /// \param[in] path file system path to check
 bool isRelativePath( const std::string& path);
+
+/// \brief Check if a file system path is a path starting the file system root '/'.
+/// \return true, if yes
+/// \param[in] path file system path to check
+bool isAbsolutePath( const std::string& path);
 
 /// \brief Check if a file system path points to a file with text content (not binary)
 /// \param[in] path file system path to check

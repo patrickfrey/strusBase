@@ -635,6 +635,11 @@ DLL_PUBLIC bool strus::isRelativePath( const std::string& path)
 	return !path.empty() && path[0] != STRUS_FILEIO_DIRSEP && !(path.size() > 1 && path[0] == '.' && path[1] == STRUS_FILEIO_DIRSEP);
 }
 
+DLL_PUBLIC bool strus::isAbsolutePath( const std::string& path)
+{
+	return !path.empty() && path[0] == STRUS_FILEIO_DIRSEP;
+}
+
 DLL_PUBLIC char strus::dirSeparator()
 {
 	return STRUS_FILEIO_DIRSEP;
