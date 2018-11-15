@@ -129,6 +129,11 @@ bool isRelativePath( const std::string& path);
 /// \param[in] path file system path to check
 bool isAbsolutePath( const std::string& path);
 
+/// \brief Check if a file path is explicit (relative path or absolute path)
+/// \return true, if yes
+/// \param[in] path file system path to check
+bool isExplicitPath( const std::string& path);
+
 /// \brief Check if a file system path points to a file with text content (not binary)
 /// \param[in] path file system path to check
 /// \remark Implementation uses heuristics of character frequencies for the check. Currently fails on UTF-8 text files of non latin alphabet based languages.
