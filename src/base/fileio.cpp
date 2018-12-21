@@ -632,7 +632,15 @@ DLL_PUBLIC bool strus::isDir( const std::string& path)
 
 static bool isExplicitLocalPath( const std::string& path)
 {
-	return path.size() > 1 && path[0] == '.' && path[1] == STRUS_FILEIO_DIRSEP;
+	if (path.size() > 1 && path[0] == '.')
+	{
+		if (path[1] == STRUS_FILEIO_DIRSEP) return true;
+		if (path.size() > 2 && path[1] == '.')
+		{
+			if (path[2] == STRUS_FILEIO_DIRSEP) return true;
+		}
+	}
+	return false;
 }
 
 DLL_PUBLIC bool strus::isRelativePath( const std::string& path)
