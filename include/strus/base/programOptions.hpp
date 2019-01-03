@@ -54,6 +54,11 @@ public:
 	/// \return the option value as integer or 0 on failure
 	unsigned int asUint( const std::string& optname) const;
 
+	/// \brief Get the value of an option specified by its long name as unsigned integer
+	/// \param[in] optname long name of the option
+	/// \return the option value as integer or 0 on failure
+	double asDouble( const std::string& optname) const;
+
 	/// \brief Get the list of values of an option specified by its long name
 	/// \param[in] optname long name of the option
 	/// \return the option values as vector, empty on failure

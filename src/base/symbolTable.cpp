@@ -320,3 +320,19 @@ DLL_PUBLIC void* SymbolTable::allocBlock( unsigned int blocksize, unsigned int e
 	return m_keystring_blocks->allocBlock( blocksize, elemsize);
 }
 
+DLL_PUBLIC void SymbolTable::clear()
+{
+	try
+	{
+		m_map->clear();
+		m_invmap.clear();
+		m_keystring_blocks->clear();
+		m_isnew = false;
+	}
+	catch (const std::bad_alloc&)
+	{
+		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
+	}
+}
+
+

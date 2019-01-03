@@ -244,6 +244,28 @@ DLL_PUBLIC unsigned int ProgramOptions::asUint( const std::string& optname) cons
 	CATCH_ERROR_MAP_RETURN( _TXT("failed to inspect program options: %s"), *m_errorhnd, 0);
 }
 
+DLL_PUBLIC double ProgramOptions::asDouble( const std::string& optname) const
+{
+	try
+	{
+		if (m_opt.count( optname) > 1)
+		{
+			m_errorhnd->report( ErrorCodeInvalidArgument, _TXT("option '%s' specified more than once"), optname.c_str());
+		}
+		std::map<std::string,std::string>::const_iterator oi = m_opt.find( optname);
+		if (oi == m_opt.end()) return 0;
+		try
+		{
+			return numstring_conv::todouble( oi->second);
+		}
+		catch (const std::runtime_error&)
+		{
+			throw strus::runtime_error( _TXT("option '%s' has not the requested value type %s"), optname.c_str(), "float/double");
+		}
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("failed to inspect program options: %s"), *m_errorhnd, 0);
+}
+
 DLL_PUBLIC std::vector<std::string> ProgramOptions::list( const std::string& optname) const
 {
 	try
