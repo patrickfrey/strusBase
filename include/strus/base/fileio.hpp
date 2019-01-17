@@ -183,6 +183,8 @@ std::string joinFilePath( const std::string& parentpath, const std::string& chil
 /// \brief Resolve upper directory references in a path, e.g. replace "/home/john/../jack" by "/home/jack"
 /// \param[in,out] path path to resolve updir references in
 /// \note Does not care about permissions, it is just mapping a string to another
+/// \note Does not care about symbolic links and may do an incorrect transformation when symbolic links are in the path
+/// \remark Result gets incorrect when symbolic links are used
 /// \return 0 on success, errno on failure (ENOMEM,EINVAL)
 int resolveUpdirReferences( std::string& path);
 
