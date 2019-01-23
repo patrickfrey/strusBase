@@ -238,6 +238,32 @@ DLL_PUBLIC bool strus::extractStringFromConfigString( std::string& res, std::str
 	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting string from for key '%s' configuration string: %s"), key, *errorhnd, false);
 }
 
+DLL_PUBLIC bool strus::extractStringArrayFromConfigString( std::vector<std::string>& val, std::string& config, const char* key, char separator, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		std::string stringvalue;
+		if (strus::extractStringFromConfigString( stringvalue, config, key, errorhnd))
+		{
+			char const* ti = stringvalue.c_str();
+			char const* te = std::strchr( ti, separator);
+			while (te)
+			{
+				val.push_back( strus::string_conv::trim( ti, te-ti));
+				ti = ti+1;
+				te = std::strchr( ti, separator);
+			}
+			val.push_back( strus::string_conv::trim( ti, std::strlen(ti)));
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting string array from for key '%s' configuration string: %s"), key, *errorhnd, false);
+}
+
 static bool yesNoFromString( const char* cfgname, const std::string& str)
 {
 	StringConvError errcode = StringConvOk;
