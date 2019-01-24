@@ -23,8 +23,10 @@ public:
 #else
 #if BOOST_VERSION < 105800
 #include <boost/interprocess/smart_ptr/unique_ptr.hpp>
+#define BOOST_UNIQUE_PTR_TEMPLATE boost::movelib::unique_ptr
 #else
 #include <boost/move/unique_ptr.hpp>
+#define BOOST_UNIQUE_PTR_TEMPLATE boost::unique_ptr
 #endif
 
 namespace strus {
@@ -38,10 +40,10 @@ struct DefaultDeleter
 
 template <typename T>
 class unique_ptr
-	:public boost::unique_ptr<T,DefaultDeleter<T> >
+	:public BOOST_UNIQUE_PTR_TEMPLATE<T,DefaultDeleter<T> >
 {
 public:
-	explicit unique_ptr( T* p = 0 ) :boost::unique_ptr<T>(p) {}
+	explicit unique_ptr( T* p = 0 ) :BOOST_UNIQUE_PTR_TEMPLATE<T,DefaultDeleter<T> >(p) {}
 };
 } //namespace
 #endif

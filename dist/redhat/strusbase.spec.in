@@ -333,6 +333,11 @@ make test
 
 
 %changelog
+* Thu Jan 24 2019 Patrick Frey <patrickpfrey@yahoo.com> 0.17.0-0.1
+- added file locator interface that generalizes the location of resources
+- added more fileio functions
+- fixed several bugs
+
 * Fri May 11 2018 Patrick Frey <patrickpfrey@yahoo.com> 0.16.0-0.1
 - implemented pseudo random number generator from snippets of other strus* libraries
 - change handling of gettext to avoid warning: return a const char* 

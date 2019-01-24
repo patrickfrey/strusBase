@@ -1,3 +1,9 @@
+strusbase (0.17.0-1) unstable; urgency=low
+  * added file locator interface that generalizes the location of resources
+  * added more fileio functions
+  * fixed several bugs
+ -- Patrick Frey <patrickpfrey@yahoo.com>  Thu, 24 Jan 2019 07:30:00 +0100
+
 strusbase (0.16.0-1) unstable; urgency=low
   * implemented pseudo random number generator from snippets of other strus* libraries
   * change handling of gettext to avoid warning: return a const char* 

@@ -97,6 +97,18 @@ int readDirFiles( const std::string& path, const std::string& ext, std::vector<s
 /// \return 0 on success, errno on failure
 int readDirSubDirs( const std::string& path, std::vector<std::string>& res);
 
+/// \brief Reads all items (directory or file) of a directory to an array of strings
+/// \param[in] path the name of director to read
+/// \param[out] res the returned matching items of the directory read
+/// \return 0 on success, errno on failure
+int readDirItems( const std::string& path, std::vector<std::string>& res);
+
+/// \brief Get all items matching a file path pattern (with '?' and '*' as substitutes)
+/// \param[in] pathPattern file path pattern
+/// \param[out] res the returned matching paths
+/// \return 0 on success, errno on failure
+int expandFilePattern( const std::string& pathPattern, std::vector<std::string>& res);
+
 /// \brief Check if a file system path points to a file
 /// \return true, if yes
 /// \param[in] path file system path to check
@@ -107,10 +119,20 @@ bool isFile( const std::string& path);
 /// \return true, if yes
 bool isDir( const std::string& path);
 
-/// \brief Check if a file system path is a reference relative to the current path
+/// \brief Check if a file system path is a path starting with a name and not with a directive referencing the current path './' or the file system root '/'.
 /// \return true, if yes
 /// \param[in] path file system path to check
 bool isRelativePath( const std::string& path);
+
+/// \brief Check if a file system path is a path starting the file system root '/'.
+/// \return true, if yes
+/// \param[in] path file system path to check
+bool isAbsolutePath( const std::string& path);
+
+/// \brief Check if a file path is explicit (relative path or absolute path)
+/// \return true, if yes
+/// \param[in] path file system path to check
+bool isExplicitPath( const std::string& path);
 
 /// \brief Check if a file system path points to a file with text content (not binary)
 /// \param[in] path file system path to check
@@ -161,6 +183,8 @@ std::string joinFilePath( const std::string& parentpath, const std::string& chil
 /// \brief Resolve upper directory references in a path, e.g. replace "/home/john/../jack" by "/home/jack"
 /// \param[in,out] path path to resolve updir references in
 /// \note Does not care about permissions, it is just mapping a string to another
+/// \note Does not care about symbolic links and may do an incorrect transformation when symbolic links are in the path
+/// \remark Result gets incorrect when symbolic links are used
 /// \return 0 on success, errno on failure (ENOMEM,EINVAL)
 int resolveUpdirReferences( std::string& path);
 

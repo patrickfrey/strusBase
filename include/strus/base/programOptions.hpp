@@ -54,6 +54,11 @@ public:
 	/// \return the option value as integer or 0 on failure
 	unsigned int asUint( const std::string& optname) const;
 
+	/// \brief Get the value of an option specified by its long name as unsigned integer
+	/// \param[in] optname long name of the option
+	/// \return the option value as integer or 0 on failure
+	double asDouble( const std::string& optname) const;
+
 	/// \brief Get the list of values of an option specified by its long name
 	/// \param[in] optname long name of the option
 	/// \return the option values as vector, empty on failure
@@ -76,14 +81,15 @@ private:
 	class OptMapDef
 	{
 	public:
-		OptMapDef(){}
+		explicit OptMapDef( ErrorBufferInterface* errorhnd_) :m_errorhnd(errorhnd_){}
 
 		void add( const char* arg);
 
 		bool getOpt( const char* argv, std::vector<std::string>& optlist, std::string& optarg);
 
-		std::map<std::string,bool> longnamemap;
-		std::map<char,std::string> aliasmap;
+		ErrorBufferInterface* m_errorhnd;
+		std::map<std::string,bool> m_longnamemap;
+		std::map<char,std::string> m_aliasmap;
 	};
 
 private:

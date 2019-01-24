@@ -21,85 +21,93 @@ using namespace strus;
 
 void ProgramOptions::OptMapDef::add( const char* arg)
 {
-	bool hasArg = false;
-	char alias = '\0';
-	char const* aa = arg;
-	const char* longnamestart = arg;
-	const char* longnameend = arg + std::strlen(arg);
-	for (;*aa;++aa)
+	try
 	{
-		if (*aa == ',')
+		bool hasArg = false;
+		char alias = '\0';
+		char const* aa = arg;
+		const char* longnamestart = arg;
+		const char* longnameend = arg + std::strlen(arg);
+		for (;*aa;++aa)
 		{
-			if (aa - arg != 1)
+			if (*aa == ',')
 			{
-				throw strus::runtime_error( "%s",  _TXT("one character option expected before comma ',' in option definition string"));
+				if (aa - arg != 1)
+				{
+					throw strus::runtime_error( "%s",  _TXT("one character option expected before comma ',' in option definition string"));
+				}
+				alias = *arg;
+				longnamestart = aa+1;
 			}
-			alias = *arg;
-			longnamestart = aa+1;
-		}
-		if (*aa == ':')
-		{
-			if (longnameend - aa != 1)
+			if (*aa == ':')
 			{
-				throw strus::runtime_error( "%s",  _TXT("colon expected only at end of option definition string"));
+				if (longnameend - aa != 1)
+				{
+					throw strus::runtime_error( "%s",  _TXT("colon expected only at end of option definition string"));
+				}
+				longnameend = aa;
+				hasArg = true;
 			}
-			longnameend = aa;
-			hasArg = true;
 		}
-	}
-	std::string longname( longnamestart, longnameend-longnamestart);
-	if (longname.empty())
-	{
-		if (!alias)
+		std::string longname( longnamestart, longnameend-longnamestart);
+		if (longname.empty())
 		{
-			throw strus::runtime_error( "%s",  _TXT("empty option definition"));
+			if (!alias)
+			{
+				throw strus::runtime_error( "%s",  _TXT("empty option definition"));
+			}
+			longname.push_back( alias);
 		}
-		longname.push_back( alias);
+		if (alias)
+		{
+			m_aliasmap[ alias] = longname;
+		}
+		m_longnamemap[ longname] = hasArg;
 	}
-	if (alias)
-	{
-		aliasmap[ alias] = longname;
-	}
-	longnamemap[ longname] = hasArg;
+	CATCH_ERROR_MAP( _TXT("failed to define program option: %s"), *m_errorhnd);
 }
 
 bool ProgramOptions::OptMapDef::getOpt( const char* argv, std::vector<std::string>& optlist, std::string& optarg)
 {
-	optlist.clear();
-	optarg.clear();
-
-	if (argv[0] != '-' || argv[1] == '\0') return false;
-
-	if (argv[1] == '-')
+	try
 	{
-		const char* oo = argv+2;
-		const char* aa = std::strchr( oo, '=');
-		if (aa)
+		optlist.clear();
+		optarg.clear();
+	
+		if (argv[0] != '-' || argv[1] == '\0') return false;
+	
+		if (argv[1] == '-')
 		{
-			optlist.push_back( std::string( oo, aa-oo));
-			optarg = std::string( aa+1);
+			const char* oo = argv+2;
+			const char* aa = std::strchr( oo, '=');
+			if (aa)
+			{
+				optlist.push_back( std::string( oo, aa-oo));
+				optarg = std::string( aa+1);
+			}
+			else
+			{
+				optlist.push_back( std::string( oo));
+			}
 		}
 		else
 		{
-			optlist.push_back( std::string( oo));
-		}
-	}
-	else
-	{
-		const char* oo = argv+1;
-		for (;*oo; ++oo)
-		{
-			std::map<char,std::string>::const_iterator oi = aliasmap.find( *oo);
-			if (oi == aliasmap.end())
+			const char* oo = argv+1;
+			for (;*oo; ++oo)
 			{
-				if (oo == argv+1) throw strus::runtime_error( _TXT("unknown option '-%c'"), *oo);
-				optarg = std::string( oo);
-				break;
+				std::map<char,std::string>::const_iterator oi = m_aliasmap.find( *oo);
+				if (oi == m_aliasmap.end())
+				{
+					if (oo == argv+1) throw strus::runtime_error( _TXT("unknown option '-%c'"), *oo);
+					optarg = std::string( oo);
+					break;
+				}
+				optlist.push_back( std::string( oi->second));
 			}
-			optlist.push_back( std::string( oi->second));
 		}
+		return true;
 	}
-	return true;
+	CATCH_ERROR_MAP_RETURN( _TXT("failed to read program option: %s"), *m_errorhnd, false);
 }
 
 DLL_PUBLIC ProgramOptions::ProgramOptions( ErrorBufferInterface* errorhnd_, int argc_, const char** argv_, int nofopt, ...)
@@ -108,7 +116,7 @@ DLL_PUBLIC ProgramOptions::ProgramOptions( ErrorBufferInterface* errorhnd_, int 
 	try
 	{
 		//[1] Initialize options map:
-		OptMapDef optmapdef;
+		OptMapDef optmapdef( m_errorhnd);
 		va_list ap;
 		va_start( ap, nofopt);
 	
@@ -128,8 +136,8 @@ DLL_PUBLIC ProgramOptions::ProgramOptions( ErrorBufferInterface* errorhnd_, int 
 			std::vector<std::string>::const_iterator oi = optlist.begin(), oe = optlist.end();
 			for (; oi != oe; ++oi)
 			{
-				std::map<std::string,bool>::iterator li = optmapdef.longnamemap.find( *oi);
-				if (li == optmapdef.longnamemap.end()) throw strus::runtime_error( _TXT("unknown option '--%s'"), oi->c_str());
+				std::map<std::string,bool>::iterator li = optmapdef.m_longnamemap.find( *oi);
+				if (li == optmapdef.m_longnamemap.end()) throw strus::runtime_error( _TXT("unknown option '--%s'"), oi->c_str());
 				if (li->second && oi+1 == oe)
 				{
 					if (optarg.empty() && m_argc > 1 && (m_argv[1][0] != '-' || m_argv[1][1] == '\0'))
@@ -194,10 +202,9 @@ DLL_PUBLIC const char* ProgramOptions::operator[]( const std::string& optname) c
 	{
 		if (m_opt.count( optname) > 1)
 		{
-			throw strus::runtime_error( _TXT("option '%s' specified more than once"), optname.c_str());
+			m_errorhnd->report( ErrorCodeInvalidArgument, _TXT("option '%s' specified more than once"), optname.c_str());
 		}
-		std::map<std::string,std::string>::const_iterator
-			oi = m_opt.find( optname);
+		std::map<std::string,std::string>::const_iterator oi = m_opt.find( optname);
 		if (oi == m_opt.end()) return 0;
 		return oi->second.c_str();
 	}
@@ -210,10 +217,9 @@ DLL_PUBLIC int ProgramOptions::asInt( const std::string& optname) const
 	{
 		if (m_opt.count( optname) > 1)
 		{
-			throw strus::runtime_error( _TXT("option '%s' specified more than once"), optname.c_str());
+			m_errorhnd->report( ErrorCodeInvalidArgument, _TXT("option '%s' specified more than once"), optname.c_str());
 		}
-		std::map<std::string,std::string>::const_iterator
-			oi = m_opt.find( optname);
+		std::map<std::string,std::string>::const_iterator oi = m_opt.find( optname);
 		if (oi == m_opt.end()) return 0;
 		try
 		{
@@ -238,13 +244,34 @@ DLL_PUBLIC unsigned int ProgramOptions::asUint( const std::string& optname) cons
 	CATCH_ERROR_MAP_RETURN( _TXT("failed to inspect program options: %s"), *m_errorhnd, 0);
 }
 
+DLL_PUBLIC double ProgramOptions::asDouble( const std::string& optname) const
+{
+	try
+	{
+		if (m_opt.count( optname) > 1)
+		{
+			m_errorhnd->report( ErrorCodeInvalidArgument, _TXT("option '%s' specified more than once"), optname.c_str());
+		}
+		std::map<std::string,std::string>::const_iterator oi = m_opt.find( optname);
+		if (oi == m_opt.end()) return 0;
+		try
+		{
+			return numstring_conv::todouble( oi->second);
+		}
+		catch (const std::runtime_error&)
+		{
+			throw strus::runtime_error( _TXT("option '%s' has not the requested value type %s"), optname.c_str(), "float/double");
+		}
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("failed to inspect program options: %s"), *m_errorhnd, 0);
+}
+
 DLL_PUBLIC std::vector<std::string> ProgramOptions::list( const std::string& optname) const
 {
 	try
 	{
 		std::vector<std::string> rt;
-		std::pair<OptMap::const_iterator,OptMap::const_iterator>
-			range = m_opt.equal_range( optname);
+		std::pair<OptMap::const_iterator,OptMap::const_iterator> range = m_opt.equal_range( optname);
 		OptMap::const_iterator ei = range.first, ee = range.second;
 		for (; ei != ee; ++ei)
 		{

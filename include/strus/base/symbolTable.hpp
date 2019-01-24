@@ -176,6 +176,9 @@ public:
 	///\return the block allocated (not freed till end of symbol table life time)
 	void* allocBlock( unsigned int blocksize, unsigned int elemsize);
 
+	///\brief Free all keys allocated
+	void clear();
+
 private:
 #if __cplusplus >= 201103L
 	SymbolTable( const SymbolTable&) = delete;
