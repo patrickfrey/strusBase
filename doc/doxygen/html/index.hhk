@@ -37,6 +37,7 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986"><param name="Name" value="argv"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#aab46bfc9cd37b8c55415e5d19526ec48"><param name="Name" value="asdouble"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#aefbde4efd6daa99b41f3e69d8c442f0d"><param name="Name" value="asDouble"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#af13b720428bf8bdbd821b41732c43892"><param name="Name" value="asint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#a7919633bac63cc4de13b5473122ffb13"><param name="Name" value="asInt"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#a132ea9189e946e8ae236062b90d6efb9"><param name="Name" value="asuint"></OBJECT>
@@ -52,27 +53,27 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1AtomicCounter.html#a34c04ad0320c977dba65a02484f9bf8c"><param name="Name" value="AtomicCounter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1AtomicFlag.html#a64d3570ec9f1b7f055fb4bfb0065d47a"><param name="Name" value="AtomicFlag"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a7b5f6620e640c0c1de9d38cb62e32a9c"><param name="Name" value="B00000000"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#aa4c735b77d5a218face38a22a5b2fa89"><param name="Name" value="B00000001"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3bd831f70d511943eab360c981cb0350"><param name="Name" value="B00000011"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a51485e72511628fc9b813d95dd012bce"><param name="Name" value="B00000111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ad1f90411c3db644922c991b31065469b"><param name="Name" value="B00001111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3b281291d976fc23a68c93046326b5ba"><param name="Name" value="B00011111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3651a7e83a5b56d6cd498f242c4c0b14"><param name="Name" value="B00111111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#aaf21111c3b2e26eb00e1569807b4ea2f"><param name="Name" value="B01111111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ada8e559de29e03eeba515901af4fc3d6"><param name="Name" value="B10000000"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a819abda1bed22cbb84ef30574a4b4b30"><param name="Name" value="B11000000"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a0e3dad4bb443a52301c416fe4fa7bab6"><param name="Name" value="B11011111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a548c604ac40ea7ec957fa46328ef51c8"><param name="Name" value="B11100000"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ace19e8cd665412eff01c5908f57eb2b3"><param name="Name" value="B11101111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ade987b1a8b3e404a24f7880a3783453d"><param name="Name" value="B11110000"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a5061575a28f0dcead8d9e1f0d6d72601"><param name="Name" value="B11110111"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a78a5adf5ff3c625546caf6212d66dedd"><param name="Name" value="B11111000"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ab45b2b7491c37c0c02ab08dc28e0d61e"><param name="Name" value="B11111011"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a723a457b681d6603ab7b5e35fd3a4f61"><param name="Name" value="B11111100"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a8165618f5811e70ef813ee13901df107"><param name="Name" value="B11111101"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a25d9c9ee830946b086bc84d34c799674"><param name="Name" value="B11111110"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a55a7732ec884c5a15c0fcb810f0c409d"><param name="Name" value="B11111111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adaa6120ea5c42f9708b032315a251a550b"><param name="Name" value="B00000000"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada60cb049b27624cb782a08e9be803b359"><param name="Name" value="B00000001"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada3219dbe8232cd0d0572632791af6a76b"><param name="Name" value="B00000011"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada8d360be2e2752e60faddc8e095a400d4"><param name="Name" value="B00000111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada5492de5b0d96be4b059f5fd6c04c9ec7"><param name="Name" value="B00001111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada1e3c9e48ed4c3dde128fbdf8175adf3c"><param name="Name" value="B00011111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada35b7fbaf9991e2cca7359c2c499e1c58"><param name="Name" value="B00111111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adaa956423672e46ae7a24b427ef0c2525f"><param name="Name" value="B01111111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada8b28b224e143ec097742685faaaccc8c"><param name="Name" value="B10000000"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada39ae6f6b392a3ad26a68982b99ee8650"><param name="Name" value="B11000000"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada65c5a7c536d10355cff8f094ae17cc64"><param name="Name" value="B11011111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adaa49bd05f3e3ee6d99fe96d71fac811d5"><param name="Name" value="B11100000"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada8e9c086732c1cb40bcae6360b5bbc58e"><param name="Name" value="B11101111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada822cb06b57be5c473c2e6d6c4694c148"><param name="Name" value="B11110000"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adafc85ebeef39580e8804e12f7176bdb62"><param name="Name" value="B11110111"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada3369e8bf2ffa72f332776617e1fe8783"><param name="Name" value="B11111000"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada0ba677b6b1a5278b9e21fc31640a7d99"><param name="Name" value="B11111011"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adac74dff409944da4148138a1b4728b9ea"><param name="Name" value="B11111100"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada6b088be4abc37d82b7ad8dfb3d0ad670"><param name="Name" value="B11111101"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada61deb406ac2951dba89f5ddbfc092bd3"><param name="Name" value="B11111110"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adab616e76496b08f2f4091f59300353a67"><param name="Name" value="B11111111"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#abac15223ed053ea7a578d62cda5175d1a6cf93e051b0e6c85ff6a1c874994b8f0"><param name="Name" value="BadAlloc"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structstrus_1_1BitOperations.html#a35b97c4ebae69f211423da5c2346166e"><param name="Name" value="bitCount"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structstrus_1_1BitOperations.html#ae5e92e1de89bb481ede4c62c8d4489f8"><param name="Name" value="bitInsert"></OBJECT>
@@ -80,6 +81,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structstrus_1_1BitOperations.html#a5240198c2710c821ff46c44285bc36ba"><param name="Name" value="bitScanReverse"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1bitset.html#ae4e4d86eee40589eaec931d45b85447f"><param name="Name" value="bitset"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1BlockAllocator.html#a115f30bc390324ed0061b9a80d61e4ac"><param name="Name" value="BlockAllocator"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="unique__ptr_8hpp.html#a29b1f4582ac904009eaff233c75b473f"><param name="Name" value="BOOST_UNIQUE_PTR_TEMPLATE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant_1_1String.html#acb911271265404fb85c3b440afe06200"><param name="Name" value="c_str"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus_1_1platform.html#aee79dff03ab61895dc2540684c3d3b84a087ec4d97b62ae7f109b0b3801425870"><param name="Name" value="CacheLineSize"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1utils_1_1Crc32.html#acc1911da1f492defc37bdedc2f318d5a"><param name="Name" value="calc"></OBJECT>
@@ -100,6 +102,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#abc9c517c719204c8091a32840e2e2c78"><param name="Name" value="strus"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramLexem.html#ae131051000c581207d7bf8ff5ab17014"><param name="Name" value="checkKeyword"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#a645658c3d4be8d1f6f86f52a0a9c4b78"><param name="Name" value="clear"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1DataRecordFile.html#a1525f3ffc56f8c1ff84f69556e49a7a7"><param name="Name" value="close"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1DataRecordFile.html#a1525f3ffc56f8c1ff84f69556e49a7a7"><param name="Name" value="strus::DataRecordFile"></OBJECT>
@@ -119,6 +122,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#aa36e082800ba52a9b7e97c95519fd14a"><param name="Name" value="addConfigStringItem"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#aa2fc7d28dca1bd0fa3af93713893f6a7"><param name="Name" value="extractBooleanFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#ae2426cc1ce17218a383827754de661bb"><param name="Name" value="extractFloatFromConfigString"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#acc85eec3f1f3e651f553b4e1253e7046"><param name="Name" value="extractStringArrayFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#acde3f4d202bbae85464e80ff9d9a3f11"><param name="Name" value="extractStringFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#ac5d6f29908da07c23ea8f36d3677cad4"><param name="Name" value="extractUIntFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="configParser_8hpp.html#a954148788cf36d6670a5769cd7dbb460"><param name="Name" value="getAssignmentListItems"></OBJECT>
@@ -302,6 +306,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aad33b280e8d5b1a5124186b883abf9f5"><param name="Name" value="exec.hpp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aad33b280e8d5b1a5124186b883abf9f5"><param name="Name" value="strus"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a9f6c07f58021c4e841a1ba2dd739d746"><param name="Name" value="expandFilePattern"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a9f6c07f58021c4e841a1ba2dd739d746"><param name="Name" value="fileio.hpp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a9f6c07f58021c4e841a1ba2dd739d746"><param name="Name" value="strus"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af8b1a05ad0043444e877422fb640c681"><param name="Name" value="explain"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ErrorBufferInterface.html#af8b1a05ad0043444e877422fb640c681"><param name="Name" value="strus::ErrorBufferInterface"></OBJECT>
@@ -316,6 +325,11 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ae2426cc1ce17218a383827754de661bb"><param name="Name" value="configParser.hpp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ae2426cc1ce17218a383827754de661bb"><param name="Name" value="strus"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#acc85eec3f1f3e651f553b4e1253e7046"><param name="Name" value="extractStringArrayFromConfigString"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#acc85eec3f1f3e651f553b4e1253e7046"><param name="Name" value="configParser.hpp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#acc85eec3f1f3e651f553b4e1253e7046"><param name="Name" value="strus"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#acde3f4d202bbae85464e80ff9d9a3f11"><param name="Name" value="extractStringFromConfigString"></OBJECT>
   <UL>
@@ -339,18 +353,22 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#abc9c517c719204c8091a32840e2e2c78"><param name="Name" value="changeDir"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a7f7a44db49fbeca1053759754bee4353"><param name="Name" value="createDir"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a5b3ce343266d03ac6d653667193d5ecc"><param name="Name" value="dirSeparator"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a9f6c07f58021c4e841a1ba2dd739d746"><param name="Name" value="expandFilePattern"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ab0fc7dfc269740cc3b2df2ff2034fb12"><param name="Name" value="getAncestorPath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a6429b6b8a7eafc87eef6c3173e67b849"><param name="Name" value="getFileExtension"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a8b83adf6079971ed8868d73f64d853b5"><param name="Name" value="getFileName"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ad706e795e176cbc2562644afb1fd348e"><param name="Name" value="getParentPath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ae6e0bffc7d0e729f8eb7afa2ffc90da7"><param name="Name" value="hasUpdirReference"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ac99cdbc7f90270963527913c57c8519b"><param name="Name" value="isAbsolutePath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a91d5994cb49688ec0f8279b96cbefeb4"><param name="Name" value="isDir"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a153f9f3a0a65cc8033736282d32ef4a6"><param name="Name" value="isExplicitPath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ab4e61267f08f6af3cbd3daf5f5c699f8"><param name="Name" value="isFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a5c1496481176e6102994dfb397252d05"><param name="Name" value="isRelativePath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#aefc5595861905e3ba4129127a7048bd3"><param name="Name" value="isTextFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a15b4ceab4c07c867422284216c96bdab"><param name="Name" value="joinFilePath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a528a4ee9373a9e45e030df4f9dde67c7"><param name="Name" value="mkdirp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a01fffea4361bf22ba1226e86cf212463"><param name="Name" value="readDirFiles"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ab5e34746cb164fed701faccf56073cc2"><param name="Name" value="readDirItems"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#ab83828c33e53292246cb812f85737242"><param name="Name" value="readDirSubDirs"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a38382929ce842461eecafbe50ff434d3"><param name="Name" value="readFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="fileio_8hpp.html#a14a7ba28a2834e8c263d1a7db2ff5a37"><param name="Name" value="readFileSize"></OBJECT>
@@ -477,14 +495,29 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#ad6c5bd60236403572e675d7f73c0ad02"><param name="Name" value="IntType"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#af0b1d78a0d36723211810e60c0848458"><param name="Name" value="inv_begin"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#a5676b9cfaee9a9a6a69d56dd5950e6b0"><param name="Name" value="inv_end"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac99cdbc7f90270963527913c57c8519b"><param name="Name" value="isAbsolutePath"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac99cdbc7f90270963527913c57c8519b"><param name="Name" value="fileio.hpp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac99cdbc7f90270963527913c57c8519b"><param name="Name" value="strus"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4"><param name="Name" value="isDir"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4"><param name="Name" value="fileio.hpp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4"><param name="Name" value="strus"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac37b64661d7809513c9fef4dd7732fc4"><param name="Name" value="isEmptyString"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac37b64661d7809513c9fef4dd7732fc4"><param name="Name" value="string_conv.hpp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac37b64661d7809513c9fef4dd7732fc4"><param name="Name" value="strus"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramLexem.html#a1555f0e7ff0c9f28288481475400ba10"><param name="Name" value="isEof"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#ad227424a3e4f07e7414823d6ca569a6a"><param name="Name" value="isequal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramLexem.html#aea698f11f381bf662c3e5e7587b53388"><param name="Name" value="isError"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a153f9f3a0a65cc8033736282d32ef4a6"><param name="Name" value="isExplicitPath"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a153f9f3a0a65cc8033736282d32ef4a6"><param name="Name" value="fileio.hpp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a153f9f3a0a65cc8033736282d32ef4a6"><param name="Name" value="strus"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8"><param name="Name" value="isFile"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8"><param name="Name" value="fileio.hpp"></OBJECT>
@@ -665,6 +698,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a01fffea4361bf22ba1226e86cf212463"><param name="Name" value="fileio.hpp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a01fffea4361bf22ba1226e86cf212463"><param name="Name" value="strus"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab5e34746cb164fed701faccf56073cc2"><param name="Name" value="readDirItems"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab5e34746cb164fed701faccf56073cc2"><param name="Name" value="fileio.hpp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab5e34746cb164fed701faccf56073cc2"><param name="Name" value="strus"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab83828c33e53292246cb812f85737242"><param name="Name" value="readDirSubDirs"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab83828c33e53292246cb812f85737242"><param name="Name" value="fileio.hpp"></OBJECT>
@@ -814,6 +852,7 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="string__conv_8hpp.html#afdcd474d9efd76382993d376ce1b0b73"><param name="Name" value="caseInsensitiveEquals"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="string__conv_8hpp.html#a5187389b36290f828034fde2d5b92352"><param name="Name" value="caseInsensitiveStartsWith"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="string__conv_8hpp.html#ac37b64661d7809513c9fef4dd7732fc4"><param name="Name" value="isEmptyString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="string__conv_8hpp.html#ac8d2070dd5983e88e030d389b05c694f"><param name="Name" value="stringconv_exception"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="string__conv_8hpp.html#a718a6735c1789009463f9f977ce0844f"><param name="Name" value="stringStartsWith"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="string__conv_8hpp.html#a72254c5878c2d990c3e8ac53b18cc44a"><param name="Name" value="tolower"></OBJECT>
@@ -1108,7 +1147,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#abee7eaf7100c01ebff5580c0d915f3e4"><param name="Name" value="typeName"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#a721d3b30e0fc4afc40b73be06a4c2dfdafe4fae6b73e6b0c006fc35513a38d149"><param name="Name" value="UInt"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#a6a9e353036ccb8aa3551795003816224"><param name="Name" value="UIntType"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#a655d94c2b770b6341b7ae8cde6ae590a"><param name="Name" value="variant"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#afd3a30903daa951cce4460b171da42e9"><param name="Name" value="variant"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structstrus_1_1numstring__conv.html"><param name="Name" value="strus::numstring_conv"></OBJECT>
   <UL>
@@ -1169,6 +1208,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html"><param name="Name" value="strus::ProgramOptions"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986"><param name="Name" value="argv"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#aefbde4efd6daa99b41f3e69d8c442f0d"><param name="Name" value="asDouble"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#a7919633bac63cc4de13b5473122ffb13"><param name="Name" value="asInt"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#a44fa772d49b055616394b492fd1cb966"><param name="Name" value="asUint"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramOptions.html#a17e84d6a4958ae618c71363de8d63add"><param name="Name" value="list"></OBJECT>
@@ -1251,6 +1291,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html"><param name="Name" value="strus::SymbolTable"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#a9fa7ad8c96db5e21bf1a50004cb90aec"><param name="Name" value="allocBlock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#a645658c3d4be8d1f6f86f52a0a9c4b78"><param name="Name" value="clear"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#aeb588cfd0d3f9f27e9992f82fedc33d5"><param name="Name" value="const_inv_iterator"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#af460a3ac181e25d723bb37f67ade2366"><param name="Name" value="empty"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1SymbolTable.html#a50e08d03c5142359d94405dddcfe91d6"><param name="Name" value="get"></OBJECT>
@@ -1287,6 +1328,27 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ad14d07cb53716fc33ac99ab9a083d627"><param name="Name" value="aligned_free"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a56e705d552ae3265acfa08462e0248c9"><param name="Name" value="aligned_malloc"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a1be874db107a5d0860d7bc8cc0080b29"><param name="Name" value="appendFile"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adaa6120ea5c42f9708b032315a251a550b"><param name="Name" value="B00000000"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada60cb049b27624cb782a08e9be803b359"><param name="Name" value="B00000001"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada3219dbe8232cd0d0572632791af6a76b"><param name="Name" value="B00000011"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada8d360be2e2752e60faddc8e095a400d4"><param name="Name" value="B00000111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada5492de5b0d96be4b059f5fd6c04c9ec7"><param name="Name" value="B00001111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada1e3c9e48ed4c3dde128fbdf8175adf3c"><param name="Name" value="B00011111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada35b7fbaf9991e2cca7359c2c499e1c58"><param name="Name" value="B00111111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adaa956423672e46ae7a24b427ef0c2525f"><param name="Name" value="B01111111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada8b28b224e143ec097742685faaaccc8c"><param name="Name" value="B10000000"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada39ae6f6b392a3ad26a68982b99ee8650"><param name="Name" value="B11000000"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada65c5a7c536d10355cff8f094ae17cc64"><param name="Name" value="B11011111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adaa49bd05f3e3ee6d99fe96d71fac811d5"><param name="Name" value="B11100000"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada8e9c086732c1cb40bcae6360b5bbc58e"><param name="Name" value="B11101111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada822cb06b57be5c473c2e6d6c4694c148"><param name="Name" value="B11110000"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adafc85ebeef39580e8804e12f7176bdb62"><param name="Name" value="B11110111"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada3369e8bf2ffa72f332776617e1fe8783"><param name="Name" value="B11111000"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada0ba677b6b1a5278b9e21fc31640a7d99"><param name="Name" value="B11111011"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adac74dff409944da4148138a1b4728b9ea"><param name="Name" value="B11111100"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada6b088be4abc37d82b7ad8dfb3d0ad670"><param name="Name" value="B11111101"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74ada61deb406ac2951dba89f5ddbfc092bd3"><param name="Name" value="B11111110"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab843c858b9725f2a8f9ad3f7924f74adab616e76496b08f2f4091f59300353a67"><param name="Name" value="B11111111"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#afdcd474d9efd76382993d376ce1b0b73"><param name="Name" value="caseInsensitiveEquals"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a5187389b36290f828034fde2d5b92352"><param name="Name" value="caseInsensitiveStartsWith"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#abc9c517c719204c8091a32840e2e2c78"><param name="Name" value="changeDir"></OBJECT>
@@ -1345,8 +1407,10 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a2cb82338719c3a3b7713a93b04813ff5a2ad3f515d5bb0f9ab1a41ea6c701c7f8"><param name="Name" value="ErrorCodeVersionMismatch"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a95f3d77decb21ce3feb5d0e5602c6a16"><param name="Name" value="execv_tostring"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aad33b280e8d5b1a5124186b883abf9f5"><param name="Name" value="execve_tostring"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a9f6c07f58021c4e841a1ba2dd739d746"><param name="Name" value="expandFilePattern"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aa2fc7d28dca1bd0fa3af93713893f6a7"><param name="Name" value="extractBooleanFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ae2426cc1ce17218a383827754de661bb"><param name="Name" value="extractFloatFromConfigString"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#acc85eec3f1f3e651f553b4e1253e7046"><param name="Name" value="extractStringArrayFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#acde3f4d202bbae85464e80ff9d9a3f11"><param name="Name" value="extractStringFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac5d6f29908da07c23ea8f36d3677cad4"><param name="Name" value="extractUIntFromConfigString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aadae460a38c8a0c0a728250432ecfc22"><param name="Name" value="float_net_t"></OBJECT>
@@ -1361,7 +1425,10 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a3ac67caa303bde71fbf9bdd59c70c987"><param name="Name" value="getSubConfigStringItems"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ae6e0bffc7d0e729f8eb7afa2ffc90da7"><param name="Name" value="hasUpdirReference"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a73f5f69e690131b09e66f85d0f42f709"><param name="Name" value="intFromString"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac99cdbc7f90270963527913c57c8519b"><param name="Name" value="isAbsolutePath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a91d5994cb49688ec0f8279b96cbefeb4"><param name="Name" value="isDir"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ac37b64661d7809513c9fef4dd7732fc4"><param name="Name" value="isEmptyString"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a153f9f3a0a65cc8033736282d32ef4a6"><param name="Name" value="isExplicitPath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8"><param name="Name" value="isFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a5c1496481176e6102994dfb397252d05"><param name="Name" value="isRelativePath"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aefc5595861905e3ba4129127a7048bd3"><param name="Name" value="isTextFile"></OBJECT>
@@ -1377,6 +1444,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#aab11d71a6c1f72930839476170d0fd50"><param name="Name" value="numstring_exception"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a754c08d4232eea36fec87a6f162b71cc"><param name="Name" value="printIndentMultilineString"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a01fffea4361bf22ba1226e86cf212463"><param name="Name" value="readDirFiles"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab5e34746cb164fed701faccf56073cc2"><param name="Name" value="readDirItems"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#ab83828c33e53292246cb812f85737242"><param name="Name" value="readDirSubDirs"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a38382929ce842461eecafbe50ff434d3"><param name="Name" value="readFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a14a7ba28a2834e8c263d1a7db2ff5a37"><param name="Name" value="readFileSize"></OBJECT>
@@ -1496,31 +1564,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a2b6fcd1f326052233561cd83af5d11e8"><param name="Name" value="strus"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a2b6fcd1f326052233561cd83af5d11e8"><param name="Name" value="thread.hpp"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="unique__ptr_8hpp.html"><param name="Name" value="unique_ptr.hpp"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15"><param name="Name" value="unique_ptr"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1unordered__map.html#ad7a656ae82c2ab899c6bd40545dac165"><param name="Name" value="unordered_map"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html"><param name="Name" value="utf8.hpp"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a7b5f6620e640c0c1de9d38cb62e32a9c"><param name="Name" value="B00000000"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#aa4c735b77d5a218face38a22a5b2fa89"><param name="Name" value="B00000001"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3bd831f70d511943eab360c981cb0350"><param name="Name" value="B00000011"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a51485e72511628fc9b813d95dd012bce"><param name="Name" value="B00000111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ad1f90411c3db644922c991b31065469b"><param name="Name" value="B00001111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3b281291d976fc23a68c93046326b5ba"><param name="Name" value="B00011111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3651a7e83a5b56d6cd498f242c4c0b14"><param name="Name" value="B00111111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#aaf21111c3b2e26eb00e1569807b4ea2f"><param name="Name" value="B01111111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ada8e559de29e03eeba515901af4fc3d6"><param name="Name" value="B10000000"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a819abda1bed22cbb84ef30574a4b4b30"><param name="Name" value="B11000000"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a0e3dad4bb443a52301c416fe4fa7bab6"><param name="Name" value="B11011111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a548c604ac40ea7ec957fa46328ef51c8"><param name="Name" value="B11100000"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ace19e8cd665412eff01c5908f57eb2b3"><param name="Name" value="B11101111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ade987b1a8b3e404a24f7880a3783453d"><param name="Name" value="B11110000"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a5061575a28f0dcead8d9e1f0d6d72601"><param name="Name" value="B11110111"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a78a5adf5ff3c625546caf6212d66dedd"><param name="Name" value="B11111000"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#ab45b2b7491c37c0c02ab08dc28e0d61e"><param name="Name" value="B11111011"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a723a457b681d6603ab7b5e35fd3a4f61"><param name="Name" value="B11111100"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a8165618f5811e70ef813ee13901df107"><param name="Name" value="B11111101"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a25d9c9ee830946b086bc84d34c799674"><param name="Name" value="B11111110"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a55a7732ec884c5a15c0fcb810f0c409d"><param name="Name" value="B11111111"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a8b3da81c83bed96de89707ff2b9c379b"><param name="Name" value="utf8charlen"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a3375ac223473ec882481ac7170a30719"><param name="Name" value="utf8decode"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="utf8_8hpp.html#a8eca67028a53db7a110f2aea9a13b1b3"><param name="Name" value="utf8encode"></OBJECT>
@@ -1563,7 +1611,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1AtomicCounter.html#aa5e85e7fbe6557d47ceec818f0827718"><param name="Name" value="strus::AtomicCounter"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1ProgramLexem.html#a101bc085cd74dea9230bc8a0dbd3a45a"><param name="Name" value="strus::ProgramLexem"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#a655d94c2b770b6341b7ae8cde6ae590a"><param name="Name" value="variant"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classstrus_1_1NumericVariant.html#afd3a30903daa951cce4460b171da42e9"><param name="Name" value="variant"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a960ed3efc794202e5ed214f6be7d224e"><param name="Name" value="writeFile"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacestrus.html#a960ed3efc794202e5ed214f6be7d224e"><param name="Name" value="fileio.hpp"></OBJECT>

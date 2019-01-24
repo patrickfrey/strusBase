@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.16</span>
+   &#160;<span id="projectnumber">0.17</span>
    </div>
   </td>
  </tr>
@@ -84,41 +84,44 @@
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#if BOOST_VERSION &lt; 105800</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;boost/interprocess/smart_ptr/unique_ptr.hpp&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;boost/move/unique_ptr.hpp&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>strus {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="structstrus_1_1DefaultDeleter.html">   32</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structstrus_1_1DefaultDeleter.html">DefaultDeleter</a></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structstrus_1_1DefaultDeleter.html#a6422b3210f74458044d5757480630e58">   34</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structstrus_1_1DefaultDeleter.html#a6422b3210f74458044d5757480630e58">operator()</a>(T* ptr)<span class="keyword"> const   </span>{<span class="keyword">delete</span> ptr;}</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">class</span> U&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structstrus_1_1DefaultDeleter.html#a56519884f83aceb42ea605ac3b9bdf11">   36</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structstrus_1_1DefaultDeleter.html#a56519884f83aceb42ea605ac3b9bdf11">operator()</a>(U* ptr)<span class="keyword"> const   </span>{<span class="keyword">delete</span>[] ptr;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classstrus_1_1unique__ptr.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="classstrus_1_1unique__ptr.html">unique_ptr</a></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        :<span class="keyword">public</span> boost::unique_ptr&lt;T,DefaultDeleter&lt;T&gt; &gt;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15">   44</a></span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15">unique_ptr</a>( T* p = 0 ) :boost::<a class="code" href="classstrus_1_1unique__ptr.html">unique_ptr</a>&lt;T&gt;(p) {}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;} <span class="comment">//namespace</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="ttc" id="structstrus_1_1DefaultDeleter_html"><div class="ttname"><a href="structstrus_1_1DefaultDeleter.html">strus::DefaultDeleter</a></div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:32</div></div>
-<div class="ttc" id="structstrus_1_1DefaultDeleter_html_a56519884f83aceb42ea605ac3b9bdf11"><div class="ttname"><a href="structstrus_1_1DefaultDeleter.html#a56519884f83aceb42ea605ac3b9bdf11">strus::DefaultDeleter::operator()</a></div><div class="ttdeci">void operator()(U *ptr) const </div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:36</div></div>
-<div class="ttc" id="classstrus_1_1unique__ptr_html_accbbdbe9ef76f9bf7ae8dd4393755e15"><div class="ttname"><a href="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15">strus::unique_ptr::unique_ptr</a></div><div class="ttdeci">unique_ptr(T *p=0)</div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:44</div></div>
-<div class="ttc" id="structstrus_1_1DefaultDeleter_html_a6422b3210f74458044d5757480630e58"><div class="ttname"><a href="structstrus_1_1DefaultDeleter.html#a6422b3210f74458044d5757480630e58">strus::DefaultDeleter::operator()</a></div><div class="ttdeci">void operator()(T *ptr) const </div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:34</div></div>
-<div class="ttc" id="classstrus_1_1unique__ptr_html"><div class="ttname"><a href="classstrus_1_1unique__ptr.html">strus::unique_ptr</a></div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:40</div></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="unique__ptr_8hpp.html#a29b1f4582ac904009eaff233c75b473f">   26</a></span>&#160;<span class="preprocessor">#define BOOST_UNIQUE_PTR_TEMPLATE boost::movelib::unique_ptr</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;boost/move/unique_ptr.hpp&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define BOOST_UNIQUE_PTR_TEMPLATE boost::unique_ptr</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>strus {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structstrus_1_1DefaultDeleter.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structstrus_1_1DefaultDeleter.html">DefaultDeleter</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structstrus_1_1DefaultDeleter.html#a6422b3210f74458044d5757480630e58">   36</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structstrus_1_1DefaultDeleter.html#a6422b3210f74458044d5757480630e58">operator()</a>(T* ptr)<span class="keyword"> const   </span>{<span class="keyword">delete</span> ptr;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">class</span> U&gt;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structstrus_1_1DefaultDeleter.html#a56519884f83aceb42ea605ac3b9bdf11">   38</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structstrus_1_1DefaultDeleter.html#a56519884f83aceb42ea605ac3b9bdf11">operator()</a>(U* ptr)<span class="keyword"> const   </span>{<span class="keyword">delete</span>[] ptr;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classstrus_1_1unique__ptr.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="classstrus_1_1unique__ptr.html">unique_ptr</a></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        :<span class="keyword">public</span> <a class="code" href="unique__ptr_8hpp.html#a29b1f4582ac904009eaff233c75b473f">BOOST_UNIQUE_PTR_TEMPLATE</a>&lt;T,DefaultDeleter&lt;T&gt; &gt;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15">   46</a></span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15">unique_ptr</a>( T* p = 0 ) :<a class="code" href="unique__ptr_8hpp.html#a29b1f4582ac904009eaff233c75b473f">BOOST_UNIQUE_PTR_TEMPLATE</a>&lt;T,<a class="code" href="structstrus_1_1DefaultDeleter.html">DefaultDeleter</a>&lt;T&gt; &gt;(p) {}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;} <span class="comment">//namespace</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="ttc" id="structstrus_1_1DefaultDeleter_html"><div class="ttname"><a href="structstrus_1_1DefaultDeleter.html">strus::DefaultDeleter</a></div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:34</div></div>
+<div class="ttc" id="unique__ptr_8hpp_html_a29b1f4582ac904009eaff233c75b473f"><div class="ttname"><a href="unique__ptr_8hpp.html#a29b1f4582ac904009eaff233c75b473f">BOOST_UNIQUE_PTR_TEMPLATE</a></div><div class="ttdeci">#define BOOST_UNIQUE_PTR_TEMPLATE</div><div class="ttdoc">Definition of strus::unique_ptr as wrapper to std::unique_ptr or boost::unique_ptr depeding on availa...</div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:26</div></div>
+<div class="ttc" id="structstrus_1_1DefaultDeleter_html_a56519884f83aceb42ea605ac3b9bdf11"><div class="ttname"><a href="structstrus_1_1DefaultDeleter.html#a56519884f83aceb42ea605ac3b9bdf11">strus::DefaultDeleter::operator()</a></div><div class="ttdeci">void operator()(U *ptr) const </div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:38</div></div>
+<div class="ttc" id="classstrus_1_1unique__ptr_html_accbbdbe9ef76f9bf7ae8dd4393755e15"><div class="ttname"><a href="classstrus_1_1unique__ptr.html#accbbdbe9ef76f9bf7ae8dd4393755e15">strus::unique_ptr::unique_ptr</a></div><div class="ttdeci">unique_ptr(T *p=0)</div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:46</div></div>
+<div class="ttc" id="structstrus_1_1DefaultDeleter_html_a6422b3210f74458044d5757480630e58"><div class="ttname"><a href="structstrus_1_1DefaultDeleter.html#a6422b3210f74458044d5757480630e58">strus::DefaultDeleter::operator()</a></div><div class="ttdeci">void operator()(T *ptr) const </div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:36</div></div>
+<div class="ttc" id="classstrus_1_1unique__ptr_html"><div class="ttname"><a href="classstrus_1_1unique__ptr.html">strus::unique_ptr</a></div><div class="ttdef"><b>Definition:</b> unique_ptr.hpp:42</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 24 2019 11:57:05 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

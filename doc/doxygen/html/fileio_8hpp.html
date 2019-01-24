@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.16</span>
+   &#160;<span id="projectnumber">0.17</span>
    </div>
   </td>
  </tr>
@@ -119,6 +119,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ab83828c33e53292246cb812f85737242"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab83828c33e53292246cb812f85737242">strus::readDirSubDirs</a> (const std::string &amp;path, std::vector&lt; std::string &gt; &amp;res)</td></tr>
 <tr class="memdesc:ab83828c33e53292246cb812f85737242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all subdirectories of a directory to an array of strings.  <a href="#ab83828c33e53292246cb812f85737242">More...</a><br/></td></tr>
 <tr class="separator:ab83828c33e53292246cb812f85737242"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e34746cb164fed701faccf56073cc2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab5e34746cb164fed701faccf56073cc2">strus::readDirItems</a> (const std::string &amp;path, std::vector&lt; std::string &gt; &amp;res)</td></tr>
+<tr class="memdesc:ab5e34746cb164fed701faccf56073cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all items (directory or file) of a directory to an array of strings.  <a href="#ab5e34746cb164fed701faccf56073cc2">More...</a><br/></td></tr>
+<tr class="separator:ab5e34746cb164fed701faccf56073cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f6c07f58021c4e841a1ba2dd739d746"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a9f6c07f58021c4e841a1ba2dd739d746">strus::expandFilePattern</a> (const std::string &amp;pathPattern, std::vector&lt; std::string &gt; &amp;res)</td></tr>
+<tr class="memdesc:a9f6c07f58021c4e841a1ba2dd739d746"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all items matching a file path pattern (with '?' and '*' as substitutes)  <a href="#a9f6c07f58021c4e841a1ba2dd739d746">More...</a><br/></td></tr>
+<tr class="separator:a9f6c07f58021c4e841a1ba2dd739d746"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4e61267f08f6af3cbd3daf5f5c699f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ab4e61267f08f6af3cbd3daf5f5c699f8">strus::isFile</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:ab4e61267f08f6af3cbd3daf5f5c699f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a file.  <a href="#ab4e61267f08f6af3cbd3daf5f5c699f8">More...</a><br/></td></tr>
 <tr class="separator:ab4e61267f08f6af3cbd3daf5f5c699f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,8 +132,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a91d5994cb49688ec0f8279b96cbefeb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a directory.  <a href="#a91d5994cb49688ec0f8279b96cbefeb4">More...</a><br/></td></tr>
 <tr class="separator:a91d5994cb49688ec0f8279b96cbefeb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c1496481176e6102994dfb397252d05"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a5c1496481176e6102994dfb397252d05">strus::isRelativePath</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:a5c1496481176e6102994dfb397252d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path is a reference relative to the current path.  <a href="#a5c1496481176e6102994dfb397252d05">More...</a><br/></td></tr>
+<tr class="memdesc:a5c1496481176e6102994dfb397252d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path is a path starting with a name and not with a directive referencing the current path './' or the file system root '/'.  <a href="#a5c1496481176e6102994dfb397252d05">More...</a><br/></td></tr>
 <tr class="separator:a5c1496481176e6102994dfb397252d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac99cdbc7f90270963527913c57c8519b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#ac99cdbc7f90270963527913c57c8519b">strus::isAbsolutePath</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:ac99cdbc7f90270963527913c57c8519b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path is a path starting the file system root '/'.  <a href="#ac99cdbc7f90270963527913c57c8519b">More...</a><br/></td></tr>
+<tr class="separator:ac99cdbc7f90270963527913c57c8519b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a153f9f3a0a65cc8033736282d32ef4a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#a153f9f3a0a65cc8033736282d32ef4a6">strus::isExplicitPath</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a153f9f3a0a65cc8033736282d32ef4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file path is explicit (relative path or absolute path)  <a href="#a153f9f3a0a65cc8033736282d32ef4a6">More...</a><br/></td></tr>
+<tr class="separator:a153f9f3a0a65cc8033736282d32ef4a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefc5595861905e3ba4129127a7048bd3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestrus.html#aefc5595861905e3ba4129127a7048bd3">strus::isTextFile</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:aefc5595861905e3ba4129127a7048bd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file system path points to a file with text content (not binary)  <a href="#aefc5595861905e3ba4129127a7048bd3">More...</a><br/></td></tr>
 <tr class="separator:aefc5595861905e3ba4129127a7048bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,7 +172,7 @@ Functions</h2></td></tr>
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 24 2019 11:57:05 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

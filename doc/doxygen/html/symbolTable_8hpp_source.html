@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.16</span>
+   &#160;<span id="projectnumber">0.17</span>
    </div>
   </td>
  </tr>
@@ -199,31 +199,33 @@
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordtype">void</span>* <a class="code" href="classstrus_1_1SymbolTable.html#a9fa7ad8c96db5e21bf1a50004cb90aec">allocBlock</a>( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> blocksize, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> elemsize);</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#if __cplusplus &gt;= 201103L</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor"></span>        <a class="code" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a>( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html">SymbolTable</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html">SymbolTable</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor"></span>        <a class="code" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a>( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html">SymbolTable</a>&amp;){}      </div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a>&amp;){}   </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor"></span>        <span class="keyword">static</span> StringMapKeyBlockList* createKeystringBlocks();</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> deleteKeystringBlocks( StringMapKeyBlockList* ptr);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keyword">static</span> InternalMap* createInternalMap();</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> deleteInternalMap( InternalMap* ptr);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        ErrorBufferInterface* m_errorhnd;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        InternalMap* m_map;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        std::vector&lt;const char*&gt; m_invmap;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        StringMapKeyBlockList* m_keystring_blocks;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordtype">bool</span> m_isnew;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;};</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}<span class="comment">//namespace</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1SymbolTable.html#a645658c3d4be8d1f6f86f52a0a9c4b78">clear</a>();</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor">#if __cplusplus &gt;= 201103L</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor"></span>        <a class="code" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a>( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html">SymbolTable</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html">SymbolTable</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor"></span>        <a class="code" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a>( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html">SymbolTable</a>&amp;){}      </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classstrus_1_1SymbolTable.html#a1f07293453d933e5a1b4e8cc4c6d931a">SymbolTable</a>&amp;){}   </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor"></span>        <span class="keyword">static</span> StringMapKeyBlockList* createKeystringBlocks();</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> deleteKeystringBlocks( StringMapKeyBlockList* ptr);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keyword">static</span> InternalMap* createInternalMap();</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> deleteInternalMap( InternalMap* ptr);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        ErrorBufferInterface* m_errorhnd;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        InternalMap* m_map;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        std::vector&lt;const char*&gt; m_invmap;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        StringMapKeyBlockList* m_keystring_blocks;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordtype">bool</span> m_isnew;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;};</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}<span class="comment">//namespace</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
 <div class="ttc" id="structstrus_1_1SymbolTable_1_1MapKeyLess_html_a9b27f1f934524871ca308fb3eac4230d"><div class="ttname"><a href="structstrus_1_1SymbolTable_1_1MapKeyLess.html#a9b27f1f934524871ca308fb3eac4230d">strus::SymbolTable::MapKeyLess::operator()</a></div><div class="ttdeci">bool operator()(const Key &amp;a, const Key &amp;b) const </div><div class="ttdef"><b>Definition:</b> symbolTable.hpp:87</div></div>
 <div class="ttc" id="classstrus_1_1SymbolTable_html_a9fa7ad8c96db5e21bf1a50004cb90aec"><div class="ttname"><a href="classstrus_1_1SymbolTable.html#a9fa7ad8c96db5e21bf1a50004cb90aec">strus::SymbolTable::allocBlock</a></div><div class="ttdeci">void * allocBlock(unsigned int blocksize, unsigned int elemsize)</div><div class="ttdoc">Allocate a block in the context of the symbol table. </div></div>
 <div class="ttc" id="classstrus_1_1SymbolTable_html_af460a3ac181e25d723bb37f67ade2366"><div class="ttname"><a href="classstrus_1_1SymbolTable.html#af460a3ac181e25d723bb37f67ade2366">strus::SymbolTable::empty</a></div><div class="ttdeci">bool empty() const </div><div class="ttdoc">Evaluate if the symbol table is empty, without any definitions. </div><div class="ttdef"><b>Definition:</b> symbolTable.hpp:147</div></div>
@@ -235,6 +237,7 @@
 <div class="ttc" id="classstrus_1_1SymbolTable_html_ad08042ada25b1b7178e7c8190fa38eb5"><div class="ttname"><a href="classstrus_1_1SymbolTable.html#ad08042ada25b1b7178e7c8190fa38eb5">strus::SymbolTable::size</a></div><div class="ttdeci">std::size_t size() const </div><div class="ttdoc">Get number of elements defined. </div><div class="ttdef"><b>Definition:</b> symbolTable.hpp:140</div></div>
 <div class="ttc" id="structstrus_1_1SymbolTable_1_1Key_html_a0550fac47675f2688e329808dba17af1"><div class="ttname"><a href="structstrus_1_1SymbolTable_1_1Key.html#a0550fac47675f2688e329808dba17af1">strus::SymbolTable::Key::str</a></div><div class="ttdeci">const char * str</div><div class="ttdef"><b>Definition:</b> symbolTable.hpp:75</div></div>
 <div class="ttc" id="structstrus_1_1SymbolTable_1_1HashFunc_html_a1cb4f28c87f0d1e328ae02e3bd694947"><div class="ttname"><a href="structstrus_1_1SymbolTable_1_1HashFunc.html#a1cb4f28c87f0d1e328ae02e3bd694947">strus::SymbolTable::HashFunc::operator()</a></div><div class="ttdeci">int operator()(const Key &amp;key) const </div><div class="ttdef"><b>Definition:</b> symbolTable.hpp:103</div></div>
+<div class="ttc" id="classstrus_1_1SymbolTable_html_a645658c3d4be8d1f6f86f52a0a9c4b78"><div class="ttname"><a href="classstrus_1_1SymbolTable.html#a645658c3d4be8d1f6f86f52a0a9c4b78">strus::SymbolTable::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Free all keys allocated. </div></div>
 <div class="ttc" id="classstrus_1_1BlockAllocator_html_a6c31b7939f38f5844abfe218bb88e0d9"><div class="ttname"><a href="classstrus_1_1BlockAllocator.html#a6c31b7939f38f5844abfe218bb88e0d9">strus::BlockAllocator::~BlockAllocator</a></div><div class="ttdeci">~BlockAllocator()</div></div>
 <div class="ttc" id="classstrus_1_1SymbolTable_html_a23db3f3829fc48f26419ef41b9a3225f"><div class="ttname"><a href="classstrus_1_1SymbolTable.html#a23db3f3829fc48f26419ef41b9a3225f">strus::SymbolTable::key</a></div><div class="ttdeci">const char * key(const uint32_t &amp;id) const </div><div class="ttdoc">Inverse lookup, get key of handle. </div></div>
 <div class="ttc" id="classstrus_1_1ErrorBufferInterface_html"><div class="ttname"><a href="classstrus_1_1ErrorBufferInterface.html">strus::ErrorBufferInterface</a></div><div class="ttdoc">Interface for reporting and catching errors in modules. </div><div class="ttdef"><b>Definition:</b> errorBufferInterface.hpp:24</div></div>
@@ -259,7 +262,7 @@
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 24 2019 11:57:05 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

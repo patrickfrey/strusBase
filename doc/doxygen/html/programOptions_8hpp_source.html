@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">strusBase
-   &#160;<span id="projectnumber">0.16</span>
+   &#160;<span id="projectnumber">0.17</span>
    </div>
   </td>
  </tr>
@@ -98,40 +98,43 @@
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classstrus_1_1ProgramOptions.html#a44fa772d49b055616394b492fd1cb966">asUint</a>( <span class="keyword">const</span> std::string&amp; optname) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        std::vector&lt;std::string&gt; <a class="code" href="classstrus_1_1ProgramOptions.html#a17e84d6a4958ae618c71363de8d63add">list</a>( <span class="keyword">const</span> std::string&amp; optname) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">double</span> <a class="code" href="classstrus_1_1ProgramOptions.html#aefbde4efd6daa99b41f3e69d8c442f0d">asDouble</a>( <span class="keyword">const</span> std::string&amp; optname) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classstrus_1_1ProgramOptions.html#a785d6f262b6d47e36013aa5c7789c27e">nofargs</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>** <a class="code" href="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986">argv</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1ProgramOptions.html#addc0a2983a06093c59acdd554124f998">print</a>( std::ostream&amp; out);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">class </span>OptMapDef</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                OptMapDef(){}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordtype">void</span> add( <span class="keyword">const</span> <span class="keywordtype">char</span>* arg);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordtype">bool</span> getOpt( <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986">argv</a>, std::vector&lt;std::string&gt;&amp; optlist, std::string&amp; optarg);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                std::map&lt;std::string,bool&gt; longnamemap;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                std::map&lt;char,std::string&gt; aliasmap;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        };</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        ErrorBufferInterface* m_errorhnd;                               </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        std::size_t m_argc;                                             </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordtype">char</span> <span class="keyword">const</span>** m_argv;                                            </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">typedef</span> std::multimap&lt;std::string,std::string&gt; OptMap;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">typedef</span> std::pair&lt;std::string,std::string&gt; OptMapElem;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        OptMap m_opt;                                                   </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}<span class="comment">//namespace</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        std::vector&lt;std::string&gt; <a class="code" href="classstrus_1_1ProgramOptions.html#a17e84d6a4958ae618c71363de8d63add">list</a>( <span class="keyword">const</span> std::string&amp; optname) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classstrus_1_1ProgramOptions.html#a785d6f262b6d47e36013aa5c7789c27e">nofargs</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>** <a class="code" href="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986">argv</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classstrus_1_1ProgramOptions.html#addc0a2983a06093c59acdd554124f998">print</a>( std::ostream&amp; out);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">class </span>OptMapDef</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keyword">explicit</span> OptMapDef( <a class="code" href="classstrus_1_1ErrorBufferInterface.html">ErrorBufferInterface</a>* errorhnd_) :m_errorhnd(errorhnd_){}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordtype">void</span> add( <span class="keyword">const</span> <span class="keywordtype">char</span>* arg);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="keywordtype">bool</span> getOpt( <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986">argv</a>, std::vector&lt;std::string&gt;&amp; optlist, std::string&amp; optarg);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                ErrorBufferInterface* m_errorhnd;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                std::map&lt;std::string,bool&gt; m_longnamemap;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                std::map&lt;char,std::string&gt; m_aliasmap;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        };</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        ErrorBufferInterface* m_errorhnd;                               </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        std::size_t m_argc;                                             </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordtype">char</span> <span class="keyword">const</span>** m_argv;                                            </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keyword">typedef</span> std::multimap&lt;std::string,std::string&gt; OptMap;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">typedef</span> std::pair&lt;std::string,std::string&gt; OptMapElem;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        OptMap m_opt;                                                   </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;};</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}<span class="comment">//namespace</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor"></span></div>
 <div class="ttc" id="classstrus_1_1ProgramOptions_html_a3deed0dd09c4322b973c5ddab9ba62b0"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#a3deed0dd09c4322b973c5ddab9ba62b0">strus::ProgramOptions::ProgramOptions</a></div><div class="ttdeci">ProgramOptions(const ProgramOptions &amp;o)</div><div class="ttdoc">Copy constructor. </div><div class="ttdef"><b>Definition:</b> programOptions.hpp:27</div></div>
 <div class="ttc" id="classstrus_1_1ProgramOptions_html_a6414074bb033de69fb4dfcd33fee6fa4"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#a6414074bb033de69fb4dfcd33fee6fa4">strus::ProgramOptions::operator[]</a></div><div class="ttdeci">const char * operator[](std::size_t idx) const </div><div class="ttdoc">Get the value of an argument specified by its index. </div></div>
 <div class="ttc" id="classstrus_1_1ProgramOptions_html_a785d6f262b6d47e36013aa5c7789c27e"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#a785d6f262b6d47e36013aa5c7789c27e">strus::ProgramOptions::nofargs</a></div><div class="ttdeci">int nofargs() const </div><div class="ttdoc">Get the number of program arguments. </div></div>
@@ -143,13 +146,14 @@
 <div class="ttc" id="classstrus_1_1ProgramOptions_html_addc0a2983a06093c59acdd554124f998"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#addc0a2983a06093c59acdd554124f998">strus::ProgramOptions::print</a></div><div class="ttdeci">void print(std::ostream &amp;out)</div><div class="ttdoc">Print all proram options defined. </div></div>
 <div class="ttc" id="classstrus_1_1ErrorBufferInterface_html"><div class="ttname"><a href="classstrus_1_1ErrorBufferInterface.html">strus::ErrorBufferInterface</a></div><div class="ttdoc">Interface for reporting and catching errors in modules. </div><div class="ttdef"><b>Definition:</b> errorBufferInterface.hpp:24</div></div>
 <div class="ttc" id="errorBufferInterface_8hpp_html"><div class="ttname"><a href="errorBufferInterface_8hpp.html">errorBufferInterface.hpp</a></div><div class="ttdoc">Interface for reporting and catching errors. </div></div>
+<div class="ttc" id="classstrus_1_1ProgramOptions_html_aefbde4efd6daa99b41f3e69d8c442f0d"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#aefbde4efd6daa99b41f3e69d8c442f0d">strus::ProgramOptions::asDouble</a></div><div class="ttdeci">double asDouble(const std::string &amp;optname) const </div><div class="ttdoc">Get the value of an option specified by its long name as unsigned integer. </div></div>
 <div class="ttc" id="classstrus_1_1ProgramOptions_html_afd766802986028c4935ca8b194c30640"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#afd766802986028c4935ca8b194c30640">strus::ProgramOptions::operator()</a></div><div class="ttdeci">bool operator()(const std::string &amp;optname) const </div><div class="ttdoc">Test if an option specified by its long name is defined. </div></div>
 <div class="ttc" id="classstrus_1_1ProgramOptions_html_aa48bdf4b87e4fb3f98faff0c44d68986"><div class="ttname"><a href="classstrus_1_1ProgramOptions.html#aa48bdf4b87e4fb3f98faff0c44d68986">strus::ProgramOptions::argv</a></div><div class="ttdeci">const char ** argv() const </div><div class="ttdoc">Get the list of program arguments. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 8 2018 18:26:48 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 24 2019 11:57:05 for strusBase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
