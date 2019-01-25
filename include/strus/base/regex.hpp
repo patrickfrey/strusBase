@@ -49,6 +49,15 @@ public:
 	///\return a description of the match
 	Match find( const char* begin, const char* end) const;
 
+	///\brief Execute the search in a string defined by its start and length
+	///\param[in] str pointer to the start of the string to scan
+	///\param[in] size size of the string to scan in bytes
+	///\return a description of the match
+	Match find_in( const char* str, std::size_t size) const
+	{
+		return find( str, str + size);
+	}
+
 	///\brief Match the regex to the start of the source
 	///\param[in] begin pointer to the start of the string to search
 	///\param[in] end pointer to the end of the string to search
