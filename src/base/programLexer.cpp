@@ -35,11 +35,14 @@ DLL_PUBLIC ProgramLexer::ProgramLexer( const char* src_, const char* eolncomment
 			m_lexems.push_back( new strus::RegexSearch( *ti, 0, m_errhnd));
 			if (m_errhnd->hasError()) return;
 		}
-		ti = errtokens;
-		for (; *ti; ++ti)
+		if (errtokens)
 		{
-			m_errlexems.push_back( new strus::RegexSearch( *ti, 0, m_errhnd));
-			if (m_errhnd->hasError()) return;
+			ti = errtokens;
+			for (; *ti; ++ti)
+			{
+				m_errlexems.push_back( new strus::RegexSearch( *ti, 0, m_errhnd));
+				if (m_errhnd->hasError()) return;
+			}
 		}
 	}
 	CATCH_ERROR_MAP( _TXT("error in lexer definition: %s"), *m_errhnd);
