@@ -29,6 +29,8 @@
 #ifdef STRUS_USE_STD_DYNAMIC_BITSET
 #include <vector>
 #include <algorithm>
+#include "strus/base/stdint.h"
+#include <limits>
 namespace strus {
 
 /// \brief Bitset with a dimension defined by the constructor
@@ -36,8 +38,11 @@ namespace strus {
 class dynamic_bitset
 {
 public:
-	dynamic_bitset( std::size_t size_)
-		:m_indices( (size_+(ElementDim-1)) / ElementDim, -1),m_elements(){}
+	explicit dynamic_bitset( std::size_t size_)
+		:m_indices( (size_+(ElementDim-1)) / ElementDim, -1),m_elements()
+	{
+		if (size_ > (std::size_t)std::numeric_limits<int32_t>::max()) throw std::bad_alloc();
+	}
 	dynamic_bitset( const dynamic_bitset& o)
 		:m_indices(o.m_indices),m_elements(o.m_elements){}
 	void set( std::size_t n, bool val = true)
@@ -51,6 +56,18 @@ public:
 			m_elements.push_back( bitset<ElementDim>());
 		}
 		m_elements[ idx].set( li, val);
+	}
+	bool toggle( std::size_t n, bool val = true)
+	{
+		int hi = n / ElementDim;
+		int li = n % ElementDim;
+		int idx = m_indices[ hi];
+		if (idx == -1)
+		{
+			idx = m_indices[ hi] = m_elements.size();
+			m_elements.push_back( bitset<ElementDim>());
+		}
+		return m_elements[ idx].toggle( li, val);
 	}
 	bool test( std::size_t n) const
 	{
@@ -68,7 +85,7 @@ public:
 
 private:
 	enum {ElementDim=256};
-	std::vector<int> m_indices;
+	std::vector<int32_t> m_indices;
 	std::vector<bitset<ElementDim> > m_elements;
 };
 }//namespace

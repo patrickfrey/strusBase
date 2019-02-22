@@ -47,6 +47,15 @@ public:
 			m_ar[ ii] = o.m_ar[ ii];
 		}
 	}
+	bitset& operator = ( const bitset& o)
+	{
+		int ii=0;
+		for (; ii<ArSize; ++ii)
+		{
+			m_ar[ ii] = o.m_ar[ ii];
+		}
+		return *this;
+	}
 
 	bool set( int pos, bool value)
 	{
@@ -62,6 +71,24 @@ public:
 			m_ar[ idx] &= ~((uint64_t)1 << ofs);
 		}
 		return true;
+	}
+
+	bool toggle( int pos, bool value)
+	{
+		if ((unsigned int)pos >= SIZE) return false;
+		int idx = (unsigned int)pos / 64;
+		int ofs = (unsigned int)pos % 64;
+		uint64_t& newval = m_ar[ idx];
+		uint64_t oldval = newval;
+		if (value)
+		{
+			newval |= ((uint64_t)1 << ofs);
+		}
+		else
+		{
+			newval &= ~((uint64_t)1 << ofs);
+		}
+		return newval != oldval;
 	}
 
 	bool test( int pos) const
@@ -193,6 +220,39 @@ public:
 			if (m_ar[ai]) return false;
 		}
 		return true;
+	}
+
+	bool join( const bitset<SIZE>& o)
+	{
+		bool rt = false;
+		for (int ai=0; ai<ArSize; ++ai)
+		{
+			uint64_t ee = m_ar[ai] | o.m_ar[ai];
+			rt |= (ee != m_ar[ai]);
+		}
+		return rt;
+	}
+
+	std::size_t size() const
+	{
+		std::size_t rt = 0;
+		for (int ai=0; ai<ArSize; ++ai)
+		{
+			rt += BitOperations::bitCount( m_ar[ai]);
+		}
+		return rt;
+	}
+	bool operator < (const bitset& o) const
+	{
+		int ai = 0;
+		for (; ai<ArSize && m_ar[ai] == o.m_ar[ai]; ++ai){}
+		return ai == ArSize ? false : m_ar[ai] < o.m_ar[ai];
+	}
+	bool operator == (const bitset& o) const
+	{
+		int ai = 0;
+		for (; ai<ArSize && m_ar[ai] == o.m_ar[ai]; ++ai){}
+		return ai == ArSize;
 	}
 
 private:
