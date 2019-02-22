@@ -185,7 +185,7 @@ int main( int argc, const char* argv[])
 			}
 			else if (0==std::strcmp( argv[1], "-h"))
 			{
-				std::cout << "Usage: testFileIo [-V,-h]" << std::endl;
+				std::cout << "Usage: testFilePattern [-V,-h]" << std::endl;
 				std::cout << "       Option -V: Verbose output" << std::endl;
 				std::cout << "              -h: Print this usage" << std::endl;
 			}
