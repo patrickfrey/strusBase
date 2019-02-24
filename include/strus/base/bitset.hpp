@@ -31,6 +31,7 @@ template <int SIZE>
 class bitset
 {
 public:
+	/// \brief Constructor
 	bitset()
 	{
 		int ii=0;
@@ -39,6 +40,7 @@ public:
 			m_ar[ ii] = 0;
 		}
 	}
+	/// \brief Copy constructor
 	bitset( const bitset& o)
 	{
 		int ii=0;
@@ -47,6 +49,7 @@ public:
 			m_ar[ ii] = o.m_ar[ ii];
 		}
 	}
+	/// \brief Assignment operator
 	bitset& operator = ( const bitset& o)
 	{
 		int ii=0;
@@ -57,23 +60,9 @@ public:
 		return *this;
 	}
 
+	/// \brief Toggle a bit on a defined position
+	/// \return true, if the content of the set has changed with the operation
 	bool set( int pos, bool value)
-	{
-		if ((unsigned int)pos >= SIZE) return false;
-		int idx = (unsigned int)pos / 64;
-		int ofs = (unsigned int)pos % 64;
-		if (value)
-		{
-			m_ar[ idx] |= ((uint64_t)1 << ofs);
-		}
-		else
-		{
-			m_ar[ idx] &= ~((uint64_t)1 << ofs);
-		}
-		return true;
-	}
-
-	bool toggle( int pos, bool value)
 	{
 		if ((unsigned int)pos >= SIZE) return false;
 		int idx = (unsigned int)pos / 64;
@@ -91,6 +80,8 @@ public:
 		return newval != oldval;
 	}
 
+	/// \brief Test a bit on a defined position
+	/// \return the value of the bit as boolean
 	bool test( int pos) const
 	{
 		if ((unsigned int)pos >= SIZE) return false;
@@ -99,6 +90,8 @@ public:
 		return (m_ar[ idx] & ((uint64_t)1 << ofs)) != 0;
 	}
 
+	/// \brief Insert a bit on a defined position with a shift of the right bits, the rightmost bit of the array is lost with this operation
+	/// \return true if the insert took place, false on an array bound write rejected
 	bool insert( int pos, bool value)
 	{
 		if ((unsigned int)pos >= SIZE) return false;
@@ -133,6 +126,8 @@ public:
 		return true;
 	}
 
+	/// \brief Remove a bit on a defined position with a left shift of the right bits, the end bit of the array is zeroed
+	/// \return true if the remove took place, false on an array bound read/write rejected
 	bool remove( int pos)
 	{
 		if ((unsigned int)pos >= SIZE) return false;
@@ -168,12 +163,16 @@ public:
 		return true;
 	}
 
+	/// \brief Zero all bits of the set
 	void reset()
 	{
 		int ai = 0;
 		for (; ai < ArSize; ++ai) m_ar[ai] = 0;
 	}
 
+	/// \brief Get the next right/upper bit of the set with position strictly higher than the position passed as argument
+	/// \note useful for iterating through the bits set
+	/// \return the position of the bit starting from 0'
 	int next( int pos) const
 	{
 		++pos;
@@ -197,11 +196,15 @@ public:
 		}
 		return -1;
 	}
+	/// \brief Get the first set bit of the set
+	/// \return the position of the bit starting from 0'
 	int first() const
 	{
 		return next( -1);
 	}
 
+	/// \brief Get the indices of the set bits in the set
+	/// \return the array of positions of the bit starting from 0
 	std::vector<int> elements() const
 	{
 		std::vector<int> rt;
@@ -213,6 +216,8 @@ public:
 		return rt;
 	}
 
+	/// \brief Test if the set is empty (contains no bits set)
+	/// \return true if yes, false if no
 	bool empty() const
 	{
 		for (int ai=0; ai<ArSize; ++ai)
@@ -222,6 +227,8 @@ public:
 		return true;
 	}
 
+	/// \brief Add the elements of an equally dimensioned set
+	/// \return true if operation changed the contents of the set
 	bool join( const bitset<SIZE>& o)
 	{
 		bool rt = false;
@@ -229,10 +236,13 @@ public:
 		{
 			uint64_t ee = m_ar[ai] | o.m_ar[ai];
 			rt |= (ee != m_ar[ai]);
+			m_ar[ai] = ee;
 		}
 		return rt;
 	}
 
+	/// \brief Get the number of set bits in the set
+	/// \return the number of non-zero bits
 	std::size_t size() const
 	{
 		std::size_t rt = 0;
@@ -242,12 +252,18 @@ public:
 		}
 		return rt;
 	}
+
+	/// \brief Comparison (lesser) of two sets
+	/// \return true if yes, false if no
 	bool operator < (const bitset& o) const
 	{
 		int ai = 0;
 		for (; ai<ArSize && m_ar[ai] == o.m_ar[ai]; ++ai){}
 		return ai == ArSize ? false : m_ar[ai] < o.m_ar[ai];
 	}
+
+	/// \brief Test if two sets are equal
+	/// \return true if yes, false if no
 	bool operator == (const bitset& o) const
 	{
 		int ai = 0;

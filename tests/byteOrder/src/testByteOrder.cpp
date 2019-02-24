@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/hton.hpp"
+#include "strus/base/pseudoRandom.hpp"
 #include "strus/base/stdint.h"
 #include <stdexcept>
 #include <iostream>
@@ -15,40 +16,34 @@
 #include <ctime>
 #include <cstdlib>
 
-static void initRand()
-{
-	time_t nowtime;
-	struct tm* now;
-
-	::time( &nowtime);
-	now = ::localtime( &nowtime);
-
-	::srand( ((now->tm_year+1) * (now->tm_mon+100) * (now->tm_mday+1)));
-}
-
-#define RANDINT(MIN,MAX) ((rand()%(MAX-MIN))+MIN)
+static strus::PseudoRandom g_random;
 
 using namespace strus;
 
 #define KNUTH_HASH 2654435761U
 
+static int random_int()
+{
+	return g_random.get( 0, std::numeric_limits<int>::max());
+}
+
 template <typename ValueType>
 ValueType randomValue()
 {
-	return rand() * KNUTH_HASH - rand() * KNUTH_HASH;
+	return random_int() * KNUTH_HASH - random_int() * KNUTH_HASH;
 }
 
 template <>
 double randomValue<double>()
 {
-	return ((double)rand() * KNUTH_HASH) / ((double)rand() * KNUTH_HASH)
-		- ((double)rand() * KNUTH_HASH) / ((double)rand() * KNUTH_HASH);
+	return ((double)random_int() * KNUTH_HASH) / ((double)random_int() * KNUTH_HASH)
+		- ((double)random_int() * KNUTH_HASH) / ((double)random_int() * KNUTH_HASH);
 }
 
 template <>
 float randomValue<float>()
 {
-	return (float)(rand() * KNUTH_HASH) / (float)(rand() * KNUTH_HASH);
+	return (float)(random_int() * KNUTH_HASH) / (float)(random_int() * KNUTH_HASH);
 }
 
 template <typename ValueType>
@@ -113,7 +108,6 @@ int main( int, const char**)
 {
 	try
 	{
-		initRand();
 		std::cerr << "executing test byteOrderTest with " << typeName< double>() << std::endl;
 		byteOrderTest< double >( 10);
 

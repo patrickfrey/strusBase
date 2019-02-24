@@ -41,7 +41,10 @@ private:
 	enum {SubsetSize=64};
 
 	/// \brief Approximation that solves the problem for subsets. The caller sums up the results to get the total approximation.
-	int minimalCoverSizeApproximationSubset( std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsCovered) const;
+	/// \paran[in,out] itr in iterator to start with, out iterator for next call
+	/// \paran[in] end end of input
+	/// \param[in,out] elementsLeft set of elements not yet covered by previous calls. Inittialized by the caller
+	int minimalCoverSizeApproximationSubset( std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsLeft) const;
 
 private:
 	std::vector<std::vector<int> > m_sets;

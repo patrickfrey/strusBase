@@ -7,6 +7,7 @@
  */
 #include "strus/base/numstring.hpp"
 #include "strus/base/string_format.hpp"
+#include "strus/base/pseudoRandom.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -19,18 +20,7 @@
 
 #define STRUS_LOWLEVEL_DEBUG
 
-static void initRand()
-{
-	time_t nowtime;
-	struct tm* now;
-
-	::time( &nowtime);
-	now = ::localtime( &nowtime);
-
-	::srand( ((now->tm_year+1) * (now->tm_mon+100) * (now->tm_mday+1)));
-}
-
-#define RANDINT(MIN,MAX) ((rand()%(MAX-MIN))+MIN)
+static strus::PseudoRandom g_random;
 
 using namespace strus;
 
@@ -44,19 +34,19 @@ static unsigned int powf( unsigned int base, unsigned int n)
 	return rt;
 }
 
-unsigned int randomValue_uint()
+static unsigned int randomValue_uint()
 {
-	unsigned int digits = RANDINT(0,9);
-	return RANDINT( 0, powf( 10, digits));
+	unsigned int digits = g_random.get(0,9);
+	return g_random.get( 0, powf( 10, digits));
 }
 
-int randomValue_int()
+static int randomValue_int()
 {
 	int rt = randomValue_uint();
-	return RANDINT( 0, 2) == 0 ? rt:-rt;
+	return g_random.get( 0, 2) == 0 ? rt:-rt;
 }
 
-double randomValue_double()
+static double randomValue_double()
 {
 	double rt = randomValue_int();
 	rt /= (randomValue_uint()+1);
@@ -176,7 +166,6 @@ int main( int, const char**)
 {
 	try
 	{
-		initRand();
 		std::cerr << "executing " << NOF_TESTS << " tests num parser with double" << std::endl;
 		testParseDouble( NOF_TESTS);
 		std::cerr << "OK" << std::endl;

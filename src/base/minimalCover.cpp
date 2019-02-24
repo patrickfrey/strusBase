@@ -8,15 +8,19 @@
 /// \brief Implementation of an algorithm approximating the size of the minimal cover of elements by sets
 #include "strus/base/minimalCover.hpp"
 #include "strus/base/bitset.hpp"
+#include "strus/base/dll_tags.hpp"
 #include <vector>
+#include <iostream>
 #include <set>
 #include <algorithm>
 #include <stdexcept>
 #include <new>
 
+#undef STRUS_LOWLEVEL_DEBUG
+
 using namespace strus;
 
-MinimalCoverData::MinimalCoverData( std::vector<std::vector<int> >& sets_)
+DLL_PUBLIC MinimalCoverData::MinimalCoverData( std::vector<std::vector<int> >& sets_)
 	:m_sets(sets_),m_err(MinimalCoverNoResult)
 {
 	try
@@ -71,7 +75,7 @@ MinimalCoverData::MinimalCoverData( std::vector<std::vector<int> >& sets_)
 }
 
 
-int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsCovered) const
+int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsLeft) const
 {
 	// Build map of element indices to bit indices used in search:
 	int elementCount = 0;
@@ -103,7 +107,7 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 
 	for (; itr != end && elementCount < SubsetSize; ++itr)
 	{
-		if (elementsCovered.find( *itr) != elementsCovered.end())
+		if (elementsLeft.find( *itr) != elementsLeft.end())
 		{
 			if (elementMap.insert( ElementMap::value_type( *itr, elementCount)).second == true/*insert took place*/)
 			{
@@ -164,11 +168,13 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 	}
 	int rt = 0;
 	BitSet accu;
-	for (; accu.size() < elementCount; ++rt)
+	while ((int)accu.size() < elementCount)
 	{
 		BitSet next;
 		std::size_t setidx = 0;
 		std::size_t maxsize = accu.size();
+		bool changed = false;
+
 		int pi=0, pe=elementCount;
 		for (; pi != pe; ++pi)
 		{
@@ -180,35 +186,47 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 				maxsize = cc.size();
 				next = cc;
 				setidx = pick.setidx;
+				changed = true;
 			}
 		}
 		accu = next;
-		if (maxsize == accu.size())
+		if (!changed)
 		{
 			return MinimalCoverErrorLogic;
 		}
+#ifdef STRUS_LOWLEVEL_DEBUG
+		std::cerr << "minimal cover grab {";
+		std::vector<int>::const_iterator gi = m_sets[ setidx].begin(), ge = m_sets[ setidx].end();
+		for (; gi != ge; ++gi)
+		{
+			if (elementsLeft.find( *gi) != elementsLeft.end()) std::cerr << " " << *gi;
+		}
+		std::cerr << " }" << std::endl;
+#endif
 		std::vector<int>::const_iterator ci = m_sets[ setidx].begin(), ce = m_sets[ setidx].end();
 		for (; ci != ce; ++ci)
 		{
-			elementsCovered.insert( *ci);
+			elementsLeft.erase( *ci);
 		}
+		rt += 1;
 	}
 	return rt;
 }
 
-int MinimalCoverData::minimalCoverSizeApproximation( const std::vector<int>& elements) const
+
+DLL_PUBLIC int MinimalCoverData::minimalCoverSizeApproximation( const std::vector<int>& elements) const
 {
 	try
 	{
 		int rt = 0;
 		if (m_err != MinimalCoverNoResult) return m_err;
 
-		std::set<int> elementsCovered;
+		std::set<int> elementsLeft( elements.begin(), elements.end());
+
 		std::vector<int>::const_iterator ei = elements.begin(), ee = elements.end();
-		while (ei != ee) 
+		while (ei != ee && !elementsLeft.empty())
 		{
-			int subcover = minimalCoverSizeApproximationSubset( ei, elements.end(), elementsCovered);
-			rt += subcover;
+			rt += minimalCoverSizeApproximationSubset( ei, elements.end(), elementsLeft);
 		}
 		return rt;
 	}

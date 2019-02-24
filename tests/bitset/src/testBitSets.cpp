@@ -8,6 +8,7 @@
 #include "strus/base/bitset.hpp"
 #include "strus/base/dynamic_bitset.hpp"
 #include "strus/base/string_format.hpp"
+#include "strus/base/pseudoRandom.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -20,23 +21,7 @@
 
 static int g_nof_errors = 0;
 static int g_max_nof_errors = 1;
-
-static void initRand()
-{
-	time_t nowtime;
-	struct tm* now;
-
-	::time( &nowtime);
-	now = ::localtime( &nowtime);
-
-	::srand( ((now->tm_year+1) * (now->tm_mon+100) * (now->tm_mday+1)));
-}
-
-
-int randomValue_int( int maximum)
-{
-	return rand() % maximum;
-}
+static strus::PseudoRandom g_random;
 
 static void set_remove( std::set<int>& eset, int elem)
 {
@@ -91,7 +76,7 @@ static void testDynamicBitSet( int times, int maximum, int nofElements)
 		std::set<int> eset;
 		for (int ei=0; ei<nofElements; ++ei)
 		{
-			int elem = randomValue_int( maximum);
+			int elem = g_random.get( 0, maximum);
 			eset.insert( elem);
 			testset.set( elem, true);
 		}
@@ -106,7 +91,7 @@ static void testDynamicBitSet( int times, int maximum, int nofElements)
 		}
 		for (int ei=0; ei<nofElements; ++ei)
 		{
-			int elem = randomValue_int( maximum);
+			int elem = g_random.get( 0, maximum);
 			if (eset.find( elem) != eset.end())
 			{
 				--ei; continue;
@@ -182,8 +167,8 @@ static void testBitSet( int times, int nofElements)
 		std::set<int> eset;
 		for (int ei=0; ei<nofElements; ++ei)
 		{
-			int elem = randomValue_int( NN);
-			switch (randomValue_int( 5))
+			int elem = g_random.get( 0, NN);
+			switch (g_random.get( 0, 5))
 			{
 				case 0:
 #ifdef STRUS_LOWLEVEL_DEBUG
@@ -204,7 +189,7 @@ static void testBitSet( int times, int nofElements)
 					std::cerr << "op set " << elem << std::endl;
 #endif
 					eset.insert( elem);
-					if (!testset.set( elem, true)) throw std::runtime_error("set failed in bitset");
+					testset.set( elem, true);
 					break;
 			}
 			checkElements( testset, eset);
@@ -220,7 +205,7 @@ static void testBitSet( int times, int nofElements)
 		}
 		for (int ei=0; ei<nofElements; ++ei)
 		{
-			int elem = randomValue_int( NN);
+			int elem = g_random.get( 0, NN);
 			if (eset.find( elem) != eset.end())
 			{
 				--ei; continue;
@@ -242,7 +227,6 @@ int main( int, const char**)
 {
 	try
 	{
-		initRand();
 		testBitSet<8>( 20, 1);
 		testBitSet<16>( 20, 1);
 		testBitSet<32>( 30, 1);
