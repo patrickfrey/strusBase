@@ -45,34 +45,24 @@ public:
 	}
 	dynamic_bitset( const dynamic_bitset& o)
 		:m_indices(o.m_indices),m_elements(o.m_elements){}
-	void set( std::size_t n, bool val = true)
+	bool set( std::size_t n, bool val = true)
 	{
 		int hi = n / ElementDim;
 		int li = n % ElementDim;
+		if (hi >= (int)m_indices.size()) return false;
 		int idx = m_indices[ hi];
 		if (idx == -1)
 		{
 			idx = m_indices[ hi] = m_elements.size();
 			m_elements.push_back( bitset<ElementDim>());
 		}
-		m_elements[ idx].set( li, val);
-	}
-	bool toggle( std::size_t n, bool val = true)
-	{
-		int hi = n / ElementDim;
-		int li = n % ElementDim;
-		int idx = m_indices[ hi];
-		if (idx == -1)
-		{
-			idx = m_indices[ hi] = m_elements.size();
-			m_elements.push_back( bitset<ElementDim>());
-		}
-		return m_elements[ idx].toggle( li, val);
+		return m_elements[ idx].set( li, val);
 	}
 	bool test( std::size_t n) const
 	{
 		int hi = n / ElementDim;
 		int li = n % ElementDim;
+		if (hi >= (int)m_indices.size()) return false;
 		int idx = m_indices[ hi];
 		if (idx == -1) return false;
 		return m_elements.at(idx).test( li);
