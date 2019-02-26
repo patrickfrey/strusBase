@@ -60,12 +60,12 @@ static std::vector<int> joinSets( const std::vector<int>& aa, const std::vector<
 {
 	std::set<int> res;
 	std::size_t ai=0, ae = g_random.get( 0,aa.size());
-	for (; ai<ae; ++ai);
+	for (; ai<ae; ++ai)
 	{
 		res.insert( aa[ g_random.get( 0,aa.size())]);
 	}
 	std::size_t bi=0, be = g_random.get( 0,bb.size());
-	for (; bi<be; ++bi);
+	for (; bi<be; ++bi)
 	{
 		res.insert( bb[ g_random.get( 0,bb.size())]);
 	}
@@ -92,7 +92,7 @@ static std::vector<int> removePrimes( const std::vector<int>& aa)
 {
 	std::vector<int> rt;
 	std::size_t ai=0, ae = aa.size();
-	for (; ai<ae; ++ai);
+	for (; ai<ae; ++ai)
 	{
 		if (!isPrime( aa[ai]))
 		{
