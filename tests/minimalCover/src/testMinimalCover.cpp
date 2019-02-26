@@ -24,6 +24,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <utility>
 
 #undef STRUS_LOWLEVEL_DEBUG
 

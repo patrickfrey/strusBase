@@ -20,7 +20,7 @@
 
 using namespace strus;
 
-DLL_PUBLIC MinimalCoverData::MinimalCoverData( std::vector<std::vector<int> >& sets_)
+DLL_PUBLIC MinimalCoverData::MinimalCoverData( const std::vector<std::vector<int> >& sets_)
 	:m_sets(sets_),m_err(MinimalCoverNoResult)
 {
 	try

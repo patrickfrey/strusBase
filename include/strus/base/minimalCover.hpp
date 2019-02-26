@@ -29,7 +29,7 @@ class MinimalCoverData
 public:
 	/// \brief Constructor initializing data used for calculation
 	/// \param[in] sets covering sets of elements
-	explicit MinimalCoverData( std::vector<std::vector<int> >& sets_);
+	explicit MinimalCoverData( const std::vector<std::vector<int> >& sets_);
 
 	/// \brief Make an approximation the minimal set cover
 	/// \param[in] elements elements to cover by the sets defined in the constructor
