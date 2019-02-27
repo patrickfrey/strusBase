@@ -59,12 +59,20 @@ public:
 	}
 
 	///\brief Match the regex to the start of the source till the end
-	///\param[in] begin pointer to the start of the string to search
+	///\param[in] begin pointer to the start of the string to match
 	///\param[in] size size of the string to match in bytes
 	///\return true if the regex matched on the entire string
 	bool match_complete( const char* begin, int size)
 	{
-		return (match_start( begin, begin+size) == size);
+		return match_start( begin, begin+size) == size;
+	}
+
+	///\brief Match the regex to the source till its end
+	///\param[in] source the string to match
+	///\return true if the regex matched on the entire string
+	bool match_complete( const std::string& source)
+	{
+		return match_complete( source.c_str(), source.size());
 	}
 
 	///\brief Match the regex to the start of the source
