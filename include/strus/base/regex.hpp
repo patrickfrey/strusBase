@@ -58,6 +58,15 @@ public:
 		return find( str, str + size);
 	}
 
+	///\brief Match the regex to the start of the source till the end
+	///\param[in] begin pointer to the start of the string to search
+	///\param[in] size size of the string to match in bytes
+	///\return true if the regex matched on the entire string
+	bool match_complete( const char* begin, int size)
+	{
+		return (match_start( begin, begin+size) == size);
+	}
+
 	///\brief Match the regex to the start of the source
 	///\param[in] begin pointer to the start of the string to search
 	///\param[in] end pointer to the end of the string to search
