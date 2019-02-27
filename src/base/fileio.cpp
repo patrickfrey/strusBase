@@ -39,6 +39,32 @@ static int mkdirp_( const std::string& dirname)
 	return ec;
 }
 
+enum PathType {PathFile,PathDir,PathUnknown,PathError};
+static PathType getPathType( const std::string& path)
+{
+	struct stat s;
+	if (::stat( path.c_str(), &s) == 0)
+	{
+		if( s.st_mode & S_IFDIR )
+		{
+			return PathDir;
+		}
+		else if( s.st_mode & S_IFREG )
+		{
+			return PathFile;
+		}
+		else
+		{
+			return PathUnknown;
+		}
+	}
+	else
+	{
+		return PathError;
+	}
+}
+
+
 DLL_PUBLIC int strus::mkdirp( const std::string& dirname)
 {
 	try
@@ -545,7 +571,11 @@ static int expandFilePattern_( const std::string& pathPattern, std::vector<std::
 	char const* yi = std::strchr( pathPattern.c_str(), '?');
 	if (!xi && !yi)
 	{
-		res.push_back( pathPattern);
+		PathType pt = getPathType( pathPattern);
+		if (pt == PathFile || pt == PathDir)
+		{
+			res.push_back( pathPattern);
+		}
 		return 0;
 	}
 	char const* pi;
@@ -592,31 +622,6 @@ DLL_PUBLIC int strus::expandFilePattern( const std::string& pathPattern, std::ve
 	catch (const std::bad_alloc&)
 	{
 		return 12/*ENOMEM*/;
-	}
-}
-
-enum PathType {PathFile,PathDir,PathUnknown,PathError};
-static PathType getPathType( const std::string& path)
-{
-	struct stat s;
-	if (::stat( path.c_str(), &s) == 0)
-	{
-		if( s.st_mode & S_IFDIR )
-		{
-			return PathDir;
-		}
-		else if( s.st_mode & S_IFREG )
-		{
-			return PathFile;
-		}
-		else
-		{
-			return PathUnknown;
-		}
-	}
-	else
-	{
-		return PathError;
 	}
 }
 

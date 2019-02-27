@@ -19,48 +19,75 @@ using namespace strus;
 static std::vector<std::string> g_errors;
 static bool g_verbose = false;
 
-static int createTestFiles( const std::string& rootdir, int level=2)
-{
-	int rt = 0;
-	static char const* prefix[] = {"","A","AA",0};
-	static char const* suffix[] = {"","B","BB",0};
-	static char const* mid[] = {"","1","11","111","211","121","112",0};
-	char const** pi = prefix;
-	for (; *pi; ++pi)
-	{
-		char const** si = suffix;
-		for (; *si; ++si)
-		{
-			char const** mi = mid;
-			for (; *mi; ++mi)
-			{
-				std::string nam = std::string(*pi) + *mi + *si;
-				if (nam.empty()) continue;
-				std::string path( strus::joinFilePath( rootdir, nam));
-				if (level > 0)
-				{
-					int ec = strus::mkdirp( path);
-					if (ec) throw std::runtime_error( strus::string_format("failed to create directory %s: %s", path.c_str(), ::strerror(ec)));
-
-					rt += createTestFiles( path, level-1);
-				}
-				else
-				{
-					int ec = strus::writeFile( path, "");
-					if (ec) throw std::runtime_error( strus::string_format("failed to create test file %s: %s", path.c_str(), ::strerror(ec)));
-					rt += 1;
-				}
-			}
-		}
-	}
-	return rt;
-}
-
 struct Test
 {
 	const char* pattern;
 	const char* result[31];
 };
+
+struct PathDef
+{
+	const char* part[4];
+};
+
+static const PathDef g_pathlist[] = {
+	{"A","B","C",0},
+	{"A1","B11","C",0},
+	{"A1","B11","CC1",0},
+	{"AA11","B","A",0},
+	{"AA121","121","B",0},
+	{"AA121","131","C",0},
+	{"AAA121","ABC","C1",0},
+	{0,0,0,0}
+};
+
+static Test g_tests[] =
+{
+	{"AA*1/*/A", {
+		"AA11/B/A", 0}
+	},
+	{"A*A*1/1*1/B",{
+		"AA121/121/B", 0}
+	},
+	{"AA?121/*B*/C*",{
+		"AAA121/ABC/C1", 0}
+	},
+	{"A??121/A?C/*",{
+		"AAA121/ABC/C1", 0}
+	},
+	{"A*1\?\?/\?\?\?/*",{
+		"AA121/121/B", "AA121/131/C", "AAA121/ABC/C1", 0}
+	},
+	{"?/B/?",{
+		"A/B/C",0}
+	},
+	{0,{0}}
+};
+
+static void createTestFiles( const std::string& rootdir)
+{
+	PathDef const* pi = g_pathlist;
+	for (; pi->part[0]; ++pi)
+	{
+		std::string path = rootdir;
+		char const* const* ti = pi->part;
+		for (; *ti; ++ti)
+		{
+			path = strus::joinFilePath( path, *ti);
+			int ec;
+			if (ti[1])
+			{
+				ec = strus::mkdirp( path);
+				if (ec) throw std::runtime_error( strus::string_format("failed to create directory %s: %s", path.c_str(), ::strerror(ec)));
+			}
+			else
+			{
+				ec = strus::writeFile( path, "");
+				if (ec) throw std::runtime_error( strus::string_format("failed to create test file %s: %s", path.c_str(), ::strerror(ec)));
+			}
+		}
+	}
+}
 
 static bool executeTest( const std::string& rootdir, const Test& test)
 {
@@ -117,56 +144,6 @@ static bool executeTest( const std::string& rootdir, const Test& test)
 	return !testFailed;
 }
 
-static Test g_tests[] =
-{
-	{"AA*1/111*/A",{
-		"AA111/111/A","AA11/111B/A","AA1/111BB/A","AA211/111/A",
-		"AA111/111B/A","AA11/111BB/A","AA121/111/A","AA211/111B/A",
-		"AA111/111BB/A","AA1/111/A","AA121/111B/A","AA211/111BB/A",
-		"AA11/111/A","AA1/111B/A","AA121/111BB/A",0}
-	},
-	{"A*A*1/111*/A",{
-		"AA111/111/A","AA11/111B/A","AA1/111BB/A","AA211/111/A",
-		"AA111/111B/A","AA11/111BB/A","AA121/111/A","AA211/111B/A",
-		"AA111/111BB/A","AA1/111/A","AA121/111B/A","AA211/111BB/A",
-		"AA11/111/A","AA1/111B/A","AA121/111BB/A",0}
-	},
-	{"A?11/111*/A",{
-		"A111/111/A","A211/111/A","AA11/111/A",
-		"A111/111B/A","A211/111B/A","AA11/111B/A",
-		"A111/111BB/A","A211/111BB/A","AA11/111BB/A",0}
-	},
-	{"A??1/111?/A",{
-		"A111/111B/A","A121/111B/A","A211/111B/A","AA11/111B/A",0}
-	},
-	{"A?1?1/11*B?/A",{
-		"AA111/111BB/A","AA111/11BB/A","AA121/112BB/A","AA111/112BB/A","AA121/111BB/A","AA121/11BB/A",0}
-	},
-	{"?/A/?",{
-		"1/A/1","1/A/B","A/A/A","B/A/1","B/A/B",
-		"1/A/A","A/A/1","A/A/B","B/A/A",0}
-	},
-	{"AA1*/A/1",{
-		"AA111/A/1","AA112/A/1","AA11/A/1","AA121/A/1","AA1/A/1",
-		"AA111B/A/1","AA112B/A/1","AA11B/A/1","AA121B/A/1","AA1B/A/1",
-		"AA111BB/A/1","AA112BB/A/1","AA11BB/A/1","AA121BB/A/1","AA1BB/A/1",0}
-	},
-	{"*1BB/A/1",{
-		"111BB/A/1","1BB/A/1","A11BB/A/1","A211BB/A/1","AA121BB/A/1",
-		"11BB/A/1","211BB/A/1","A121BB/A/1","AA111BB/A/1","AA1BB/A/1",
-		"121BB/A/1","A111BB/A/1","A1BB/A/1","AA11BB/A/1","AA211BB/A/1",0}
-	},
-	{"1/1/2*",{
-		"1/1/211","1/1/211B","1/1/211BB",0}
-	},
-	{"1/1/1?",{
-		"1/1/11","1/1/1B",0}
-	},
-	{"AA/11/AA",{
-		 "AA/11/AA",0}
-	},
-	{0,{0}}
-};
 
 
 int main( int argc, const char* argv[])
@@ -194,8 +171,7 @@ int main( int argc, const char* argv[])
 				rootdir = argv[1];
 			}
 		}
-		int nofFiles = createTestFiles( rootdir);
-		std::cerr << strus::string_format( "created %d test files", nofFiles) << std::endl;
+		createTestFiles( rootdir);
 		int failedCnt = 0;
 		int successCnt = 0;
 		for (int ti=0; g_tests[ti].pattern; ++ti)
