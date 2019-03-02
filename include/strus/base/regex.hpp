@@ -58,28 +58,26 @@ public:
 		return find( str, str + size);
 	}
 
-	///\brief Match the regex to the start of the source till the end
-	///\param[in] begin pointer to the start of the string to match
-	///\param[in] size size of the string to match in bytes
-	///\return true if the regex matched on the entire string
-	bool match_complete( const char* begin, int size) const
-	{
-		return match_start( begin, begin+size) == size;
-	}
-
-	///\brief Match the regex to the source till its end
-	///\param[in] source the string to match
-	///\return true if the regex matched on the entire string
-	bool match_complete( const std::string& source) const
-	{
-		return match_complete( source.c_str(), source.size());
-	}
-
-	///\brief Match the regex to the start of the source
+	///\brief Search the regex at the start of the source
 	///\param[in] begin pointer to the start of the string to search
 	///\param[in] end pointer to the end of the string to search
 	///\return length of the match in byte or -1 if it did not match
-	int match_start( const char* begin, const char* end) const;
+	int find_start( const char* begin, const char* end) const;
+
+	///\brief Match the regex on the entire source
+	///\param[in] begin pointer to the start of the string to match
+	///\param[in] size size of the string to match in bytes
+	///\return true if the regex matched on the entire string
+	bool match( const char* begin, int size) const;
+
+	///\brief Match the regex on the entire source
+	///\param[in] source the string to match
+	///\return true if the regex matched on the entire string
+	bool match( const std::string& source) const
+	{
+		return match( source.c_str(), source.size());
+	}
+
 
 private:
 #if __cplusplus >= 201103L

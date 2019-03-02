@@ -166,7 +166,7 @@ static int findLexemInList( const std::vector<strus::RegexSearch*> lxlist, const
 	std::vector<strus::RegexSearch*>::const_iterator li = lxlist.begin(), le = lxlist.end();
 	for (int lidx=0; li != le; ++li,++lidx)
 	{
-		int matchlen = (*li)->match_start( src, end);
+		int matchlen = (*li)->find_start( src, end);
 		if (matchlen > 0)
 		{
 			len = matchlen;

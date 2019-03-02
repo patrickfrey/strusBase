@@ -179,22 +179,42 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 	}
 }
 
-DLL_PUBLIC int RegexSearch::match_start( const char* start, const char* end) const
+DLL_PUBLIC int RegexSearch::find_start( const char* start, const char* end) const
 {
 	try
 	{
 		if (m_config)
 		{
-			rx::match_results<char const*> match;
+			rx::match_results<char const*> matchar;
 			char const* si = start;
 			char const* se = end;
-			if (rx::regex_search( si, se, match, ((RegexSearchConfiguration*)m_config)->expression, MATCH_START_FLAGS))
+			if (rx::regex_search( si, se, matchar, ((RegexSearchConfiguration*)m_config)->expression, MATCH_START_FLAGS))
 			{
 				int idx = ((RegexSearchConfiguration*)m_config)->index;
-				return match.length( idx);
+				return matchar.length( idx);
 			}
 		}
 		return -1;
+	}
+	catch (const std::exception& err)
+	{
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
+		return -1;
+	}
+}
+
+DLL_PUBLIC bool RegexSearch::match( const char* begin, int size) const
+{
+	try
+	{
+		if (m_config)
+		{
+			rx::match_results<char const*> matchar;
+			char const* si = begin;
+			char const* se = begin+size;
+			return rx::regex_match( si, se, matchar, ((RegexSearchConfiguration*)m_config)->expression, MATCH_START_FLAGS);
+		}
+		return false;
 	}
 	catch (const std::exception& err)
 	{
