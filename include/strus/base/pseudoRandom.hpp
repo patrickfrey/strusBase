@@ -27,6 +27,9 @@ public:
 	/// \brief Constructor with seed passed as argument
 	explicit PseudoRandom( int seed_);
 
+	/// \brief Get the seed, this pseudo random number generator was created with
+	int seed() const;
+
 	/// \brief Get the next "random" number between two numbers
 	/// \param[in] start_ minumum result
 	/// \param[in] end_ upper border of range (first number not included)
@@ -41,6 +44,7 @@ public:
 	int select( unsigned int psize, int firstValue, ...);
 
 private:
+	unsigned int m_seed;
 	unsigned int m_value;
 	unsigned int m_incr;
 };

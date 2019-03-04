@@ -44,12 +44,18 @@ DLL_PUBLIC PseudoRandom::PseudoRandom()
 				* (now->tm_mon+100)
 				* (now->tm_mday+1)));
 	m_incr = m_value * KnuthIntegerHashFactor;
+	m_seed = m_value;
 }
 
 DLL_PUBLIC PseudoRandom::PseudoRandom( int seed_)
+	:m_seed(seed_),m_value(seed_)
 {
-	m_value = seed_;
 	m_incr = m_value * KnuthIntegerHashFactor;
+}
+
+DLL_PUBLIC int PseudoRandom::seed() const
+{
+	return m_seed;
 }
 
 DLL_PUBLIC int PseudoRandom::get( int min_, int max_)
