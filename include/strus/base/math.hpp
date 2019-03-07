@@ -22,7 +22,24 @@ struct Math
 	static double pow( double bs, double pw)	{return std::pow( bs, pw);}
 	static double log( double xx)			{return std::log( xx);}
 	static double log10( double xx)			{return std::log10( xx);}
+
+	static double ceil( double xx)			{return std::ceil( xx);}
+	static double exp( double xx)			{return std::exp( xx);}
+
+	static double fmod( double xx, double yy)	{return std::fmod( xx,yy);}
+
+	static double sin( double xx)			{return std::sin( xx);}
+	static double cos( double xx)			{return std::cos( xx);}
+	static double tan( double xx)			{return std::tan( xx);}
+
+	static double sinh( double xx)			{return std::sinh( xx);}
+	static double cosh( double xx)			{return std::cosh( xx);}
+	static double tanh( double xx)			{return std::tanh( xx);}
+
+	static double asin( double xx)			{return std::asin( xx);}
+	static double acos( double xx)			{return std::acos( xx);}
 	static double atan( double xx)			{return std::atan( xx);}
+
 	static bool isnan( double xx)			{return std::isnan( xx);}
 	static bool isnan( float xx)			{return std::isnan( xx);}
 
