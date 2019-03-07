@@ -9,10 +9,10 @@
 #include "strus/base/numstring.hpp"
 #include "strus/base/stdint.h"
 #include "strus/base/dll_tags.hpp"
+#include "strus/base/math.hpp"
 #include "private/internationalization.hpp"
 #include <string>
 #include <limits>
-#include <cmath>
 
 using namespace strus;
 
@@ -111,7 +111,7 @@ DLL_PUBLIC double strus::doubleFromString( const char* numstr, std::size_t numsi
 				ee *= 10;
 				ee += *ci - '0';
 			}
-			if (ee) rt *= std::pow( 10, eesign?-ee:ee);
+			if (ee) rt *= strus::Math::pow( 10, eesign?-ee:ee);
 			break;
 		}
 		else if (*ci == '%')

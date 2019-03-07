@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/numericVariant.hpp"
+#include "strus/base/math.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
-#include <cmath>
 #include <vector>
 #include <string>
 #include <limits>

@@ -8,13 +8,13 @@
 #include "strus/base/numstring.hpp"
 #include "strus/base/string_format.hpp"
 #include "strus/base/pseudoRandom.hpp"
+#include "strus/base/math.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
 #include <cstdio>
 #include <limits>
 #include <ctime>
-#include <cmath>
 #include <cstdlib>
 #include <inttypes.h>
 
@@ -90,7 +90,7 @@ static void testParseDouble( unsigned int times)
 #endif
 		checkError( err, "FLOAT");
 
-		double diff = fabs( val_test - val);
+		double diff = strus::Math::abs( val_test - val);
 		double tolerance = std::numeric_limits<float>::epsilon();
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "\tgot diff " << diff << " (tolerance " << tolerance << ")" << std::endl;
