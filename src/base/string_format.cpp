@@ -14,7 +14,7 @@
 
 using namespace strus;
 
-DLL_PUBLIC std::string strus::string_format( const char* fmt, va_list ap)
+DLL_PUBLIC std::string strus::string_format_va( const char* fmt, va_list ap)
 {
 	std::string rt;
 	char msgbuf[ 4096];
@@ -56,7 +56,7 @@ DLL_PUBLIC std::string strus::string_format( const char* fmt, ...)
 	std::string rt;
 	va_list ap;
 	va_start( ap, fmt);
-	rt = string_format( fmt, ap);
+	rt = string_format_va( fmt, ap);
 	va_end( ap);
 	return rt;
 }
