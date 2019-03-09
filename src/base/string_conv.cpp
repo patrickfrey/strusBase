@@ -108,30 +108,43 @@ DLL_PUBLIC bool strus::isEmptyString( const std::string& val)
 	return isEmptyString( val.c_str(), val.size());
 }
 
+static bool caseInsensitiveEquals_( char const* vi, char const* oi)
+{
+	for (; *vi && *oi && std::tolower( *vi) == std::tolower( *oi); ++vi,++oi){}
+	return 0==(*vi|*oi);
+}
+
 DLL_PUBLIC bool strus::caseInsensitiveEquals( const std::string& val1, const std::string& val2)
 {
-	std::string rt;
 	if (val1.size() != val2.size()) return false;
-	std::string::const_iterator vi = val1.begin(), ve = val1.end();
-	std::string::const_iterator oi = val2.begin(), oe = val2.end();
-	for (; vi != ve && oi != oe; ++vi,++oi)
-	{
-		if (std::tolower( *vi) != std::tolower( *oi)) return false;
-	}
-	return true;
+	return caseInsensitiveEquals_( val1.c_str(), val2.c_str());
+}
+
+DLL_PUBLIC bool strus::caseInsensitiveEquals( const std::string& val1, const char* val2)
+{
+	return caseInsensitiveEquals_( val1.c_str(), val2);
+}
+
+DLL_PUBLIC bool strus::caseInsensitiveEquals( const char* val1, const char* val2)
+{
+	return caseInsensitiveEquals_( val1, val2);
+}
+
+static bool caseInsensitiveStartsWith_( char const* vi, char const* pi)
+{
+	for (; *vi && std::tolower( *vi) == std::tolower( *pi); ++vi,++pi){}
+	return 0==*pi;
 }
 
 DLL_PUBLIC bool strus::caseInsensitiveStartsWith( const std::string& val, const std::string& prefix)
 {
-	std::string rt;
 	if (val.size() < prefix.size()) return false;
-	std::string::const_iterator vi = val.begin();
-	std::string::const_iterator pi = prefix.begin(), pe = prefix.end();
-	for (; pi != pe; ++pi,++vi)
-	{
-		if (std::tolower( *vi) != std::tolower( *pi)) return false;
-	}
-	return pi == pe;
+	return caseInsensitiveStartsWith_( val.c_str(), prefix.c_str());
+}
+
+DLL_PUBLIC bool strus::caseInsensitiveStartsWith( const std::string& val, const char* prefix)
+{
+	return caseInsensitiveStartsWith_( val.c_str(), prefix);
 }
 
 DLL_PUBLIC bool strus::stringStartsWith( const std::string& val, const std::string& prefix)

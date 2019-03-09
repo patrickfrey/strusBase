@@ -72,11 +72,29 @@ bool isEmptyString( const std::string& val);
 /// \return true if strings are equal, false else
 bool caseInsensitiveEquals( const std::string& val1, const std::string& val2);
 
+/// \brief Compare on Ascii letter caseinsensitive equality
+/// \param[in] val1 input string
+/// \param[in] val2 other input string
+/// \return true if strings are equal, false else
+bool caseInsensitiveEquals( const std::string& val1, const char* val2);
+
+/// \brief Compare on Ascii letter caseinsensitive equality
+/// \param[in] val1 pointer to input string
+/// \param[in] val2 pointer to other input string
+/// \return true if strings are equal, false else
+bool caseInsensitiveEquals( const char* val1, const char* val2);
+
 /// \brief Test prefix on Ascii letter caseinsensitive equality
 /// \param[in] val input string
 /// \param[in] prefix prefix to check
 /// \return true if string starts with prefix, false else
 bool caseInsensitiveStartsWith( const std::string& val, const std::string& prefix);
+
+/// \brief Test prefix on Ascii letter caseinsensitive equality
+/// \param[in] val input string
+/// \param[in] prefix prefix to check
+/// \return true if string starts with prefix, false else
+bool caseInsensitiveStartsWith( const std::string& val, const char* prefix);
 
 /// \brief Test prefix on equality
 /// \param[in] val input string
