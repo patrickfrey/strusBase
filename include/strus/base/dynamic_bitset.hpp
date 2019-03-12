@@ -9,6 +9,7 @@
 #ifndef _STRUS_DYNAMIC_BITSET_HPP_INCLUDED
 #define _STRUS_DYNAMIC_BITSET_HPP_INCLUDED
 #include "strus/base/bitset.hpp"
+#include <utility>
 
 /// PF:HACK: Bad solution, need probing of dynamic_bitset as C++ feature as for regex
 #if defined __GNUC__
@@ -45,6 +46,14 @@ public:
 	}
 	dynamic_bitset( const dynamic_bitset& o)
 		:m_indices(o.m_indices),m_elements(o.m_elements){}
+	dynamic_bitset& operator=( const dynamic_bitset& o)
+		{m_indices = o.m_indices; m_elements = o.m_elements; return *this;}
+#if __cplusplus >= 201103L
+	dynamic_bitset( dynamic_bitset&& o)
+		:m_indices(std::move(o.m_indices),m_elements(std::move(o.m_elements)){}
+	dynamic_bitset( dynamic_bitset&& o)
+		{m_indices=std::move(o.m_indices); m_elements=std::move(o.m_elements); return *this;}
+#endif
 	bool set( std::size_t n, bool val = true)
 	{
 		int hi = n / ElementDim;
