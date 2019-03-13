@@ -51,7 +51,7 @@ public:
 #if __cplusplus >= 201103L
 	dynamic_bitset( dynamic_bitset&& o)
 		:m_indices(std::move(o.m_indices)),m_elements(std::move(o.m_elements)){}
-	dynamic_bitset( dynamic_bitset&& o)
+	dynamic_bitset& operator=( dynamic_bitset&& o)
 		{m_indices=std::move(o.m_indices); m_elements=std::move(o.m_elements); return *this;}
 #endif
 	bool set( std::size_t n, bool val = true)
