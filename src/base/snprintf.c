@@ -157,9 +157,10 @@ int strus_vsnprintf( char* buf, size_t bufsize, const char* format, va_list ap)
 
 int strus_snprintf( char* bi, size_t bufsize, const char* format, ...)
 {
+	int rt;
 	va_list ap;
 	va_start(ap, format);
-	int rt = strus_vsnprintf( bi, bufsize, format, ap);
+	rt = strus_vsnprintf( bi, bufsize, format, ap);
 	va_end(ap);
 	return rt;
 }
