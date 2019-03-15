@@ -150,6 +150,13 @@ struct string_conv
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}
+	static std::string tolower( const char* str)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::tolower( str, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
 	static std::string toupper( const std::string& str)
 	{
 		StringConvError errcode = StringConvOk;
@@ -161,6 +168,13 @@ struct string_conv
 	{
 		StringConvError errcode = StringConvOk;
 		std::string rt = strus::toupper( str, strsize, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
+	static std::string toupper( const char* str)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::toupper( str, errcode);
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}
