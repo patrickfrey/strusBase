@@ -59,6 +59,37 @@ DLL_PUBLIC std::string strus::tolower( const std::string& val, StringConvError& 
 	return strus::tolower( val.c_str(), val.size(), err);
 }
 
+DLL_PUBLIC std::string strus::toupper( const char* val, std::size_t size, StringConvError& err)
+{
+	try
+	{
+		std::string rt;
+		rt.reserve( size+1);
+		char const* vi = val;
+		const char* ve = vi  + size;
+		for (; vi != ve; ++vi)
+		{
+			rt.push_back( std::toupper( *vi));
+		}
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		err = StringConvErrNoMem;
+		return std::string();
+	}
+}
+
+DLL_PUBLIC std::string strus::toupper( const char* val, StringConvError& err)
+{
+	return strus::toupper( val, std::strlen(val), err);
+}
+
+DLL_PUBLIC std::string strus::toupper( const std::string& val, StringConvError& err)
+{
+	return strus::toupper( val.c_str(), val.size(), err);
+}
+
 DLL_PUBLIC std::string strus::trim( const char* val, std::size_t size, StringConvError& err)
 {
 	try

@@ -42,6 +42,25 @@ std::string tolower( const char* val, std::size_t size, StringConvError& err);
 /// \return converted string or empty string in case of error
 std::string tolower( const std::string& val, StringConvError& err);
 
+/// \brief Convert ASCII letters in string to uppercase
+/// \param[in] val input string
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string toupper( const char* val, StringConvError& err);
+
+/// \brief Convert ASCII letters in string to uppercase
+/// \param[in] val input string
+/// \param[in] size input string size in bytes
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string toupper( const char* val, std::size_t size, StringConvError& err);
+
+/// \brief Convert ASCII letters in string to uppercase
+/// \param[in] val input string
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string toupper( const std::string& val, StringConvError& err);
+
 /// \brief Trim trailing and heading whitespace and control characters
 /// \param[in] val input string
 /// \param[out] err error code in case of error (not set on success)
@@ -128,6 +147,20 @@ struct string_conv
 	{
 		StringConvError errcode = StringConvOk;
 		std::string rt = strus::tolower( str, strsize, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
+	static std::string toupper( const std::string& str)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::toupper( str, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
+	static std::string toupper( const char* str, std::size_t strsize)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::toupper( str, strsize, errcode);
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}
