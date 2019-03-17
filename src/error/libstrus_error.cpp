@@ -147,6 +147,7 @@ DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 		case ErrorCodeBufferOverflow:		return _TXT("buffer overflow");
 		case ErrorCodeMaxNofItemsExceeded:	return _TXT("maximum number if items exceeded");
 		case ErrorCodeMaxRecursionDepht:	return _TXT("maximum depth of recursion reached");
+		case ErrorCodeRefusedDueToComplexity:	return _TXT("refused request because of its complexity");
 		case ErrorCodeRuntimeError:		return _TXT("runtime error");
 		case ErrorCodeIncompleteRequest:	return _TXT("incomplete request");
 		case ErrorCodeIncompleteResult:		return _TXT("incomplete result");
