@@ -74,7 +74,7 @@ int renameFile( const std::string& old_filename, const std::string& new_filename
 /// \return 0 on success, errno on failure
 int createDir( const std::string& dirname, bool fail_ifexist=true);
 
-/// \brief Creates a directory path (mkdir -p)
+/// \brief Ensures the existance of a directory path by creating it if it does not exist (mkdir -p)
 /// \param[in] dirname path of directory to create
 /// \return 0 on success, errno on failure
 int mkdirp( const std::string& dirname);
