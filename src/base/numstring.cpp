@@ -139,6 +139,46 @@ DLL_PUBLIC double strus::doubleFromString( const std::string& numstr, NumParseEr
 	return strus::doubleFromString( numstr.c_str(), numstr.size(), err);
 }
 
+static uint64_t unsignedFromHexString_( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
+{
+	uint64_t rt = 0;
+	uint64_t rt_prev = 0;
+	char const* ci = numstr;
+	const char* ce = numstr + numsize;
+	for (;ci != ce; ++ci)
+	{
+		rt_prev = rt;
+		if (*ci >= '0' && *ci <= '9')
+		{
+			rt = (rt * 16) + (*ci - '0');
+		}
+		else if ((*ci|32) >= 'a' && (*ci|32) <= 'f')
+		{
+			rt = (rt * 16) + ((*ci|32) - 'a' + 10);
+		}
+		else
+		{
+			break;
+		}
+		if (rt_prev > rt)
+		{
+			err = NumParseErrOutOfRange;
+			return 0;
+		}
+	}
+	if (ci != ce)
+	{
+		err = NumParseErrConversion;
+		return 0;
+	}
+	if (rt > maxvalue)
+	{
+		err = NumParseErrOutOfRange;
+		return 0;
+	}
+	return rt;
+}
+
 static uint64_t unsignedFromString_( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
 {
 	err = NumParseOk;
@@ -195,14 +235,38 @@ static uint64_t unsignedFromString_( const char* numstr, std::size_t numsize, ui
 }
 
 
+DLL_PUBLIC uint64_t strus::uintFromHexString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
+{
+	return unsignedFromHexString_( numstr, numsize, maxvalue, err);
+}
+
+DLL_PUBLIC uint64_t strus::uintFromHexString( const std::string& numstr, uint64_t maxvalue, NumParseError& err)
+{
+	return unsignedFromHexString_( numstr.c_str(), numstr.size(), maxvalue, err);
+}
+
 DLL_PUBLIC uint64_t strus::uintFromString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err)
 {
-	return unsignedFromString_( numstr, numsize, maxvalue, err);
+	if (numsize > 2 && numstr[0] == '0' && numstr[1] == 'x')
+	{
+		return unsignedFromHexString_( numstr+2, numsize-2, maxvalue, err);
+	}
+	else
+	{
+		return unsignedFromString_( numstr, numsize, maxvalue, err);
+	}
 }
 
 DLL_PUBLIC uint64_t strus::uintFromString( const std::string& numstr, uint64_t maxvalue, NumParseError& err)
 {
-	return strus::uintFromString( numstr.c_str(), numstr.size(), maxvalue, err);
+	if (numstr.size() > 2 && numstr[0] == '0' && numstr[1] == 'x')
+	{
+		return unsignedFromHexString_( numstr.c_str()+2, numstr.size()-2, maxvalue, err);
+	}
+	else
+	{
+		return unsignedFromString_( numstr.c_str(), numstr.size(), maxvalue, err);
+	}
 }
 
 DLL_PUBLIC int64_t strus::intFromString( const char* numstr, std::size_t numsize, int64_t maxvalue, NumParseError& err)

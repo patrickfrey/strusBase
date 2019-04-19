@@ -70,10 +70,28 @@ uint64_t uintFromString( const std::string& numstr, uint64_t maxvalue, NumParseE
 /// \brief Parsing an unsigned integer number from an Ascii string
 /// \param[in] numstr the pointer to the number to parse as Ascii string
 /// \param[in] numsize the size of numstr in bytes
+/// \note A prefix "0x" lets the rest of the number beeing interpreted as hex number like with uintFromHexString
+/// \note Parses 'K',M','G' at end of a decimal number string (without prefix "0x") as multipliers (kilo,mega,giga)
 /// \param[in] maxvalue the maximum value accepted for the result
 /// \param[out] err error code in case of an error, unchanged in case of success
 /// \return the number parsed as an unsigned integer or 0 in case of an error
 uint64_t uintFromString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err);
+
+/// \brief Parsing an unsigned integer number from an Ascii string interpreted as hexadecimal number
+/// \param[in] numstr the hexadecimal number to parse as Ascii string
+/// \param[in] maxvalue the maximum value accepted for the result
+/// \param[out] err error code in case of an error, unchanged in case of success
+/// \return the number parsed as an unsigned integer or 0 in case of an error
+uint64_t uintFromHexString( const std::string& numstr, uint64_t maxvalue, NumParseError& err);
+
+/// \brief Parsing an unsigned integer number from an Ascii string interpreted as hexadecimal number
+/// \param[in] numstr the pointer to the hexadecimal number to parse as Ascii string 
+/// \param[in] numsize the size of numstr in bytes
+/// \param[in] maxvalue the maximum value accepted for the result
+/// \param[out] err error code in case of an error, unchanged in case of success
+/// \return the number parsed as an unsigned integer or 0 in case of an error
+uint64_t uintFromHexString( const char* numstr, std::size_t numsize, uint64_t maxvalue, NumParseError& err);
+
 
 /// \brief Inlined version of string to number conversion functions throwing an exception instead of setting an error code on failure
 struct numstring_conv
@@ -121,6 +139,29 @@ struct numstring_conv
 	{
 		NumParseError errcode = NumParseOk;
 		uint64_t rt = strus::uintFromString( str, len, maxval, errcode);
+		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
+		return rt;
+	}
+	/// \brief Parsing an unsigned integer number from a hexadecimal number as Ascii string, throwing in case of error
+	/// \param[in] str the hexadecimal number to parse as Ascii string
+	/// \param[in] maxval the maximum value accepted for the result
+	/// \return the number parsed as an unsigned integer
+	static uint64_t toxuint( const std::string& str, uint64_t maxval)
+	{
+		NumParseError errcode = NumParseOk;
+		uint64_t rt = strus::uintFromHexString( str, maxval, errcode);
+		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
+		return rt;
+	}
+	/// \brief Parsing an unsigned integer number from a hexadecimal number as Ascii string, throwing in case of error
+	/// \param[in] str the hexadecimal number to parse as Ascii string
+	/// \param[in] len length of str in bytes
+	/// \param[in] maxval the maximum value accepted for the result
+	/// \return the number parsed as an unsigned integer
+	static uint64_t toxuint( const char* str, std::size_t len, uint64_t maxval)
+	{
+		NumParseError errcode = NumParseOk;
+		uint64_t rt = strus::uintFromHexString( str, len, maxval, errcode);
 		if (errcode != NumParseOk) throw strus::numstring_exception( errcode);
 		return rt;
 	}
