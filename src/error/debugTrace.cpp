@@ -90,7 +90,7 @@ void ProcessDebugTrace::event( const char* component, const char* eventid, const
 {
 	if (checkThreadId()) try
 	{
-		m_msgar.push_back( DebugTraceMessage( DebugTraceMessage::Event, component, eventid, strus::string_format( format, arg)));
+		m_msgar.push_back( DebugTraceMessage( DebugTraceMessage::Event, component, eventid, strus::string_format_va( format, arg)));
 	}
 	catch (const std::bad_alloc&)
 	{
