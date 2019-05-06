@@ -27,6 +27,7 @@ set( source_files
 	numericVariant.cpp
 	pseudoRandom.cpp
 	periodicTimerEvent.cpp
+	jobQueueWorker.cpp
 	minimalCover.cpp
 )
 
