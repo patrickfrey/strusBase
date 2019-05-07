@@ -56,14 +56,14 @@ struct JobQueueWorker::Data
 	};
 	struct Element
 	{
-		Element() :proc(0),notify(0),context(0),data(0){}
-		Element( JobHandlerProc proc_, void* context_, void* data_, JobNotifyProc notify_) :proc(proc_),notify(notify_),context(context_),data(data_){}
-		Element( const Element& o) :proc(o.proc),notify(o.notify),context(o.context),data(o.data){}
-	
+		Element() :proc(0),notify(0),deleter(0),context(0){}
+		Element( JobHandlerProc proc_, void* context_, JobNotifyProc notify_, JobDeleterProc deleter_) :proc(proc_),notify(notify_),deleter(deleter_),context(context_){}
+		Element( const Element& o) :proc(o.proc),notify(o.notify),deleter(o.deleter),context(o.context){}
+
 		JobHandlerProc proc;
 		JobNotifyProc notify;
+		JobDeleterProc deleter;
 		void* context;
-		void* data;
 	};
 
 	explicit Data( int secondsPeriod_)
@@ -74,13 +74,13 @@ struct JobQueueWorker::Data
 		,terminate(false)
 	{}
 
-	bool pushJob( JobHandlerProc proc, void* context, void* data, JobNotifyProc notify)
+	bool pushJob( JobHandlerProc proc, void* context, JobNotifyProc notify, JobDeleterProc deleter)
 	{
 		try
 		{
 			intent.increment();
 			pte::unique_lock<pte::mutex> lock( qe_mutex);
-			queue.push( Element( proc, context, data, notify));
+			queue.push( Element( proc, context, notify, deleter));
 			cv.notify_one();
 			return true;
 		}
@@ -238,7 +238,7 @@ DLL_PUBLIC void JobQueueWorker::wait()
 			JobQueueWorker::Data::Element job;
 			while (m_data->fetch( job))
 			{
-				job.proc( job.context, job.data, job.notify);
+				job.proc( job.context, job.notify, job.deleter);
 				if (m_data->forcedTick()) m_data->tick();
 			}
 		}
@@ -268,9 +268,9 @@ DLL_PUBLIC void JobQueueWorker::stop()
 	m_data->stop();
 }
 
-DLL_PUBLIC bool JobQueueWorker::pushJob( JobHandlerProc proc, void* context, void* data, JobNotifyProc notify)
+DLL_PUBLIC bool JobQueueWorker::pushJob( JobHandlerProc proc, void* context, JobNotifyProc notify, JobDeleterProc deleter)
 {
-	return m_data->pushJob( proc, context, data, notify);
+	return m_data->pushJob( proc, context, notify, deleter);
 }
 
 DLL_PUBLIC bool JobQueueWorker::pushTicker( JobHandlerTicker proc, void* context)

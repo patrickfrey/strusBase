@@ -13,8 +13,9 @@
 
 namespace strus {
 
-typedef void (*JobNotifyProc)( void* context, void* data, int errcode);
-typedef void (*JobHandlerProc)( void* context, void* data, JobNotifyProc notify);
+typedef void (*JobNotifyProc)( void* context, int errcode);
+typedef void (*JobDeleterProc)( void* context);
+typedef void (*JobHandlerProc)( void* context, JobNotifyProc notify, JobDeleterProc deleter);
 typedef void (*JobHandlerTicker)( void* context);
 
 /// \brief Job queue worker and periodic timer event ticker thread
@@ -45,9 +46,9 @@ public:
 	/// \brief Push a new job to be executed
 	/// param[in] proc procedure of the job to be executed
 	/// param[in] context context data of the job to be executed
-	/// param[in] data parameter data of the job to be executed
 	/// param[in] notify notification function called on job completion or error
-	bool pushJob( JobHandlerProc proc, void* context, void* data, JobNotifyProc notify);
+	/// param[in] deleter destructor function of the context
+	bool pushJob( JobHandlerProc proc, void* context, JobNotifyProc notify, JobDeleterProc deleter);
 
 	/// \brief Push a ticker procedure called periodically
 	/// param[in] proc procedure of the ticker to be executed
