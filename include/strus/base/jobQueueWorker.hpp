@@ -13,10 +13,8 @@
 
 namespace strus {
 
-typedef void (*JobNotifyProc)( void* context, int errcode);
 typedef void (*JobDeleterProc)( void* context);
-typedef void (*JobHandlerProc)( void* context, JobNotifyProc notify, JobDeleterProc deleter);
-typedef void (*JobHandlerTicker)( void* context);
+typedef void (*JobHandlerProc)( void* context);
 
 /// \brief Job queue worker and periodic timer event ticker thread
 class JobQueueWorker
@@ -26,11 +24,12 @@ public:
 
 	/// \brief Constructor
 	/// \param[in] Period of timer ticker events in seconds
+	/// \param[in] useFdSelect true, wait on file descriptor events (select), false wait on condition variables
 	/// \note Period equals timeout without worker jobs triggered
 	/// \remark Regularity of timer events is not guaranteed, bookkeeping about real time is up to client
-	explicit JobQueueWorker( int secondsPeriod_)
+	JobQueueWorker( int secondsPeriod_, bool useFdSelect)
 	{
-		if (!init(secondsPeriod_)) throw std::bad_alloc();
+		if (!init(secondsPeriod_,useFdSelect)) throw std::bad_alloc();
 	}
 	/// \brief Destructor
 	virtual ~JobQueueWorker()
@@ -39,25 +38,41 @@ public:
 	}
 
 	/// \brief Start thread
+	/// \return true on success, false on error
 	bool start();
 	/// \brief Stop thread without finishing idle jobs in the queue
 	void stop();
 
 	/// \brief Push a new job to be executed
-	/// param[in] proc procedure of the job to be executed
-	/// param[in] context context data of the job to be executed
-	/// param[in] notify notification function called on job completion or error
-	/// param[in] deleter destructor function of the context
-	bool pushJob( JobHandlerProc proc, void* context, JobNotifyProc notify, JobDeleterProc deleter);
+	/// \param[in] proc procedure of the job to be executed
+	/// \param[in] context context data of the job to be executed
+	/// \param[in] deleter destructor function of the context
+	/// \return true on success, false on error
+	bool pushJob( JobHandlerProc proc, void* context, JobDeleterProc deleter);
 
 	/// \brief Push a ticker procedure called periodically
-	/// param[in] proc procedure of the ticker to be executed
-	/// param[in] context context data of the ticker to be executed
-	bool pushTicker( JobHandlerTicker proc, void* context);
+	/// \param[in] proc procedure of the ticker to be executed
+	/// \param[in] context context data of the ticker to be executed
+	/// \return true on success, false on error
+	bool pushTicker( JobHandlerProc proc, void* context);
+
+	/// \brief Types of events to listen in the select mode (with constructor parameter useFdSelect set to true)
+	enum FdType {FdRead=1,FdWrite=2,FdExcept=4};
+
+	/// \brief Push a listener for a filehandle event 
+	/// \note Only available in the select mode (with constructor parameter useFdSelect set to true)
+	/// \param[in] proc procedure to be executed when the event occurrs, NULL if the listener should be removed
+	/// \param[in] context context data of the procedure to be executed, NULL if the listener should be removed
+	/// \param[in] deleter destructor function of the context
+	/// \param[in] fh file handle
+	/// \param[in] fdTypeMask mask of events to listen for
+	/// \note Event handler procedure call duplicates (proc,context)-pairs may be eliminated, e.g. called only once
+	/// \return true on success, false on error
+	bool pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, int fh, int fdTypeMask);
 
 private:
 	void wait();
-	bool init( int secondsPeriod_);
+	bool init( int secondsPeriod_, bool useFdSelect);
 	void clear();
 
 private:

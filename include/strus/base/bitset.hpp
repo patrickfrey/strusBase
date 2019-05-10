@@ -172,7 +172,7 @@ public:
 
 	/// \brief Get the next right/upper bit of the set with position strictly higher than the position passed as argument
 	/// \note useful for iterating through the bits set
-	/// \return the position of the bit starting from 0'
+	/// \return the position of the bit starting from 0
 	int next( int pos) const
 	{
 		++pos;
