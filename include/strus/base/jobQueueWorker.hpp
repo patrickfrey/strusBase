@@ -8,6 +8,7 @@
 /// \brief Worker thread for asynchronous background job processing
 #ifndef _STRUS_JOB_QUEUE_WORKER_HPP_INCLUDED
 #define _STRUS_JOB_QUEUE_WORKER_HPP_INCLUDED
+#include "strus/base/filehandle.hpp"
 #include <stdexcept>
 #include <new>
 
@@ -68,7 +69,7 @@ public:
 	/// \param[in] fdTypeMask mask of events to listen for
 	/// \note Event handler procedure call duplicates (proc,context)-pairs may be eliminated, e.g. called only once
 	/// \return true on success, false on error
-	bool pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, int fh, int fdTypeMask);
+	bool pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, const FileHandle& fh, int fdTypeMask);
 
 private:
 	void wait();

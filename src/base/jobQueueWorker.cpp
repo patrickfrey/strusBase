@@ -324,7 +324,7 @@ struct JobQueueWorker::Data
 		JobHandlerProc proc;
 		JobDeleterProc deleter;
 		void* context;
-		int fh;
+		FileHandle fh;
 		int fdTypeMask;
 	};
 
@@ -383,7 +383,7 @@ struct JobQueueWorker::Data
 		}
 	}
 
-	bool pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, int fh, int fdTypeMask)
+	bool pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, const FileHandle& fh, int fdTypeMask)
 	{
 		try
 		{
@@ -612,7 +612,7 @@ DLL_PUBLIC bool JobQueueWorker::pushTicker( JobHandlerProc proc, void* context)
 	return m_data->pushTicker( proc, context);
 }
 
-DLL_PUBLIC bool JobQueueWorker::pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, int fh, int fdTypeMask)
+DLL_PUBLIC bool JobQueueWorker::pushListener( JobHandlerProc proc, void* context, JobDeleterProc deleter, const FileHandle& fh, int fdTypeMask)
 {
 	return m_data->pushListener( proc, context, deleter, fh, fdTypeMask);
 }
