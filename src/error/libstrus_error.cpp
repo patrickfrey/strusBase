@@ -157,6 +157,7 @@ DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 		case ErrorCodeEncoding:			return _TXT("character encoding error");
 		case ErrorCodeRequestResolveError:	return _TXT("cannot resolve request");
 		case ErrorCodeNotAcceptable:		return _TXT("possible response not acceptable by client");
+		case ErrorCodeDelegateRequestFailed:	return _TXT("sub service request failed");
 		default: return _TXT("unknown");
 	}
 }

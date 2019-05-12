@@ -58,7 +58,8 @@ namespace strus
 		ErrorCodeInputFormat=281,
 		ErrorCodeEncoding=282,
 		ErrorCodeRequestResolveError=283,
-		ErrorCodeNotAcceptable=284
+		ErrorCodeNotAcceptable=284,
+		ErrorCodeDelegateRequestFailed=285
 	};
 }//namespace
 #endif
