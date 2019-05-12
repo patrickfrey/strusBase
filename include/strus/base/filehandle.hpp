@@ -14,9 +14,10 @@ namespace strus
 {
 
 #if defined _WIN32 || defined __CYGWIN__
-#error File handles not implemented for Windows
+#error File and socket handles not implemented for Windows in Strus
 #else
 typedef int FileHandle;
+typedef int SocketHandle;
 #endif
 
 }//namespace

@@ -39,6 +39,8 @@ typedef std::unique_lock<std::mutex> unique_lock;
 typedef std::unique_lock<std::recursive_mutex> recursive_unique_lock;
 typedef std::lock_guard<std::mutex> scoped_lock;
 typedef std::condition_variable condition_variable;
+typedef std::cv_status cv_status;
+enum {cv_status_no_timeout=0};
 typedef std::thread thread;
 
 class thread_group
@@ -77,6 +79,7 @@ public:
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/thread/condition_variable.hpp> 
+#include <boost/thread/cv_status.hpp> 
 #include <boost/thread.hpp>
 
 namespace strus {
@@ -87,6 +90,8 @@ typedef boost::mutex::scoped_lock scoped_lock;
 typedef boost::unique_lock<boost::mutex> unique_lock;
 typedef boost::unique_lock<boost::recursive_mutex> recursive_unique_lock;
 typedef boost::condition_variable condition_variable;
+typedef boost::cv_status cv_status;
+enum {cv_status_no_timeout=0};
 typedef boost::thread thread;
 
 class ThreadId
