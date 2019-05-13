@@ -86,7 +86,7 @@ struct JobQueueWorker::Data
 	{
 		FdSet fdset;
 		int nofd;
-		int pipfd[2];
+		int pipfd[2]; // pipe to listen for queue events in select: "self pipe trick"
 
 		unsigned char jobMap_read[ FD_SETSIZE];
 		unsigned char jobMap_write[ FD_SETSIZE];
