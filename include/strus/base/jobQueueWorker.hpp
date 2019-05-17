@@ -24,7 +24,7 @@ public:
 	enum {NumberOfRequestsBeforeTick=5};
 
 	/// \brief Constructor
-	/// \param[in] Period of timer ticker events in seconds
+	/// \param[in] secondsPeriod_ Period of timer ticker events in seconds
 	/// \param[in] useFdSelect true, wait on file descriptor events (select), false wait on condition variables
 	/// \note Period equals timeout without worker jobs triggered
 	/// \remark Regularity of timer events is not guaranteed, bookkeeping about real time is up to client
@@ -33,7 +33,7 @@ public:
 		if (!init(secondsPeriod_,useFdSelect)) throw std::bad_alloc();
 	}
 	/// \brief Destructor
-	virtual ~JobQueueWorker()
+	~JobQueueWorker()
 	{
 		clear();
 	}

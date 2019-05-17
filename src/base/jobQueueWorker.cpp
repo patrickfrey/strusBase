@@ -231,8 +231,8 @@ struct JobQueueWorker::Data
 			else
 			{
 				if ((fdTypeMask & FdRead) == FdRead) clrJobFlags( jobMap_read, &fdset.read, fh);
-				if ((fdTypeMask & FdRead) == FdWrite) clrJobFlags( jobMap_write, &fdset.write, fh);
-				if ((fdTypeMask & FdRead) == FdExcept) clrJobFlags( jobMap_excep, &fdset.excep, fh);
+				if ((fdTypeMask & FdWrite) == FdWrite) clrJobFlags( jobMap_write, &fdset.write, fh);
+				if ((fdTypeMask & FdExcept) == FdExcept) clrJobFlags( jobMap_excep, &fdset.excep, fh);
 			}
 			releaseNumberOfFileHandles( fh);
 			return true;
