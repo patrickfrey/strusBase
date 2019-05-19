@@ -4,12 +4,6 @@ matrix:
     - os: osx
       compiler: clang
     - os: linux
-      dist: trusty
-      compiler: clang
-    - os: linux
-      dist: trusty
-      compiler: gcc
-    - os: linux
       dist: xenial
       compiler: clang
     - os: linux
