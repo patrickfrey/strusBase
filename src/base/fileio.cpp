@@ -187,19 +187,20 @@ DLL_PUBLIC int strus::renameFile( const std::string& old_filename, const std::st
 	return 0;
 }
 
-DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
+DLL_PUBLIC int strus::writeFile( const std::string& filename, const void* content, std::size_t contentsize)
 {
-	unsigned char ch;
 	FILE* fh = ::fopen( filename.c_str(), "wb");
 	if (!fh)
 	{
 		return errno;
 	}
-	std::string::const_iterator fi = content.begin(), fe = content.end();
-	for (; fi != fe; ++fi)
+	char const* fi = (const char*)content;
+	char const* fe = fi + contentsize;
+	while (fi != fe)
 	{
-		ch = *fi;
-		if (1 > ::fwrite( &ch, 1, 1, fh))
+		std::size_t nn = fe - fi;
+		std::size_t written = ::fwrite( fi, 1, nn, fh);
+		if (written < nn)
 		{
 			int ec = ::ferror( fh);
 			if (ec)
@@ -208,9 +209,15 @@ DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string&
 				return ec;
 			}
 		}
+		fi += written;
 	}
 	::fclose( fh);
 	return 0;
+}
+
+DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
+{
+	return strus::writeFile( filename, content.c_str(), content.size());
 }
 
 DLL_PUBLIC int strus::appendFile( const std::string& filename, const std::string& content)

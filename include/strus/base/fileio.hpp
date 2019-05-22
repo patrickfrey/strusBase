@@ -34,9 +34,16 @@ int readStdin( std::string& res);
 
 /// \brief Writes a string to a file creating the file if it does not exist
 /// \param[in] filename the name of the file to write
-/// \param[out] content content of the string to write
+/// \param[in] content content of the string to write
 /// \return 0 on success, errno on failure
 int writeFile( const std::string& filename, const std::string& content);
+
+/// \brief Writes a blob to a file creating the file if it does not exist
+/// \param[in] filename the name of the file to write
+/// \param[in] content content to write
+/// \param[in] contentsize size of content to write in bytes
+/// \return 0 on success, errno on failure
+int writeFile( const std::string& filename, const void* content, std::size_t contentsize);
 
 /// \brief Appends a string to a file creating the file if it does not exist
 /// \param[in] filename the name of the file to append to
