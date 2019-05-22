@@ -32,7 +32,7 @@ int getenv_list( const std::string& var, char sep, std::vector<std::string>& out
 /// \remark OS dependent 
 char separatorPathList();
 
-}
+}//namespace
 #endif
 
 

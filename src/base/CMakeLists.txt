@@ -21,6 +21,7 @@ set( source_files
 	symbolTable.cpp
 	utf8.cpp
 	crc32.cpp
+	base64.cpp
 	snprintf.c
 	string_format.cpp
 	string_conv.cpp
