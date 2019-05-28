@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <map>
+#include <set>
 
 #undef STRUS_LOWLEVEL_DEBUG
 
