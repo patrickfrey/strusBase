@@ -128,9 +128,13 @@ struct JobQueueWorker::Data
 			close( pipfd[1]);
 		}
 
-		void notify()
+		bool notify()
 		{
-			(void)::write( pipfd[1], "x", 1);
+			int sz;
+			do {
+				sz = ::write( pipfd[1], "x", 1);
+			} while (sz == 0 && errno == 11/*EAGAIN*/);
+			return sz > 0;
 		}
 
 		unsigned char allocJobHandle( JobHandlerProc proc, JobDeleterProc deleter, void* context)
@@ -331,15 +335,16 @@ struct JobQueueWorker::Data
 		if (selectFdData) delete selectFdData;
 	}
 
-	void notify()
+	bool notify()
 	{
 		if (selectFdData)
 		{
-			selectFdData->notify();
+			return selectFdData->notify();
 		}
 		else
 		{
 			cv.notify_all();
+			return true;
 		}
 	}
 
@@ -350,7 +355,7 @@ struct JobQueueWorker::Data
 			intent.increment();
 			strus::unique_lock lock( qe_mutex);
 			queue.push( Job( proc, context, deleter));
-			notify();
+			(void)notify();
 			return true;
 		}
 		catch (...)
@@ -380,7 +385,7 @@ struct JobQueueWorker::Data
 			intent.increment();
 			strus::unique_lock lock( qe_mutex);
 			queue.push( Job( proc, context, deleter, fh, fdTypeMask));
-			notify();
+			(void)notify();
 			return true;
 		}
 		catch (...)
@@ -454,7 +459,7 @@ struct JobQueueWorker::Data
 		{
 			intent.increment();
 			terminate.set( true);
-			notify();
+			(void)notify();
 			thread->join();
 			Job job;
 			while (fetch( job))
