@@ -24,8 +24,8 @@ DLL_PUBLIC std::size_t strus::base64EncodeLength( std::size_t srclen)
 DLL_PUBLIC std::size_t strus::base64DecodeLength( const char* encoded, std::size_t encodedlen)
 {
 	if (encodedlen < 4) return 0;
-	std::size_t padding = encoded[encodedlen] == '='
-			? (encoded[encodedlen-1] == '=' ? 2 : 1)
+	std::size_t padding = encoded[encodedlen-1] == '='
+			? (encoded[encodedlen-2] == '=' ? 2 : 1)
 			: 0;
 	std::size_t blocks = encodedlen / 4;
 	std::size_t bytes = blocks * 3 - padding;
