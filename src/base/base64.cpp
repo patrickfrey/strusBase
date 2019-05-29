@@ -74,7 +74,7 @@ DLL_PUBLIC std::size_t strus::decodeBase64( void* blobbuf, std::size_t blobbufsi
 	{
 		((char*)blobbuf)[ bi] = *ci;
 	}
-	if (ci != ce && *ci != '=')
+	if (ci != ce && *ci != '=' && *ci)
 	{
 		errcode = ErrorCodeLogicError;
 		return 0;
