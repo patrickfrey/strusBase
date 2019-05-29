@@ -130,7 +130,7 @@ struct JobQueueWorker::Data
 
 		void notify()
 		{
-			write( pipfd[1], "x", 1);
+			(void)::write( pipfd[1], "x", 1);
 		}
 
 		unsigned char allocJobHandle( JobHandlerProc proc, JobDeleterProc deleter, void* context)
