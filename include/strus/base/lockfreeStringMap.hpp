@@ -52,7 +52,7 @@ public:
 	{
 		if (nofBlocks <= 1) nofBlocks = 1;
 		if (nofBlocks >= (std::size_t)(1<<31)) throw std::bad_alloc();
-		while (m_hashMask < (int32_t)nofBlocks) {++m_nofHashBits; m_hashMask <<= 1;}
+		while (m_hashMask < (uint32_t)nofBlocks) {++m_nofHashBits; m_hashMask <<= 1;}
 		for (std::size_t ii=0; ii<m_hashMask; ++ii) m_blocks.push_back( BlockKeyMapRef());
 		m_hashMask--;
 	}
