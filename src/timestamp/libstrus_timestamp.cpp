@@ -81,6 +81,31 @@ static TimeStamp parseTimeStamp( const char* timestampstr, ErrorCode& errcode)
 	}
 }
 
+DLL_PUBLIC TimeStamp TimeStamp::fromdate( int year, int mon, int day, int hrs, int min, int sec, int cnt, ErrorCode& errcode)
+{
+	struct tm date;
+	std::memset( &date, 0, sizeof(date));
+
+	date.tm_sec  = sec;
+	date.tm_min  = min;
+	date.tm_hour = hrs;
+	date.tm_mday = day;
+	date.tm_mon  = mon-1;
+	date.tm_year = year - 1900;
+	date.tm_isdst = 0;
+
+	time_t unixtime = ::mktime( &date);
+
+	if (unixtime == ((time_t)-1))
+	{
+		errcode = ErrorCodeSyntax;
+		return TimeStamp();
+	}
+	else
+	{
+		return TimeStamp( unixtime, cnt);
+	}
+}
 
 static AtomicCounter<time_t> g_currentTime(0);
 static AtomicCounter<int> g_currentTimeCounter(0);

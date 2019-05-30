@@ -69,6 +69,9 @@ public:
 	/// \param[out] errcode error code in case of error
 	/// \return the timestamp represented by the parsed string or TimeStamp() (with defined() == false) in case of error
 	static TimeStamp fromstring( const char* timestampstr, ErrorCode& errcode);
+	/// \brief Get a timestamp from its date and counter
+	/// \param[out] errcode error code in case of error
+	static TimeStamp fromdate( int year, int mon, int day, int hrs, int min, int sec, int cnt, ErrorCode& errcode);
 
 	bool defined() const
 	{
