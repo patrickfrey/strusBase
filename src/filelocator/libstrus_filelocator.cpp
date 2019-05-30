@@ -5,8 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-/// \brief Exported functions of the strus standard error buffer library
-/// \file libstrus_error.cpp
+/// \brief Standard filelocator implementation
+/// \file libstrus_filelocator.cpp
 #include "strus/lib/filelocator.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "strus/base/fileio.hpp"
