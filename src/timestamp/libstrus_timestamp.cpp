@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <cstdlib>
 
 #define _TXT(str) str
 
