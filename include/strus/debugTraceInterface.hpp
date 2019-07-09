@@ -39,7 +39,7 @@ struct DebugTraceMessage
 	const char* id() const			{return m_id;}
 	const std::string& content() const	{return m_content;}
 
-	const char* typeName() const	{return typeName( m_type);}
+	const char* typeName() const		{return typeName( m_type);}
 
 private:
 	Type m_type;
