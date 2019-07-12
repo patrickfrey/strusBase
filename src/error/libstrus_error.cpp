@@ -158,6 +158,7 @@ DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 		case ErrorCodeRequestResolveError:	return _TXT("cannot resolve request");
 		case ErrorCodeNotAcceptable:		return _TXT("possible response not acceptable by client");
 		case ErrorCodeDelegateRequestFailed:	return _TXT("sub service request failed");
+		case ErrorCodeServiceShutdown:		return _TXT("request cannot be completed because of a service shutdown");
 		default: return _TXT("unknown");
 	}
 }

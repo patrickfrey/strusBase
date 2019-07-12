@@ -59,7 +59,8 @@ namespace strus
 		ErrorCodeEncoding=282,
 		ErrorCodeRequestResolveError=283,
 		ErrorCodeNotAcceptable=284,
-		ErrorCodeDelegateRequestFailed=285
+		ErrorCodeDelegateRequestFailed=285,
+		ErrorCodeServiceShutdown=286
 	};
 }//namespace
 #endif
