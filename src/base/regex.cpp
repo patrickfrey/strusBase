@@ -10,7 +10,9 @@
 #include "strus/errorBufferInterface.hpp"
 #include "private/internationalization.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "strus/base/utf8.hpp"
 #include "cxx11features.hpp"
+#include <vector>
 
 #undef USE_STD_REGEX
 #if __cplusplus >= 201103L && HAS_CXX11_REGEX != 0
@@ -98,6 +100,29 @@ public:
 		}
 		return rt;
 	}
+	std::string printMapped( const rx::smatch& match, const std::string& origstr, const std::vector<int>& posmap) const
+	{
+		std::string rt;
+		std::vector<int>::const_iterator ti = m_items.begin(), te = m_items.end();
+		for (; ti != te; ++ti)
+		{
+			if (*ti <= 0)
+			{
+				//... output variable
+				int idx = -*ti;
+				std::size_t pos = match.position( idx);
+				std::size_t orig_pos = posmap[ pos];
+				std::size_t length = posmap[ pos + match.length( idx)] - orig_pos;
+				char const* start = origstr.c_str() + orig_pos;
+				rt.append( start, length);
+			}
+			else
+			{
+				rt.append( m_strings.c_str() + *ti);
+			}
+		}
+		return rt;
+	}
 
 private:
 	std::vector<int> m_items;
@@ -114,13 +139,66 @@ private:
 #define MATCH_START_FLAGS boost::regex_constants::match_continuous
 #endif
 
+static bool stringHasNonAsciiCharacters( const char* src, std::size_t srcsize)
+{
+	char const* ti = src;
+	const char* te = src + srcsize;
+	for (; ti != te; ++ti)
+	{
+		if ((unsigned char)*ti > 127) return true;
+	}
+	return false;
+}
+
+static std::string mapStringNonAscii( const char* src, std::size_t srcsize, char substchar)
+{
+	std::string rt;
+
+	char const* ti = src;
+	const char* te = src + srcsize;
+	while (ti < te)
+	{
+		if ((unsigned char)*ti >= 127)
+		{
+			rt.push_back( 127);
+			ti += strus::utf8charlen( *ti);
+		}
+		else
+		{
+			rt.push_back( *ti);
+			++ti;
+		}
+	}
+	return rt;
+}
+
+static std::vector<int> utf8charPosMap( const char* src, std::size_t srcsize)
+{
+	std::vector<int> rt;
+
+	char const* ti = src;
+	const char* te = src + srcsize;
+	for (; ti < te; ti += strus::utf8charlen( *ti))
+	{
+		rt.push_back( ti - src);
+	}
+	rt.push_back( ti - src);
+	return rt;
+}
+
 struct RegexSearchConfiguration
 {
 	rx::regex expression;
 	unsigned int index;
 
 	RegexSearchConfiguration( const std::string& expressionstr, unsigned int index_)
-		:expression(expressionstr),index(index_){}
+		:expression(expressionstr),index(index_)
+	{
+		if (stringHasNonAsciiCharacters( expressionstr.c_str(), expressionstr.size()))
+		{
+			throw std::runtime_error( _TXT("regular expression rejected, only ASCII characters allowed"));
+		}
+	}
 	RegexSearchConfiguration( const RegexSearchConfiguration& o)
 		:expression(o.expression),index(o.index){}
 };
@@ -132,7 +210,13 @@ struct RegexSubstConfiguration
 
 	RegexSubstConfiguration( const std::string& expressionstr, const std::string& fmtstr)
 		:expression(expressionstr, REGEX_SYNTAX)
-		,formatter(fmtstr){}
+		,formatter(fmtstr)
+	{
+		if (stringHasNonAsciiCharacters( expressionstr.c_str(), expressionstr.size()))
+		{
+			throw std::runtime_error( _TXT("regular expression rejected, only ASCII characters allowed"));
+		}
+	}
 };
 
 DLL_PUBLIC RegexSearch::RegexSearch( const std::string& expression, int index, ErrorBufferInterface* errhnd_)
@@ -159,15 +243,41 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 	{
 		if (m_config)
 		{
+			std::string tokbuf;
+			std::vector<int> posmap;
+			bool mapped_src = false;
+			char const* si;
+			char const* se;
 			rx::match_results<char const*> pieces_match;
-			char const* si = start;
-			char const* se = end;
+
+			if (stringHasNonAsciiCharacters( start, end-start))
+			{
+				tokbuf = mapStringNonAscii( start, end-start, 127);
+				posmap = utf8charPosMap( start, end-start);
+				si = tokbuf.c_str();
+				se = si + tokbuf.size();
+				mapped_src = true;
+			}
+			else
+			{
+				si = start;
+				se = end;
+			}
 			if (rx::regex_search( si, se, pieces_match, ((RegexSearchConfiguration*)m_config)->expression, MATCH_FLAGS))
 			{
 				int idx = ((RegexSearchConfiguration*)m_config)->index;
 				int mpos = pieces_match.position( idx);
 				int mlen = pieces_match.length( idx);
-				return RegexSearch::Match( mpos, mlen);
+				if (mapped_src)
+				{
+					int mapped_mpos = posmap[ mpos];
+					int mapped_mlen = posmap[ mpos + mlen] - mapped_mpos;
+					return RegexSearch::Match( mapped_mpos, mapped_mlen);
+				}
+				else
+				{
+					return RegexSearch::Match( mpos, mlen);
+				}
 			}
 		}
 		return RegexSearch::Match();
@@ -185,13 +295,37 @@ DLL_PUBLIC int RegexSearch::find_start( const char* start, const char* end) cons
 	{
 		if (m_config)
 		{
+			std::string tokbuf;
+			std::vector<int> posmap;
+			bool mapped_src = false;
+			char const* si;
+			char const* se;
 			rx::match_results<char const*> matchar;
-			char const* si = start;
-			char const* se = end;
+
+			if (stringHasNonAsciiCharacters( start, end-start))
+			{
+				tokbuf = mapStringNonAscii( start, end-start, 127);
+				posmap = utf8charPosMap( start, end-start);
+				si = tokbuf.c_str();
+				se = si + tokbuf.size();
+				mapped_src = true;
+			}
+			else
+			{
+				si = start;
+				se = end;
+			}
 			if (rx::regex_search( si, se, matchar, ((RegexSearchConfiguration*)m_config)->expression, MATCH_START_FLAGS))
 			{
 				int idx = ((RegexSearchConfiguration*)m_config)->index;
-				return matchar.length( idx);
+				if (mapped_src)
+				{
+					return posmap[ matchar.length( idx)];
+				}
+				else
+				{
+					return matchar.length( idx);
+				}
 			}
 		}
 		return -1;
@@ -209,9 +343,22 @@ DLL_PUBLIC bool RegexSearch::match( const char* begin, int size) const
 	{
 		if (m_config)
 		{
+			std::string tokbuf;
+			char const* si;
+			char const* se;
 			rx::match_results<char const*> matchar;
-			char const* si = begin;
-			char const* se = begin+size;
+
+			if (stringHasNonAsciiCharacters( begin, size))
+			{
+				tokbuf = mapStringNonAscii( begin, size, 127);
+				si = tokbuf.c_str();
+				se = si + tokbuf.size();
+			}
+			else
+			{
+				si = begin;
+				se = begin+size;
+			}
 			return rx::regex_match( si, se, matchar, ((RegexSearchConfiguration*)m_config)->expression, MATCH_START_FLAGS);
 		}
 		return false;
@@ -247,17 +394,37 @@ DLL_PUBLIC bool RegexSubst::exec( std::string& out, const std::string& input) co
 	{
 		if (m_config)
 		{
+			std::string tokbuf;
+			std::vector<int> posmap;
 			rx::smatch pieces_match;
 
-			if (rx::regex_match( input, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
+			if (stringHasNonAsciiCharacters( input.c_str(), input.size()))
 			{
-				out = ((RegexSubstConfiguration*)m_config)->formatter.print( pieces_match);
-				return true;
+				tokbuf = mapStringNonAscii( input.c_str(), input.size(), 127);
+				posmap = utf8charPosMap( input.c_str(), input.size());
+				if (rx::regex_match( tokbuf, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
+				{
+					out = ((RegexSubstConfiguration*)m_config)->formatter.printMapped( pieces_match, input, posmap);
+					return true;
+				}
+				else
+				{
+					out.clear();
+					return true;
+				}
 			}
 			else
 			{
-				out.clear();
-				return true;
+				if (rx::regex_match( input, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
+				{
+					out = ((RegexSubstConfiguration*)m_config)->formatter.print( pieces_match);
+					return true;
+				}
+				else
+				{
+					out.clear();
+					return true;
+				}
 			}
 		}
 		return false;
