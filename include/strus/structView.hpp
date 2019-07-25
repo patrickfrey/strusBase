@@ -168,6 +168,15 @@ public:
 	dict_iterator dict_begin() const	{return m_dict.begin();}
 	dict_iterator dict_end() const	{return m_dict.end();}
 
+	template<typename Element>
+	static StructView getArray( const std::vector<Element>& init)
+	{
+		StructView rt;
+		typename std::vector<Element>::const_iterator ei = init.begin(), ee = init.end();
+		for (; ei != ee; ++ei) {rt( *ei);}
+		return rt;
+	}
+
 private:
 	bool appendToString( std::string& buf) const;
 
