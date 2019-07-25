@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Patrick P. Frey
+ * Copyright (c) 2019 Patrick P. Frey
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,8 @@
 #include <map>
 #include <stdexcept>
 #include <utility>
+#include <iostream>
+#include <sstream>
 
 /// \brief strus toplevel namespace
 namespace strus
@@ -26,6 +28,9 @@ namespace strus
 class StructView
 {
 public:
+	enum {
+		FloatPrecisionToString=6,
+	};
 	enum Type {
 		Null,
 		String,
@@ -37,51 +42,60 @@ public:
 	/// \brief Copy constructor
 	StructView( const StructView& o)
 		:m_type(o.m_type),m_string(o.m_string),m_numeric(o.m_numeric),m_ar(o.m_ar),m_dict(o.m_dict){}
+
+	/// \brief Default constructor
+	StructView()
+		:m_type(Null){}
+	/// \brief Constructor
+	StructView( int value)
+		:m_type(Numeric),m_numeric( NumericVariant::asint( value)){}
+	/// \brief Constructor
+	StructView( unsigned int value)
+		:m_type(Numeric),m_numeric( NumericVariant::asuint( value)){}
+	/// \brief Constructor
+	StructView( double value)
+		:m_type(Numeric),m_numeric( NumericVariant::asdouble( value)){}
+	/// \brief Constructor
+	StructView( const char* value)
+		:m_type(String),m_string( value ? value : ""){}
+	/// \brief Constructor
+	StructView( const std::string& value)
+		:m_type(String),m_string( value){}
+	/// \brief Constructor
+	StructView( const NumericVariant& value)
+		:m_type(Numeric),m_numeric( value){}
+	/// \brief Constructor
+	StructView( const std::vector<std::string>& init)
+		:m_type(Structure),m_ar( init.begin(), init.end()){}
+
+	/// \brief Assignment operator
+	StructView& operator=( const StructView& o)
+		{m_type=o.m_type; m_string=o.m_string; m_numeric=o.m_numeric; m_ar=o.m_ar; m_dict=o.m_dict; return *this;}
+
 #if __cplusplus >= 201103L
 	StructView( StructView&& o)
 		:m_type(o.m_type),m_string(std::move(o.m_string)),m_numeric(std::move(o.m_numeric)),m_ar(std::move(o.m_ar)),m_dict(std::move(o.m_dict)){}
 	StructView& operator=( StructView&& o)
 		{m_type=o.m_type; m_string=std::move(o.m_string); m_numeric=std::move(o.m_numeric); m_ar=std::move(o.m_ar); m_dict=std::move(o.m_dict); return *this;}
-#endif
-	StructView& operator=( const StructView& o)
-		{m_type=o.m_type; m_string=o.m_string; m_numeric=o.m_numeric; m_ar=o.m_ar; m_dict=o.m_dict; return *this;}
 
-	/// \brief Constructor
-	StructView()
+	StructView( const std::initializer_list<StructView>& init)
+		:m_type(Structure),m_ar( init.begin(), init.end()){}
+
+	StructView( const std::initializer_list<std::pair<const char*,StructView> >& init)
+		:m_type(Structure)
 	{
-		m_type = Null;
+		std::initializer_list<std::pair<const char*,StructView> >::const_iterator ii = init.begin(), ie = init.end();
+		for (; ii != ie; ++ii) m_dict[ ii->first] = ii->second;
 	}
-	StructView( int value)
-	{
-		m_type = Numeric;
-		m_numeric = NumericVariant::asint( value);
-	}
-	StructView( unsigned int value)
-	{
-		m_type = Numeric;
-		m_numeric = NumericVariant::asuint( value);
-	}
-	StructView( double value)
-	{
-		m_type = Numeric;
-		m_numeric = NumericVariant::asdouble( value);
-	}
-	StructView( const char* value)
-	{
-		m_type = String;
-		m_string = value ? value : "";
-	}
-	StructView( const std::string& value)
-	{
-		m_type = String;
-		m_string = value;
-	}
+#endif
+
 	StructView& operator()( const std::string& name, const StructView& value)
 	{
 		if (m_type == Null || (m_type == Structure && m_ar.empty()))
 		{
 			m_type = Structure;
 			m_dict[ name] = value;
+			return *this;
 		}
 		else throw std::runtime_error( "invalid StructView definition");
 	}
@@ -91,6 +105,7 @@ public:
 		{
 			m_type = Structure;
 			m_dict[ name] = value;
+			return *this;
 		}
 		else throw std::runtime_error( "invalid StructView definition");
 	}
@@ -100,40 +115,11 @@ public:
 		{
 			m_type = Structure;
 			m_ar.push_back( value);
+			return *this;
 		}
 		else throw std::runtime_error( "invalid StructView definition");
 	}
-#if __cplusplus >= 201103L
-	StructView( const std::initializer_list<StructView>& init)
-	{
-		if (m_type == Null || (m_type == Structure && m_dict.empty()))
-		{
-			m_ar.insert( m_ar.end(), init.begin(), init.end());
-			m_type = Structure;
-		}
-		else throw std::runtime_error( "invalid StructView definition");
-	}
-	StructView( const std::initializer_list<std::pair<const char*,StructView> >& init)
-	{
-		if (m_type == Null || (m_type == Structure && m_ar.empty()))
-		{
-			m_type = Structure;
-			std::initializer_list<std::pair<const char*,StructView> >::const_iterator ii = init.begin(), ie = init.end();
-			for (; ii != ie; ++ii) m_dict[ ii->first] = ii->second;
-		}
-		else throw std::runtime_error( "invalid StructView definition");
-	}
-#endif
-	template <typename ElementType>
-	StructView( const std::vector<ElementType>& init)
-	{
-		if (m_type == Null || (m_type == Structure && m_dict.empty()))
-		{
-			m_ar.insert( m_ar.end(), init.begin(), init.end());
-			m_type = Structure;
-		}
-		else throw std::runtime_error( "invalid StructView definition");
-	}
+
 	/// \brief Get the type of the element
 	Type type() const
 	{
@@ -141,13 +127,17 @@ public:
 	}
 	std::string tostring() const
 	{
-		switch (m_type)
-		{
-			case Null: return std::string();
-			case String: return m_string;
-			case Numeric: return std::string( m_numeric.tostring().c_str());
-			case Structure: return std::string();
-		}
+		std::string rt;
+		if (!appendToString( rt)) throw std::bad_alloc();
+		return rt;
+	}
+	const std::string& asstring() const
+	{
+		return m_string;
+	}
+	const NumericVariant& asnumeric() const
+	{
+		return m_numeric;
 	}
 	bool isAtomic() const
 	{
@@ -161,6 +151,10 @@ public:
 	{
 		return m_ar.size();
 	}
+	std::size_t dictSize() const
+	{
+		return m_dict.size();
+	}
 	const StructView* get( std::size_t idx) const
 	{
 		return &m_ar[ idx];
@@ -170,6 +164,12 @@ public:
 		std::map<std::string,StructView>::const_iterator di = m_dict.find( key);
 		return  di == m_dict.end() ? NULL : &di->second;
 	}
+	typedef std::map<std::string,StructView>::const_iterator dict_iterator;
+	dict_iterator dict_begin() const	{return m_dict.begin();}
+	dict_iterator dict_end() const	{return m_dict.end();}
+
+private:
+	bool appendToString( std::string& buf) const;
 
 private:
 	Type m_type;

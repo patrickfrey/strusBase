@@ -30,6 +30,7 @@ set( source_files
 	periodicTimerEvent.cpp
 	jobQueueWorker.cpp
 	minimalCover.cpp
+	structView.cpp
 )
 
 include_directories(
