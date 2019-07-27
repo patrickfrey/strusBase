@@ -159,10 +159,19 @@ public:
 	{
 		return &m_ar[ idx];
 	}
+	StructView* get( std::size_t idx)
+	{
+		return &m_ar[ idx];
+	}
 	const StructView* get( const std::string& key) const
 	{
 		std::map<std::string,StructView>::const_iterator di = m_dict.find( key);
-		return  di == m_dict.end() ? NULL : &di->second;
+		return di == m_dict.end() ? NULL : &di->second;
+	}
+	StructView* get( const std::string& key)
+	{
+		std::map<std::string,StructView>::iterator di = m_dict.find( key);
+		return di == m_dict.end() ? NULL : &di->second;
 	}
 	typedef std::map<std::string,StructView>::const_iterator dict_iterator;
 	dict_iterator dict_begin() const	{return m_dict.begin();}
