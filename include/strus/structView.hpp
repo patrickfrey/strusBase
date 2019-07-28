@@ -149,6 +149,10 @@ public:
 	{
 		return m_numeric;
 	}
+	bool defined() const
+	{
+		return (m_type != Null);
+	}
 	bool isAtomic() const
 	{
 		return (m_type != Structure);
