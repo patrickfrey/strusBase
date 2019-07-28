@@ -99,6 +99,16 @@ public:
 		}
 		else throw std::runtime_error( "invalid StructView definition");
 	}
+	StructView& operator()( const std::pair<std::string,std::string>& keyValuePair)
+	{
+		if (m_type == Null || (m_type == Structure && m_ar.empty()))
+		{
+			m_type = Structure;
+			m_dict[ keyValuePair.first] = keyValuePair.second;
+			return *this;
+		}
+		else throw std::runtime_error( "invalid StructView definition");
+	}
 	StructView& operator()( const char* name, const StructView& value)
 	{
 		if (m_type == Null || (m_type == Structure && m_ar.empty()))
