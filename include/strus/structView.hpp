@@ -191,6 +191,10 @@ public:
 	dict_iterator dict_begin() const	{return m_dict.begin();}
 	dict_iterator dict_end() const	{return m_dict.end();}
 
+	typedef std::vector<StructView>::const_iterator array_iterator;
+	array_iterator array_begin() const	{return m_ar.begin();}
+	array_iterator array_end() const	{return m_ar.end();}
+
 	template<typename Element>
 	static StructView getArray( const std::vector<Element>& init)
 	{
