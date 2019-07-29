@@ -13,11 +13,11 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <set>
 #include <map>
 #include <stdexcept>
 #include <utility>
-#include <iostream>
-#include <sstream>
+#include <iterator>
 
 /// \brief strus toplevel namespace
 namespace strus
@@ -61,12 +61,6 @@ public:
 	/// \brief Constructor
 	StructView( const std::string& value)
 		:m_type(String),m_string( value){}
-	/// \brief Constructor
-	StructView( const NumericVariant& value)
-		:m_type(Numeric),m_numeric( value){}
-	/// \brief Constructor
-	StructView( const std::vector<std::string>& init)
-		:m_type(Structure),m_ar( init.begin(), init.end()){}
 
 	/// \brief Assignment operator
 	StructView& operator=( const StructView& o)
@@ -128,6 +122,16 @@ public:
 			return *this;
 		}
 		else throw std::runtime_error( "invalid StructView definition");
+	}
+	template <class ElementType>
+	StructView& operator()( const char* name, const std::set<ElementType>& collection)
+	{
+		return (*this)( name, array( collection));
+	}
+	template <class ElementType>
+	StructView& operator()( const char* name, const std::vector<ElementType>& collection)
+	{
+		return (*this)( name, array( collection));
 	}
 
 	/// \brief Get the type of the element
@@ -195,12 +199,20 @@ public:
 	array_iterator array_begin() const	{return m_ar.begin();}
 	array_iterator array_end() const	{return m_ar.end();}
 
-	template<typename Element>
-	static StructView getArray( const std::vector<Element>& init)
+	template <class ElementType>
+	static StructView array( const std::vector<ElementType>& collection)
 	{
 		StructView rt;
-		typename std::vector<Element>::const_iterator ei = init.begin(), ee = init.end();
-		for (; ei != ee; ++ei) {rt( *ei);}
+		typename std::vector<ElementType>::const_iterator itr = collection.begin(), end = collection.end();
+		for (; itr != end; ++itr) {rt( StructView(*itr));}
+		return rt;
+	}
+	template <class ElementType>
+	static StructView array( const std::set<ElementType>& collection)
+	{
+		StructView rt;
+		typename std::set<ElementType>::const_iterator itr = collection.begin(), end = collection.end();
+		for (; itr != end; ++itr) {rt( StructView(*itr));}
 		return rt;
 	}
 
