@@ -219,12 +219,12 @@ struct RegexSubstConfiguration
 	}
 };
 
-DLL_PUBLIC RegexSearch::RegexSearch( const std::string& expression, int index, ErrorBufferInterface* errhnd_)
+DLL_PUBLIC RegexSearch::RegexSearch( const std::string& expression, int index_, ErrorBufferInterface* errhnd_)
 	:m_config(0),m_errhnd(errhnd_)
 {
 	try
 	{
-		m_config = new RegexSearchConfiguration( expression, index);
+		m_config = new RegexSearchConfiguration( expression, index_);
 	}
 	catch (const std::exception& err)
 	{
@@ -235,6 +235,11 @@ DLL_PUBLIC RegexSearch::RegexSearch( const std::string& expression, int index, E
 DLL_PUBLIC RegexSearch::~RegexSearch()
 {
 	if (m_config) delete (RegexSearchConfiguration*)m_config;
+}
+
+DLL_PUBLIC int RegexSearch::index() const
+{
+	return m_config ? ((RegexSearchConfiguration*)m_config)->index : 0;
 }
 
 DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* end) const

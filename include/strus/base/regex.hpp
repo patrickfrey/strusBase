@@ -38,10 +38,14 @@ public:
 
 	///\brief Constructor
 	///\param[in] expression regular expression string (POSIX)
-	RegexSearch( const std::string& expression, int index, ErrorBufferInterface* errhnd_);
+	RegexSearch( const std::string& expression, int index_, ErrorBufferInterface* errhnd_);
 
 	///\brief Destructor
 	~RegexSearch();
+
+	///\brief Get the index of the result selected (0 for the whole match)
+	///\return the index
+	int index() const;
 
 	///\brief Execute the search
 	///\param[in] begin pointer to the start of the string to search
