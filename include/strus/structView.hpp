@@ -61,6 +61,9 @@ public:
 	/// \brief Constructor
 	StructView( const std::string& value)
 		:m_type(String),m_string( value){}
+	/// \brief Constructor
+	StructView( const NumericVariant& value)
+		:m_type(String),m_numeric( value){}
 
 	/// \brief Assignment operator
 	StructView& operator=( const StructView& o)
