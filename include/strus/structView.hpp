@@ -44,8 +44,8 @@ public:
 		:m_type(o.m_type),m_string(o.m_string),m_numeric(o.m_numeric),m_ar(o.m_ar),m_dict(o.m_dict){}
 
 	/// \brief Default constructor
-	StructView()
-		:m_type(Null){}
+	explicit StructView( Type type_=Null)
+		:m_type(type_){}
 	/// \brief Constructor
 	StructView( int value)
 		:m_type(Numeric),m_numeric( NumericVariant::asint( value)){}
