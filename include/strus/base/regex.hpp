@@ -9,6 +9,7 @@
 #ifndef _STRUS_BASE_REGEX_HPP_INCLUDED
 #define _STRUS_BASE_REGEX_HPP_INCLUDED
 #include <string>
+#include <vector>
 
 namespace strus {
 
@@ -61,6 +62,11 @@ public:
 	{
 		return find( str, str + size);
 	}
+	///\brief Find all matches as non overlapping, greedy
+	///\param[in] str pointer to the start of the string to scan
+	///\param[in] size size of the string to scan in bytes
+	///\return the list of matches
+	std::vector<Match> find_all( const char* start, std::size_t size) const;
 
 	///\brief Search the regex at the start of the source
 	///\param[in] begin pointer to the start of the string to search

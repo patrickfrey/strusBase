@@ -253,7 +253,6 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 			bool mapped_src = false;
 			char const* si;
 			char const* se;
-			rx::match_results<char const*> pieces_match;
 
 			if (stringHasNonAsciiCharacters( start, end-start))
 			{
@@ -268,6 +267,7 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 				si = start;
 				se = end;
 			}
+			rx::match_results<char const*> pieces_match;
 			if (rx::regex_search( si, se, pieces_match, ((RegexSearchConfiguration*)m_config)->expression, MATCH_FLAGS))
 			{
 				int idx = ((RegexSearchConfiguration*)m_config)->index;
@@ -291,6 +291,66 @@ DLL_PUBLIC RegexSearch::Match RegexSearch::find( const char* start, const char* 
 	{
 		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
 		return RegexSearch::Match();
+	}
+}
+
+DLL_PUBLIC std::vector<RegexSearch::Match> RegexSearch::find_all( const char* start, std::size_t size) const
+{
+	try
+	{
+		std::vector<RegexSearch::Match> rt;
+		int total_mapped_ofs = 0;
+		if (m_config)
+		{
+			std::string tokbuf;
+			std::vector<int> posmap;
+			bool mapped_src = false;
+			char const* si;
+			char const* se;
+
+			if (stringHasNonAsciiCharacters( start, size))
+			{
+				tokbuf = mapStringNonAscii( start, size, 127);
+				posmap = utf8charPosMap( start, size);
+				si = tokbuf.c_str();
+				se = si + tokbuf.size();
+				mapped_src = true;
+			}
+			else
+			{
+				si = start;
+				se = start + size;
+			}
+			while (si < se)
+			{
+				rx::match_results<char const*> pieces_match;
+				if (rx::regex_search( si, se, pieces_match, ((RegexSearchConfiguration*)m_config)->expression, MATCH_FLAGS))
+				{
+					int idx = ((RegexSearchConfiguration*)m_config)->index;
+					int mpos = pieces_match.position( idx);
+					int mlen = pieces_match.length( idx);
+					si += mpos + mlen;
+					if (mapped_src)
+					{
+						int mapped_mpos = posmap[ mpos];
+						int mapped_epos = posmap[ mpos + mlen];
+						int mapped_mlen = mapped_epos - mapped_mpos;
+						rt.push_back( RegexSearch::Match( total_mapped_ofs + mapped_mpos, mapped_mlen));
+						total_mapped_ofs += mapped_epos;
+					}
+					else
+					{
+						rt.push_back( RegexSearch::Match( (si-start) + mpos, mlen));
+					}
+				}
+			}
+		}
+		return rt;
+	}
+	catch (const std::exception& err)
+	{
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex search: %s"), err.what());
+		return std::vector<RegexSearch::Match>();
 	}
 }
 
