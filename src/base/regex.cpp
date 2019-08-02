@@ -326,7 +326,6 @@ DLL_PUBLIC std::vector<RegexSearch::Match> RegexSearch::find_all( const char* st
 					int idx = ((RegexSearchConfiguration*)m_config)->index;
 					int mpos = pieces_match.position( idx);
 					int mlen = pieces_match.length( idx);
-					si += mpos + mlen;
 					if (mapped_src)
 					{
 						int mapped_mpos = posmap[ mpos];
@@ -339,6 +338,7 @@ DLL_PUBLIC std::vector<RegexSearch::Match> RegexSearch::find_all( const char* st
 					{
 						rt.push_back( RegexSearch::Match( (si-start) + mpos, mlen));
 					}
+					si += mpos + mlen;
 				}
 				else
 				{
