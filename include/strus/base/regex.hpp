@@ -117,13 +117,13 @@ public:
 	~RegexSubst();
 
 	///\brief Execute the replacement
-	///\param[out] out output string
+	///\param[out] out where to append output string
 	///\param[in] input input string
 	///\return bool true on success, false on failure, error code or message is not provided
 	bool exec( std::string& out, const std::string& input) const;
 
 	///\brief Execute the replacement
-	///\param[out] out output string
+	///\param[out] out where to append output string
 	///\param[in] src pointer to input string
 	///\param[in] srcsize sizeof src in bytes
 	///\return bool true on success, false on failure, error code or message is not provided

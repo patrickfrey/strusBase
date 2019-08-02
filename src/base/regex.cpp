@@ -82,27 +82,25 @@ public:
 		}
 	}
 
-	std::string print( const rx::smatch& match) const
+	void print( std::string& res, const rx::smatch& match) const
 	{
-		std::string rt;
 		std::vector<int>::const_iterator ti = m_items.begin(), te = m_items.end();
 		for (; ti != te; ++ti)
 		{
 			if (*ti <= 0)
 			{
 				//... output variable
-				rt.append( match.str( -*ti));
+				res.append( match.str( -*ti));
 			}
 			else
 			{
-				rt.append( m_strings.c_str() + *ti);
+				res.append( m_strings.c_str() + *ti);
 			}
 		}
-		return rt;
 	}
-	std::string printMapped( const rx::smatch& match, const std::string& origstr, const std::vector<int>& posmap) const
+
+	void printMapped( std::string& res, const rx::smatch& match, const std::string& origstr, const std::vector<int>& posmap) const
 	{
-		std::string rt;
 		std::vector<int>::const_iterator ti = m_items.begin(), te = m_items.end();
 		for (; ti != te; ++ti)
 		{
@@ -114,14 +112,13 @@ public:
 				std::size_t orig_pos = posmap[ pos];
 				std::size_t length = posmap[ pos + match.length( idx)] - orig_pos;
 				char const* start = origstr.c_str() + orig_pos;
-				rt.append( start, length);
+				res.append( start, length);
 			}
 			else
 			{
-				rt.append( m_strings.c_str() + *ti);
+				res.append( m_strings.c_str() + *ti);
 			}
 		}
-		return rt;
 	}
 
 private:
@@ -343,6 +340,10 @@ DLL_PUBLIC std::vector<RegexSearch::Match> RegexSearch::find_all( const char* st
 						rt.push_back( RegexSearch::Match( (si-start) + mpos, mlen));
 					}
 				}
+				else
+				{
+					break;
+				}
 			}
 		}
 		return rt;
@@ -469,12 +470,11 @@ DLL_PUBLIC bool RegexSubst::exec( std::string& out, const std::string& input) co
 				posmap = utf8charPosMap( input.c_str(), input.size());
 				if (rx::regex_match( tokbuf, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
 				{
-					out = ((RegexSubstConfiguration*)m_config)->formatter.printMapped( pieces_match, input, posmap);
+					((RegexSubstConfiguration*)m_config)->formatter.printMapped( out, pieces_match, input, posmap);
 					return true;
 				}
 				else
 				{
-					out.clear();
 					return true;
 				}
 			}
@@ -482,12 +482,11 @@ DLL_PUBLIC bool RegexSubst::exec( std::string& out, const std::string& input) co
 			{
 				if (rx::regex_match( input, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
 				{
-					out = ((RegexSubstConfiguration*)m_config)->formatter.print( pieces_match);
+					((RegexSubstConfiguration*)m_config)->formatter.print( out, pieces_match);
 					return true;
 				}
 				else
 				{
-					out.clear();
 					return true;
 				}
 			}
