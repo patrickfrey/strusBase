@@ -8,6 +8,7 @@
 #include "strus/base/programOptions.hpp"
 #include "private/internationalization.hpp"
 #include "private/errorUtils.hpp"
+#include "strus/base/string_format.hpp"
 #include "strus/base/numstring.hpp"
 #include "strus/base/dll_tags.hpp"
 #include <cstring>
@@ -23,7 +24,7 @@ void ProgramOptions::OptMapDef::add( const char* arg)
 {
 	try
 	{
-		bool hasArg = false;
+		OptType optType = SingleBool;
 		char alias = '\0';
 		char const* aa = arg;
 		const char* longnamestart = arg;
@@ -43,11 +44,21 @@ void ProgramOptions::OptMapDef::add( const char* arg)
 			{
 				if (longnameend - aa != 1)
 				{
-					throw strus::runtime_error( "%s",  _TXT("colon expected only at end of option definition string"));
+					throw strus::runtime_error( "%s",  _TXT("colon ':' expected only at end of option definition string"));
 				}
 				longnameend = aa;
-				hasArg = true;
+				optType = WithArgument;
 			}
+			else if (*aa == '+')
+			{
+				if (longnameend - aa != 1)
+				{
+					throw strus::runtime_error( "%s",  _TXT("plus '+' expected only at end of option definition string"));
+				}
+				longnameend = aa;
+				optType = RepeatingBool;
+			}
+
 		}
 		std::string longname( longnamestart, longnameend-longnamestart);
 		if (longname.empty())
@@ -62,7 +73,7 @@ void ProgramOptions::OptMapDef::add( const char* arg)
 		{
 			m_aliasmap[ alias] = longname;
 		}
-		m_longnamemap[ longname] = hasArg;
+		m_longnamemap[ longname] = optType;
 	}
 	CATCH_ERROR_MAP( _TXT("failed to define program option: %s"), *m_errorhnd);
 }
@@ -136,9 +147,9 @@ DLL_PUBLIC ProgramOptions::ProgramOptions( ErrorBufferInterface* errorhnd_, int 
 			std::vector<std::string>::const_iterator oi = optlist.begin(), oe = optlist.end();
 			for (; oi != oe; ++oi)
 			{
-				std::map<std::string,bool>::iterator li = optmapdef.m_longnamemap.find( *oi);
+				std::map<std::string,OptType>::iterator li = optmapdef.m_longnamemap.find( *oi);
 				if (li == optmapdef.m_longnamemap.end()) throw strus::runtime_error( _TXT("unknown option '--%s'"), oi->c_str());
-				if (li->second && oi+1 == oe)
+				if (li->second == WithArgument && oi+1 == oe)
 				{
 					if (optarg.empty() && m_argc > 1 && (m_argv[1][0] != '-' || m_argv[1][1] == '\0'))
 					{
@@ -165,6 +176,18 @@ DLL_PUBLIC ProgramOptions::ProgramOptions( ErrorBufferInterface* errorhnd_, int 
 					else
 					{
 						m_opt.insert( OptMapElem( *oi, optarg));
+					}
+				}
+				else if (li->second == RepeatingBool)
+				{
+					OptMap::iterator mi = m_opt.find( *oi);
+					if (mi == m_opt.end())
+					{
+						m_opt.insert( OptMapElem( *oi, "1"));
+					}
+					else
+					{
+						mi->second = strus::string_format( "%d", atoi( mi->second.c_str())+1);
 					}
 				}
 				else

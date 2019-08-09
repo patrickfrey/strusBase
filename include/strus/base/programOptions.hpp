@@ -77,6 +77,8 @@ public:
 	void print( std::ostream& out);
 
 private:
+	enum OptType {SingleBool,RepeatingBool, WithArgument};
+
 	/// \brief Internal program options name map
 	class OptMapDef
 	{
@@ -88,7 +90,7 @@ private:
 		bool getOpt( const char* argv, std::vector<std::string>& optlist, std::string& optarg);
 
 		ErrorBufferInterface* m_errorhnd;
-		std::map<std::string,bool> m_longnamemap;
+		std::map<std::string,OptType> m_longnamemap;
 		std::map<char,std::string> m_aliasmap;
 	};
 
