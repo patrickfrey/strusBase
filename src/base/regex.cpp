@@ -13,6 +13,7 @@
 #include "strus/base/utf8.hpp"
 #include "cxx11features.hpp"
 #include <vector>
+#include <iterator>
 
 #undef USE_STD_REGEX
 #if __cplusplus >= 201103L && HAS_CXX11_REGEX != 0
@@ -99,7 +100,7 @@ public:
 		}
 	}
 
-	void printMapped( std::string& res, const rx::smatch& match, const std::string& origstr, const std::vector<int>& posmap) const
+	void printMapped( std::string& res, const rx::smatch& match, const char* origstr, std::size_t origsize, const std::vector<int>& posmap) const
 	{
 		std::vector<int>::const_iterator ti = m_items.begin(), te = m_items.end();
 		for (; ti != te; ++ti)
@@ -109,9 +110,10 @@ public:
 				//... output variable
 				int idx = -*ti;
 				std::size_t pos = match.position( idx);
-				std::size_t orig_pos = posmap[ pos];
-				std::size_t length = posmap[ pos + match.length( idx)] - orig_pos;
-				char const* start = origstr.c_str() + orig_pos;
+				std::size_t origpos = posmap[ pos];
+				std::size_t length = posmap[ pos + match.length( idx)] - origpos;
+				char const* start = origstr + origpos;
+				if (origpos + length > origsize) throw strus::runtime_error(_TXT("array bound read in %s"), "print mapped (base/regex)");
 				res.append( start, length);
 			}
 			else
@@ -454,43 +456,55 @@ DLL_PUBLIC RegexSubst::~RegexSubst()
 	if (m_config) delete (RegexSubstConfiguration*)m_config;
 }
 
+bool RegexSubst::exec_( std::string& out, char const* src, std::size_t srcsize) const
+{
+	if (m_config)
+	{
+		std::string tokbuf;
+		std::vector<int> posmap;
+		rx::smatch pieces_match;
+
+		if (stringHasNonAsciiCharacters( src, srcsize))
+		{
+			tokbuf = mapStringNonAscii( src, srcsize, 127);
+			posmap = utf8charPosMap( src, srcsize);
+			if (rx::regex_match( tokbuf, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
+			{
+				((RegexSubstConfiguration*)m_config)->formatter.printMapped( out, pieces_match, src, srcsize, posmap);
+				return true;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			std::string str(src,srcsize); 
+			//... PF:BAD Copy a string just to satisfy the interface of regex
+			if (rx::regex_match( str, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
+			{
+				((RegexSubstConfiguration*)m_config)->formatter.print( out, pieces_match);
+				return true;
+			}
+			else
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 DLL_PUBLIC bool RegexSubst::exec( std::string& out, const std::string& input) const
 {
 	try
 	{
-		if (m_config)
-		{
-			std::string tokbuf;
-			std::vector<int> posmap;
-			rx::smatch pieces_match;
-
-			if (stringHasNonAsciiCharacters( input.c_str(), input.size()))
-			{
-				tokbuf = mapStringNonAscii( input.c_str(), input.size(), 127);
-				posmap = utf8charPosMap( input.c_str(), input.size());
-				if (rx::regex_match( tokbuf, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
-				{
-					((RegexSubstConfiguration*)m_config)->formatter.printMapped( out, pieces_match, input, posmap);
-					return true;
-				}
-				else
-				{
-					return true;
-				}
-			}
-			else
-			{
-				if (rx::regex_match( input, pieces_match, ((RegexSubstConfiguration*)m_config)->expression))
-				{
-					((RegexSubstConfiguration*)m_config)->formatter.print( out, pieces_match);
-					return true;
-				}
-				else
-				{
-					return true;
-				}
-			}
-		}
+		return exec_( out, input.c_str(), input.size());
+	}
+	catch (const std::bad_alloc&)
+	{
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("out of memory in regex subst"));
 		return false;
 	}
 	catch (const std::exception& err)
@@ -502,7 +516,20 @@ DLL_PUBLIC bool RegexSubst::exec( std::string& out, const std::string& input) co
 
 DLL_PUBLIC bool RegexSubst::exec( std::string& out, const char* src, std::size_t srcsize) const
 {
-	return exec( out, std::string( src, srcsize));
+	try
+	{
+		return exec_( out, src, srcsize);
+	}
+	catch (const std::bad_alloc&)
+	{
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("out of memory in regex subst"));
+		return false;
+	}
+	catch (const std::exception& err)
+	{
+		m_errhnd->report( ErrorCodeRuntimeError, _TXT("error in regex subst: %s"), err.what());
+		return false;
+	}
 }
 
 

@@ -143,7 +143,9 @@ private:
 
 private:
 	void reportError( const char* err);
+	bool exec_( std::string& out, const char* src, std::size_t srcsize) const;
 
+private:
 	void* m_config;						//< PIMPL for implementation
 	ErrorBufferInterface* m_errhnd;				//< where to report errors
 };
