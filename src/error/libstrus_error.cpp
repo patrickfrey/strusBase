@@ -134,7 +134,7 @@ DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 		case ErrorCodeInvalidRegex:		return _TXT("invalid regular expression");
 		case ErrorCodeInvalidOperation:		return _TXT("invalid operation");
 		case ErrorCodeInvalidFilePath:		return _TXT("invalid or not allowed file path");
-		case ErrorCodeInvalidRequest:		return _TXT("valid syntax but unable to interprete request in the addressed context");
+		case ErrorCodeInvalidRequest:		return _TXT("unable to interprete request in the addressed context");
 		case ErrorCodeLoadModuleFailed:		return _TXT("failed to load module");
 		case ErrorCodeNotImplemented:		return _TXT("not implemented");
 		case ErrorCodeIncompleteInitialization:	return _TXT("incomplete initialization of object called");
