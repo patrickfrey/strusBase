@@ -79,9 +79,11 @@ DLL_PUBLIC int strus::mkdirp( const std::string& dirname)
 
 DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 {
+AGAIN:
 	if (0>::mkdir( dirname.c_str(), 0755))
 	{
 		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
 		if (!fail_ifexist && ec == EEXIST && isDir(dirname.c_str()))
 		{
 			ec = 0;
@@ -93,18 +95,23 @@ DLL_PUBLIC int strus::createDir( const std::string& dirname, bool fail_ifexist)
 
 DLL_PUBLIC int strus::changeDir( const std::string& dirname)
 {
+AGAIN:
 	if (0>::chdir( dirname.c_str()))
 	{
-		return errno;
+		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
 	}
 	return 0;
 }
 
 DLL_PUBLIC int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
 {
+AGAIN:
 	if (0>::remove( filename.c_str()))
 	{
 		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
 		if (!fail_ifnofexist && ec == ENOENT)
 		{
 			ec = 0;
@@ -116,9 +123,11 @@ DLL_PUBLIC int strus::removeFile( const std::string& filename, bool fail_ifnofex
 
 DLL_PUBLIC int strus::removeDir( const std::string& dirname, bool fail_ifnofexist)
 {
+AGAIN:
 	if (0>::rmdir( dirname.c_str()))
 	{
 		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
 		if (!fail_ifnofexist && ec == ENOENT)
 		{
 			ec = 0;
@@ -179,21 +188,18 @@ DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_
 
 DLL_PUBLIC int strus::renameFile( const std::string& old_filename, const std::string& new_filename)
 {
+AGAIN:
 	if (0>::rename( old_filename.c_str(), new_filename.c_str()))
 	{
 		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
 		return ec;
 	}
 	return 0;
 }
 
-DLL_PUBLIC int strus::writeFile( const std::string& filename, const void* content, std::size_t contentsize)
+static int appendFileHandle( FILE* fh, const void* content, std::size_t contentsize)
 {
-	FILE* fh = ::fopen( filename.c_str(), "wb");
-	if (!fh)
-	{
-		return errno;
-	}
 	char const* fi = (const char*)content;
 	char const* fe = fi + contentsize;
 	while (fi != fe)
@@ -203,17 +209,30 @@ DLL_PUBLIC int strus::writeFile( const std::string& filename, const void* conten
 		if (written < nn)
 		{
 			int ec = ::ferror( fh);
-			if (ec)
+			if (ec && ec != 4/*EINTR*/)
 			{
-				::fclose( fh);
 				return ec;
 			}
 		}
 		fi += written;
 	}
-	::fclose( fh);
 	return 0;
 }
+
+DLL_PUBLIC int strus::writeFile( const std::string& filename, const void* content, std::size_t contentsize)
+{
+AGAIN:{
+	FILE* fh = ::fopen( filename.c_str(), "wb");
+	if (!fh)
+	{
+		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
+	}
+	int ec = appendFileHandle( fh, content, contentsize);
+	::fclose( fh);
+	return ec;
+}}
 
 DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string& content)
 {
@@ -222,39 +241,36 @@ DLL_PUBLIC int strus::writeFile( const std::string& filename, const std::string&
 
 DLL_PUBLIC int strus::appendFile( const std::string& filename, const std::string& content)
 {
-	unsigned char ch;
+AGAIN:{
 	FILE* fh = ::fopen( filename.c_str(), "a");
 	if (!fh)
 	{
-		return errno;
+		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
 	}
-	std::string::const_iterator fi = content.begin(), fe = content.end();
-	for (; fi != fe; ++fi)
-	{
-		ch = *fi;
-		if (1 > ::fwrite( &ch, 1, 1, fh))
-		{
-			int ec = ::ferror( fh);
-			if (ec)
-			{
-				::fclose( fh);
-				return ec;
-			}
-		}
-	}
+	int ec = appendFileHandle( fh, content.c_str(), content.size());
 	::fclose( fh);
-	return 0;
-}
+	return ec;
+}}
 
 DLL_PUBLIC int strus::readFileSize( const std::string& filename, std::size_t& size)
 {
-	int ec = 0;
+AGAIN:{
+	int ec;
 	FILE* fh = ::fopen( filename.c_str(), "rb");
 	if (!fh)
 	{
-		return errno;
+		ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
 	}
-	::fseek( fh, 0L, SEEK_END);
+	if (0 != ::fseek( fh, 0L, SEEK_END))
+	{
+		ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
+	}
 	long filesize = size = ::ftell( fh);
 	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
@@ -263,23 +279,36 @@ DLL_PUBLIC int strus::readFileSize( const std::string& filename, std::size_t& si
 	}
 	::fclose( fh);
 	return ec;
-}
+}}
 
 DLL_PUBLIC int strus::readFile( const std::string& filename, std::string& res)
 {
+AGAIN:{
 	FILE* fh = ::fopen( filename.c_str(), "rb");
 	if (!fh)
 	{
-		return errno;
+		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
 	}
-	::fseek( fh, 0L, SEEK_END);
+	if (0 != ::fseek( fh, 0L, SEEK_END))
+	{
+		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
+	}
 	long filesize = ::ftell( fh);
 	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
 		::fclose( fh);
 		return 21/*EISIDR*/;
 	}
-	::fseek( fh, 0L, SEEK_SET);
+	if (0 != ::fseek( fh, 0L, SEEK_SET))
+	{
+		int ec = errno;
+		if (ec == 4/*EINTR*/) goto AGAIN;
+		return ec;
+	}
 	try
 	{
 		try
@@ -301,6 +330,7 @@ DLL_PUBLIC int strus::readFile( const std::string& filename, std::string& res)
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
 
+CONTINUE_READ:
 	while (!!(nn=::fread( buf, 1/*nmemb*/, bufsize, fh)))
 	{
 		try
@@ -316,6 +346,7 @@ DLL_PUBLIC int strus::readFile( const std::string& filename, std::string& res)
 	if (!feof( fh))
 	{
 		int ec = ::ferror( fh);
+		if (ec == 4/*EINTR*/) goto CONTINUE_READ;
 		::fclose( fh);
 		return ec;
 	}
@@ -324,7 +355,7 @@ DLL_PUBLIC int strus::readFile( const std::string& filename, std::string& res)
 		::fclose( fh);
 	}
 	return 0;
-}
+}}
 
 DLL_PUBLIC int strus::readStdin( std::string& res)
 {
@@ -332,6 +363,7 @@ DLL_PUBLIC int strus::readStdin( std::string& res)
 	enum {bufsize=(1<<12)};
 	char buf[ bufsize];
 
+CONTINUE_READ:
 	while (!!(nn=::fread( buf, 1/*nmemb*/, bufsize, stdin)))
 	{
 		try
@@ -343,7 +375,9 @@ DLL_PUBLIC int strus::readStdin( std::string& res)
 			return 12/*ENOMEM*/;
 		}
 	}
-	return 0;
+	int ec = ::ferror( stdin);
+	if (ec == 4/*EINTR*/) goto CONTINUE_READ;
+	return ec;
 }
 
 DLL_PUBLIC bool strus::isTextFile( const std::string& path)
