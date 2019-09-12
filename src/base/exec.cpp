@@ -68,7 +68,7 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 	{
 		return errno;
 	}
-	pid_t pid = fork();
+	pid_t pid = ::fork();
 	if (pid < 0)
 	{
 		return errno;

@@ -9,6 +9,9 @@
 /// \file "filehandle.hpp"
 #ifndef _STRUS_BASE_FILE_HANDLE_HPP_INCLUDED
 #define _STRUS_BASE_FILE_HANDLE_HPP_INCLUDED
+#include <algorithm>
+#include <utility>
+#include <string>
 
 namespace strus
 {
@@ -20,5 +23,36 @@ typedef int FileHandle;
 typedef int SocketHandle;
 #endif
 
+/// \brief Class for redirecting a file output to buffer
+class WriteBufferHandle
+{
+public:
+	/// \brief Constructor
+	WriteBufferHandle();
+	/// \brief Destructor
+	~WriteBufferHandle();
+
+	/// \brief Get the errno code in case of an error occurred, else 0
+	/// \return the errno code
+	int error() const;
+
+	/// \brief Get the file handle provided for writing to the buffer
+	/// \return the file handle
+	FileHandle fileHandle() const;
+
+	/// \brief Fetch the content of the buffer
+	/// \return the buffer content
+	/// \note buffer is emptied with this call
+	std::string fetchContent();
+
+	/// \brief Terminate listener
+	void done();
+
+private:
+	struct Data;
+	Data* m_impl;
+};
+
 }//namespace
 #endif
+

@@ -100,7 +100,7 @@ struct JobQueueWorker::Data
 		{
 			pipfd[0] = 0;
 			pipfd[1] = 0;
-			if (pipe(pipfd) == -1) throw std::bad_alloc();
+			if (::pipe(pipfd) == -1) throw std::bad_alloc();
 			nofd = pipfd[0]+1;
 			FD_SET( pipfd[0], &fdset.read);
 

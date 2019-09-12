@@ -12,6 +12,7 @@ set( source_files
 	programLexer.cpp
 	numstring.cpp
 	configParser.cpp
+	filehandle.cpp
 	fileio.cpp
 	exec.cpp
 	regex.cpp
