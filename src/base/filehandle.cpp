@@ -22,6 +22,7 @@ struct WriteBufferHandle::Data
 	std::string buffer;
 	strus::thread* thread;
 	int ec;
+	FILE* streamHandle;
 	bool stopped;
 
 	Data()
@@ -30,13 +31,21 @@ struct WriteBufferHandle::Data
 		pipfd[1] = 0;
 		if (::pipe(pipfd) == -1) throw std::bad_alloc();
 		ec = 0;
+		streamHandle = NULL;
 		stopped = false;
 	}
 
 	~Data()
 	{
 		::close( pipfd[0]);
-		::close( pipfd[1]);
+		if (streamHandle)
+		{
+			::fclose( streamHandle);
+		}
+		else
+		{
+			::close( pipfd[1]);
+		}
 	}
 
 	bool appendData( const char* buf, std::size_t size)
@@ -117,13 +126,30 @@ struct WriteBufferHandle::Data
 	{
 		if (stopped) return;
 
-		while (1 != ::write( pipfd[1], "", 1))
+		if (streamHandle)
 		{
-			ec = errno;
-			if (ec != 4/*EINTR*/) return;
+			::fwrite( "", 1, 1, streamHandle);
+			::fflush( streamHandle);
+		}
+		else
+		{
+			while (1 != ::write( pipfd[1], "", 1))
+			{
+				ec = errno;
+				if (ec != 4/*EINTR*/) return;
+			}
 		}
 		if (thread) thread->join();
 		stopped = true;
+	}
+
+	FILE* getCStreamHandle()
+	{
+		if (!streamHandle)
+		{
+			streamHandle = ::fdopen( pipfd[1], "a");
+		}
+		return streamHandle;
 	}
 };
 
@@ -154,6 +180,11 @@ DLL_PUBLIC FileHandle WriteBufferHandle::fileHandle() const
 	return m_impl ? m_impl->pipfd[1] : 0;//...write end of pipe
 }
 
+DLL_PUBLIC FILE* WriteBufferHandle::getCStreamHandle()
+{
+	return m_impl ? m_impl->getCStreamHandle() : NULL;
+}
+	
 DLL_PUBLIC std::string WriteBufferHandle::fetchContent()
 {
 	return m_impl ? m_impl->fetchContent() : std::string();

@@ -52,7 +52,9 @@ int main( int argc, const char** argv)
 		int textSize = (argc <= 2) ? 100 : strus::numstring_conv::touint( argv[2], std::numeric_limits<int>::max());
 		if (textSize == 0) throw std::runtime_error( strus::string_format( "maximum size of texts (second argument) out of range: %s", argv[2]));
 
-		if (argc > 3) throw std::runtime_error( "too many arguments");
+		bool useStreamInterface = (argc <= 3) ? false : (0==std::strcmp( "STREAM", argv[3]));
+
+		if (argc > 4) throw std::runtime_error( "too many arguments");
 
 		strus::WriteBufferHandle wbh;
 		std::string expected;
@@ -70,7 +72,16 @@ int main( int argc, const char** argv)
 			ssize_t nn = 0;
 			while (nn < bytesLeft)
 			{
-				nn = ::write( fh, ptr, bytesLeft);
+				if (useStreamInterface)
+				{
+					FILE* file = wbh.getCStreamHandle();
+					if (!file) throw std::runtime_error("failed to get handle as stream");
+					nn = ::fwrite( ptr, 1, bytesLeft, file);
+				}
+				else
+				{
+					nn = ::write( fh, ptr, bytesLeft);
+				}
 
 				if (nn < 0)
 				{
@@ -99,7 +110,8 @@ int main( int argc, const char** argv)
 
 			throw std::runtime_error( "result not as expected");
 		}
-		std::cerr << "OK " << nofTexts << " " << textSize << " " << result.size() << std::endl;
+		std::cerr << "OK " << (useStreamInterface ? "STREAM":"FH") << " " << nofTexts << " " << textSize << " " << result.size() << std::endl;
+		return 0;
 	}
 	catch (const std::bad_alloc& err)
 	{

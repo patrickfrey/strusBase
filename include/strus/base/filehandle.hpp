@@ -40,6 +40,11 @@ public:
 	/// \return the file handle
 	FileHandle fileHandle() const;
 
+	/// \brief Get a pointer to a FILE to write to
+	/// \return the file handle as C stream handle
+	/// \remark Do not use fileHandle anymore when using the stream
+	FILE* getCStreamHandle();
+
 	/// \brief Fetch the content of the buffer
 	/// \return the buffer content
 	/// \note buffer is emptied with this call
