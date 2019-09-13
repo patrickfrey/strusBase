@@ -12,6 +12,7 @@
 #include "strus/base/thread.hpp"
 #include <unistd.h>
 #include <fcntl.h>
+#include <cstring>
 
 using namespace strus;
 
