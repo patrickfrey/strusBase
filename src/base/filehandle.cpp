@@ -19,12 +19,15 @@ using namespace strus;
 struct WriteBufferHandle::Data
 {
 	int pipfd[2];
-	strus::mutex mutex;
+	strus::mutex mutex_buffer;
 	std::string buffer;
 	strus::thread* thread;
 	int ec;
 	FILE* streamHandle;
 	bool stopped;
+	strus::mutex mutex_cv;
+	strus::condition_variable cv;
+	bool cv_signaled;
 
 	Data()
 	{
@@ -34,6 +37,7 @@ struct WriteBufferHandle::Data
 		ec = 0;
 		streamHandle = NULL;
 		stopped = false;
+		cv_signaled = false;
 	}
 
 	~Data()
@@ -53,7 +57,7 @@ struct WriteBufferHandle::Data
 	{
 		try
 		{
-			strus::unique_lock lock( mutex);
+			strus::unique_lock lock( mutex_buffer);
 			buffer.append( buf, size);
 			return true;
 		}
@@ -67,8 +71,10 @@ struct WriteBufferHandle::Data
 	{
 		try
 		{
+			flushBuffer();
+
 			std::string rt;
-			strus::unique_lock lock( mutex);
+			strus::unique_lock lock( mutex_buffer);
 			std::swap( buffer, rt);
 			return rt;
 		}
@@ -81,6 +87,7 @@ struct WriteBufferHandle::Data
 	void wait()
 	{
 		char buf[ 4096];
+		resetDataAvailable();
 		for (;;)
 		{
 			ssize_t nn = ::read( pipfd[0], buf, sizeof(buf));
@@ -96,17 +103,24 @@ struct WriteBufferHandle::Data
 				if (!appendData( buf, nn))
 				{
 					ec = 12/*ENOMEM*/;
-					return;
+					break;
 				}
-				if (eof) return;
+				if (eof)
+				{
+					break;
+				}
+				if ((size_t)nn < sizeof(buf))
+				{
+					signalDataAvailable();
+				}
 			}
 			else
 			{
 				ec = errno;
-				if (ec && ec != 4/*EINTR*/) continue;
-				return;
+				if (ec && ec != 4/*EINTR*/) break;
 			}
 		}
+		signalDataAvailable();
 	}
 
 	void start()
@@ -142,6 +156,30 @@ struct WriteBufferHandle::Data
 		}
 		if (thread) thread->join();
 		stopped = true;
+	}
+
+	void resetDataAvailable()
+	{
+		strus::unique_lock lock( mutex_cv);
+		cv_signaled = false;
+	}
+
+	void flushBuffer()
+	{
+		if (streamHandle)
+		{
+			::fflush( streamHandle);
+
+			strus::unique_lock lock( mutex_cv);
+			if (!cv_signaled) cv.wait( lock);
+		}
+	}
+
+	void signalDataAvailable()
+	{
+		cv.notify_all();
+		strus::unique_lock lock( mutex_cv);
+		cv_signaled = true;
 	}
 
 	FILE* getCStreamHandle()
