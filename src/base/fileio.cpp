@@ -257,28 +257,30 @@ AGAIN:{
 DLL_PUBLIC int strus::readFileSize( const std::string& filename, std::size_t& size)
 {
 AGAIN:{
-	int ec;
 	FILE* fh = ::fopen( filename.c_str(), "rb");
 	if (!fh)
 	{
-		ec = errno;
+		int ec = errno;
 		if (ec == 4/*EINTR*/) goto AGAIN;
 		return ec;
 	}
 	if (0 != ::fseek( fh, 0L, SEEK_END))
 	{
-		ec = errno;
+		int ec = errno;
 		if (ec == 4/*EINTR*/) goto AGAIN;
+		::fclose( fh);
 		return ec;
 	}
 	long filesize = size = ::ftell( fh);
 	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
-		ec = ::ferror( fh);
+		int ec = ::ferror( fh);
 		if (!ec) ec = 21/*EISIDR*/;
+		::fclose( fh);
+		return ec;
 	}
 	::fclose( fh);
-	return ec;
+	return 0;
 }}
 
 DLL_PUBLIC int strus::readFile( const std::string& filename, std::string& res)
