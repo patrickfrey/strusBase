@@ -87,12 +87,12 @@ int main( int argc, const char** argv)
 				{
 					int ec = errno;
 					if (ec == 4/*EINTR*/) continue;
-
-					throw std::runtime_error( strus::string_format( "error writing on handle: %s", ::strerror( ec)));
+					if (!ec) throw std::runtime_error( strus::string_format( "error writing on handle (1): %s", ::strerror( ec)));
 				}
-				if (wbh.error())
+				int ec = wbh.error();
+				if (ec)
 				{
-					throw std::runtime_error( strus::string_format( "error writing on handle: %s", ::strerror( wbh.error())));
+					throw std::runtime_error( strus::string_format( "error writing on handle (2): %s", ::strerror( ec)));
 				}
 				ptr += nn;
 				bytesLeft -= nn;

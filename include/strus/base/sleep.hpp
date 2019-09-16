@@ -11,7 +11,8 @@
 
 namespace strus {
 
-void sleep( int nofsecs);
+void sleep( int nofSecs);
+void usleep( long nofMicroSecs);
 
 } //namespace
 #endif

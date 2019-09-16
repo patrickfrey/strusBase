@@ -17,12 +17,21 @@
 
 using namespace strus;
 
-DLL_PUBLIC void strus::sleep( int nofsecs)
+DLL_PUBLIC void strus::sleep( int nofSecs)
 {
 #ifdef _MSC_VER
-	Sleep(pollingDelay);
+	Sleep( nofSecs * 1000);
 #else
-	::sleep( nofsecs);
+	::sleep( nofSecs);
+#endif
+}
+
+DLL_PUBLIC void strus::usleep( long nofMicroSecs)
+{
+#ifdef _MSC_VER
+	Sleep( nofMicroSecs / 1000);
+#else
+	::usleep( nofMicroSecs);
 #endif
 }
 

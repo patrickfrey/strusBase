@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Patrick P. Frey
+ * Copyright (c) 2019 Patrick P. Frey
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@
 #include "strus/base/filehandle.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "strus/base/thread.hpp"
+#include "strus/base/atomic.hpp"
+#include "strus/base/sleep.hpp"
 #include <unistd.h>
 #include <fcntl.h>
 #include <cstring>
@@ -19,52 +21,88 @@ using namespace strus;
 struct WriteBufferHandle::Data
 {
 	int pipfd[2];
+	int pipfd_signal[2];
+	fd_set readfds;
+	int readfds_size;
 	strus::mutex mutex_buffer;
 	std::string buffer;
 	strus::thread* thread;
 	int ec;
 	FILE* streamHandle;
-	bool stopped;
-	strus::mutex mutex_cv;
-	strus::condition_variable cv;
-	bool cv_signaled;
+	enum State {StateInit=0, StateWait=1, StateData=2, StateStopped=3};
+	AtomicCounter<int> state;
 
 	Data()
 	{
+		int flags;
+
 		pipfd[0] = 0;
 		pipfd[1] = 0;
-		if (::pipe(pipfd) == -1) throw std::bad_alloc();
+		if (::pipe(pipfd) == -1) goto ERROR;
+		pipfd_signal[0] = 0;
+		pipfd_signal[1] = 0;
+		if (::pipe(pipfd_signal) == -1) goto ERROR;
+		thread = 0;
 		ec = 0;
 		streamHandle = NULL;
-		stopped = false;
-		cv_signaled = false;
+
+		flags = ::fcntl( pipfd[0], F_GETFL, 0);
+		::fcntl( pipfd[0], F_SETFL, flags | O_NONBLOCK);
+		flags = ::fcntl( pipfd_signal[0], F_GETFL, 0);
+		::fcntl( pipfd_signal[0], F_SETFL, flags | O_NONBLOCK);
+
+		FD_ZERO( &readfds);
+		FD_SET( pipfd[0], &readfds);
+		FD_SET( pipfd_signal[0], &readfds);
+		readfds_size = pipfd[0] > pipfd_signal[0] ? (pipfd[0]+1) : (pipfd_signal[0]+1);
+		state.set( StateInit);
+		return;
+	ERROR:
+		ec = errno;
+		closefd();
+	}
+
+	void setErrno()
+	{
+		ec = errno;
+		if (ec == 11/*EAGAIN*/)
+		{
+			ec = 0;
+		}
+	}
+
+	void closefd()
+	{
+		if (pipfd[0])
+		{
+			::close( pipfd[0]);
+			pipfd[0] = 0;
+		}
+		if (streamHandle)
+		{
+			::fclose( streamHandle);
+			pipfd[1] = 0;
+		}
+		else if (pipfd[1])
+		{
+			::close( pipfd[1]);
+			pipfd[1] = 0;
+		}
+		if (pipfd_signal[0])
+		{
+			::close( pipfd_signal[0]);
+			pipfd_signal[0] = 0;
+		}
+		if (pipfd_signal[1])
+		{
+			::close( pipfd_signal[1]);
+			pipfd_signal[1] = 0;
+		}
 	}
 
 	~Data()
 	{
-		::close( pipfd[0]);
-		if (streamHandle)
-		{
-			::fclose( streamHandle);
-		}
-		else
-		{
-			::close( pipfd[1]);
-		}
-	}
-
-	bool appendData( const char* buf, std::size_t size)
-	{
-		try
-		{
-			strus::unique_lock lock( mutex_buffer);
-			buffer.append( buf, size);
-			return true;
-		}
-		catch (...)
-		{
-			return false;
-		}
+		closefd();
 	}
 
 	std::string fetchContent()
@@ -84,43 +122,59 @@ struct WriteBufferHandle::Data
 		}
 	}
 
-	void wait()
+	void run()
 	{
-		char buf[ 4096];
-		resetDataAvailable();
-		for (;;)
+		(void)state.test_and_set( StateInit, StateWait);
+		while (state.value() != StateStopped)
 		{
-			ssize_t nn = ::read( pipfd[0], buf, sizeof(buf));
-			if (nn > 0)
+			(void)state.test_and_set( StateData, StateWait);
+			waitReadAvailable();
+			(void)state.test_and_set( StateWait, StateData);
+			std::string data;
+			for (;;)
 			{
-				bool eof = false;
-				const char* eofp = (const char*)std::memchr( buf, '\0', nn);
-				if (eofp)
-				{
-					nn = eofp - buf;
-					eof = true;
-				}
-				if (!appendData( buf, nn))
-				{
-					ec = 12/*ENOMEM*/;
-					break;
-				}
-				if (eof)
+				char buf[ 4096];
+				ssize_t nn = ::read( pipfd[0], buf, sizeof(buf));
+				if (nn == 0)
 				{
 					break;
 				}
-				if ((size_t)nn < sizeof(buf))
+				else if (nn > 0)
 				{
-					signalDataAvailable();
+					try
+					{
+						data.append( buf, nn);
+					}
+					catch (...)
+					{
+						ec = 12/*ENOMEM*/;
+						break;
+					}
+				}
+				else
+				{
+					setErrno();
+					if (ec && ec != 4/*EINTR*/) break;
+					if (nn < (ssize_t)sizeof(buf))
+					{
+						break;
+					}
 				}
 			}
-			else
+			if (!data.empty())
 			{
-				ec = errno;
-				if (ec && ec != 4/*EINTR*/) break;
+				strus::unique_lock lock( mutex_buffer);
+				if (buffer.empty())
+				{
+					std::swap( buffer, data);
+				}
+				else
+				{
+					buffer.append( data);
+				}
 			}
 		}
-		signalDataAvailable();
+		state.set( StateInit);
 	}
 
 	void start()
@@ -128,7 +182,7 @@ struct WriteBufferHandle::Data
 		// ... can be called only once
 		try
 		{
-			thread = new strus::thread( &WriteBufferHandle::Data::wait, this);
+			thread = new strus::thread( &WriteBufferHandle::Data::run, this);
 		}
 		catch (...)
 		{
@@ -139,29 +193,46 @@ struct WriteBufferHandle::Data
 
 	void stop()
 	{
-		if (stopped) return;
-
-		if (streamHandle)
+		if (state.value() == StateInit) return;
+		if (state.test_and_set( StateWait, StateStopped) || state.test_and_set( StateData, StateStopped))
 		{
-			::fwrite( "", 1, 1, streamHandle);
-			::fflush( streamHandle);
-		}
-		else
-		{
-			while (1 != ::write( pipfd[1], "", 1))
-			{
-				ec = errno;
-				if (ec != 4/*EINTR*/) return;
-			}
+			flushBuffer();
 		}
 		if (thread) thread->join();
-		stopped = true;
 	}
 
-	void resetDataAvailable()
+	void signalReadEvent()
 	{
-		strus::unique_lock lock( mutex_cv);
-		cv_signaled = false;
+		ssize_t nn;
+	AGAIN:
+		char ch = ' ';
+		nn = ::write( pipfd_signal[1], &ch, 1);
+		if (nn <= 0)
+		{
+			setErrno();
+			if (ec == 4/*EINTR*/) goto AGAIN;
+		}
+	}
+
+	bool waitReadAvailable()
+	{
+		struct timeval timeout;
+		timeout.tv_sec = 5;
+		timeout.tv_usec = 0;
+
+		FD_SET( pipfd[0], &readfds);
+		FD_SET( pipfd_signal[0], &readfds);
+
+		if (0>::select( readfds_size, &readfds, NULL, NULL, &timeout))
+		{
+			setErrno();
+		}
+		if (FD_ISSET( pipfd_signal[0], &readfds))
+		{
+			char buf[ 128];
+			::read( pipfd_signal[0], buf, sizeof(buf));
+		}
+		return FD_ISSET( pipfd[0], &readfds);
 	}
 
 	void flushBuffer()
@@ -169,17 +240,13 @@ struct WriteBufferHandle::Data
 		if (streamHandle)
 		{
 			::fflush( streamHandle);
-
-			strus::unique_lock lock( mutex_cv);
-			if (!cv_signaled) cv.wait( lock);
 		}
-	}
-
-	void signalDataAvailable()
-	{
-		cv.notify_all();
-		strus::unique_lock lock( mutex_cv);
-		cv_signaled = true;
+		state.test_and_set( StateWait, StateData);
+		signalReadEvent();
+		while (state.value() == StateData)
+		{
+			strus::usleep( 1L);
+		}
 	}
 
 	FILE* getCStreamHandle()
