@@ -86,7 +86,7 @@ int main( int argc, const char** argv)
 				if (nn < 0)
 				{
 					int ec = errno;
-					if (ec == 4/*EINTR*/) continue;
+					if (ec == 4/*EINTR*/ || ec == 11/*EAGAIN*/) continue;
 					if (!ec) throw std::runtime_error( strus::string_format( "error writing on handle (1): %s", ::strerror( ec)));
 				}
 				int ec = wbh.error();

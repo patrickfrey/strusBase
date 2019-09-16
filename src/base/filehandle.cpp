@@ -209,8 +209,8 @@ struct WriteBufferHandle::Data
 		nn = ::write( pipfd_signal[1], &ch, 1);
 		if (nn <= 0)
 		{
-			setErrno();
-			if (ec == 4/*EINTR*/) goto AGAIN;
+			ec = errno;
+			if (ec == 4/*EINTR*/ || ec == 11/*EAGAIN*/) goto AGAIN;
 		}
 	}
 
@@ -242,7 +242,16 @@ struct WriteBufferHandle::Data
 	{
 		if (streamHandle)
 		{
-			::fflush( streamHandle);
+		AGAIN:
+			if (0>::fflush( streamHandle))
+			{
+				ec = errno;
+				if (ec == 11/*EAGAIN*/ || ec == 4/*EINTR*/)
+				{
+					ec = 0;
+					goto AGAIN;
+				}
+			}
 		}
 		state.test_and_set( StateWait, StateData);
 		signalReadEvent();
