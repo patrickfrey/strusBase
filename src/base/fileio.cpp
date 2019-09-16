@@ -26,12 +26,12 @@ using namespace strus;
 static int mkdirp_( const std::string& dirname)
 {
 	int ec = strus::createDir( dirname, false/*fail_ifexist*/);
-	if (ec == 1/*EPERM*/ || ec == 2/*ENOENT*/)
+	if (ec == EPERM || ec == ENOENT)
 	{
 		std::string parentpath;
 		ec = getParentPath( dirname, parentpath);
 		if (ec) return ec;
-		if (parentpath.empty() || dirname.size() <= parentpath.size()) return 1/*EPERM*/;
+		if (parentpath.empty() || dirname.size() <= parentpath.size()) return EPERM;
 		ec = mkdirp_( parentpath);
 		if (ec) return ec;
 		ec = strus::createDir( dirname, false/*fail_ifexist*/);
@@ -73,7 +73,7 @@ DLL_PUBLIC int strus::mkdirp( const std::string& dirname)
 	}
 	catch (...)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 
@@ -83,7 +83,7 @@ AGAIN:
 	if (0>::mkdir( dirname.c_str(), 0755))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		if (!fail_ifexist && ec == EEXIST && isDir(dirname.c_str()))
 		{
 			ec = 0;
@@ -99,7 +99,7 @@ AGAIN:
 	if (0>::chdir( dirname.c_str()))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	return 0;
@@ -111,7 +111,7 @@ AGAIN:
 	if (0>::remove( filename.c_str()))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		if (!fail_ifnofexist && ec == ENOENT)
 		{
 			ec = 0;
@@ -127,7 +127,7 @@ AGAIN:
 	if (0>::rmdir( dirname.c_str()))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		if (!fail_ifnofexist && ec == ENOENT)
 		{
 			ec = 0;
@@ -192,7 +192,7 @@ AGAIN:
 	if (0>::rename( old_filename.c_str(), new_filename.c_str()))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	return 0;
@@ -209,7 +209,7 @@ static int appendFileHandle( FILE* fh, const void* content, std::size_t contents
 		if (written < nn)
 		{
 			int ec = ::ferror( fh);
-			if (ec && ec != 4/*EINTR*/)
+			if (ec && ec != EINTR)
 			{
 				return ec;
 			}
@@ -226,7 +226,7 @@ AGAIN:{
 	if (!fh)
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	int ec = appendFileHandle( fh, content, contentsize);
@@ -246,7 +246,7 @@ AGAIN:{
 	if (!fh)
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	int ec = appendFileHandle( fh, content.c_str(), content.size());
@@ -261,13 +261,13 @@ AGAIN:{
 	if (!fh)
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	if (0 != ::fseek( fh, 0L, SEEK_END))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		::fclose( fh);
 		return ec;
 	}
@@ -275,7 +275,7 @@ AGAIN:{
 	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
 		int ec = ::ferror( fh);
-		if (!ec) ec = 21/*EISIDR*/;
+		if (!ec) ec = EISDIR;
 		::fclose( fh);
 		return ec;
 	}
@@ -290,25 +290,25 @@ AGAIN:{
 	if (!fh)
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	if (0 != ::fseek( fh, 0L, SEEK_END))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	long filesize = ::ftell( fh);
 	if (filesize < 0 || filesize >= std::numeric_limits<long>::max())
 	{
 		::fclose( fh);
-		return 21/*EISIDR*/;
+		return EISDIR;
 	}
 	if (0 != ::fseek( fh, 0L, SEEK_SET))
 	{
 		int ec = errno;
-		if (ec == 4/*EINTR*/) goto AGAIN;
+		if (ec == EINTR) goto AGAIN;
 		return ec;
 	}
 	try
@@ -320,13 +320,13 @@ AGAIN:{
 		catch (const std::bad_alloc&)
 		{
 			::fclose( fh);
-			return 12/*ENOMEM*/;
+			return ENOMEM;
 		}
 	}
 	catch (const std::bad_alloc&)
 	{
 		::fclose( fh);
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 	unsigned int nn;
 	enum {bufsize=(1<<12)};
@@ -342,13 +342,13 @@ CONTINUE_READ:
 		catch (const std::bad_alloc&)
 		{
 			::fclose( fh);
-			return 12/*ENOMEM*/;
+			return ENOMEM;
 		}
 	}
 	if (!feof( fh))
 	{
 		int ec = ::ferror( fh);
-		if (ec == 4/*EINTR*/) goto CONTINUE_READ;
+		if (ec == EINTR) goto CONTINUE_READ;
 		::fclose( fh);
 		return ec;
 	}
@@ -374,11 +374,11 @@ CONTINUE_READ:
 		}
 		catch (const std::bad_alloc&)
 		{
-			return 12/*ENOMEM*/;
+			return ENOMEM;
 		}
 	}
 	int ec = ::ferror( stdin);
-	if (ec == 4/*EINTR*/) goto CONTINUE_READ;
+	if (ec == EINTR) goto CONTINUE_READ;
 	return ec;
 }
 
@@ -485,7 +485,7 @@ DLL_PUBLIC int strus::readDirSubDirs( const std::string& path, std::vector<std::
 	catch (const std::bad_alloc&)
 	{
 		::closedir(dir);
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 	return 0;
 }
@@ -521,7 +521,7 @@ DLL_PUBLIC int strus::readDirItems( const std::string& path, std::vector<std::st
 	catch (const std::bad_alloc&)
 	{
 		::closedir(dir);
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 	return 0;
 }
@@ -568,7 +568,7 @@ DLL_PUBLIC int strus::readDirFiles( const std::string& path, const std::string& 
 	catch (const std::bad_alloc&)
 	{
 		::closedir(dir);
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 
@@ -664,7 +664,7 @@ DLL_PUBLIC int strus::expandFilePattern( const std::string& pathPattern, std::ve
 	}
 	catch (const std::bad_alloc&)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 
@@ -721,7 +721,7 @@ DLL_PUBLIC int strus::getAncestorPath( const std::string& path, int level, std::
 		{
 			char cwd[2048];
 			const char* pwd = ::getcwd(cwd, sizeof(cwd));
-			if (!pwd) return 12/*ENOMEM*/;
+			if (!pwd) return ENOMEM;
 			pathbuf.append( pwd);
 			pathbuf.push_back( STRUS_FILEIO_DIRSEP);
 			pathbuf.append( pt);
@@ -755,13 +755,13 @@ DLL_PUBLIC int strus::getAncestorPath( const std::string& path, int level, std::
 			while (se > si && *(se-1) == STRUS_FILEIO_DIRSEP) --se;
 			--level;
 		}
-		if (level) return 22/*EINVAL*/;
+		if (level) return EINVAL;
 		dest = std::string( si, se-si);
 		return 0;
 	}
 	catch (const std::bad_alloc&)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 
@@ -786,7 +786,7 @@ DLL_PUBLIC int strus::getParentPath( const std::string& path, std::string& dest)
 		}
 		catch (const std::bad_alloc&)
 		{
-			return 12/*ENOMEM*/;
+			return ENOMEM;
 		}
 		return 0;
 	}
@@ -814,7 +814,7 @@ DLL_PUBLIC int strus::getFileName( const std::string& path, std::string& dest, b
 	}
 	catch (const std::bad_alloc&)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 	return 0;
 }
@@ -837,7 +837,7 @@ DLL_PUBLIC int strus::getFileExtension( const std::string& path, std::string& ex
 		}
 		catch (const std::bad_alloc&)
 		{
-			return 12/*ENOMEM*/;
+			return ENOMEM;
 		}
 	}
 	return 0;
@@ -903,7 +903,7 @@ DLL_PUBLIC int strus::resolveUpdirReferences( std::string& path)
 			}
 			else if (pi[1] == '.' && (pi[2] == STRUS_FILEIO_DIRSEP || pi[2] == '\0'))
 			{
-				return 22/*EINVAL*/;
+				return EINVAL;
 			}
 			else
 			{
@@ -922,7 +922,7 @@ DLL_PUBLIC int strus::resolveUpdirReferences( std::string& path)
 				if (pi[1] == '.' && pi[2] == '.' && (pi[3] == STRUS_FILEIO_DIRSEP || pi[3] == '\0'))
 				{
 					pi += 2;
-					if (dirstarts.empty()) return 22/*EINVAL*/;
+					if (dirstarts.empty()) return EINVAL;
 					dirstarts.pop_back();
 				}
 				else if (pi[1] == '.' && (pi[2] == STRUS_FILEIO_DIRSEP || pi[2] == '\0'))
@@ -963,7 +963,7 @@ DLL_PUBLIC int strus::resolveUpdirReferences( std::string& path)
 	}
 	catch (const std::bad_alloc&)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 

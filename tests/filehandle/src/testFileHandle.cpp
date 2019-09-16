@@ -92,7 +92,7 @@ int main( int argc, const char** argv)
 				int ec = wbh.error();
 				if (ec)
 				{
-					throw std::runtime_error( strus::string_format( "error writing on handle (2): %s", ::strerror( ec)));
+					throw std::runtime_error( strus::string_format( "error writing on handle (2): errno %d, %s", ec, ::strerror( ec)));
 				}
 				ptr += nn;
 				bytesLeft -= nn;

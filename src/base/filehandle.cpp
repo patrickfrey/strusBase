@@ -15,12 +15,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <cstring>
+#include <cerrno>
 
 using namespace strus;
-
-#define E_EINTR    4
-#define E_EAGAIN  11
-#define E_ENOMEM  12
 
 
 struct WriteBufferHandle::Data
@@ -159,20 +156,20 @@ struct WriteBufferHandle::Data
 					}
 					catch (...)
 					{
-						ec = E_ENOMEM;
+						ec = ENOMEM;
 						break;
 					}
 				}
 				else
 				{
-					if (setErrno( errno) && !maskErrno( E_EINTR)) break;
+					if (setErrno( errno) && !maskErrno( EINTR)) break;
 					if (nn < (ssize_t)sizeof(buf))
 					{
 						break;
 					}
 				}
 			}
-			maskErrno( E_EAGAIN);
+			maskErrno( EAGAIN);
 			if (!data.empty())
 			{
 				strus::unique_lock lock( mutex_buffer);
@@ -198,7 +195,7 @@ struct WriteBufferHandle::Data
 		}
 		catch (...)
 		{
-			ec = E_ENOMEM;
+			ec = ENOMEM;
 			thread = 0;
 		}
 	}
@@ -222,7 +219,7 @@ struct WriteBufferHandle::Data
 		if (nn <= 0)
 		{
 			setErrno( errno);
-			if (maskErrno( E_EINTR) || maskErrno( E_EAGAIN)) goto AGAIN;
+			if (maskErrno( EINTR) || maskErrno( EAGAIN)) goto AGAIN;
 		}
 	}
 
@@ -238,8 +235,8 @@ struct WriteBufferHandle::Data
 		if (0>::select( readfds_size, &readfds, NULL, NULL, &timeout))
 		{
 			setErrno( errno);
-			maskErrno( E_EINTR);
-			maskErrno( E_EAGAIN);
+			maskErrno( EINTR);
+			maskErrno( EAGAIN);
 		}
 		if (FD_ISSET( pipfd_signal[0], &readfds))
 		{
@@ -247,8 +244,8 @@ struct WriteBufferHandle::Data
 			if (0>::read( pipfd_signal[0], buf, sizeof(buf)))
 			{
 				setErrno( errno);
-				maskErrno( E_EINTR);
-				maskErrno( E_EAGAIN);
+				maskErrno( EINTR);
+				maskErrno( EAGAIN);
 			}
 		}
 		return FD_ISSET( pipfd[0], &readfds);
@@ -262,7 +259,7 @@ struct WriteBufferHandle::Data
 			if (0>::fflush( streamHandle))
 			{
 				setErrno( errno);
-				if (maskErrno( E_EINTR) || maskErrno( E_EAGAIN)) goto AGAIN;
+				if (maskErrno( EINTR) || maskErrno( EAGAIN)) goto AGAIN;
 			}
 		}
 		state.test_and_set( StateWait, StateData);
@@ -322,7 +319,7 @@ DLL_PUBLIC std::string WriteBufferHandle::fetchContent()
 
 DLL_PUBLIC int WriteBufferHandle::error() const
 {
-	return m_impl ? m_impl->ec : E_ENOMEM;
+	return m_impl ? m_impl->ec : ENOMEM;
 }
 
 DLL_PUBLIC void WriteBufferHandle::done()

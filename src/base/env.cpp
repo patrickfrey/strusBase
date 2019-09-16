@@ -32,7 +32,7 @@ DLL_PUBLIC int strus::getenv( const std::string& var, std::string& output)
 	}
 	catch (const std::bad_alloc&)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 
@@ -61,7 +61,7 @@ DLL_PUBLIC int strus::getenv_list( const std::string& var, char sep, std::vector
 	}
 	catch (const std::bad_alloc&)
 	{
-		return 12/*ENOMEM*/;
+		return ENOMEM;
 	}
 }
 

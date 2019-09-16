@@ -161,7 +161,7 @@ DLL_PUBLIC const void* DataRecordFile::read( std::size_t fpos)
 			}
 			else
 			{
-				m_errno = ferror( m_fh);
+				m_errno = ::ferror( m_fh);
 				m_recordindex = std::numeric_limits<std::size_t>::max();
 				return 0;
 			}

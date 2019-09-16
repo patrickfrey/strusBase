@@ -49,8 +49,8 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* argv[], 
 	}
 	catch (const std::bad_alloc&)
 	{
-		close(pipefd[0]);
-		return 12/*ENOMEM*/;
+		::close( pipefd[0]);
+		return ENOMEM;
 	}
 }
 DLL_PUBLIC int strus::execve_tostring( const char* filename, const char* const argv[], const std::map<std::string,std::string>& env, std::string& output)
@@ -108,7 +108,7 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 			}
 			catch (const std::bad_alloc&)
 			{
-				exit( 12/*ENOMEM*/);
+				exit( ENOMEM);
 			}
 		}
 		else
@@ -137,7 +137,7 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 		catch (const std::bad_alloc&)
 		{
 			close(pipefd[0]);
-			return 12/*ENOMEM*/;
+			return ENOMEM;
 		}
 		pid_t wp;
 		while (pid != (wp=::waitpid( pid, &status, WUNTRACED)))
