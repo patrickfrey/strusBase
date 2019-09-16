@@ -210,7 +210,11 @@ struct WriteBufferHandle::Data
 		if (nn <= 0)
 		{
 			ec = errno;
-			if (ec == 4/*EINTR*/ || ec == 11/*EAGAIN*/) goto AGAIN;
+			if (ec == 4/*EINTR*/ || ec == 11/*EAGAIN*/)
+			{
+				ec = 0;
+				goto AGAIN;
+			}
 		}
 	}
 
