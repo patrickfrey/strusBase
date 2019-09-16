@@ -18,6 +18,11 @@
 
 using namespace strus;
 
+#define E_EINTR    4
+#define E_EAGAIN  11
+#define E_ENOMEM  12
+
+
 struct WriteBufferHandle::Data
 {
 	int pipfd[2];
@@ -58,17 +63,24 @@ struct WriteBufferHandle::Data
 		state.set( StateInit);
 		return;
 	ERROR:
-		ec = errno;
+		setErrno( errno);
 		closefd();
 	}
 
-	void setErrno()
+	bool setErrno( int ec_)
 	{
-		ec = errno;
-		if (ec == 11/*EAGAIN*/)
+		ec = ec_;
+		return ec != 0;
+	}
+
+	bool maskErrno( int ec_)
+	{
+		if (ec_ == ec)
 		{
 			ec = 0;
+			return true;
 		}
+		return false;
 	}
 
 	void closefd()
@@ -147,20 +159,20 @@ struct WriteBufferHandle::Data
 					}
 					catch (...)
 					{
-						ec = 12/*ENOMEM*/;
+						ec = E_ENOMEM;
 						break;
 					}
 				}
 				else
 				{
-					setErrno();
-					if (ec && ec != 4/*EINTR*/) break;
+					if (setErrno( errno) && !maskErrno( E_EINTR)) break;
 					if (nn < (ssize_t)sizeof(buf))
 					{
 						break;
 					}
 				}
 			}
+			maskErrno( E_EAGAIN);
 			if (!data.empty())
 			{
 				strus::unique_lock lock( mutex_buffer);
@@ -186,7 +198,7 @@ struct WriteBufferHandle::Data
 		}
 		catch (...)
 		{
-			ec = 12/*ENOMEM*/;
+			ec = E_ENOMEM;
 			thread = 0;
 		}
 	}
@@ -209,12 +221,8 @@ struct WriteBufferHandle::Data
 		nn = ::write( pipfd_signal[1], &ch, 1);
 		if (nn <= 0)
 		{
-			ec = errno;
-			if (ec == 4/*EINTR*/ || ec == 11/*EAGAIN*/)
-			{
-				ec = 0;
-				goto AGAIN;
-			}
+			setErrno( errno);
+			if (maskErrno( E_EINTR) || maskErrno( E_EAGAIN)) goto AGAIN;
 		}
 	}
 
@@ -229,14 +237,18 @@ struct WriteBufferHandle::Data
 
 		if (0>::select( readfds_size, &readfds, NULL, NULL, &timeout))
 		{
-			setErrno();
+			setErrno( errno);
+			maskErrno( E_EINTR);
+			maskErrno( E_EAGAIN);
 		}
 		if (FD_ISSET( pipfd_signal[0], &readfds))
 		{
 			char buf[ 128];
 			if (0>::read( pipfd_signal[0], buf, sizeof(buf)))
 			{
-				setErrno();
+				setErrno( errno);
+				maskErrno( E_EINTR);
+				maskErrno( E_EAGAIN);
 			}
 		}
 		return FD_ISSET( pipfd[0], &readfds);
@@ -249,12 +261,8 @@ struct WriteBufferHandle::Data
 		AGAIN:
 			if (0>::fflush( streamHandle))
 			{
-				ec = errno;
-				if (ec == 11/*EAGAIN*/ || ec == 4/*EINTR*/)
-				{
-					ec = 0;
-					goto AGAIN;
-				}
+				setErrno( errno);
+				if (maskErrno( E_EINTR) || maskErrno( E_EAGAIN)) goto AGAIN;
 			}
 		}
 		state.test_and_set( StateWait, StateData);
@@ -314,7 +322,7 @@ DLL_PUBLIC std::string WriteBufferHandle::fetchContent()
 
 DLL_PUBLIC int WriteBufferHandle::error() const
 {
-	return m_impl ? m_impl->ec : 12/*ENOMEM*/;
+	return m_impl ? m_impl->ec : E_ENOMEM;
 }
 
 DLL_PUBLIC void WriteBufferHandle::done()
