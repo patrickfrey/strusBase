@@ -230,7 +230,10 @@ struct WriteBufferHandle::Data
 		if (FD_ISSET( pipfd_signal[0], &readfds))
 		{
 			char buf[ 128];
-			::read( pipfd_signal[0], buf, sizeof(buf));
+			if (0>::read( pipfd_signal[0], buf, sizeof(buf)))
+			{
+				setErrno();
+			}
 		}
 		return FD_ISSET( pipfd[0], &readfds);
 	}
