@@ -31,12 +31,13 @@ private:
 	std::string buffer;
 	strus::thread* thread;
 	int ec;
+	bool stopOnError;
 	FILE* streamHandle;
 	enum State {StateInit=0, StateWait=1, StateData=2, StateStopped=3};
 	AtomicCounter<int> state;
 
 public:
-	Data()
+	explicit Data( bool stopOnError_)
 	{
 		int flags;
 
@@ -48,6 +49,7 @@ public:
 		if (::pipe(pipfd_signal) == -1) goto ERROR;
 		thread = 0;
 		ec = 0;
+		stopOnError = stopOnError_;
 		streamHandle = NULL;
 
 		flags = ::fcntl( pipfd[0], F_GETFL, 0);
@@ -78,7 +80,8 @@ public:
 
 	int error() const
 	{
-		return (ec == EAGAIN) ? ((ec == EINTR) ? 0 : ec) : 0;
+		int rt = ec;
+		return (rt == EAGAIN || rt == EINTR) ? 0 : rt;
 	}
 
 	std::string fetchContent()
@@ -140,6 +143,10 @@ public:
 			{
 				buffer.append( data);
 			}
+		}
+		if (ec && stopOnError)
+		{
+			state.set( StateStopped);
 		}
 	}
 
@@ -313,11 +320,11 @@ private:
 	}
 };
 
-DLL_PUBLIC WriteBufferHandle::WriteBufferHandle()
+DLL_PUBLIC WriteBufferHandle::WriteBufferHandle( bool stopOnError)
 {
 	try
 	{
-		m_impl = new Data();
+		m_impl = new Data( stopOnError);
 		m_impl->start();
 	}
 	catch (...)

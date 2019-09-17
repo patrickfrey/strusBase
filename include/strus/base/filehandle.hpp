@@ -28,7 +28,8 @@ class WriteBufferHandle
 {
 public:
 	/// \brief Constructor
-	WriteBufferHandle();
+	/// \param[in] stopOnError true, if the background thread flushing the writes on the handle into a buffer stops on the first error
+	explicit WriteBufferHandle( bool stopOnError=false);
 	/// \brief Destructor
 	~WriteBufferHandle();
 
