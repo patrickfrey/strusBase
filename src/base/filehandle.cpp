@@ -22,6 +22,7 @@ using namespace strus;
 
 struct WriteBufferHandle::Data
 {
+private:
 	int pipfd[2];
 	int pipfd_signal[2];
 	fd_set readfds;
@@ -34,6 +35,7 @@ struct WriteBufferHandle::Data
 	enum State {StateInit=0, StateWait=1, StateData=2, StateStopped=3};
 	AtomicCounter<int> state;
 
+public:
 	Data()
 	{
 		int flags;
@@ -64,54 +66,19 @@ struct WriteBufferHandle::Data
 		closefd();
 	}
 
-	bool setErrno( int ec_)
-	{
-		ec = ec_;
-		return ec != 0;
-	}
-
-	bool maskErrno( int ec_)
-	{
-		if (ec_ == ec)
-		{
-			ec = 0;
-			return true;
-		}
-		return false;
-	}
-
-	void closefd()
-	{
-		if (pipfd[0])
-		{
-			::close( pipfd[0]);
-			pipfd[0] = 0;
-		}
-		if (streamHandle)
-		{
-			::fclose( streamHandle);
-			pipfd[1] = 0;
-		}
-		else if (pipfd[1])
-		{
-			::close( pipfd[1]);
-			pipfd[1] = 0;
-		}
-		if (pipfd_signal[0])
-		{
-			::close( pipfd_signal[0]);
-			pipfd_signal[0] = 0;
-		}
-		if (pipfd_signal[1])
-		{
-			::close( pipfd_signal[1]);
-			pipfd_signal[1] = 0;
-		}
-	}
-
 	~Data()
 	{
 		closefd();
+	}
+
+	int writeFileHandle() const
+	{
+		return pipfd[ 1];
+	}
+
+	int error() const
+	{
+		return (ec == EAGAIN) ? ((ec == EINTR) ? 0 : ec) : 0;
 	}
 
 	std::string fetchContent()
@@ -131,56 +98,67 @@ struct WriteBufferHandle::Data
 		}
 	}
 
-	void run()
+	void readData()
 	{
-		(void)state.test_and_set( StateInit, StateWait);
-		while (state.value() != StateStopped)
+		std::string data;
+		for (;;)
 		{
-			(void)state.test_and_set( StateData, StateWait);
-			waitReadAvailable();
-			(void)state.test_and_set( StateWait, StateData);
-			std::string data;
-			for (;;)
+			char buf[ 4096];
+			ssize_t nn = ::read( pipfd[0], buf, sizeof(buf));
+			if (nn == 0)
 			{
-				char buf[ 4096];
-				ssize_t nn = ::read( pipfd[0], buf, sizeof(buf));
-				if (nn == 0)
+				break;
+			}
+			else if (nn > 0)
+			{
+				try
 				{
+					data.append( buf, nn);
+				}
+				catch (...)
+				{
+					ec = ENOMEM;
 					break;
 				}
-				else if (nn > 0)
-				{
-					try
-					{
-						data.append( buf, nn);
-					}
-					catch (...)
-					{
-						ec = ENOMEM;
-						break;
-					}
-				}
-				else
-				{
-					if (setErrno( errno) && !maskErrno( EINTR)) break;
-					if (nn < (ssize_t)sizeof(buf))
-					{
-						break;
-					}
-				}
 			}
-			maskErrno( EAGAIN);
-			if (!data.empty())
+			else
 			{
-				strus::unique_lock lock( mutex_buffer);
-				if (buffer.empty())
-				{
-					std::swap( buffer, data);
-				}
-				else
-				{
-					buffer.append( data);
-				}
+				setErrno( errno);
+				maskErrno( EINTR);
+				if (ec || nn < (ssize_t)sizeof(buf)) break;
+			}
+		}
+		maskErrno( EAGAIN);
+		if (!data.empty())
+		{
+			strus::unique_lock lock( mutex_buffer);
+			if (buffer.empty())
+			{
+				std::swap( buffer, data);
+			}
+			else
+			{
+				buffer.append( data);
+			}
+		}
+	}
+
+	void run()
+	{
+		(void)state.test_and_set( StateInit, StateData);
+		for(;;)
+		{
+			readData();
+
+			if (state.test_and_set( StateData, StateWait))
+			{
+				waitReadAvailable();
+				(void)state.test_and_set( StateWait, StateData);
+			}
+			else if (state.value() == StateStopped)
+			{
+				readData();
+				break;
 			}
 		}
 		state.set( StateInit);
@@ -191,7 +169,14 @@ struct WriteBufferHandle::Data
 		// ... can be called only once
 		try
 		{
-			thread = new strus::thread( &WriteBufferHandle::Data::run, this);
+			if (thread)
+			{
+				ec = EPERM;
+			}
+			else
+			{
+				thread = new strus::thread( &WriteBufferHandle::Data::run, this);
+			}
 		}
 		catch (...)
 		{
@@ -208,6 +193,8 @@ struct WriteBufferHandle::Data
 			flushBuffer();
 		}
 		if (thread) thread->join();
+		delete thread;
+		thread = 0;
 	}
 
 	void signalReadEvent()
@@ -278,6 +265,52 @@ struct WriteBufferHandle::Data
 		}
 		return streamHandle;
 	}
+
+private:
+	bool setErrno( int ec_)
+	{
+		ec = ec_;
+		return ec != 0;
+	}
+
+	bool maskErrno( int ec_)
+	{
+		if (ec_ == ec)
+		{
+			ec = 0;
+			return true;
+		}
+		return false;
+	}
+
+	void closefd()
+	{
+		if (pipfd[0])
+		{
+			::close( pipfd[0]);
+			pipfd[0] = 0;
+		}
+		if (streamHandle)
+		{
+			::fclose( streamHandle);
+			pipfd[1] = 0;
+		}
+		else if (pipfd[1])
+		{
+			::close( pipfd[1]);
+			pipfd[1] = 0;
+		}
+		if (pipfd_signal[0])
+		{
+			::close( pipfd_signal[0]);
+			pipfd_signal[0] = 0;
+		}
+		if (pipfd_signal[1])
+		{
+			::close( pipfd_signal[1]);
+			pipfd_signal[1] = 0;
+		}
+	}
 };
 
 DLL_PUBLIC WriteBufferHandle::WriteBufferHandle()
@@ -304,7 +337,7 @@ DLL_PUBLIC WriteBufferHandle::~WriteBufferHandle()
 
 DLL_PUBLIC FileHandle WriteBufferHandle::fileHandle() const
 {
-	return m_impl ? m_impl->pipfd[1] : 0;//...write end of pipe
+	return m_impl ? m_impl->writeFileHandle() : 0;//...write end of pipe
 }
 
 DLL_PUBLIC FILE* WriteBufferHandle::getCStreamHandle()
@@ -319,7 +352,7 @@ DLL_PUBLIC std::string WriteBufferHandle::fetchContent()
 
 DLL_PUBLIC int WriteBufferHandle::error() const
 {
-	return m_impl ? m_impl->ec : ENOMEM;
+	return m_impl ? m_impl->error() : ENOMEM;
 }
 
 DLL_PUBLIC void WriteBufferHandle::done()
