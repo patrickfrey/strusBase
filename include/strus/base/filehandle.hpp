@@ -42,17 +42,17 @@ public:
 	FileHandle fileHandle() const;
 
 	/// \brief Get a pointer to a FILE to write to
-	/// \return the file handle as C stream handle
 	/// \remark Do not use fileHandle anymore when using the stream
+	/// \return the file handle as C stream handle
 	FILE* getCStreamHandle();
 
 	/// \brief Fetch the content of the buffer
-	/// \return the buffer content
 	/// \note buffer is emptied with this call
-	std::string fetchContent();
+	/// \return the buffer content
+ 	std::string fetchContent();
 
-	/// \brief Terminate listener
-	void done();
+	/// \brief Terminate listener and file buffers
+	void close();
 
 private:
 	struct Data;

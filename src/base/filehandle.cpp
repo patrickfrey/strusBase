@@ -108,11 +108,7 @@ public:
 		{
 			char buf[ 4096];
 			ssize_t nn = ::read( pipfd[0], buf, sizeof(buf));
-			if (nn == 0)
-			{
-				break;
-			}
-			else if (nn > 0)
+			if (nn > 0)
 			{
 				try
 				{
@@ -153,7 +149,7 @@ public:
 	void run()
 	{
 		(void)state.test_and_set( StateInit, StateData);
-		for(;;)
+		do
 		{
 			readData();
 
@@ -162,12 +158,9 @@ public:
 				waitReadAvailable();
 				(void)state.test_and_set( StateWait, StateData);
 			}
-			else if (state.value() == StateStopped)
-			{
-				readData();
-				break;
-			}
-		}
+		} while (state.value() != StateStopped);
+
+		readData();
 		state.set( StateInit);
 	}
 
@@ -195,9 +188,11 @@ public:
 	void stop()
 	{
 		if (state.value() == StateInit) return;
+		flushBuffer();
+
 		if (state.test_and_set( StateWait, StateStopped) || state.test_and_set( StateData, StateStopped))
 		{
-			flushBuffer();
+			signalReadEvent();
 		}
 		if (thread) thread->join();
 		delete thread;
@@ -254,6 +249,10 @@ public:
 			{
 				setErrno( errno);
 				if (maskErrno( EINTR) || maskErrno( EAGAIN)) goto AGAIN;
+				while (state.value() == StateData)
+				{
+					strus::usleep( 1L);
+				}
 			}
 		}
 		state.test_and_set( StateWait, StateData);
@@ -362,7 +361,7 @@ DLL_PUBLIC int WriteBufferHandle::error() const
 	return m_impl ? m_impl->error() : ENOMEM;
 }
 
-DLL_PUBLIC void WriteBufferHandle::done()
+DLL_PUBLIC void WriteBufferHandle::close()
 {
 	if (m_impl) m_impl->stop();
 }

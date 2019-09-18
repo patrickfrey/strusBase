@@ -11,6 +11,7 @@
 #include "strus/base/utf8.hpp"
 #include "strus/base/numstring.hpp"
 #include "strus/base/string_format.hpp"
+#include "strus/base/fileio.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <string>
@@ -98,15 +99,19 @@ int main( int argc, const char** argv)
 				bytesLeft -= nn;
 			}
 		}
-		wbh.done();
+		wbh.close();
 		std::string result = wbh.fetchContent();
 
 		if (result != expected)
 		{
-			std::cerr << "RESULT:" << std::endl;
-			std::cerr << result << std::endl << std::endl;
-			std::cerr << "EXPECTED:" << std::endl;
-			std::cerr << expected << std::endl << std::endl;
+			int ec;
+			ec = strus::writeFile( "RES", result);
+			if (ec) throw std::runtime_error( strus::string_format( "error writing output file %s: %s", "RES", ::strerror( ec)));
+			ec = strus::writeFile( "EXP", expected);
+			if (ec) throw std::runtime_error( strus::string_format( "error writing output file %s: %s", "EXP", ::strerror( ec)));
+
+			std::cerr << "RESULT " << result.size()   << " bytes written to file " << "RES" << std::endl;
+			std::cerr << "EXPECT " << expected.size() << " bytes written to file " << "EXP" << std::endl;
 
 			throw std::runtime_error( "result not as expected");
 		}
