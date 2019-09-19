@@ -29,9 +29,18 @@ public:
 		:std::shared_ptr<X>(ptr){}
 	shared_ptr( const shared_ptr& o)
 		:std::shared_ptr<X>(o){}
+	shared_ptr( const std::shared_ptr<X>& o)
+		:std::shared_ptr<X>(o){}
 	shared_ptr()
 		:std::shared_ptr<X>(){}
 };
+
+template <typename Element>
+strus::shared_ptr<Element> make_shared()
+{
+	return std::make_shared<Element>();
+}
+
 } //namespace
 
 #else //STRUS_USE_STD_SHARED_PTR
@@ -48,9 +57,18 @@ public:
 		:boost::shared_ptr<X>(ptr){}
 	shared_ptr( const shared_ptr& o)
 		:boost::shared_ptr<X>(o){}
+	shared_ptr( const boost::shared_ptr<X>& o)
+		:boost::shared_ptr<X>(o){}
 	shared_ptr()
 		:boost::shared_ptr<X>(){}
 };
+
+template <typename Element>
+strus::shared_ptr<Element> make_shared()
+{
+	return boost::make_shared<Element>();
+}
+
 } //namespace
 
 #endif //STRUS_USE_STD_SHARED_PTR

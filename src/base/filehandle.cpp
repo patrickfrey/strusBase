@@ -31,14 +31,17 @@ private:
 	std::string buffer;
 	strus::thread* thread;
 	int ec;
-	bool stopOnError;
+	WriteBufferHandle::ErrorHandler errorHandler;
+	void* errorHandlerCtx;
 	FILE* streamHandle;
 	enum State {StateInit=0, StateWait=1, StateData=2, StateStopped=3};
 	AtomicCounter<int> state;
 
 public:
-	explicit Data( bool stopOnError_)
+	explicit Data( WriteBufferHandle::ErrorHandler errorHandler_, void* errorHandlerCtx_)
 	{
+		errorHandler = errorHandler_;
+		errorHandlerCtx = errorHandlerCtx_;
 		int flags;
 
 		pipfd[0] = 0;
@@ -49,7 +52,6 @@ public:
 		if (::pipe(pipfd_signal) == -1) goto ERROR;
 		thread = 0;
 		ec = 0;
-		stopOnError = stopOnError_;
 		streamHandle = NULL;
 
 		flags = ::fcntl( pipfd[0], F_GETFL, 0);
@@ -66,6 +68,7 @@ public:
 	ERROR:
 		setErrno( errno);
 		closefd();
+		if (errorHandler) errorHandler( errorHandlerCtx, ec);
 	}
 
 	~Data()
@@ -140,9 +143,9 @@ public:
 				buffer.append( data);
 			}
 		}
-		if (ec && stopOnError)
+		if (ec)
 		{
-			state.set( StateStopped);
+			if (errorHandler) errorHandler( errorHandlerCtx, ec);
 		}
 	}
 
@@ -182,6 +185,7 @@ public:
 		{
 			ec = ENOMEM;
 			thread = 0;
+			if (errorHandler) errorHandler( errorHandlerCtx, ec);
 		}
 	}
 
@@ -209,6 +213,7 @@ public:
 		{
 			setErrno( errno);
 			if (maskErrno( EINTR) || maskErrno( EAGAIN)) goto AGAIN;
+			if (errorHandler) errorHandler( errorHandlerCtx, ec);
 		}
 	}
 
@@ -319,11 +324,11 @@ private:
 	}
 };
 
-DLL_PUBLIC WriteBufferHandle::WriteBufferHandle( bool stopOnError)
+DLL_PUBLIC WriteBufferHandle::WriteBufferHandle( ErrorHandler errorHandler, void* errorHandlerCtx)
 {
 	try
 	{
-		m_impl = new Data( stopOnError);
+		m_impl = new Data( errorHandler, errorHandlerCtx);
 		m_impl->start();
 	}
 	catch (...)

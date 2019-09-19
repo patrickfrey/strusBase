@@ -27,9 +27,11 @@ typedef int SocketHandle;
 class WriteBufferHandle
 {
 public:
+	typedef void (*ErrorHandler)( void* ctx, int errno_);
+
 	/// \brief Constructor
 	/// \param[in] stopOnError true, if the background thread flushing the writes on the handle into a buffer stops on the first error
-	explicit WriteBufferHandle( bool stopOnError=false);
+	WriteBufferHandle( ErrorHandler errorHandler, void* errorHandlerCtx);
 	/// \brief Destructor
 	~WriteBufferHandle();
 

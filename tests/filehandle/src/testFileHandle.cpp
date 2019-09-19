@@ -43,6 +43,11 @@ static std::string randomText( std::size_t maxsize)
 	return rt;
 }
 
+void errorHandler( void* ctx, int errno_)
+{
+	std::cerr << "error in handler: " << ::strerror(errno_) << std::endl;
+}
+
 int main( int argc, const char** argv)
 {
 	try
@@ -57,7 +62,7 @@ int main( int argc, const char** argv)
 
 		if (argc > 4) throw std::runtime_error( "too many arguments");
 
-		strus::WriteBufferHandle wbh;
+		strus::WriteBufferHandle wbh( errorHandler, 0/*context*/);
 		std::string expected;
 
 		int fh = wbh.fileHandle();
