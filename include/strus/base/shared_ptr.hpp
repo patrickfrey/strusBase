@@ -25,8 +25,13 @@ class shared_ptr
 	:public std::shared_ptr<X>
 {
 public:
+	typedef void (*Deleter)( X* ptr);
+
+public:
 	shared_ptr( X* ptr)
 		:std::shared_ptr<X>(ptr){}
+	shared_ptr( X* ptr, Deleter deleter)
+		:std::shared_ptr<X>(ptr,deleter){}
 	shared_ptr( const shared_ptr& o)
 		:std::shared_ptr<X>(o){}
 	shared_ptr( const std::shared_ptr<X>& o)
@@ -41,6 +46,12 @@ strus::shared_ptr<Element> make_shared()
 	return std::make_shared<Element>();
 }
 
+template <typename Element>
+strus::shared_ptr<Element> make_shared( const Element& o)
+{
+	return std::make_shared<Element>( o);
+}
+
 } //namespace
 
 #else //STRUS_USE_STD_SHARED_PTR
@@ -53,8 +64,13 @@ class shared_ptr
 	:public boost::shared_ptr<X>
 {
 public:
+	typedef void (*Deleter)( X* ptr);
+
+public:
 	shared_ptr( X* ptr)
 		:boost::shared_ptr<X>(ptr){}
+	shared_ptr( X* ptr, Deleter deleter)
+		:std::shared_ptr<X>(ptr,deleter){}
 	shared_ptr( const shared_ptr& o)
 		:boost::shared_ptr<X>(o){}
 	shared_ptr( const boost::shared_ptr<X>& o)
@@ -67,6 +83,12 @@ template <typename Element>
 strus::shared_ptr<Element> make_shared()
 {
 	return boost::make_shared<Element>();
+}
+
+template <typename Element>
+strus::shared_ptr<Element> make_shared( const Element& o)
+{
+	return boost::make_shared<Element>( o);
 }
 
 } //namespace
