@@ -16,9 +16,17 @@
 namespace strus
 {
 
+template <class Object>
+class StandardReferenceDeleter
+{
+public:
+	StandardReferenceDeleter(){}
+	void operator()( Object* obj) {delete obj;}
+};
+
 /// \brief Shared pointer template with non thread-safe reference counting.
 /// \note Similar to shared_ptr but without atomic (thread safe) reference counting
-template <class Object>
+template <class Object,class Deleter=StandardReferenceDeleter<Object> >
 class Reference
 {
 public:
@@ -36,7 +44,7 @@ public:
 		}
 		catch (const std::bad_alloc&)
 		{
-			delete obj_;
+			Deleter()( obj_);
 			if (doThrow) throw std::bad_alloc();
 		}
 	}
@@ -75,14 +83,14 @@ public:
 				}
 				catch (const std::bad_alloc&)
 				{
-					delete obj_;
+					Deleter()( obj_);
 					return;
 				}
 			}
 		}
 		else if (*m_refcnt == 1)
 		{
-			delete m_obj;
+			Deleter()( m_obj);
 		}
 		else if (obj_)
 		{
@@ -152,7 +160,7 @@ private:
 	{
 		if (m_refcnt && --*m_refcnt == 0)
 		{
-			delete m_obj;
+			Deleter()( m_obj);
 			std::free( m_refcnt);
 			m_refcnt = 0;
 			m_obj = 0;
