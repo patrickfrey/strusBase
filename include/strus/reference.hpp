@@ -135,7 +135,7 @@ public:
 		}
 		else if (m_refcnt)
 		{
-			throw std::logic_error( "cannot release shared object (having more than one reference)");
+			throw std::runtime_error( "cannot release shared object (having more than one reference)");
 		}
 		else
 		{
