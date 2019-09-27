@@ -16,17 +16,16 @@
 namespace strus
 {
 
-template <class Object>
+template <typename Object>
 class StandardReferenceDeleter
 {
 public:
-	StandardReferenceDeleter(){}
 	void operator()( Object* obj) {delete obj;}
 };
 
 /// \brief Shared pointer template with non thread-safe reference counting.
 /// \note Similar to shared_ptr but without atomic (thread safe) reference counting
-template <class Object,class Deleter=StandardReferenceDeleter<Object> >
+template <typename Object,class Deleter=StandardReferenceDeleter<Object> >
 class Reference
 {
 public:
