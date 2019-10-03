@@ -73,9 +73,18 @@ public:
 	/// \param[out] errcode error code in case of error
 	static TimeStamp fromdate( int year, int mon, int day, int hrs, int min, int sec, int cnt, ErrorCode& errcode);
 
+	/// \brief Tests if this timestamp is defined
+	/// \return true if yes, false if no
 	bool defined() const
 	{
 		return !!m_unixtime;
+	}
+
+	/// \brief Sets this timestamp to undefined
+	void clear()
+	{
+		m_unixtime = 0;
+		m_counter = 0;
 	}
 
 private:
