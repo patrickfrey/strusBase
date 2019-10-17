@@ -350,7 +350,7 @@ int main( int argc, const char** argv)
 		int nofTests = 1;
 		int argi = 1;
 		int testIdx = -1;
-		float errorTolerance = 0.10; //< error tolerance 10%
+		float errorTolerance = 0.15; //< error tolerance 15%
 		//... as we deal with approximations as result, we accept an error within this boundary
 
 		bool verbose = false;
