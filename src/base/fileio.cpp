@@ -23,7 +23,7 @@
 
 using namespace strus;
 
-static int mkdirp_( const std::string& dirname)
+static int mkdirp_( const std::string& dirname, std::string* firstDirectoryCreated)
 {
 	int ec = strus::createDir( dirname, false/*fail_ifexist*/);
 	if (ec == EPERM || ec == ENOENT)
@@ -32,9 +32,13 @@ static int mkdirp_( const std::string& dirname)
 		ec = getParentPath( dirname, parentpath);
 		if (ec) return ec;
 		if (parentpath.empty() || dirname.size() <= parentpath.size()) return EPERM;
-		ec = mkdirp_( parentpath);
+		ec = mkdirp_( parentpath, firstDirectoryCreated);
 		if (ec) return ec;
 		ec = strus::createDir( dirname, false/*fail_ifexist*/);
+		if (ec == 0 && firstDirectoryCreated && firstDirectoryCreated->empty())
+		{
+			firstDirectoryCreated->append( dirname);
+		}
 	}
 	return ec;
 }
@@ -69,7 +73,19 @@ DLL_PUBLIC int strus::mkdirp( const std::string& dirname)
 {
 	try
 	{
-		return mkdirp_( dirname);
+		return mkdirp_( dirname, NULL);
+	}
+	catch (...)
+	{
+		return ENOMEM;
+	}
+}
+
+DLL_PUBLIC int strus::mkdirp( const std::string& dirname, std::string& firstDirectoryCreated)
+{
+	try
+	{
+		return mkdirp_( dirname, &firstDirectoryCreated);
 	}
 	catch (...)
 	{
@@ -84,7 +100,7 @@ AGAIN:
 	{
 		int ec = errno;
 		if (ec == EINTR) goto AGAIN;
-		if (!fail_ifexist && ec == EEXIST && isDir(dirname.c_str()))
+		if (!fail_ifexist && ec == EEXIST && isDir(dirname))
 		{
 			ec = 0;
 		}

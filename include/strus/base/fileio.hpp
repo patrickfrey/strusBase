@@ -86,6 +86,12 @@ int createDir( const std::string& dirname, bool fail_ifexist=true);
 /// \return 0 on success, errno on failure
 int mkdirp( const std::string& dirname);
 
+/// \brief Same as mkdirp, but returns also the directory created
+/// \param[in] dirname path of directory to create
+/// \param[out] firstDirectoryCreated path of the first directory of the directory path created
+/// \return 0 on success, errno on failure
+int mkdirp( const std::string& dirname, std::string& firstDirectoryCreated);
+
 /// \brief Change current directory of the process
 /// \param[in] dirname path of directory to create
 /// \return 0 on success, errno on failure
