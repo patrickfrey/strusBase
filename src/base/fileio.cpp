@@ -26,7 +26,11 @@ using namespace strus;
 static int mkdirp_( const std::string& dirname, std::string* firstDirectoryCreated)
 {
 	int ec = strus::createDir( dirname, false/*fail_ifexist*/);
-	if (ec == EPERM || ec == ENOENT)
+	if (ec == 0 && firstDirectoryCreated && firstDirectoryCreated->empty())
+	{
+		firstDirectoryCreated->append( dirname);
+	}
+	else if (ec == EPERM || ec == ENOENT)
 	{
 		std::string parentpath;
 		ec = getParentPath( dirname, parentpath);
@@ -35,10 +39,6 @@ static int mkdirp_( const std::string& dirname, std::string* firstDirectoryCreat
 		ec = mkdirp_( parentpath, firstDirectoryCreated);
 		if (ec) return ec;
 		ec = strus::createDir( dirname, false/*fail_ifexist*/);
-		if (ec == 0 && firstDirectoryCreated && firstDirectoryCreated->empty())
-		{
-			firstDirectoryCreated->append( dirname);
-		}
 	}
 	return ec;
 }

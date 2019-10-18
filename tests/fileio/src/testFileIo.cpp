@@ -50,6 +50,28 @@ static void test_resolveUpdirReferences()
 	}
 }
 
+static void test_mkdirp()
+{
+	std::string testdir;
+	int ec;
+	(void)strus::removeDir( "./fileio_test/A/B/C");
+	(void)strus::removeDir( "./fileio_test/A/B");
+	(void)strus::removeDir( "./fileio_test/A");
+	(void)strus::removeDir( "./fileio_test");
+	ec = strus::mkdirp( "./fileio_test");
+	if (ec || !strus::isDir( "./fileio_test"))
+	{
+		if (ec) std::cerr << "file error: " << ::strerror(ec);
+		throw std::runtime_error( "failed to create test direcory with mkdirp");
+	}
+	ec = strus::mkdirp( "./fileio_test/A/B/C", testdir);
+	if (ec || !strus::isDir( "./fileio_test/A/B/C") || testdir != "./fileio_test/A")
+	{
+		if (ec) std::cerr << "file error: " << ::strerror(ec);
+		throw std::runtime_error( "mkdirp with out parameter for rollback failed");
+	}
+}
+
 int main( int argc, const char* argv[])
 {
 	try {
@@ -75,6 +97,7 @@ int main( int argc, const char* argv[])
 			}
 		}
 		test_resolveUpdirReferences();
+		test_mkdirp();
 		if (!g_errors.empty())
 		{
 			std::vector<std::string>::const_iterator ei = g_errors.begin(), ee = g_errors.end();
