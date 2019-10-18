@@ -28,7 +28,7 @@ class InternalMap;
 class BlockAllocator
 {
 public:
-	explicit BlockAllocator( ErrorBufferInterface* errorhnd_)
+	explicit BlockAllocator( ErrorBufferInterface* errorhnd_=0)
 		:m_errorhnd(errorhnd_),m_blocks(createBlocks())
 	{
 		if (!m_blocks)
@@ -42,6 +42,8 @@ public:
 	const char* allocStringCopy( const char* str, std::size_t size);
 	const char* allocStringCopy( const std::string& str);
 
+	void clear();
+
 private:
 	static StringMapKeyBlockList* createBlocks();
 	static void deleteBlocks( StringMapKeyBlockList* ptr);
@@ -49,6 +51,58 @@ private:
 private:
 	ErrorBufferInterface* m_errorhnd;
 	StringMapKeyBlockList* m_blocks;
+};
+
+
+///\brief List of strings
+class SymbolVector
+{
+public:
+	SymbolVector()
+		:m_allocator(0){}
+
+	void push_back( const char* value)
+	{
+		const char* valuedup = m_allocator.allocStringCopy( value, std::strlen( value));
+		if (!valuedup) throw std::bad_alloc();
+		return m_ar.push_back( valuedup);
+	}
+	void push_back( const char* value, std::size_t valuesize)
+	{
+		const char* valuedup = m_allocator.allocStringCopy( value, valuesize);
+		if (!valuedup) throw std::bad_alloc();
+		return m_ar.push_back( valuedup);
+	}
+	void push_back( const std::string& value)
+	{
+		const char* valuedup = m_allocator.allocStringCopy( value.c_str(), value.size());
+		if (!valuedup) throw std::bad_alloc();
+		return m_ar.push_back( valuedup);
+	}
+
+	typedef std::vector<const char*>::const_iterator const_iterator;
+	typedef std::vector<const char*>::iterator iterator;
+
+	std::vector<const char*>::const_iterator begin() const		{return m_ar.begin();}
+	std::vector<const char*>::const_iterator end() const		{return m_ar.end();}
+
+	const char* operator[]( std::size_t i) const			{return m_ar[i];}
+	const char* back() const					{return m_ar.back();}
+	std::size_t size() const					{return m_ar.size();}
+
+	void clear()
+	{
+		m_ar.clear();
+		m_allocator.clear();
+	}
+
+private:
+	SymbolVector( const SymbolVector&){}	//... non copyable
+	void operator=( const SymbolVector&){}	//... non copyable
+
+private:
+	std::vector<const char*> m_ar;
+	BlockAllocator m_allocator;
 };
 
 

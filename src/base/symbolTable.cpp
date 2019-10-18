@@ -21,7 +21,7 @@ class StringMapKeyBlock
 {
 public:
 	/// \brief Default block size
-	enum {DefaultSize = 16300};
+	enum {DefaultSize = 128};
 
 public:
 	/// \brief Default constructor
@@ -83,6 +83,11 @@ DLL_PUBLIC BlockAllocator::~BlockAllocator()
 	if (m_blocks) delete m_blocks;
 }
 
+DLL_PUBLIC void BlockAllocator::clear()
+{
+	if (m_blocks) m_blocks->clear();
+}
+
 DLL_PUBLIC const char* BlockAllocator::allocStringCopy( const std::string& str)
 {
 	return allocStringCopy( str.c_str(), str.size());
@@ -96,7 +101,7 @@ DLL_PUBLIC const char* BlockAllocator::allocStringCopy( const char* str, std::si
 	}
 	catch (const std::exception&)
 	{
-		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
+		if (m_errorhnd) m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
 		return 0;
 	}
 }
@@ -138,18 +143,15 @@ StringMapKeyBlock::~StringMapKeyBlock()
 
 const char* StringMapKeyBlock::allocKey( const std::string& key)
 {
-	const char* rt = m_blk + m_blkpos;
-	if (key.size() > m_blksize || key.size() + m_blkpos + 1 > m_blksize) return 0;
-	std::memcpy( m_blk + m_blkpos, key.c_str(), key.size()+1);
-	m_blkpos += key.size()+1;
-	return rt;
+	return allocKey( key.c_str(), key.size());
 }
 
 const char* StringMapKeyBlock::allocKey( const char* key, std::size_t keylen)
 {
 	const char* rt = m_blk + m_blkpos;
 	if (keylen > m_blksize || keylen + m_blkpos + 1 > m_blksize) return 0;
-	std::memcpy( m_blk + m_blkpos, key, keylen+1);
+	std::memcpy( m_blk + m_blkpos, key, keylen);
+	m_blk[ m_blkpos + keylen] = 0;
 	m_blkpos += keylen+1;
 	return rt;
 }
@@ -196,7 +198,6 @@ const char* StringMapKeyBlockList::allocKey( const char* key, std::size_t keylen
 	if (!rt) throw std::bad_alloc();
 	return rt;
 }
-
 
 void StringMapKeyBlockList::clear()
 {
@@ -283,12 +284,12 @@ DLL_PUBLIC uint32_t SymbolTable::getOrCreate( const char* keystr, std::size_t ke
 	}
 	catch (const std::bad_alloc&)
 	{
-		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
+		if (m_errorhnd) m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
 		return 0;
 	}
 	catch (const std::exception& err)
 	{
-		m_errorhnd->report( ErrorCodeRuntimeError, "%s", err.what());
+		if (m_errorhnd) m_errorhnd->report( ErrorCodeRuntimeError, "%s", err.what());
 		return 0;
 	}
 }
@@ -331,7 +332,7 @@ DLL_PUBLIC void SymbolTable::clear()
 	}
 	catch (const std::bad_alloc&)
 	{
-		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
+		if (m_errorhnd) m_errorhnd->report( ErrorCodeOutOfMem, _TXT("out of memory"));
 	}
 }
 
