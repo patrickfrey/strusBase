@@ -140,6 +140,7 @@ DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 		case ErrorCodeIncompleteInitialization:	return _TXT("incomplete initialization of object called");
 		case ErrorCodeIncompleteDefinition:	return _TXT("incomplete definition");
 		case ErrorCodeIncompleteConfiguration:	return _TXT("incomplete configuration");
+		case ErrorCodeDuplicateDefinition:	return _TXT("duplicate definition");
 		case ErrorCodeBindingLanguageError:	return _TXT("binding language error");
 		case ErrorCodeUnknownIdentifier:	return _TXT("unknown identifier");
 		case ErrorCodeOperationOrder:		return _TXT("invalid order of operations");

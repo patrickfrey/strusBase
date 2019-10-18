@@ -42,6 +42,7 @@ namespace strus
 		ErrorCodeIncompleteInitialization=239,
 		ErrorCodeIncompleteDefinition=240,
 		ErrorCodeIncompleteConfiguration=241,
+		ErrorCodeDuplicateDefinition=242,
 		ErrorCodeBindingLanguageError=251,
 		ErrorCodeUnknownIdentifier=252,
 		ErrorCodeOperationOrder=253,
