@@ -26,8 +26,6 @@
 #include <algorithm>
 #include <utility>
 
-#undef STRUS_LOWLEVEL_DEBUG
-
 static strus::PseudoRandom g_random;
 
 template <class TYPE>

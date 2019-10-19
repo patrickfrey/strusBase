@@ -63,6 +63,7 @@ public:
 	/// \brief Assignment operator
 	Reference& operator = (const Reference& o)
 	{
+		freeRef();
 		m_obj = o.m_obj;
 		m_refcnt = o.m_refcnt;
 		if (m_refcnt) ++*m_refcnt;
@@ -72,37 +73,44 @@ public:
 	/// \brief Reinitialize the local value of the reference and dispose the old value if not referenced by others
 	void reset( Object* obj_=0)
 	{
-		if (!m_refcnt)
+		if (m_refcnt == NULL && obj_)
 		{
-			if (obj_)
+			try
 			{
-				try
-				{
-					m_refcnt = newRefCnt();
-				}
-				catch (const std::bad_alloc&)
-				{
-					Deleter()( obj_);
-					return;
-				}
+				m_refcnt = newRefCnt();
+				m_obj = obj_;
+			}
+			catch (const std::bad_alloc&)
+			{
+				Deleter()( obj_);
+				return;
 			}
 		}
-		else if (*m_refcnt == 1)
+		else if (m_refcnt && *m_refcnt == 1 && obj_)
 		{
 			Deleter()( m_obj);
+			m_obj = obj_;
 		}
-		else if (obj_)
+		else if (obj_ == NULL)
 		{
-			int* rc = newRefCnt();
 			freeRef();
-			m_refcnt = rc;
 		}
 		else
 		{
-			freeRef();
-			m_refcnt = 0;
+			int* rc;
+			try
+			{
+				rc = newRefCnt();
+				freeRef();
+				m_refcnt = rc;
+				m_obj = obj_;
+			}
+			catch (const std::bad_alloc&)
+			{
+				Deleter()( obj_);
+				throw std::bad_alloc();
+			}
 		}
-		m_obj = obj_;
 	}
 
 	/// \brief Object access operator
@@ -147,8 +155,21 @@ public:
 		return m_refcnt?(*m_refcnt):0;
 	}
 
+	unsigned int use_count() const
+	{
+		return refcnt();
+	}
+
+	void check() const
+	{
+		if (m_refcnt && !m_obj)
+		{
+			throw std::runtime_error("bad state in reference");
+		}
+	}
+
 private:
-	int* newRefCnt()
+	static int* newRefCnt()
 	{
 		int* rt = (int*)std::malloc(sizeof(int));
 		if (!rt) throw std::bad_alloc();
@@ -161,9 +182,9 @@ private:
 		{
 			Deleter()( m_obj);
 			std::free( m_refcnt);
-			m_refcnt = 0;
-			m_obj = 0;
 		}
+		m_refcnt = 0;
+		m_obj = 0;
 	}
 
 private:
