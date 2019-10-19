@@ -150,14 +150,9 @@ public:
 		}
 	}
 
-	unsigned int refcnt() const
-	{
-		return m_refcnt?(*m_refcnt):0;
-	}
-
 	unsigned int use_count() const
 	{
-		return refcnt();
+		return m_refcnt?(*m_refcnt):0;
 	}
 
 	void check() const
