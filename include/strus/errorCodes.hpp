@@ -62,7 +62,8 @@ namespace strus
 		ErrorCodeRequestResolveError=283,
 		ErrorCodeNotAcceptable=284,
 		ErrorCodeDelegateRequestFailed=285,
-		ErrorCodeServiceShutdown=286
+		ErrorCodeServiceShutdown=286,
+		ErrorCodeServiceTemporarilyUnavailable=287
 	};
 }//namespace
 #endif
