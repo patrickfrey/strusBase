@@ -93,10 +93,17 @@ public:
 	}
 
 	///\brief Increment of the counter
-	///\return the new value of the counter after the increment operation
+	///\return the new value of the counter before the increment operation
 	IntegralCounterType allocIncrement( IntegralCounterType val = 1)
 	{
 		return strus::atomic<IntegralCounterType>::fetch_add( val, STRUS_MEMORY_ORDER_ATOMIC_COUNTER);
+	}
+
+	///\brief Decrement of the counter
+	///\return the new value of the counter before the decrement operation
+	IntegralCounterType allocDecrement( IntegralCounterType val = 1)
+	{
+		return strus::atomic<IntegralCounterType>::fetch_sub( val, STRUS_MEMORY_ORDER_ATOMIC_COUNTER);
 	}
 
 	///\brief Increment of the counter
