@@ -358,6 +358,15 @@ DLL_PUBLIC bool strus::extractFloatFromConfigString( double& val, std::string& c
 	CATCH_ERROR_ARG1_MAP_RETURN( _TXT("error extracting floating point value for key '%s' from configuration string: %s"), key, *errorhnd, false);
 }
 
+DLL_PUBLIC void strus::removeKeyFromConfigString( std::string& config, const char* key, ErrorBufferInterface* errorhnd)
+{
+	try
+	{
+		std::string val;
+		extractStringFromConfigString( val, config, key, errorhnd);
+	}
+	CATCH_ERROR_MAP( _TXT("error removing keys from configuration string: %s"), *errorhnd);
+}
 
 DLL_PUBLIC void strus::removeKeysFromConfigString( std::string& config, const char** keys, ErrorBufferInterface* errorhnd)
 {

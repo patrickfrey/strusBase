@@ -22,6 +22,7 @@ bool extractStringArrayFromConfigString( std::vector<std::string>& val, std::str
 bool extractBooleanFromConfigString( bool& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd);
 bool extractUIntFromConfigString( unsigned int& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd);
 bool extractFloatFromConfigString( double& val, std::string& config, const char* key, ErrorBufferInterface* errorhnd);
+void removeKeyFromConfigString( std::string& config, const char* key, ErrorBufferInterface* errorhnd);
 void removeKeysFromConfigString( std::string& config, const char** keys, ErrorBufferInterface* errorhnd);
 
 bool addConfigStringItem( std::string& config, const std::string& key, const std::string& value, ErrorBufferInterface* errorhnd);
