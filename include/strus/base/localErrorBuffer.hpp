@@ -35,12 +35,12 @@ public:
 
 	virtual void setLogFile( FILE* )
 	{
-		throw std::logic_error( "not implemented");
+		throw std::runtime_error( "not implemented");
 	}
 
 	virtual bool setMaxNofThreads( unsigned int)
 	{
-		throw std::logic_error( "not implemented");
+		throw std::runtime_error( "not implemented");
 	}
 
 	virtual void report( int errorcode, const char* format, ...)
@@ -88,12 +88,12 @@ public:
 
 	virtual void allocContext()
 	{
-		throw std::logic_error( "not implemented");
+		throw std::runtime_error( "not implemented");
 	}
 
 	virtual void releaseContext()
 	{
-		throw std::logic_error( "not implemented");
+		throw std::runtime_error( "not implemented");
 	}
 
 	virtual DebugTraceInterface* debugTrace() const

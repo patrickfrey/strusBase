@@ -240,7 +240,7 @@ std::size_t ErrorBuffer::threadidx() const
 			{
 				fprintf( m_logfilehandle, _TXT("number of threads (%u) in error buffer exhausted\n"), (unsigned int)m_size);
 			}
-			throw strus::logic_error( _TXT("number of threads (%u) in error buffer exhausted"), (unsigned int)m_size);
+			throw strus::runtime_error( _TXT("number of threads (%u) in error buffer exhausted"), (unsigned int)m_size);
 		}
 		m_slots[ti].id = tid;
 	}
