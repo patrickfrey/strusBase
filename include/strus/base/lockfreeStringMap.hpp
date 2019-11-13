@@ -85,8 +85,8 @@ public:
 		}
 	};
 
-	template <class Updater = Assignment>
-	void set( const char* key, const ValueType& value, const Updater& updater = Assignment())
+	template <class Updater>
+	void set( const char* key, const ValueType& value, const Updater& updater = Updater())
 	{
 		std::size_t blockidx = hashString( key) & m_hashMask;
 
