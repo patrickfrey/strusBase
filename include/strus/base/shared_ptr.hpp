@@ -70,7 +70,7 @@ public:
 	shared_ptr( X* ptr)
 		:boost::shared_ptr<X>(ptr){}
 	shared_ptr( X* ptr, Deleter deleter)
-		:std::shared_ptr<X>(ptr,deleter){}
+		:boost::shared_ptr<X>(ptr,deleter){}
 	shared_ptr( const shared_ptr& o)
 		:boost::shared_ptr<X>(o){}
 	shared_ptr( const boost::shared_ptr<X>& o)
