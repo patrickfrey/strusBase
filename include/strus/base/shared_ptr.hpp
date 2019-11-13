@@ -57,6 +57,7 @@ strus::shared_ptr<Element> make_shared( const Element& o)
 #else //STRUS_USE_STD_SHARED_PTR
 
 #include <boost/shared_ptr.hpp>
+#include <boost/smart_ptr/make_shared.hpp>
 namespace strus {
 
 template <class X>
