@@ -95,7 +95,7 @@ public:
 
 			std::string rt;
 			strus::unique_lock lock( mutex_buffer);
-			std::swap( buffer, rt);
+			buffer.swap( rt);
 			return rt;
 		}
 		catch (...)
@@ -136,7 +136,7 @@ public:
 			strus::unique_lock lock( mutex_buffer);
 			if (buffer.empty())
 			{
-				std::swap( buffer, data);
+				buffer.swap( data);
 			}
 			else
 			{
