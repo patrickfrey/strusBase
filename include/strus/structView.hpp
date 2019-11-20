@@ -18,6 +18,7 @@
 #include <stdexcept>
 #include <utility>
 #include <iterator>
+#include <algorithm>
 
 /// \brief strus toplevel namespace
 namespace strus
@@ -217,6 +218,15 @@ public:
 		typename std::set<ElementType>::const_iterator itr = collection.begin(), end = collection.end();
 		for (; itr != end; ++itr) {rt( StructView(*itr));}
 		return rt;
+	}
+
+	void swap( StructView& o)
+	{
+		std::swap( m_type, o.m_type);
+		m_string.swap( o.m_string);
+		std::swap( m_numeric, o.m_numeric);
+		m_ar.swap( o.m_ar);
+		m_dict.swap( o.m_dict);
 	}
 
 private:
