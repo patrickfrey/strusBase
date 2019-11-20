@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <algorithm>
 
 namespace strus {
 
@@ -123,6 +124,12 @@ DLL_PUBLIC void BlockAllocator::deleteBlocks( StringMapKeyBlockList* ptr)
 	delete ptr;
 }
 
+DLL_PUBLIC void BlockAllocator::swap( BlockAllocator& o)
+{
+	std::swap( m_errorhnd, o.m_errorhnd);
+	std::swap( m_blocks, o.m_blocks);
+}
+
 StringMapKeyBlock::StringMapKeyBlock( std::size_t blksize_, std::size_t elemsize_)
 	:m_blk((char*)std::calloc(blksize_,elemsize_)),m_blksize(blksize_*elemsize_),m_blkpos(0)
 {
@@ -202,6 +209,12 @@ const char* StringMapKeyBlockList::allocKey( const char* key, std::size_t keylen
 void StringMapKeyBlockList::clear()
 {
 	m_ar.clear();
+}
+
+DLL_PUBLIC void SymbolVector::swap( SymbolVector& o)
+{
+	m_ar.swap( o.m_ar);
+	m_allocator.swap( o.m_allocator);
 }
 
 namespace strus {
@@ -336,4 +349,12 @@ DLL_PUBLIC void SymbolTable::clear()
 	}
 }
 
+DLL_PUBLIC void SymbolTable::swap( SymbolTable& o)
+{
+	std::swap( m_errorhnd, o.m_errorhnd);
+	std::swap( m_map, o.m_map);
+	m_invmap.swap( o.m_invmap);
+	std::swap( m_keystring_blocks, o.m_keystring_blocks);
+	std::swap( m_isnew, o.m_isnew);
+}
 

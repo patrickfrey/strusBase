@@ -28,6 +28,7 @@ class InternalMap;
 class BlockAllocator
 {
 public:
+	///\brief Constructor
 	explicit BlockAllocator( ErrorBufferInterface* errorhnd_=0)
 		:m_errorhnd(errorhnd_),m_blocks(createBlocks())
 	{
@@ -42,9 +43,18 @@ public:
 	const char* allocStringCopy( const char* str, std::size_t size);
 	const char* allocStringCopy( const std::string& str);
 
+	///\brief Clear contents
 	void clear();
 
+	///\brief Swap contents
+	void swap( BlockAllocator& o);
+
 private:
+#if __cplusplus >= 201103L
+	BlockAllocator( const BlockAllocator&) = delete;
+	void operator=( const BlockAllocator&) = delete;
+#endif
+
 	static StringMapKeyBlockList* createBlocks();
 	static void deleteBlocks( StringMapKeyBlockList* ptr);
 
@@ -95,6 +105,9 @@ public:
 		m_ar.clear();
 		m_allocator.clear();
 	}
+
+	///\brief Swap contents
+	void swap( SymbolVector& o);
 
 private:
 	SymbolVector( const SymbolVector&){}	//... non copyable
@@ -232,6 +245,9 @@ public:
 
 	///\brief Free all keys allocated
 	void clear();
+
+	///\brief Swap contents
+	void swap( SymbolTable& o);
 
 private:
 #if __cplusplus >= 201103L

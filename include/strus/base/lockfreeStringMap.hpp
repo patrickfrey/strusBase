@@ -41,6 +41,7 @@ namespace strus
 {
 
 /// \brief Lockfree map of string to a scalar or atomically assignable value
+/// \note This map is only lock free for readers but does locking for the mutual exclusion of writers
 /// \note ValueType must be atomically assignable; there is just one writer at once but values are assigned by the assignment operator
 /// \note For atomic data types see https://www.gnu.org/software/libc/manual/html_node/Atomic-Types.html
 template <typename ValueType>
