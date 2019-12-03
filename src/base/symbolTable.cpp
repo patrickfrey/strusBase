@@ -22,7 +22,7 @@ class StringMapKeyBlock
 {
 public:
 	/// \brief Default block size
-	enum {DefaultSize = 128};
+	enum {DefaultSize = 1024};
 
 public:
 	/// \brief Default constructor
@@ -171,10 +171,10 @@ void* StringMapKeyBlockList::allocBlock( std::size_t blksize_, std::size_t elems
 
 const char* StringMapKeyBlockList::allocKey( const char* key, std::size_t keylen)
 {
-	const char* rt;
-	if (m_ar.empty())
+	const char* rt = m_ar.empty() ? 0 : m_ar.back().allocKey( key, keylen);
+	if (!rt)
 	{
-		if (keylen > StringMapKeyBlock::DefaultSize)
+		if (keylen >= StringMapKeyBlock::DefaultSize)
 		{
 			m_ar.push_front( StringMapKeyBlock( keylen+1));
 			rt = m_ar.front().allocKey( key, keylen);
@@ -183,23 +183,6 @@ const char* StringMapKeyBlockList::allocKey( const char* key, std::size_t keylen
 		{
 			m_ar.push_back( StringMapKeyBlock());
 			rt = m_ar.back().allocKey( key, keylen);
-		}
-	}
-	else
-	{
-		rt = m_ar.back().allocKey( key, keylen);
-		if (!rt)
-		{
-			if (keylen > StringMapKeyBlock::DefaultSize)
-			{
-				m_ar.push_front( StringMapKeyBlock( keylen+1));
-				rt = m_ar.front().allocKey( key, keylen);
-			}
-			else
-			{
-				m_ar.push_back( StringMapKeyBlock());
-				rt = m_ar.back().allocKey( key, keylen);
-			}
 		}
 	}
 	if (!rt) throw std::bad_alloc();
