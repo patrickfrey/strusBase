@@ -14,6 +14,8 @@
 #include "strus/base/thread.hpp"
 #include <cstdio>
 #include <cstdarg>
+#include <string>
+#include <vector>
 
 /// \brief strus toplevel namespace
 namespace strus
@@ -32,6 +34,8 @@ public:
 	void report( int errorcode, FILE* logfilehandle, const char* format, va_list arg);
 	void explain( FILE* logfilehandle, const char* format);
 
+	void issueInfo( FILE* logfilehandle, const char* format, va_list arg);
+
 	const char* fetchError()
 	{
 		if (!m_hasmsg) return 0;
@@ -44,11 +48,27 @@ public:
 		return m_hasmsg;
 	}
 
+public:
+	struct Info {
+		Info* next;
+		char msg[ 1];
+	};
+
+	Info* info() const
+	{
+		return m_info;
+	}
+
+	void releaseInfo();
+	void issueError( FILE* logfilehandle, int errcode, const char* msg);
+
 private:
-	enum {ObjSize=512};
-	enum {MsgBufSize=(ObjSize-sizeof(bool))};
+	enum {ObjSize=1024};
+	enum {MsgBufSize=(ObjSize - 2*sizeof(Info*))};
 	char m_msgbuf[ MsgBufSize];
 	bool m_hasmsg;
+	bool _[ sizeof(Info*)-1];
+	Info* m_info;
 };
 
 
@@ -73,12 +93,15 @@ public:
 	virtual bool setMaxNofThreads( unsigned int maxNofThreads);
 
 	virtual void report( int errorcode, const char* format, ...);
-
 	virtual void explain( const char* format);
 
-	virtual const char* fetchError();
+	virtual void info( const char* format, ...);
 
+	virtual const char* fetchError();
 	virtual bool hasError() const;
+
+	virtual std::vector<std::string> fetchInfo();
+	virtual bool hasInfo() const;
 
 	virtual void allocContext();
 	virtual void releaseContext();

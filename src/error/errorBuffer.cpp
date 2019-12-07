@@ -20,11 +20,27 @@
 using namespace strus;
 
 ProcessErrorBuffer::ProcessErrorBuffer()
-	:m_hasmsg(false)
+	:m_hasmsg(false),m_info(0)
 {
 	STRUS_STATIC_ASSERT( sizeof(*this) == ObjSize);
 	STRUS_STATIC_ASSERT( ObjSize % strus::platform::CacheLineSize == 0);
 	m_msgbuf[ 0] = '\0';
+}
+
+void ProcessErrorBuffer::releaseInfo()
+{
+	if (m_info)
+	{
+		Info* next = m_info->next;
+		while (next)
+		{
+			std::free( m_info);
+			m_info = next;
+			next = m_info->next;
+		}
+		std::free( m_info);
+		m_info = 0;
+	}
 }
 
 static int getDigit( unsigned char ch)
@@ -36,6 +52,58 @@ static int getDigit( unsigned char ch)
 	else
 	{
 		return -1;
+	}
+}
+
+void ProcessErrorBuffer::issueError( FILE* logfilehandle, int errcode, const char* msg)
+{
+	if (!m_hasmsg)
+	{
+		std::snprintf( m_msgbuf, sizeof(m_msgbuf), _TXT("[#%d] %s"), errcode, msg);
+		m_hasmsg = true;
+	}
+	if (logfilehandle)
+	{
+		fprintf( logfilehandle, "%s\n", msg);
+		fflush( logfilehandle);
+	}
+}
+
+void ProcessErrorBuffer::issueInfo( FILE* logfilehandle, const char* format, va_list arg)
+{
+	char buf[ 4];
+	int infolen = std::vsnprintf( buf, sizeof(buf), format, arg);
+	if (infolen < 0)
+	{
+		issueError( logfilehandle, ErrorCodeSyntax, _TXT("format string error"));
+	}
+	else
+	{
+		Info* infonode = (Info*)std::malloc( sizeof(Info)+infolen);
+		if (!infonode)
+		{
+			issueError( logfilehandle, ErrorCodeOutOfMem, _TXT("out of memory in output info"));
+		}
+		else
+		{
+			infonode->next = 0;
+			std::vsnprintf( infonode->msg, infolen+1, format, arg);
+			if (!m_info)
+			{
+				m_info = infonode;
+			}
+			else
+			{
+				Info* tail = m_info;
+				for (; tail->next; tail = tail->next){}
+				tail->next = infonode;
+			}
+			if (logfilehandle)
+			{
+				fprintf( logfilehandle, "%s\n", infonode->msg);
+				fflush( logfilehandle);
+			}
+		}
 	}
 }
 
@@ -278,6 +346,17 @@ void ErrorBuffer::report( int errorcode, const char* format, ...)
 	va_end(ap);
 }
 
+void ErrorBuffer::info( const char* format, ...)
+{
+	std::size_t ti = threadidx();
+	va_list ap;
+	va_start( ap, format);
+
+	m_ar[ ti].issueInfo( m_logfilehandle, format, ap);
+
+	va_end(ap);
+}
+
 void ErrorBuffer::explain( const char* format)
 {
 	std::size_t ti = threadidx();
@@ -296,4 +375,30 @@ bool ErrorBuffer::hasError() const
 	return m_ar[ ti].hasError();
 }
 
+std::vector<std::string> ErrorBuffer::fetchInfo()
+{
+	std::size_t ti = threadidx();
+	ProcessErrorBuffer::Info const* infostruct = m_ar[ ti].info();
+	try
+	{
+		std::vector<std::string> rt;
+		for (; infostruct; infostruct = infostruct->next)
+		{
+			rt.push_back( infostruct->msg);
+		}
+		m_ar[ ti].releaseInfo();
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		m_ar[ ti].issueError( m_logfilehandle, ErrorCodeOutOfMem, _TXT("out of memory fetching info"));
+		return std::vector<std::string>();
+	}
+}
+
+bool ErrorBuffer::hasInfo() const
+{
+	std::size_t ti = threadidx();
+	return m_ar[ ti].info();
+}
 

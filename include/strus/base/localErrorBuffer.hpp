@@ -58,6 +58,11 @@ public:
 		m_errorCode = errorcode;
 	}
 
+	virtual void info( const char* format, ...)
+	{
+		throw std::runtime_error( "not implemented");
+	}
+
 	virtual void explain( const char* format)
 	{
 		char tmpbuf[ BufferSize];
@@ -84,6 +89,16 @@ public:
 	virtual bool hasError() const
 	{
 		return m_errorCode >= 0;
+	}
+
+	virtual std::vector<std::string> fetchInfo()
+	{
+		throw std::runtime_error( "not implemented");
+	}
+
+	virtual bool hasInfo() const
+	{
+		throw std::runtime_error( "not implemented");
 	}
 
 	virtual void allocContext()

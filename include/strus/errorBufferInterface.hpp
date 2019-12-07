@@ -12,6 +12,8 @@
 #include "strus/errorCodes.hpp"
 #include "strus/debugTraceInterface.hpp"
 #include <cstdio>
+#include <string>
+#include <vector>
 
 /// \brief strus toplevel namespace
 namespace strus
@@ -59,14 +61,32 @@ public:
 	/// \remark must not throw
 	virtual void explain( const char* format)=0;
 
+	/// \brief Report an informal message (e.g. a warning)
+	/// \param[in] format error message format string
+	/// \remark must not throw
+	virtual void info( const char* format, ...)
+#ifdef __GNUC__
+	__attribute__ ((format (printf, 2, 3)))
+#endif
+	=0;
+
 	/// \brief Check, if an error has occurred and return it
 	/// \return an error string, if defined, NULL else
 	/// \remark resets the error
 	virtual const char* fetchError()=0;
 
 	/// \brief Check, if an error has occurred
-	/// \return an error string, if defined, NULL else
+	/// \return true if yes
 	virtual bool hasError() const=0;
+
+	/// \brief Check, if any info has been reported and return it if available
+	/// \return a list of info strings
+	/// \remark resets the info list
+	virtual std::vector<std::string> fetchInfo()=0;
+
+	/// \brief Check, if any informal message has been reported
+	/// \return true if yes
+	virtual bool hasInfo() const=0;
 
 	/// \brief Allocate context for current thread
 	/// \remark allocContext & releaseContext have only to be called if assignement of thread ids is not fix
