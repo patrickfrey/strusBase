@@ -8,6 +8,7 @@
 ///\brief Get a string built by a format string
 #include "strus/base/string_format.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "strus/base/stdarg.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
@@ -17,10 +18,13 @@ using namespace strus;
 DLL_PUBLIC std::string strus::string_format_va( const char* fmt, va_list ap)
 {
 	std::string rt;
+	va_list ap_copy;
+	va_copy( ap_copy, ap);
 	char msgbuf[ 4096];
-	int len = ::vsnprintf( msgbuf, sizeof(msgbuf), fmt, ap);
+	int len = ::vsnprintf( msgbuf, sizeof(msgbuf), fmt, ap_copy);
 	if (len < (int)sizeof( msgbuf))
 	{
+		if (len < 0) return std::string();
 		try
 		{
 			rt.append( msgbuf);

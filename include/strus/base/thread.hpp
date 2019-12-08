@@ -8,6 +8,7 @@
 /// \brief Wrapper to structures needed for multithreading
 #ifndef _STRUS_THREAD_HPP_INCLUDED
 #define _STRUS_THREAD_HPP_INCLUDED
+#include <vector>
 
 /// PF:HACK: Bad solution, need probing of thead and mutex as C++ features as for regex
 #if defined __GNUC__
@@ -29,7 +30,6 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
-#include <vector>
 
 namespace strus {
 
@@ -42,26 +42,6 @@ typedef std::condition_variable condition_variable;
 typedef std::cv_status cv_status;
 enum {cv_status_no_timeout=0};
 typedef std::thread thread;
-
-class thread_group
-	:public std::vector<std::thread*>
-{
-	thread_group(){}
-	~thread_group()
-	{
-		std::vector<std::thread*>::const_iterator ti = begin(), te = end();
-		for (; ti != te; ++ti) delete *ti;
-	}
-	void add_thread( std::thread* thrd)
-	{
-		push_back( thrd);
-	}
-	void join_all()
-	{
-		std::vector<std::thread*>::iterator ti = begin(), te = end();
-		for (; ti != te; ++ti) (*ti)->join();
-	}
-};
 
 class ThreadId
 {
@@ -108,5 +88,29 @@ public:
 
 #endif //STRUS_USE_STD_THREAD
 
+namespace strus {
+
+class thread_group
+	:public std::vector<strus::thread*>
+{
+public:
+	thread_group(){}
+	~thread_group()
+	{
+		std::vector<strus::thread*>::const_iterator ti = begin(), te = end();
+		for (; ti != te; ++ti) delete *ti;
+	}
+	void add_thread( strus::thread* thrd)
+	{
+		push_back( thrd);
+	}
+	void join_all()
+	{
+		std::vector<strus::thread*>::iterator ti = begin(), te = end();
+		for (; ti != te; ++ti) (*ti)->join();
+	}
+};
+
+}//namespace
 #endif
 

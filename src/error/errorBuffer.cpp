@@ -12,6 +12,7 @@
 #include "strus/base/static_assert.hpp"
 #include "strus/base/malloc.hpp"
 #include "strus/base/platform.hpp"
+#include "strus/base/stdarg.h"
 #include "private/internationalization.hpp"
 #include <stdarg.h>
 #include <cstring>
@@ -71,8 +72,10 @@ void ProcessErrorBuffer::issueError( FILE* logfilehandle, int errcode, const cha
 
 void ProcessErrorBuffer::issueInfo( FILE* logfilehandle, const char* format, va_list arg)
 {
+	va_list arg_for_calculate_msg_length;
+	va_copy( arg_for_calculate_msg_length, arg);
 	char buf[ 4];
-	int infolen = std::vsnprintf( buf, sizeof(buf), format, arg);
+	int infolen = std::vsnprintf( buf, sizeof(buf), format, arg_for_calculate_msg_length);
 	if (infolen < 0)
 	{
 		issueError( logfilehandle, ErrorCodeSyntax, _TXT("format string error"));

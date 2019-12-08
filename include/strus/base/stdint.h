@@ -7,8 +7,8 @@
  */
 /* \brief Definition of integer types
 */
-#ifndef _STRUS_BASE_STDINT_HPP_INCLUDED
-#define _STRUS_BASE_STDINT_HPP_INCLUDED
+#ifndef _STRUS_BASE_STDINT_H_INCLUDED
+#define _STRUS_BASE_STDINT_H_INCLUDED
 
 #ifdef __cplusplus
 extern "C" {
