@@ -25,6 +25,7 @@ public:
 	/// \brief Constructor with seed derived from current date (granularity day)
 	PseudoRandom();
 	/// \brief Constructor with seed passed as argument
+	/// \param[in] seed to use, generated number series deterministic for a given seed
 	explicit PseudoRandom( int seed_);
 
 	/// \brief Get the seed, this pseudo random number generator was created with
@@ -42,6 +43,10 @@ public:
 	/// \param[in] ... list of other candidates to select one from (int's)
 	/// \return "randomly" selected candidate
 	int select( unsigned int psize, int firstValue, ...);
+
+	/// \brief Reinitialize with a different seed
+	/// \param[in] seed to use, generated number series deterministic for a given seed
+	void init( int seed_);
 
 private:
 	unsigned int m_seed;

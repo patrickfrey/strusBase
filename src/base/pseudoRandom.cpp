@@ -53,6 +53,13 @@ DLL_PUBLIC PseudoRandom::PseudoRandom( int seed_)
 	m_incr = m_value * KnuthIntegerHashFactor;
 }
 
+DLL_PUBLIC void PseudoRandom::init( int seed_)
+{
+	m_seed = seed_;
+	m_value = seed_;
+	m_incr = m_value * KnuthIntegerHashFactor;
+}
+
 DLL_PUBLIC int PseudoRandom::seed() const
 {
 	return m_seed;
