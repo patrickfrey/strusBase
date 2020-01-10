@@ -33,6 +33,9 @@ public:
 	/// \brief Test if an option specified by its long name is defined
 	bool operator()( const std::string& optname) const;
 
+	/// \brief Test if an option specified by its long name is defined
+	bool operator()( const char* optname) const;
+
 	/// \brief Get the value of an argument specified by its index
 	/// \param[in] index of the argument starting with 0
 	/// \note first argument (not the program name!) has index 0
@@ -75,6 +78,8 @@ public:
 	/// \brief Print all proram options defined
 	/// \param[in] where to print the options to
 	void print( std::ostream& out);
+
+	std::pair<const char*,const char*> conflictingOpts( int n, ...);
 
 private:
 	enum OptType {SingleBool,RepeatingBool, WithArgument};

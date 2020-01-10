@@ -209,6 +209,15 @@ DLL_PUBLIC bool ProgramOptions::operator()( const std::string& optname) const
 	CATCH_ERROR_MAP_RETURN( _TXT("failed to inspect program options: %s"), *m_errorhnd, false);
 }
 
+DLL_PUBLIC bool ProgramOptions::operator()( const char* optname) const
+{
+	try
+	{
+		return (m_opt.find( optname) != m_opt.end());
+	}
+	CATCH_ERROR_MAP_RETURN( _TXT("failed to inspect program options: %s"), *m_errorhnd, false);
+}
+
 DLL_PUBLIC const char* ProgramOptions::operator[]( std::size_t idx) const
 {
 	try
@@ -332,4 +341,34 @@ DLL_PUBLIC void ProgramOptions::print( std::ostream& out)
 	}
 	CATCH_ERROR_MAP( _TXT("failed to print program options: %s"), *m_errorhnd);
 }
+
+DLL_PUBLIC std::pair<const char*,const char*> ProgramOptions:: conflictingOpts( int nn, ...)
+{
+	const char* first = NULL;
+	const char* second = NULL;
+	va_list ap;
+	va_start( ap, nn); 
+	for (int ii = 0; ii < nn; ++ii)
+	{
+		if (!first)
+		{
+			first = va_arg( ap, const char*);
+		}
+		else if (!second)
+		{
+			second = va_arg( ap, const char*);
+			if (second) break;
+		}
+	}
+	va_end(ap);
+	if (second)
+	{
+		return std::pair<const char*,const char*>( first, second);
+	}
+	else
+	{
+		return std::pair<const char*,const char*>( 0, 0);
+	}
+}
+
 
