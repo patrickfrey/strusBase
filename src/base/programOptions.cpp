@@ -353,10 +353,12 @@ DLL_PUBLIC std::pair<const char*,const char*> ProgramOptions:: conflictingOpts( 
 		if (!first)
 		{
 			first = va_arg( ap, const char*);
+			if (!operator()(first)) first = 0;
 		}
 		else if (!second)
 		{
 			second = va_arg( ap, const char*);
+			if (!operator()(second)) second = 0;
 			if (second) break;
 		}
 	}
