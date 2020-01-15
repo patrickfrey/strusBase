@@ -53,6 +53,12 @@ public:
 	{
 		if (m_refcnt) ++*m_refcnt;
 	}
+#if __cplusplus >= 201103L
+	Reference( Reference&& o)
+		:m_obj(o.m_obj),m_refcnt(o.m_refcnt){o.m_refcnt=0;o.m_obj=0;}
+	Reference& operator= ( Reference&& o)
+		{m_obj = o.m_obj; m_refcnt = o.m_refcnt; o.m_refcnt=0; o.m_obj=0; return *this;}
+#endif
 
 	/// \brief Destructor
 	~Reference()
