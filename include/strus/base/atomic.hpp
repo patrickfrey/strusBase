@@ -17,7 +17,9 @@
 #undef STRUS_USE_STD_ATOMIC
 #if __cplusplus >= 201103L
 #if defined __clang__
+#ifndef __APPLE__
 #define STRUS_USE_STD_ATOMIC
+#endif
 #elif defined __GNUC__
 #if STRUS_GCC_VERSION >= 40900
 #define STRUS_USE_STD_ATOMIC

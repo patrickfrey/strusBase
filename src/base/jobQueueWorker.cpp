@@ -19,7 +19,9 @@
 #undef USE_CPP_CHRONO
 #if __cplusplus >= 201103L
 #if defined __clang__
+#ifndef __APPLE__
 #define USE_CPP_CHRONO
+#endif
 #elif defined __GNUC__
 #if STRUS_GCC_VERSION >= 40900
 #define USE_CPP_CHRONO
