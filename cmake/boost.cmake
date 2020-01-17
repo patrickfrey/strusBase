@@ -3,7 +3,7 @@ set(Boost_USE_MULTITHREADED ON)
 # Some libraries need in different version in a multithreaded context on OSX and Windows. The multithreaded version has a defined name suffix.
 # Define a gloval variable for the suffix to use in such a case:
 if( APPLE OR WIN32 )
-set( MT_SUFFIX  ${mtsuffix} )
+set( MT_SUFFIX  "-mt" )
 else( APPLE OR WIN32 )
 set( MT_SUFFIX  "" )
 endif( APPLE OR WIN32 )
@@ -16,9 +16,8 @@ set( Boost_COMPONENTS  "" )
 FUNCTION( boost_library  compname  _suffix )
 if( "${compname}" MATCHES  "boost_(.+)" )
 set( Boost_COMPONENTS ${Boost_COMPONENTS} "${CMAKE_MATCH_1}${_suffix}" PARENT_SCOPE )
-endif( "${compname}" MATCHES  "(boost_) (.+)" )
+endif( "${compname}" MATCHES  "boost_(.+)" )
 set( Boost_LIBRARIES  ${Boost_LIBRARIES}  "${compname}${_suffix}"  PARENT_SCOPE )
-message( STATUS "++++ LIB ${Boost_LIBRARIES}" )
 ENDFUNCTION( boost_library compname )
 
 # Declare components:
