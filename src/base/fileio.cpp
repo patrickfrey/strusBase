@@ -121,14 +121,14 @@ AGAIN:
 	return 0;
 }
 
-DLL_PUBLIC int strus::removeFile( const std::string& filename, bool fail_ifnofexist)
+DLL_PUBLIC int strus::removeFile( const std::string& filename, bool fail_ifnotexist)
 {
 AGAIN:
 	if (0>::remove( filename.c_str()))
 	{
 		int ec = errno;
 		if (ec == EINTR) goto AGAIN;
-		if (!fail_ifnofexist && ec == ENOENT)
+		if (!fail_ifnotexist && ec == ENOENT)
 		{
 			ec = 0;
 		}
@@ -137,14 +137,14 @@ AGAIN:
 	return 0;
 }
 
-DLL_PUBLIC int strus::removeDir( const std::string& dirname, bool fail_ifnofexist)
+DLL_PUBLIC int strus::removeDir( const std::string& dirname, bool fail_ifnotexist)
 {
 AGAIN:
 	if (0>::rmdir( dirname.c_str()))
 	{
 		int ec = errno;
 		if (ec == EINTR) goto AGAIN;
-		if (!fail_ifnofexist && ec == ENOENT)
+		if (!fail_ifnotexist && ec == ENOENT)
 		{
 			ec = 0;
 		}
@@ -185,7 +185,7 @@ static int removeSubDirs_r( const std::string& dirname)
 	return ec;
 }
 
-DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_ifnofexist)
+DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_ifnotexist)
 {
 	if (isDir( dirname))
 	{
@@ -198,7 +198,7 @@ DLL_PUBLIC int strus::removeDirRecursive( const std::string& dirname, bool fail_
 	}
 	else
 	{
-		return removeFile( dirname, fail_ifnofexist);
+		return removeFile( dirname, fail_ifnotexist);
 	}
 }
 

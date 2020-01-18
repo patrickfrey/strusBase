@@ -53,21 +53,21 @@ int appendFile( const std::string& filename, const std::string& content);
 
 /// \brief Removes a file
 /// \param[in] filename the name of the file to remove
-/// \param[in] fail_ifnofexist return an error if the directory does not exist
+/// \param[in] fail_ifnotexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-int removeFile( const std::string& filename, bool fail_ifnofexist=false);
+int removeFile( const std::string& filename, bool fail_ifnotexist=false);
 
 /// \brief Removes an empty directory
 /// \param[in] dirname the name of the directory to remove
-/// \param[in] fail_ifnofexist return an error if the directory does not exist
+/// \param[in] fail_ifnotexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-int removeDir( const std::string& dirname, bool fail_ifnofexist=false);
+int removeDir( const std::string& dirname, bool fail_ifnotexist=false);
 
 /// \brief Removes a directory with all its contents
 /// \param[in] dirname the name of the directory to remove
-/// \param[in] fail_ifnofexist return an error if the directory does not exist
+/// \param[in] fail_ifnotexist return an error if the directory does not exist
 /// \return 0 on success, errno on failure
-int removeDirRecursive( const std::string& dirname, bool fail_ifnofexist=false);
+int removeDirRecursive( const std::string& dirname, bool fail_ifnotexist=false);
 
 /// \brief Moves (renames) a file
 /// \param[in] old_filename the name of the file to rename
