@@ -72,6 +72,18 @@ static void test_mkdirp()
 	}
 }
 
+static void test_replaceFileExtension()
+{
+	if (strus::replaceFileExtension( "bla.txt", ".ext") != "bla.ext"
+	||  strus::replaceFileExtension( "bla.txt", "ext") != "bla.ext"
+	||  strus::replaceFileExtension( "gaga/blu.", ".tx") != "gaga/blu.tx"
+	||  strus::replaceFileExtension( "gaga/blu", ".tx") != "gaga/blu.tx"
+	||  strus::replaceFileExtension( "", ".tx") != ".tx")
+	{
+		throw std::runtime_error( "replaceFileExtension failed");
+	}
+}
+
 int main( int argc, const char* argv[])
 {
 	try {
@@ -98,6 +110,8 @@ int main( int argc, const char* argv[])
 		}
 		test_resolveUpdirReferences();
 		test_mkdirp();
+		test_replaceFileExtension();
+
 		if (!g_errors.empty())
 		{
 			std::vector<std::string>::const_iterator ei = g_errors.begin(), ee = g_errors.end();

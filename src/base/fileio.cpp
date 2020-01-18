@@ -835,28 +835,61 @@ DLL_PUBLIC int strus::getFileName( const std::string& path, std::string& dest, b
 	return 0;
 }
 
-DLL_PUBLIC int strus::getFileExtension( const std::string& path, std::string& ext)
+static const char* getFileExtensionPtr( const std::string& path)
 {
 	const char* ri = path.c_str();
 	char const* re = path.c_str()+path.size();
-	ext.clear();
 	for (; re != ri && *(re-1) == STRUS_FILEIO_DIRSEP; --re){}
 	for (; re != ri && *(re-1) != STRUS_FILEIO_DIRSEP && *(re-1) != '.'; --re){}
 	if (re == ri || *(re-1) == STRUS_FILEIO_DIRSEP)
 	{}
 	else if (*(re-1) == '.')
 	{
-		--re;	//... include '.' in result
-		try
-		{
-			ext.append( re);
-		}
-		catch (const std::bad_alloc&)
-		{
-			return ENOMEM;
-		}
+		return re-1;
 	}
 	return 0;
+}
+
+DLL_PUBLIC int strus::getFileExtension( const std::string& path, std::string& ext)
+{
+	const char* re = getFileExtensionPtr( path);
+	ext.clear();
+	if (re) try
+	{
+		ext.append( re);
+	}
+	catch (const std::bad_alloc&)
+	{
+		return ENOMEM;
+	}
+	return 0;
+}
+
+DLL_PUBLIC std::string strus::replaceFileExtension( const std::string& path, const std::string& ext)
+{
+	std::string rt;
+	const char* re = getFileExtensionPtr( path);
+	if (!re)
+	{
+		re = path.c_str() + path.size();
+	}
+	try
+	{
+		if (ext.empty() || ext[0] == '.')
+		{
+			rt.append( path.c_str(), re-path.c_str());
+		}
+		else
+		{
+			rt.append( path.c_str(), re-path.c_str()+1);
+		}
+		rt.append( ext);
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		return std::string();
+	}
 }
 
 DLL_PUBLIC bool strus::hasUpdirReference( const std::string& path)

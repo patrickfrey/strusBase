@@ -178,6 +178,12 @@ int getFileName( const std::string& path, std::string& dest, bool withExtension=
 /// \return 0 on success, errno on failure
 int getFileExtension( const std::string& path, std::string& ext);
 
+/// \brief Replace the file extension (including '.') of a filename by a diven new one
+/// \param[in] path file system path to replace the extension
+/// \param[in] ext the new extension to substiture with
+/// \return the new path or an empty string on a memory allocation error
+std::string replaceFileExtension( const std::string& path, const std::string& ext);
+
 /// \brief Get the OS path element separator
 /// \return the separator
 char dirSeparator();
