@@ -196,6 +196,37 @@ public:
 		}
 		return -1;
 	}
+
+	/// \brief Get the next right/upper bit not in the set with position strictly higher than the position passed as argument
+	/// \note useful for iterating through the bits set
+	/// \return the position of the bit starting from 0
+	int next_unset( int pos) const
+	{
+		++pos;
+		int idx = (unsigned int)pos / 64;
+		int ofs = (unsigned int)pos % 64;
+		if (idx >= ArSize) return -1;
+		uint64_t start = ~m_ar[ idx];
+		start &= ~((((uint64_t)1) << ofs) - 1);
+		if (start)
+		{
+			int pi = BitOperations::bitScanForward( start);
+			int rt = idx * 64 + pi - 1;
+			return rt < SIZE ? rt : -1;
+		}
+		for (++idx; idx < ArSize; ++idx)
+		{
+			uint64_t nd = ~m_ar[ idx];
+			if (nd)
+			{
+				int pi = BitOperations::bitScanForward( nd);
+				int rt = idx * 64 + pi - 1;
+				return rt < SIZE ? rt : -1;
+			}
+		}
+		return -1;
+	}
+
 	/// \brief Get the first set bit of the set
 	/// \return the position of the bit starting from 0'
 	int first() const
@@ -203,6 +234,13 @@ public:
 		return next( -1);
 	}
 
+	/// \brief Get the first unset bit of the set
+	/// \return the position of the bit starting from 0'
+	int first_unset() const
+	{
+		return next_unset( -1);
+	}
+	
 	/// \brief Get the indices of the set bits in the set
 	/// \return the array of positions of the bit starting from 0
 	std::vector<int> elements() const

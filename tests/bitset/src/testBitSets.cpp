@@ -109,6 +109,12 @@ static void testDynamicBitSet( int times, int maximum, int nofElements)
 template<int NN>
 static void checkElements( const strus::bitset<NN>& testset, const std::set<int>& eset)
 {
+	std::set<int> invset;
+	int ei = 0, ee = NN;
+	for (; ei != ee; ++ei)
+	{
+		if (eset.find( ei) == eset.end()) invset.insert( ei);
+	}
 #ifdef STRUS_LOWLEVEL_DEBUG
 	std::cerr << "elements in testset = {";
 	std::vector<int> elist = testset.elements();
@@ -147,6 +153,28 @@ static void checkElements( const strus::bitset<NN>& testset, const std::set<int>
 		else
 		{
 			std::cerr << "bitset iterator does not return elements expected: " << gi << " != EOF" << std::endl;
+		}
+		if (++g_nof_errors >= g_max_nof_errors) throw std::runtime_error( "fixed size bitset test failed");
+	}
+	si = invset.begin(), se = invset.end();
+	gi = testset.first_unset();
+	for (; gi >= 0 && si != se; ++si,gi=testset.next_unset(gi))
+	{
+		if (gi != *si)
+		{
+			std::cerr << "inverse bitset iterator does not return elements expected: " << gi << " != " << *si << std::endl;
+			if (++g_nof_errors >= g_max_nof_errors) throw std::runtime_error( "fixed size bitset test failed");
+		}
+	}
+	if (gi != -1 || si != se)
+	{
+		if (gi == -1)
+		{
+			std::cerr << "inverse bitset iterator does not return elements expected: EOF != " << *si << std::endl;
+		}
+		else
+		{
+			std::cerr << "inverse bitset iterator does not return elements expected: " << gi << " != EOF" << std::endl;
 		}
 		if (++g_nof_errors >= g_max_nof_errors) throw std::runtime_error( "fixed size bitset test failed");
 	}
