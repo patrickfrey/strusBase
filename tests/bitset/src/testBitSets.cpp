@@ -181,6 +181,60 @@ static void checkElements( const strus::bitset<NN>& testset, const std::set<int>
 }
 
 template<int NN>
+static std::pair<strus::bitset<NN>,std::set<int> > randomSet( int nofElements)
+{
+	std::pair<strus::bitset<NN>,std::set<int> > rt;
+	for (int ei=0; ei<nofElements; ++ei)
+	{
+		int elem = g_random.get( 0, NN);
+		rt.first.set( elem, true);
+		rt.second.insert( elem);
+	}
+	return rt;
+}
+
+template<int NN>
+static void testBitSetJoin( int times, int nofElements)
+{
+	std::cerr << "execute testBitSetJoin<" << NN << ">( " << times << ", " << nofElements << ")" << std::endl;
+	if (nofElements >= NN) throw std::runtime_error("potential endless loop in test");
+
+	for (int ti=0; ti<times; ++ti)
+	{
+#ifdef STRUS_LOWLEVEL_DEBUG
+		std::cerr << "start [" << ti << "]" << std::endl;
+#endif
+		{
+			std::pair<strus::bitset<NN>,std::set<int> > set1 = randomSet<NN>( nofElements);
+			std::pair<strus::bitset<NN>,std::set<int> > set2 = randomSet<NN>( nofElements);
+	
+			bool gotResultChange = set1.first.join( set2.first);
+			std::set<int> expected = set1.second;
+			expected.insert( set2.second.begin(), set2.second.end());
+			bool gotExpectedChange = expected.size() > set1.second.size();
+			if (gotResultChange != gotExpectedChange)
+			{
+				std::cerr << "bitset join return (wheter has change) differs from expected" << std::endl;
+				if (++g_nof_errors >= g_max_nof_errors) throw std::runtime_error( "join bitset test failed");
+			}
+		}{
+			std::pair<strus::bitset<NN>,std::set<int> > set1 = randomSet<NN>( nofElements);
+			std::pair<strus::bitset<NN>,std::set<int> > set2 = randomSet<NN>( nofElements);
+
+			int nofResultChanges = set1.first.join_count( set2.first);
+			std::set<int> expected = set1.second;
+			expected.insert( set2.second.begin(), set2.second.end());
+			int nofExpectedChanges = expected.size() - set1.second.size();
+			if (nofResultChanges != nofExpectedChanges)
+			{
+				std::cerr << "bitset join count return (number of changes) differs from expected: " << nofResultChanges << "!=" << nofExpectedChanges << std::endl;
+				if (++g_nof_errors >= g_max_nof_errors) throw std::runtime_error( "join bitset test failed");
+			}
+		}
+	}
+}
+
+template<int NN>
 static void testBitSet( int times, int nofElements)
 {
 	std::cerr << "execute testBitSet<" << NN << ">( " << times << ", " << nofElements << ")" << std::endl;
@@ -268,24 +322,45 @@ int main( int, const char**)
 		testBitSet<64>( 30, 50);
 		testBitSet<128>( 30, 1);
 		testBitSet<128>( 30, 10);
-		testBitSet<128>( 30, 20);
 		testBitSet<128>( 30, 30);
 		testBitSet<128>( 30, 50);
 		testBitSet<128>( 30, 100);
 		testBitSet<256>( 30, 10);
-		testBitSet<256>( 30, 20);
 		testBitSet<256>( 30, 30);
 		testBitSet<256>( 30, 50);
 		testBitSet<256>( 30, 100);
 		testBitSet<256>( 30, 200);
 		testBitSet<512>( 30, 1);
 		testBitSet<512>( 30, 10);
-		testBitSet<512>( 30, 20);
 		testBitSet<512>( 30, 30);
 		testBitSet<512>( 30, 50);
 		testBitSet<512>( 30, 100);
 		testBitSet<512>( 30, 200);
 
+		testBitSetJoin<8>( 20, 1);
+		testBitSetJoin<16>( 20, 1);
+		testBitSetJoin<32>( 30, 1);
+		testBitSetJoin<32>( 30, 10);
+		testBitSetJoin<32>( 30, 30);
+		testBitSetJoin<64>( 30, 1);
+		testBitSetJoin<64>( 30, 10);
+		testBitSetJoin<64>( 30, 30);
+		testBitSetJoin<64>( 30, 50);
+		testBitSetJoin<128>( 30, 1);
+		testBitSetJoin<128>( 30, 10);
+		testBitSetJoin<128>( 30, 30);
+		testBitSetJoin<128>( 30, 100);
+		testBitSetJoin<256>( 30, 10);
+		testBitSetJoin<256>( 30, 30);
+		testBitSetJoin<256>( 30, 50);
+		testBitSetJoin<256>( 30, 100);
+		testBitSetJoin<512>( 30, 1);
+		testBitSetJoin<512>( 30, 10);
+		testBitSetJoin<512>( 30, 30);
+		testBitSetJoin<512>( 30, 50);
+		testBitSetJoin<512>( 30, 100);
+		testBitSetJoin<512>( 30, 200);
+		
 		testDynamicBitSet( 30, 10, 5);
 		testDynamicBitSet( 30, 100, 50);
 		testDynamicBitSet( 30, 1000, 500);

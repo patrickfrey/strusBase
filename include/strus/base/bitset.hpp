@@ -286,8 +286,9 @@ public:
 		int rt = 0;
 		for (int ai=0; ai<ArSize; ++ai)
 		{
-			rt += BitOperations::bitCount( m_ar[ai] & ~o.m_ar[ai]);
-			m_ar[ai] = m_ar[ai] | o.m_ar[ai];
+			uint64_t ee = m_ar[ai] | o.m_ar[ai];
+			rt += BitOperations::bitCount( ee ^ m_ar[ai]);
+			m_ar[ai] = ee;
 		}
 		return rt;
 	}
