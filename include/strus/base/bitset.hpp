@@ -279,6 +279,20 @@ public:
 		return rt;
 	}
 
+	/// \brief Add the elements of an equally dimensioned set
+	/// \return return the number of changes
+	int join_count( const bitset<SIZE>& o)
+	{
+		int rt = 0;
+		for (int ai=0; ai<ArSize; ++ai)
+		{
+			uint64_t ee = m_ar[ai] | o.m_ar[ai];
+			rt += BitOperations::bitCount( ee & ~m_ar[ai]);
+			m_ar[ai] = ee;
+		}
+		return rt;
+	}
+
 	/// \brief Get the number of set bits in the set
 	/// \return the number of non-zero bits
 	std::size_t size() const
