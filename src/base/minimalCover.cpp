@@ -9,6 +9,9 @@
 #include "strus/base/minimalCover.hpp"
 #include "strus/base/bitset.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "strus/errorCodes.hpp"
+#include "private/internationalization.hpp"
+#include "strus/errorBufferInterface.hpp"
 #include <vector>
 #include <iostream>
 #include <set>
@@ -20,8 +23,8 @@
 
 using namespace strus;
 
-DLL_PUBLIC MinimalCoverData::MinimalCoverData( const std::vector<std::vector<int> >& sets_)
-	:m_sets(sets_),m_err(MinimalCoverNoResult)
+DLL_PUBLIC MinimalCoverData::MinimalCoverData( const std::vector<std::vector<int> >& sets_, ErrorBufferInterface* errorhnd_)
+	:m_sets(sets_),m_setlists(),m_invmap(),m_errorhnd(errorhnd_)
 {
 	try
 	{
@@ -66,16 +69,16 @@ DLL_PUBLIC MinimalCoverData::MinimalCoverData( const std::vector<std::vector<int
 	}
 	catch (const std::bad_alloc&)
 	{
-		m_err = MinimalCoverErrorNoMem;
+		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("memory allocation error"));
 	}
-	catch (const std::exception&)
+	catch (const std::runtime_error& err)
 	{
-		m_err = MinimalCoverErrorLogic;
+		m_errorhnd->report( ErrorCodeRuntimeError, _TXT("minimal cover approximation failed: %s"), err.what());
 	}
 }
 
 
-int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsLeft) const
+void MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>& res, std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsLeft) const
 {
 	// Build map of element indices to bit indices used in search:
 	int elementCount = 0;
@@ -121,8 +124,7 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 		InvMap::const_iterator mi = m_invmap.find( ei->first);
 		if (mi == m_invmap.end())
 		{
-			//... not all elements covered by the sets defined in constructor
-			return MinimalCoverNoResult;
+			throw std::runtime_error( _TXT("not all elements covered by the sets defined in constructor"));
 		}
 		const InvMapElement& inv = mi->second;
 
@@ -164,9 +166,12 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 	for (; fi != fe; ++fi)
 	{
 		const SetPick& pick = candidatePicks[ fi];
-		if (pick.candidateidx < 0) return MinimalCoverErrorLogic;
+		if (pick.candidateidx < 0)
+		{
+			throw std::runtime_error( _TXT("logic error: invalid candidate pick"));
+		}
 	}
-	int rt = 0;
+	std::vector<int> rt;
 	BitSet accu;
 	while ((int)accu.size() < elementCount)
 	{
@@ -192,7 +197,7 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 		accu = next;
 		if (!changed)
 		{
-			return MinimalCoverErrorLogic;
+			throw std::runtime_error( _TXT("logic error: invalid cover candiate sets leading to endless loop"));
 		}
 #ifdef STRUS_LOWLEVEL_DEBUG
 		std::cerr << "minimal cover grab {";
@@ -208,36 +213,34 @@ int MinimalCoverData::minimalCoverSizeApproximationSubset( std::vector<int>::con
 		{
 			elementsLeft.erase( *ci);
 		}
-		rt += 1;
+		res.push_back( setidx);
 	}
-	return rt;
 }
 
-
-DLL_PUBLIC int MinimalCoverData::minimalCoverSizeApproximation( const std::vector<int>& elements) const
+DLL_PUBLIC std::vector<int> MinimalCoverData::minimalCoverApproximation( const std::vector<int>& elements) const
 {
+	std::vector<int> rt;
 	try
 	{
-		int rt = 0;
-		if (m_err != MinimalCoverNoResult) return m_err;
-
 		std::set<int> elementsLeft( elements.begin(), elements.end());
-
 		std::vector<int>::const_iterator ei = elements.begin(), ee = elements.end();
 		while (ei != ee && !elementsLeft.empty())
 		{
-			rt += minimalCoverSizeApproximationSubset( ei, elements.end(), elementsLeft);
+			minimalCoverSizeApproximationSubset( rt, ei, elements.end(), elementsLeft);
 		}
 		return rt;
 	}
 	catch (const std::bad_alloc&)
 	{
-		return MinimalCoverErrorNoMem;
+		m_errorhnd->report( ErrorCodeOutOfMem, _TXT("memory allocation error"));
+		rt.clear();
 	}
-	catch (const std::exception&)
+	catch (const std::runtime_error& err)
 	{
-		return MinimalCoverErrorLogic;
+		m_errorhnd->report( ErrorCodeRuntimeError, _TXT("minimal cover approximation failed: %s"), err.what());
+		rt.clear();
 	}
+	return rt;
 }
 
 

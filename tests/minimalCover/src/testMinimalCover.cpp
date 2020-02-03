@@ -11,6 +11,8 @@
 #include "strus/base/numstring.hpp"
 #include "strus/base/pseudoRandom.hpp"
 #include "strus/base/minimalCover.hpp"
+#include "strus/errorBufferInterface.hpp"
+#include "strus/base/localErrorBuffer.hpp"
 #include "primeNumbers.hpp"
 #include <stdexcept>
 #include <iostream>
@@ -27,6 +29,7 @@
 #include <utility>
 
 static strus::PseudoRandom g_random;
+static strus::LocalErrorBuffer g_errorbuf;
 
 template <class TYPE>
 static void shuffle( std::vector<TYPE>& vv)
@@ -449,14 +452,14 @@ int main( int argc, const char** argv)
 		}
 		shuffle( sets);
 
-		strus::MinimalCoverData testdata( sets);
+		strus::MinimalCoverData testdata( sets, &g_errorbuf);
 		// Corner cases:
 		if (verbose)
 		{
 			std::cerr << "test some corner cases ..." << std::endl;
 		}{
 			std::vector<int> input;
-			if (testIdx != -1 && testdata.minimalCoverSizeApproximation( input) != 0)
+			if (testIdx != -1 && testdata.minimalCoverApproximation( input).size() != 0)
 			{
 				throw std::runtime_error("test with empty input failed");
 			}
@@ -464,7 +467,7 @@ int main( int argc, const char** argv)
 			std::vector<int> input;
 			input.push_back( g_random.get( 2, maxNumber+1));
 
-			if (testIdx != -1 && testdata.minimalCoverSizeApproximation( input) != 1)
+			if (testIdx != -1 && testdata.minimalCoverApproximation( input).size() != 1)
 			{
 				throw std::runtime_error("test with one element input failed");
 			}
@@ -474,7 +477,7 @@ int main( int argc, const char** argv)
 			input.push_back( 6);
 			input.push_back( 9);
 
-			if (testIdx != -1 && testdata.minimalCoverSizeApproximation( input) != 1)
+			if (testIdx != -1 && testdata.minimalCoverApproximation( input).size() != 1)
 			{
 				throw std::runtime_error("test with 3 multiplicatives of 3 as input failed");
 			}
@@ -483,7 +486,7 @@ int main( int argc, const char** argv)
 			input.push_back( 3);
 			input.push_back( 5);
 
-			if (testIdx != -1 && testdata.minimalCoverSizeApproximation( input) != 2)
+			if (testIdx != -1 && testdata.minimalCoverApproximation( input).size() != 2)
 			{
 				throw std::runtime_error("test with 2 disjoint sets as input failed");
 			}
@@ -514,7 +517,7 @@ int main( int argc, const char** argv)
 		std::clock_t start = std::clock();
 		for (ti=0; ti != te; ++ti)
 		{
-			results.push_back( testdata.minimalCoverSizeApproximation( inputs[ti]));
+			results.push_back( testdata.minimalCoverApproximation( inputs[ti]).size());
 		}
 		double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		std::cerr << strus::string_format( "evaluated %d random cover calculations with %d sets of numbers [2..%d] in %.3f seconds", nofTests, nofSets, maxNumber, (float)duration) << std::endl;
@@ -543,16 +546,9 @@ int main( int argc, const char** argv)
 				int expected = primecover.size();
 				if (result <= 0)
 				{
-					switch ((strus::MinimalCoverError)result)
+					if (g_errorbuf.hasError())
 					{
-						case strus::MinimalCoverNoResult:
-							break;
-						case strus::MinimalCoverErrorLogic:
-							std::cerr << std::endl;
-							throw std::runtime_error("logic error in minimal cover size approximation");
-						case strus::MinimalCoverErrorNoMem:
-							std::cerr << std::endl;
-							throw std::bad_alloc();
+						throw std::runtime_error( g_errorbuf.fetchError());
 					}
 				}
 				if (result < expected)
@@ -602,6 +598,10 @@ int main( int argc, const char** argv)
 			if (nofErrors)
 			{
 				std::cerr << strus::string_format("number of tests with a slight but tolerable deviation (within %d%%) from the expected value: %d", (int)(100*errorTolerance), nofErrors) << std::endl;
+			}
+			if (g_errorbuf.hasError())
+			{
+				throw std::runtime_error( g_errorbuf.fetchError());
 			}
 			std::cerr << "OK" << std::endl;
 			return 0;

@@ -16,12 +16,8 @@
 
 namespace strus {
 
-enum MinimalCoverError
-{
-	MinimalCoverNoResult = 0,
-	MinimalCoverErrorLogic = -1,
-	MinimalCoverErrorNoMem = -2
-};
+/// \brief Forward declaration
+class ErrorBufferInterface;
 
 /// \brief Implementation of an algorithm approximating the size of the minimal cover of elements by sets
 class MinimalCoverData
@@ -29,22 +25,23 @@ class MinimalCoverData
 public:
 	/// \brief Constructor initializing data used for calculation
 	/// \param[in] sets covering sets of elements
-	explicit MinimalCoverData( const std::vector<std::vector<int> >& sets_);
+	MinimalCoverData( const std::vector<std::vector<int> >& sets_, ErrorBufferInterface* errorhnd_);
 
 	/// \brief Make an approximation the minimal set cover
 	/// \param[in] elements elements to cover by the sets defined in the constructor
-	/// \return the size of the minimal cover in case of success, a value of MinimalCoverError in case of a failure
-	int minimalCoverSizeApproximation( const std::vector<int>& elements) const;
+	/// \return a minimal cover approximation candidate (vector of set indices starting with 0) in case of success, an empty set in case of a failure
+	std::vector<int> minimalCoverApproximation( const std::vector<int>& elements) const;
 
 private:
 	/// \brief Size of subset used for partial approximation (64 is used because the set representation fits into a int64_t)
 	enum {SubsetSize=64};
 
 	/// \brief Approximation that solves the problem for subsets. The caller sums up the results to get the total approximation.
+	/// \paran[out] where to append result to
 	/// \paran[in,out] itr in iterator to start with, out iterator for next call
 	/// \paran[in] end end of input
 	/// \param[in,out] elementsLeft set of elements not yet covered by previous calls. Inittialized by the caller
-	int minimalCoverSizeApproximationSubset( std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsLeft) const;
+	void minimalCoverSizeApproximationSubset( std::vector<int>& res, std::vector<int>::const_iterator& itr, const std::vector<int>::const_iterator& end, std::set<int>& elementsLeft) const;
 
 private:
 	std::vector<std::vector<int> > m_sets;
@@ -65,7 +62,7 @@ private:
 	};
 	typedef std::map<int,InvMapElement> InvMap;
 	InvMap m_invmap;
-	MinimalCoverError m_err;
+	ErrorBufferInterface* m_errorhnd;
 };
 
 }//namespace
