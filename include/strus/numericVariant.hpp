@@ -71,12 +71,14 @@ public:
 	/// \param[in] o numeric variant to copy
 	NumericVariant( const NumericVariant& o)
 	{
-		std::memcpy( this, &o, sizeof(*this));
+		type = o.type;
+		variant = o.variant;
 	}
 
 	void init()
 	{
-		std::memset( this, 0, sizeof(*this));
+		type = Null;
+		variant.UInt = 0;
 	}
 
 	class String
@@ -272,7 +274,8 @@ public:
 	/// \param[in] o numeric variant to copy
 	NumericVariant& operator=( const NumericVariant& o)
 	{
-		std::memcpy( this, &o, sizeof(*this));
+		type = o.type;
+		variant = o.variant;
 		return *this;
 	}
 

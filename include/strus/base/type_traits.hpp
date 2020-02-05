@@ -17,6 +17,9 @@ namespace strus {
 template< typename T >
 struct is_arithmetic :public std::is_arithmetic<T> {};
 
+template< typename T >
+struct is_pointer :public std::is_pointer<T> {};
+
 template< typename T, typename U >
 struct is_same :public std::is_same<T,U> {};
 
@@ -30,6 +33,9 @@ namespace strus {
 
 template< typename T >
 struct is_arithmetic :public boost::is_arithmetic<T> {};
+
+template< typename T >
+struct is_pointer :public boost::is_pointer<T> {};
 
 template< typename T, typename U >
 struct is_same :public boost::is_same<T,U> {};
