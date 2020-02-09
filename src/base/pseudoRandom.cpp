@@ -32,7 +32,7 @@ static inline uint32_t uint32_hash( uint32_t a)
 	return a;
 }
 
-DLL_PUBLIC PseudoRandom::PseudoRandom()
+static unsigned int generateSeed()
 {
 	time_t nowtime;
 	struct tm* now;
@@ -40,23 +40,23 @@ DLL_PUBLIC PseudoRandom::PseudoRandom()
 	::time( &nowtime);
 	now = ::localtime( &nowtime);
 
-	m_value = uint32_hash( ((now->tm_year+1)
-				* (now->tm_mon+100)
-				* (now->tm_mday+1)));
-	m_incr = m_value * KnuthIntegerHashFactor;
-	m_seed = m_value;
+	return (now->tm_year+1)*10000 + (now->tm_mon+1)*100 + now->tm_mday;
+}
+
+DLL_PUBLIC PseudoRandom::PseudoRandom()
+{
+	init( generateSeed());
 }
 
 DLL_PUBLIC PseudoRandom::PseudoRandom( int seed_)
-	:m_seed(seed_),m_value(seed_)
 {
-	m_incr = m_value * KnuthIntegerHashFactor;
+	init( seed_);
 }
 
 DLL_PUBLIC void PseudoRandom::init( int seed_)
 {
 	m_seed = seed_;
-	m_value = seed_;
+	m_value = uint32_hash( seed_);
 	m_incr = m_value * KnuthIntegerHashFactor;
 }
 
