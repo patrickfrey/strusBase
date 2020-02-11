@@ -40,7 +40,7 @@ static unsigned int generateSeed()
 	::time( &nowtime);
 	now = ::localtime( &nowtime);
 
-	return (now->tm_year+1)*10000 + (now->tm_mon+1)*100 + now->tm_mday;
+	return (now->tm_year+1900)*10000 + (now->tm_mon+1)*100 + now->tm_mday;
 }
 
 DLL_PUBLIC PseudoRandom::PseudoRandom()
