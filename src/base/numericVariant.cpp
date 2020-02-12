@@ -172,7 +172,7 @@ DLL_PUBLIC bool NumericVariant::isequal( const NumericVariant& o) const
 	return false;
 }
 
-DLL_PUBLIC NumericVariant NumericVariant::convert( Type type_)
+DLL_PUBLIC NumericVariant NumericVariant::convert( Type type_) const
 {
 	switch (type_)
 	{

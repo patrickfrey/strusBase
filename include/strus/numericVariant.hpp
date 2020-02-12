@@ -292,7 +292,7 @@ public:
 
 	/// \brief Convert numeric variant value type
 	/// \return Null on failure
-	NumericVariant convert( Type type_);
+	NumericVariant convert( Type type_) const;
 
 	/// \brief Get the name of a type as string
 	static const char* typeName( Type type);
