@@ -22,7 +22,7 @@
 using namespace strus;
 
 ProcessErrorBuffer::ProcessErrorBuffer()
-	:m_hasmsg(false),m_info(0)
+	:m_hasmsg(false),m_info(0),m_info_tail(0)
 {
 	STRUS_STATIC_ASSERT( sizeof(*this) == ObjSize);
 	STRUS_STATIC_ASSERT( ObjSize % strus::platform::CacheLineSize == 0);
@@ -42,6 +42,7 @@ void ProcessErrorBuffer::releaseInfo()
 		}
 		std::free( m_info);
 		m_info = 0;
+		m_info_tail = 0;
 	}
 }
 
@@ -94,13 +95,18 @@ void ProcessErrorBuffer::issueInfo( FILE* logfilehandle, const char* format, va_
 			std::vsnprintf( infonode->msg, infolen+1, format, arg);
 			if (!m_info)
 			{
-				m_info = infonode;
+				m_info_tail = m_info = infonode;
+			}
+			else if (0==std::strcmp( m_info_tail->msg, infonode->msg))
+			{
+				//... repeated last message
+				std::free( infonode);
+				return;
 			}
 			else
 			{
-				Info* tail = m_info;
-				for (; tail->next; tail = tail->next){}
-				tail->next = infonode;
+				m_info_tail->next = infonode;
+				m_info_tail = infonode;
 			}
 			if (logfilehandle)
 			{

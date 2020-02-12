@@ -64,11 +64,12 @@ public:
 
 private:
 	enum {ObjSize=1024};
-	enum {MsgBufSize=(ObjSize - 2*sizeof(Info*))};
+	enum {MsgBufSize=(ObjSize - 3*sizeof(Info*))};
 	char m_msgbuf[ MsgBufSize];
 	bool m_hasmsg;
 	bool _[ sizeof(Info*)-1];
 	Info* m_info;
+	Info* m_info_tail;
 };
 
 
