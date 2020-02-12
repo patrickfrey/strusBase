@@ -10,6 +10,7 @@
 #include "strus/numericVariant.hpp"
 #include "strus/base/dll_tags.hpp"
 #include "strus/base/numstring.hpp"
+#include "strus/base/math.hpp"
 
 #ifndef __STDC_FORMAT_MACROS
 #define __STDC_FORMAT_MACROS
@@ -169,6 +170,44 @@ DLL_PUBLIC bool NumericVariant::isequal( const NumericVariant& o) const
 		}
 	}
 	return false;
+}
+
+DLL_PUBLIC NumericVariant NumericVariant::convert( Type type_)
+{
+	switch (type_)
+	{
+		case Null: return NumericVariant();
+		case Int: switch (type)
+			{
+				case Null: return NumericVariant();
+				case Int: return *this;
+				case UInt: return (variant.UInt > (uint64_t)std::numeric_limits<int64_t>::max()) ? NumericVariant() : NumericVariant( (int64_t)variant.UInt);
+				case Float: return (variant.Float - strus::Math::floor( variant.Float)) < std::numeric_limits<float>::epsilon()
+						? NumericVariant( toint())
+						: NumericVariant();
+			}
+			break;
+		case UInt: switch (type)
+			{
+				case Null: return NumericVariant();
+				case Int: return (variant.Int < 0) ? NumericVariant() : NumericVariant( (uint64_t)variant.Int);
+				case UInt: return *this;
+				case Float: return (variant.Float > (double)std::numeric_limits<float>::epsilon()
+							&& variant.Float - strus::Math::floor( variant.Float)) < (double)std::numeric_limits<float>::epsilon()
+						? NumericVariant( toint())
+						: NumericVariant();
+			}
+			break;
+		case Float:  switch (type)
+			{
+				case Null: return NumericVariant();
+				case Int: return NumericVariant(tofloat());
+				case UInt: return NumericVariant(tofloat());
+				case Float: return *this;
+			}
+			break;
+	}
+	return NumericVariant();
 }
 
 DLL_PUBLIC int NumericVariant::compare( const NumericVariant& o) const

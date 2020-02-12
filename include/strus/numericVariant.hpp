@@ -290,6 +290,10 @@ public:
 	typedef uint64_t UIntType;
 	typedef double FloatType;
 
+	/// \brief Convert numeric variant value type
+	/// \return Null on failure
+	NumericVariant convert( Type type_);
+
 	/// \brief Get the name of a type as string
 	static const char* typeName( Type type);
 
