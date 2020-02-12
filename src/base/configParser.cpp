@@ -250,7 +250,7 @@ DLL_PUBLIC bool strus::extractStringArrayFromConfigString( std::vector<std::stri
 			while (te)
 			{
 				val.push_back( strus::string_conv::trim( ti, te-ti));
-				ti = ti+1;
+				ti = te+1;
 				te = std::strchr( ti, separator);
 			}
 			val.push_back( strus::string_conv::trim( ti, std::strlen(ti)));
