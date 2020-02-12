@@ -27,6 +27,7 @@ set( source_files
 	string_format.cpp
 	string_conv.cpp
 	numericVariant.cpp
+	uintCompaction.cpp
 	pseudoRandom.cpp
 	periodicTimerEvent.cpp
 	jobQueueWorker.cpp
