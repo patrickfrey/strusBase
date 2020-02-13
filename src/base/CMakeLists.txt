@@ -25,6 +25,7 @@ set( source_files
 	base64.cpp
 	snprintf.c
 	string_format.cpp
+	string_named_format.cpp
 	string_conv.cpp
 	numericVariant.cpp
 	uintCompaction.cpp

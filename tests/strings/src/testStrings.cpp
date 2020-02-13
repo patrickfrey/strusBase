@@ -6,6 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "strus/base/string_conv.hpp"
+#include "strus/base/string_named_format.hpp"
+#include "strus/base/string_format.hpp"
+#include "strus/base/localErrorBuffer.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cstdio>
@@ -13,6 +16,44 @@
 #include <string>
 
 using namespace strus;
+
+
+static std::string fillNamedFormatString(
+		std::vector<strus::NamedFormatString::Chunk>::const_iterator ni,
+		std::vector<strus::NamedFormatString::Chunk>::const_iterator ne)
+{
+	std::string rt;
+	for (; ni != ne; ++ni)
+	{
+		rt.append( ni->prefix());
+		if (ni->idx()) rt.append( strus::string_format( "%d", ni->idx()));
+	}
+	return rt;
+}
+
+static void testNamedFormatString()
+{
+	strus::LocalErrorBuffer errbuf;
+	{
+		strus::NamedFormatString fmt( "xx{A}y{BB}zz", &errbuf);
+		if (errbuf.hasError()) throw std::runtime_error( errbuf.fetchError());
+		if (!fmt.assign( "A", 1)) throw std::runtime_error("variable in format string not found");
+		if (!fmt.assign( "BB", 2)) throw std::runtime_error("variable in format string not found");
+		if (fillNamedFormatString( fmt.begin(), fmt.end()) != "xx1y2zz") throw std::runtime_error( strus::string_format( "named format string test failed on line %d", (int)__LINE__));
+	}{
+		strus::NamedFormatString fmt( "{ BLAFUNZEL }{ GAGA }", &errbuf);
+		if (errbuf.hasError()) throw std::runtime_error( errbuf.fetchError());
+		if (!fmt.assign( "BLAFUNZEL", 1)) throw std::runtime_error("variable in format string not found");
+		if (!fmt.assign( "GAGA", 2)) throw std::runtime_error("variable in format string not found");
+		if (fillNamedFormatString( fmt.begin(), fmt.end()) != "12") throw std::runtime_error( strus::string_format( "named format string test failed on line %d", (int)__LINE__));
+	}{
+		strus::NamedFormatString fmt( "q{ B }k{ G }z", &errbuf);
+		if (errbuf.hasError()) throw std::runtime_error( errbuf.fetchError());
+		if (!fmt.assign( "B", 11)) throw std::runtime_error("variable in format string not found");
+		if (!fmt.assign( "G", 22)) throw std::runtime_error("variable in format string not found");
+		if (fillNamedFormatString( fmt.begin(), fmt.end()) != "q11k22z") throw std::runtime_error( strus::string_format( "named format string test failed on line %d", (int)__LINE__));
+	}
+}
 
 int main( int argc, const char* argv[])
 {
@@ -31,6 +72,7 @@ int main( int argc, const char* argv[])
 			std::snprintf( msgbuf, sizeof( msgbuf), "%d out of %d tests failed", errcnt, testidx);
 			throw std::runtime_error( msgbuf);
 		}
+		testidx++; testNamedFormatString();
 		std::cerr << std::endl << "OK done " << testidx << " tests" << std::endl;
 		return 0;
 	}
