@@ -8,6 +8,7 @@
 ///\brief Get a string built by a format string with named elements
 #include "strus/base/string_named_format.hpp"
 #include "strus/base/dll_tags.hpp"
+#include "strus/base/string_conv.hpp"
 #include "strus/errorBufferInterface.hpp"
 #include "private/errorUtils.hpp"
 #include <cstring>
@@ -28,7 +29,7 @@ static std::string parseIdentifier( char const*& ci, const std::string& alphabet
 	for (; *ci && (unsigned char)*ci <= 32; ++ci){}
 	for (; isAlphaNum(*ci) || 0!=std::strchr( alphabet.c_str(), *ci) ; ++ci)
 	{
-		rt.push_back(*ci);
+		rt.push_back( *ci | 32);
 	}
 	for (; *ci && (unsigned char)*ci <= 32; ++ci){}
 	return rt;
@@ -95,7 +96,7 @@ DLL_PUBLIC NamedFormatString::NamedFormatString( const std::string& str, const s
 DLL_PUBLIC bool NamedFormatString::assign( const std::string& name, int idx)
 {
 	typedef std::multimap<std::string,std::size_t>::iterator mitr;
-	std::pair<mitr,mitr> eq = m_varmap.equal_range( name);
+	std::pair<mitr,mitr> eq = m_varmap.equal_range( strus::string_conv::tolower( name));
 	mitr mi = eq.first, me = eq.second;
 	for (; mi != me; ++mi)
 	{

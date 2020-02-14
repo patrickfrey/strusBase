@@ -53,9 +53,9 @@ static void testNamedFormatString()
 		if (!fmt.assign( "G", 22)) throw std::runtime_error("variable in format string not found");
 		if (fillNamedFormatString( fmt.begin(), fmt.end()) != "q11k22z") throw std::runtime_error( strus::string_format( "named format string test failed on line %d", (int)__LINE__));
 	}{
-		strus::NamedFormatString fmt( "hello {action:greeting} best {to->who} world", ":->", &errbuf);
+		strus::NamedFormatString fmt( "hello {aCtion:GreetinG} best {To->who} world", ":->", &errbuf);
 		if (errbuf.hasError()) throw std::runtime_error( errbuf.fetchError());
-		if (!fmt.assign( "action:greeting", 23)) throw std::runtime_error("variable in format string not found");
+		if (!fmt.assign( "action:GreeTing", 23)) throw std::runtime_error("variable in format string not found");
 		if (!fmt.assign( "to->who", 31)) throw std::runtime_error("variable in format string not found");
 		if (fillNamedFormatString( fmt.begin(), fmt.end()) != "hello 23 best 31 world") throw std::runtime_error( strus::string_format( "named format string test failed on line %d", (int)__LINE__));
 	}
