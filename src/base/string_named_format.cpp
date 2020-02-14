@@ -10,6 +10,7 @@
 #include "strus/base/dll_tags.hpp"
 #include "strus/errorBufferInterface.hpp"
 #include "private/errorUtils.hpp"
+#include <cstring>
 
 using namespace strus;
 
@@ -21,16 +22,19 @@ static bool isAlphaNum( char ch)
 	return false;
 }
 
-static std::string parseIdentifier( char const*& ci)
+static std::string parseIdentifier( char const*& ci, const std::string& alphabet)
 {
 	std::string rt;
 	for (; *ci && (unsigned char)*ci <= 32; ++ci){}
-	for (; isAlphaNum(*ci); ++ci){rt.push_back(*ci);}
+	for (; isAlphaNum(*ci) || 0!=std::strchr( alphabet.c_str(), *ci) ; ++ci)
+	{
+		rt.push_back(*ci);
+	}
 	for (; *ci && (unsigned char)*ci <= 32; ++ci){}
 	return rt;
 }
 
-DLL_PUBLIC NamedFormatString::NamedFormatString( const std::string& str, ErrorBufferInterface* errorhnd)
+DLL_PUBLIC void NamedFormatString::init( const std::string& str, const std::string& alphabet, ErrorBufferInterface* errorhnd)
 {
 	try
 	{
@@ -55,7 +59,7 @@ DLL_PUBLIC NamedFormatString::NamedFormatString( const std::string& str, ErrorBu
 			else if (*ci == '{')
 			{
 				++ci;
-				std::string name = parseIdentifier( ci);
+				std::string name = parseIdentifier( ci, alphabet);
 				m_varmap.insert( std::pair<std::string,std::size_t>( name, m_ar.size()));
 				m_ar.push_back( prefix);
 				prefix.clear();
@@ -76,6 +80,16 @@ DLL_PUBLIC NamedFormatString::NamedFormatString( const std::string& str, ErrorBu
 		}
 	}
 	CATCH_ERROR_MAP( _TXT("error parsing named format string: %s"), *errorhnd);
+}
+
+DLL_PUBLIC NamedFormatString::NamedFormatString( const std::string& str, ErrorBufferInterface* errorhnd)
+{
+	init( str, "", errorhnd);
+}
+
+DLL_PUBLIC NamedFormatString::NamedFormatString( const std::string& str, const std::string& alphabet, ErrorBufferInterface* errorhnd)
+{
+	init( str, alphabet, errorhnd);
 }
 
 DLL_PUBLIC bool NamedFormatString::assign( const std::string& name, int idx)

@@ -22,8 +22,16 @@ class ErrorBufferInterface;
 class NamedFormatString
 {
 public:
+	/// \brief Constructor
 	/// \param[in] str string with name of substitutes in curly brackets '{' '}' with single bracket escaped by backslash '\'
+	/// \param[in] errorhnd buffer for exceptions thrown
 	NamedFormatString( const std::string& str, ErrorBufferInterface* errorhnd);
+	/// \brief Constructor
+	/// \param[in] str string with name of substitutes in curly brackets '{' '}' with single bracket escaped by backslash '\'
+	/// \param[in] alphabet list of additional ASCII characters besides allnum and '_' that are allowed in an identifier
+	/// \param[in] errorhnd buffer for exceptions thrown
+	NamedFormatString( const std::string& str, const std::string& alphabet, ErrorBufferInterface* errorhnd);
+	/// \brief Default constructor
 	/// \param[in] str string with name of substitutes in curly brackets '{' '}' with single bracket escaped by backslash '\'
 	NamedFormatString()
 		:m_varmap(),m_ar(){}
@@ -73,6 +81,12 @@ public:
 	/// \brief Check if the format string is empty
 	/// \return true if yes
 	bool empty() const		{return m_ar.empty();}
+
+private:
+	/// \param[in] str string with name of substitutes in curly brackets '{' '}' with single bracket escaped by backslash '\'
+	/// \param[in] alphabet list of additional ASCII characters besides allnum and '_' that are allowed in an identifier
+	/// \param[in] errorhnd buffer for exceptions thrown
+	void init( const std::string& str, const std::string& alphabet, ErrorBufferInterface* errorhnd);
 
 private:
 	std::multimap<std::string,std::size_t> m_varmap;
