@@ -23,26 +23,29 @@
 
 using namespace strus;
 
+namespace {
+struct ElementSetRelation
+{
+	int elemidx;
+	std::size_t setidx;
+
+	ElementSetRelation( int elemidx_, std::size_t setidx_)
+		:elemidx(elemidx_),setidx(setidx_){}
+	ElementSetRelation( const ElementSetRelation& o)
+		:elemidx(o.elemidx),setidx(o.setidx){}
+
+	bool operator < (const ElementSetRelation& o) const
+	{
+		return elemidx == o.elemidx ? setidx < o.setidx : elemidx < o.elemidx;
+	}
+};
+}
+
 DLL_PUBLIC MinimalCoverData::MinimalCoverData( const std::vector<std::vector<int> >& sets_, ErrorBufferInterface* errorhnd_)
 	:m_sets(sets_),m_setlists(),m_invmap(),m_errorhnd(errorhnd_)
 {
 	try
 	{
-		struct ElementSetRelation
-		{
-			int elemidx;
-			std::size_t setidx;
-
-			ElementSetRelation( int elemidx_, std::size_t setidx_)
-				:elemidx(elemidx_),setidx(setidx_){}
-			ElementSetRelation( const ElementSetRelation& o)
-				:elemidx(o.elemidx),setidx(o.setidx){}
-
-			bool operator < (const ElementSetRelation& o) const
-			{
-				return elemidx == o.elemidx ? setidx < o.setidx : elemidx < o.elemidx;
-			}
-		};
 		std::set<ElementSetRelation> immap;
 		std::vector<std::vector<int> >::const_iterator si = m_sets.begin(), se = m_sets.end();
 		for (std::size_t sidx=0; si != se; ++si,++sidx)
