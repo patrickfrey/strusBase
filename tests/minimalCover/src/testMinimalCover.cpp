@@ -164,144 +164,145 @@ static int compare( const std::map<int,bool>& aa, const std::map<int,bool>& bb)
 	}
 }
 
-static std::vector<int> calculateSmallestPrimeNumberCoverAppriximation( const std::vector<int>& numbers)
+struct Solution
 {
-	struct Solution
-	{
-		int count;
-		std::map<int,bool> primes;
-		std::set<int> numbers;
+	int count;
+	std::map<int,bool> primes;
+	std::set<int> numbers;
 
-		explicit Solution( int count_)
-			:count(count_),primes(),numbers(){}
-		explicit Solution( const std::vector<int>& numbers_)
-			:count(0),numbers(numbers_.begin(),numbers_.end())
+	explicit Solution( int count_)
+		:count(count_),primes(),numbers(){}
+	explicit Solution( const std::vector<int>& numbers_)
+		:count(0),numbers(numbers_.begin(),numbers_.end())
+	{
+		std::vector<int>::const_iterator ni = numbers_.begin(), ne = numbers_.end();
+		for (; ni != ne; ++ni)
 		{
-			std::vector<int>::const_iterator ni = numbers_.begin(), ne = numbers_.end();
+			std::vector<int> pf = getPrimeFactors( *ni, true);
+			std::vector<int>::const_iterator pi = pf.begin(), pe = pf.end();
+			for (; pi != pe; ++pi)
+			{
+				primes[ *pi] = false;
+			}
+		}
+	}
+	Solution( const Solution& o)
+		:count(o.count),primes(o.primes),numbers(o.numbers){}
+	Solution& operator=( const Solution& o)
+		{count=o.count; primes=o.primes; numbers=o.numbers; return *this;}
+#if __cplusplus >= 201103L
+	Solution( Solution&& o)
+		:count(o.count),primes(std::move(o.primes)),numbers(std::move(o.numbers)){}
+	Solution& operator=( Solution&& o)
+		{count=o.count; primes=std::move(o.primes); numbers=std::move(o.numbers); return *this;}
+#endif
+	bool operator < (const Solution& o) const
+	{
+		if (numbers.size() == o.numbers.size())
+		{
+			if (count == o.count)
+			{
+				if (primes.size() == o.primes.size())
+				{
+					int cmp = compare( primes, o.primes);
+					if (cmp == 0)
+					{
+						return compare( numbers, o.numbers) < 0;
+					}
+					else return cmp < 0;
+				}
+				else return primes.size() < o.primes.size();
+			}
+			else return count < o.count;
+		}
+		else return numbers.size() < o.numbers.size();
+	}
+
+	void clearSingles()
+	{
+		std::map<int,bool>::iterator pi = primes.begin(), pe = primes.end();
+		for (; pi != pe; ++pi)
+		{
+			if (numbers.find( pi->first) != numbers.end())
+			{
+				count += 1;
+				pi->second = true;
+				numbers.erase( pi->first);
+			}
+		}
+	}
+
+	std::vector<Solution> follow() const
+	{
+		std::vector<Solution> rt;
+		std::map<int,bool>::const_iterator pi = primes.begin(), pe = primes.end();
+		for (; pi != pe; ++pi)
+		{
+			std::vector<int> follow_numbers;
+			bool used = false;
+
+			std::set<int>::const_iterator ni = numbers.begin(), ne = numbers.end();
 			for (; ni != ne; ++ni)
 			{
-				std::vector<int> pf = getPrimeFactors( *ni, true);
-				std::vector<int>::const_iterator pi = pf.begin(), pe = pf.end();
-				for (; pi != pe; ++pi)
+				if (*ni % pi->first == 0)//divisible by this prime
 				{
-					primes[ *pi] = false;
+					used = true;
+				}
+				else
+				{
+					follow_numbers.push_back( *ni);
 				}
 			}
-		}
-		Solution( const Solution& o)
-			:count(o.count),primes(o.primes),numbers(o.numbers){}
-		Solution& operator=( const Solution& o)
-			{count=o.count; primes=o.primes; numbers=o.numbers; return *this;}
-#if __cplusplus >= 201103L
-		Solution( Solution&& o)
-			:count(o.count),primes(std::move(o.primes)),numbers(std::move(o.numbers)){}
-		Solution& operator=( Solution&& o)
-			{count=o.count; primes=std::move(o.primes); numbers=std::move(o.numbers); return *this;}
-#endif
-		bool operator < (const Solution& o) const
-		{
-			if (numbers.size() == o.numbers.size())
-			{
-				if (count == o.count)
-				{
-					if (primes.size() == o.primes.size())
-					{
-						int cmp = compare( primes, o.primes);
-						if (cmp == 0)
-						{
-							return compare( numbers, o.numbers) < 0;
-						}
-						else return cmp < 0;
-					}
-					else return primes.size() < o.primes.size();
-				}
-				else return count < o.count;
-			}
-			else return numbers.size() < o.numbers.size();
-		}
+			rt.push_back( Solution( count));
 
-		void clearSingles()
-		{
-			std::map<int,bool>::iterator pi = primes.begin(), pe = primes.end();
-			for (; pi != pe; ++pi)
+			Solution& next = rt.back();
+			next.primes = primes;
+			if (next.primes[ pi->first] == false)
 			{
-				if (numbers.find( pi->first) != numbers.end())
+				if (used)
 				{
-					count += 1;
-					pi->second = true;
-					numbers.erase( pi->first);
+					next.count += 1;
+					next.primes[ pi->first] = true;
+				}
+				else
+				{
+					next.primes.erase( pi->first);
 				}
 			}
+			next.numbers.insert( follow_numbers.begin(), follow_numbers.end());
+			next.checkCount();
 		}
+		return rt;
+	}
 
-		std::vector<Solution> follow() const
+	void checkCount() const
+	{
+		int cnt = 0;
+		std::map<int,bool>::const_iterator pi = primes.begin(), pe = primes.end();
+		for (; pi != pe; ++pi)
 		{
-			std::vector<Solution> rt;
-			std::map<int,bool>::const_iterator pi = primes.begin(), pe = primes.end();
-			for (; pi != pe; ++pi)
-			{
-				std::vector<int> follow_numbers;
-				bool used = false;
-
-				std::set<int>::const_iterator ni = numbers.begin(), ne = numbers.end();
-				for (; ni != ne; ++ni)
-				{
-					if (*ni % pi->first == 0)//divisible by this prime
-					{
-						used = true;
-					}
-					else
-					{
-						follow_numbers.push_back( *ni);
-					}
-				}
-				rt.push_back( Solution( count));
-
-				Solution& next = rt.back();
-				next.primes = primes;
-				if (next.primes[ pi->first] == false)
-				{
-					if (used)
-					{
-						next.count += 1;
-						next.primes[ pi->first] = true;
-					}
-					else
-					{
-						next.primes.erase( pi->first);
-					}
-				}
-				next.numbers.insert( follow_numbers.begin(), follow_numbers.end());
-				next.checkCount();
-			}
-			return rt;
+			if (pi->second) ++cnt;
 		}
-
-		void checkCount() const
+		if (cnt != count)
 		{
-			int cnt = 0;
-			std::map<int,bool>::const_iterator pi = primes.begin(), pe = primes.end();
-			for (; pi != pe; ++pi)
-			{
-				if (pi->second) ++cnt;
-			}
-			if (cnt != count)
-			{
-				throw std::runtime_error("logic error: check count failed in test data");
-			}
+			throw std::runtime_error("logic error: check count failed in test data");
 		}
+	}
 
-		std::vector<int> result()
+	std::vector<int> result()
+	{
+		std::vector<int> rt;
+		std::map<int,bool>::const_iterator pi = primes.begin(), pe = primes.end();
+		for (; pi != pe; ++pi)
 		{
-			std::vector<int> rt;
-			std::map<int,bool>::const_iterator pi = primes.begin(), pe = primes.end();
-			for (; pi != pe; ++pi)
-			{
-				if (pi->second) rt.push_back( pi->first);
-			}
-			return rt;
+			if (pi->second) rt.push_back( pi->first);
 		}
-	};
+		return rt;
+	}
+};
+
+static std::vector<int> calculateSmallestPrimeNumberCoverAppriximation( const std::vector<int>& numbers)
+{
 	if (numbers.empty()) return std::vector<int>();
 
 	std::set<Solution> queue;
