@@ -12,6 +12,7 @@
 #include <new>
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
 
 using namespace strus;
 
