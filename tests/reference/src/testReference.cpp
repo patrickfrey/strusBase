@@ -29,7 +29,7 @@ enum Op {
 	OpNew,
 	OpAssign,
 	OpReset,
-	OpRelease,
+	OpRelease
 };
 enum {NofOps=(int)OpAssign+1};
 
