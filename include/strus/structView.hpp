@@ -30,7 +30,7 @@ class StructView
 {
 public:
 	enum {
-		FloatPrecisionToString=6,
+		FloatPrecisionToString=6
 	};
 	enum Type {
 		Null,
