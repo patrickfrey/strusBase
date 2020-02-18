@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <string>
+#include <limits>
 #include <unistd.h>
 
 static strus::PseudoRandom g_random;
