@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <cstring>
 #include <cerrno>
+#include <cstdio>
 
 using namespace strus;
 
