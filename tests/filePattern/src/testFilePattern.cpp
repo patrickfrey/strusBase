@@ -149,7 +149,7 @@ static bool executeTest( const std::string& rootdir, const Test& test)
 int main( int argc, const char* argv[])
 {
 	try {
-		const char* rootdir = "./";
+		const char* rootdir = "./files";
 		if (argc > 1)
 		{
 			if (argc > 2)
@@ -169,8 +169,19 @@ int main( int argc, const char* argv[])
 			else
 			{
 				rootdir = argv[1];
+				if (strus::hasUpdirReference( rootdir))
+				{
+					throw std::runtime_error( "bad root directory");
+				}
+				std::string rootparent;
+				int ec = strus::getParentPath( rootdir, rootparent);
+				if (ec) throw std::runtime_error( ::strerror(ec));
+				if (rootparent.empty()) throw std::runtime_error( "root directory without parent");
 			}
 		}
+		int ec = strus::removeDirRecursive( rootdir, false/*do not fail if not exist*/);
+		if (ec) throw std::runtime_error( ::strerror(ec));
+
 		createTestFiles( rootdir);
 		int failedCnt = 0;
 		int successCnt = 0;
