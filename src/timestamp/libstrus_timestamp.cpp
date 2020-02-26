@@ -11,6 +11,7 @@
 #include "strus/base/dll_tags.hpp"
 #include "strus/base/atomic.hpp"
 #include "strus/base/string_conv.hpp"
+#include "strus/base/string_format.hpp"
 #include <stdexcept>
 #include <cstdio>
 #include <cstring>
@@ -167,15 +168,17 @@ DLL_PUBLIC std::string TimeStamp::tostring( const TimeStamp& timestamp, ErrorCod
 	{
 		if (!timestamp.defined()) return std::string();
 
-		char timebuf[ 256];
-		char timestampbuf[ 256];
+		char timebuf[ 32];
+		char counterbuf[ 32];
 	
 		time_t tt = timestamp.unixtime();
 		const struct tm* tm_info = ::localtime( &tt);
 	
 		std::strftime( timebuf, sizeof(timebuf), "%Y%m%d_%H%M%S", tm_info);
-		std::snprintf( timestampbuf, sizeof(timestampbuf), "%s_%04d", timebuf, timestamp.counter() % 10000);
-		return std::string(timestampbuf);
+		std::size_t counterlen = std::snprintf( counterbuf, sizeof(counterbuf), "000%d", (int)(timestamp.counter() % 10000));
+		const char* counterptr = &counterbuf[ counterlen-4];
+		//... doing snprintf with format "%04d" by hand because of silly -Wformat-truncation warning
+		return strus::string_format( "%s_%s", timebuf, counterptr);
 	}
 	catch (const std::bad_alloc&)
 	{
