@@ -174,7 +174,7 @@ DLL_PUBLIC std::string TimeStamp::tostring( const TimeStamp& timestamp, ErrorCod
 		const struct tm* tm_info = ::localtime( &tt);
 	
 		std::strftime( timebuf, sizeof(timebuf), "%Y%m%d_%H%M%S", tm_info);
-		std::snprintf( timestampbuf, sizeof(timestampbuf), "%s_%04d", timebuf, timestamp.counter());
+		std::snprintf( timestampbuf, sizeof(timestampbuf), "%s_%04d", timebuf, timestamp.counter() % 10000);
 		return std::string(timestampbuf);
 	}
 	catch (const std::bad_alloc&)
