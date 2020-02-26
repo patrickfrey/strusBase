@@ -139,6 +139,12 @@ std::string unescape( const std::string& val, StringConvError& err);
 /// \return converted string or empty string in case of error
 std::string decodeXmlEntities( const std::string& val, StringConvError& err);
 
+/// \brief Convert Url entities like "%2c" to UTF-8 characters in the string
+/// \param[in] val input string
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string decodeUrlEntities( const std::string& val, StringConvError& err);
+
 /// \brief Inlined version of string conversion functions throwing an exception instead of setting an error code on failure
 struct string_conv
 {
@@ -209,6 +215,14 @@ struct string_conv
 	{
 		StringConvError errcode = StringConvOk;
 		std::string rt = strus::decodeXmlEntities( str, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
+
+	static std::string decodeUrlEntities( const std::string& str)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::decodeUrlEntities( str, errcode);
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}

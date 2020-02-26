@@ -349,3 +349,53 @@ DLL_PUBLIC std::string strus::decodeXmlEntities( const std::string& val, StringC
 	}
 }
 
+static int hexChar( char ch)
+{
+	if (ch >= '0' && ch <= '9') return ch - '0';
+	if (ch >= 'a' && ch <= 'f') return 10 + ch - 'a';
+	if (ch >= 'A' && ch <= 'F') return 10 + ch - 'A';
+	return -1;
+}
+
+DLL_PUBLIC std::string strus::decodeUrlEntities( const std::string& val, StringConvError& err)
+{
+	try
+	{
+		std::string rt;
+		char const* si = val.c_str();
+		for (; *si; ++si)
+		{
+			if (*si == '%')
+			{
+				++si;
+				int aa = hexChar( si[0]);
+				int bb = hexChar( si[1]);
+				if (aa >= 0 && bb >= 0)
+				{
+					rt.push_back( (aa << 4) + bb);
+					si += 2-1 /*compenstate loop next increment with -1*/;
+				}
+				else
+				{
+					rt.push_back( '%');
+				}
+			}
+			else if (*si == '+')
+			{
+				rt.push_back( ' ');
+			}
+			else
+			{
+				rt.push_back( *si);
+			}
+		}
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		err = StringConvErrNoMem;
+		return std::string();
+	}
+}
+
+

@@ -75,6 +75,20 @@ static void testXmlEntitiyDecoding()
 	}
 }
 
+static void testUrlEntitiyDecoding()
+{
+	{
+		std::string input = "%20%22%25%2D%2E%3c%3E%5C%5E%5f%60%7B%7C%7D%7e %C2%a3";
+		std::string output = strus::string_conv::decodeUrlEntities( input);
+		std::string expected = " \"%-.<>\\^_`{|}~ £";
+
+		if (output != expected)
+		{
+			throw std::runtime_error("URL entitiy conversion test failed (1)");
+		}
+	}
+}
+
 int main( int argc, const char* argv[])
 {
 	try {
@@ -94,6 +108,7 @@ int main( int argc, const char* argv[])
 		}
 		testidx++; testNamedFormatString();
 		testidx++; testXmlEntitiyDecoding();
+		testidx++; testUrlEntitiyDecoding();
 		std::cerr << std::endl << "OK done " << testidx << " tests" << std::endl;
 		return 0;
 	}
