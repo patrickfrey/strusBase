@@ -61,6 +61,20 @@ static void testNamedFormatString()
 	}
 }
 
+static void testXmlEntitiyDecoding()
+{
+	{
+		std::string input = "&&amp;&apos;&quot;&lt;&gt;&nbsp;;&#126;&#123&#apos";
+		std::string output = strus::string_conv::decodeXmlEntities( input);
+		std::string expected = "&&'\"<> ;~&#123&#apos";
+
+		if (output != expected)
+		{
+			throw std::runtime_error("XML entitiy conversion test failed (1)");
+		}
+	}
+}
+
 int main( int argc, const char* argv[])
 {
 	try {
@@ -79,6 +93,7 @@ int main( int argc, const char* argv[])
 			throw std::runtime_error( msgbuf);
 		}
 		testidx++; testNamedFormatString();
+		testidx++; testXmlEntitiyDecoding();
 		std::cerr << std::endl << "OK done " << testidx << " tests" << std::endl;
 		return 0;
 	}

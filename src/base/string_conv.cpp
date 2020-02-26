@@ -263,3 +263,89 @@ DLL_PUBLIC std::string strus::unescape( const std::string& val, StringConvError&
 	}
 }
 
+static void stringAppendUtf8Char( std::string& dest, int chr)
+{
+	char buf[ 16];
+	unsigned char chrlen = strus::utf8encode( buf, chr);
+	dest.append( buf, chrlen);
+}
+
+DLL_PUBLIC std::string strus::decodeXmlEntities( const std::string& val, StringConvError& err)
+{
+	try
+	{
+		std::string rt;
+		char const* si = val.c_str();
+		const char* se = si + val.size();
+
+		while (si < se)
+		{
+			if (*si == '&')
+			{
+				const char* entityStart = si;
+				++si;
+				if (*si == '#')
+				{
+					++si;
+					if (*si >= '0' && *si <= '9')
+					{
+						char const* numberStart = si;
+						for (++si; *si >= '0' && *si <= '9'; ++si){}
+						if (*si == ';')
+						{
+							++si;
+							stringAppendUtf8Char( rt, atoi( numberStart));
+							continue;
+						}
+					}
+				}
+				else if (*si == 'n' && se - si >= 5 && 0==std::memcmp(si,"nbsp;", 5))
+				{
+					si += 5;
+					rt.push_back( ' ');
+					continue;
+				}
+				else if (*si == 'a' && se - si >= 4 && 0==std::memcmp(si,"amp;", 4))
+				{
+					si += 4;
+					rt.push_back( '&');
+					continue;
+				}
+				else if (*si == 'a' && se - si >= 5 && 0==std::memcmp(si,"apos;", 5))
+				{
+					si += 5;
+					rt.push_back( '\'');
+					continue;
+				}
+				else if (*si == 'q' && se - si >= 5 && 0==std::memcmp(si,"quot;", 5))
+				{
+					si += 5;
+					rt.push_back( '"');
+					continue;
+				}
+				else if (si[0] == 'l' && si[1] == 't' && si[2] == ';')
+				{
+					si += 3;
+					rt.push_back( '<');
+					continue;
+				}
+				else if (si[0] == 'g' && si[1] == 't' && si[2] == ';')
+				{
+					si += 3;
+					rt.push_back( '>');
+					continue;
+				}
+				si = entityStart;
+			}
+			rt.push_back( *si);
+			++si;
+		}
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		err = StringConvErrNoMem;
+		return std::string();
+	}
+}
+
