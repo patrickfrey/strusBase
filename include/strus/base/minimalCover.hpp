@@ -20,6 +20,7 @@ namespace strus {
 class ErrorBufferInterface;
 
 /// \brief Implementation of an algorithm approximating the size of the minimal cover of elements by sets
+/// \remark The algorithm assumes that the input sets dor not contain duplicate elements. It does not check that and delivers misleading results with input sets that are not sets.
 class MinimalCoverData
 {
 public:
