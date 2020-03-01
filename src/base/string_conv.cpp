@@ -352,8 +352,7 @@ DLL_PUBLIC std::string strus::decodeXmlEntities( const std::string& val, StringC
 static int hexChar( char ch)
 {
 	if (ch >= '0' && ch <= '9') return ch - '0';
-	if (ch >= 'a' && ch <= 'f') return 10 + ch - 'a';
-	if (ch >= 'A' && ch <= 'F') return 10 + ch - 'A';
+	if ((ch|32) >= 'a' && (ch|32) <= 'f') return 10 + (ch|32) - 'a';
 	return -1;
 }
 
@@ -367,13 +366,12 @@ DLL_PUBLIC std::string strus::decodeUrlEntities( const std::string& val, StringC
 		{
 			if (*si == '%')
 			{
-				++si;
-				int aa = hexChar( si[0]);
-				int bb = hexChar( si[1]);
+				int aa = hexChar( si[1]);
+				int bb = hexChar( si[2]);
 				if (aa >= 0 && bb >= 0)
 				{
 					rt.push_back( (aa << 4) + bb);
-					si += 2-1 /*compenstate loop next increment with -1*/;
+					si += 2;
 				}
 				else
 				{
