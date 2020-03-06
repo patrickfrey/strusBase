@@ -78,9 +78,9 @@ static void testXmlEntitiyDecoding()
 static void testUrlEntitiyDecoding()
 {
 	{
-		std::string input = "%20%22%25% %2D%2E%3c%3E%5C%5E%5f%60%7B%7C%7D%7e %C2%a3";
+		std::string input = "%20%22%25% %2D%2E%3c%3E%5C%5E%5f%60%7B%7C%7D%7e %FE-%C2%a3";
 		std::string output = strus::string_conv::decodeUrlEntities( input);
-		std::string expected = " \"%% -.<>\\^_`{|}~ £";
+		std::string expected = " \"%% -.<>\\^_`{|}~ %FE-£";
 
 		if (output != expected)
 		{

@@ -366,17 +366,38 @@ DLL_PUBLIC std::string strus::decodeUrlEntities( const std::string& val, StringC
 		{
 			if (*si == '%')
 			{
-				int aa = hexChar( si[1]);
-				int bb = hexChar( si[2]);
-				if (aa >= 0 && bb >= 0)
+				char const* start = si;
+				char buf[ 16];
+				int bufpos = 0;
+				while (*si == '%')
 				{
-					rt.push_back( (aa << 4) + bb);
-					si += 2;
+					int aa = hexChar( si[1]);
+					int bb = hexChar( si[2]);
+					if (aa >= 0 && bb >= 0)
+					{
+						buf[ bufpos++] = ((aa << 4) + bb);
+						si += 3;
+					}
+					else
+					{
+						rt.append( start, si-start+1);
+						++si;
+						break;
+					}
+					int chrlen = strus::utf8charlen( buf[0]);
+					if (bufpos == chrlen)
+					{
+						uint32_t chr = strus::utf8decode( buf, chrlen);
+						if (chr) stringAppendUtf8Char( rt, chr);
+						bufpos = 0;
+						start = si;
+					}
 				}
-				else
+				if (bufpos > 0)
 				{
-					rt.push_back( '%');
+					rt.append( start, si-start);
 				}
+				--si;
 			}
 			else if (*si == '+')
 			{
