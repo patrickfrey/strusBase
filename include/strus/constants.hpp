@@ -60,6 +60,16 @@ struct Constants
 	{
 		return "sequence";
 	}
+	/// \brief Default name used for the forward index feature type for search
+	static inline const char* default_feature_type_search()
+	{
+		return "word";
+	}
+	/// \brief Default name used for the forward index feature set for search
+	static inline const char* default_feature_set_search()
+	{
+		return "search";
+	}
 	/// \brief Get the term type that does not exist and is reserved for the empty posting set
 	static inline const char* query_empty_postings_termtype()
 	{
