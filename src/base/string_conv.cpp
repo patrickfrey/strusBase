@@ -323,6 +323,12 @@ DLL_PUBLIC std::string strus::decodeXmlEntities( const std::string& val, StringC
 					rt.push_back( '"');
 					continue;
 				}
+				else if ((*si == 'n' || *si == 'm') && se - si >= 6 && 0==std::memcmp(si+1,"dash;", 5))
+				{
+					si += 6;
+					rt.push_back( '-');
+					continue;
+				}
 				else if (si[0] == 'l' && si[1] == 't' && si[2] == ';')
 				{
 					si += 3;
