@@ -35,6 +35,13 @@ bool dumpDebugTrace( DebugTraceInterface* debugTrace, const char* filename);
 /// \param[in] debugTrace debug trace interface to use or NULL if undefined, (passed with ownership)
 ErrorBufferInterface* createErrorBuffer_standard( FILE* logfilehandle, std::size_t maxNofThreads_, DebugTraceInterface* debugTrace);
 
+/// \brief Declare a pointer to an error buffer interface as singleton
+/// \remark The caller of this function has to guarantee that the destructor of the error buffer declared as singleton is called after all objects borrowing it with 'borrowErrorBuffer_singleton()'
+void declareErrorBuffer_singleton( ErrorBufferInterface* errbuf);
+
+/// \brief Borrow a reference the error buffer interface declared as singleton
+ErrorBufferInterface* borrowErrorBuffer_singleton();
+
 /// \brief Get the next error code in an error message printed by the standard error buffer implementation provided here
 /// \param[in,out] msgitr pointer to error message in, pointer to position after the error code extracted
 /// \return error code >= 0 or -1 if no error code found

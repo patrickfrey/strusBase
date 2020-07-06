@@ -21,6 +21,8 @@
 
 using namespace strus;
 
+static bool g_intl_initialized = false;
+
 DLL_PUBLIC DebugTraceInterface* strus::createDebugTrace_standard( std::size_t maxNofThreads_)
 {
 	try
@@ -85,6 +87,11 @@ DLL_PUBLIC ErrorBufferInterface* strus::createErrorBuffer_standard( FILE* logfil
 {
 	try
 	{
+		if (!g_intl_initialized)
+		{
+			strus::initMessageTextDomain();
+			g_intl_initialized = true;
+		}
 		return new ErrorBuffer( logfilehandle, maxNofThreads_, dbgtrace_);
 	}
 	catch (const std::bad_alloc&)
@@ -109,8 +116,25 @@ DLL_PUBLIC void strus::removeErrorCodesFromMessage( char* msg)
 	ErrorBuffer::removeErrorCodes( msg);
 }
 
+static ErrorBufferInterface* g_singleton_errbuf = 0;
+
+DLL_PUBLIC void strus::declareErrorBuffer_singleton( ErrorBufferInterface* errbuf)
+{
+	g_singleton_errbuf = errbuf;
+}
+
+DLL_PUBLIC ErrorBufferInterface* strus::borrowErrorBuffer_singleton()
+{
+	return g_singleton_errbuf;
+}
+
 DLL_PUBLIC const char* strus::errorCodeToString( int errcode)
 {
+	if (!g_intl_initialized)
+	{
+		strus::initMessageTextDomain();
+		g_intl_initialized = true;
+	}
 	if (errcode < 200) return ::strerror( errcode);
 	switch ((ErrorCode)errcode)
 	{
