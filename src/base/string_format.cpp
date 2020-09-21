@@ -27,7 +27,7 @@ DLL_PUBLIC std::string strus::string_format_va( const char* fmt, va_list ap)
 		if (len < 0) return std::string();
 		try
 		{
-			rt.append( msgbuf);
+                        rt.append( msgbuf, len);
 		}
 		catch (const std::bad_alloc&)
 		{
