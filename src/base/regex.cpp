@@ -14,6 +14,7 @@
 #include "cxx11features.hpp"
 #include <vector>
 #include <iterator>
+#include <limits>
 
 #undef USE_STD_REGEX
 #if __cplusplus >= 201103L && HAS_CXX11_REGEX != 0
