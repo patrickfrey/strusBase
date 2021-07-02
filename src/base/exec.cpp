@@ -38,7 +38,7 @@ DLL_PUBLIC int strus::execv_tostring( const char* filename, const char* argv[], 
 			cmdstr.push_back( '"');
 		}
 		boost::process::child chld( cmdstr.c_str(), std_out > pipe_stream);
-	
+
 		std::string line;
 		while (pipe_stream && std::getline( pipe_stream, line) && !line.empty())
 		{
@@ -132,6 +132,7 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 			{
 				output.append( buffer, size);
 			}
+			rt = errno;
 			close(pipefd[0]);
 		}
 		catch (const std::bad_alloc&)
@@ -144,7 +145,7 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 		{
 			sleep( 1);
 		}
-		if (WIFEXITED(status))
+		if (WIFEXITED(status) && !rt)
 		{
 			rt = WEXITSTATUS(status);
 		}
