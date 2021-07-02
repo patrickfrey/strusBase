@@ -140,15 +140,12 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 		int size;
 		try
 		{
-			rt = errno;
-			while (0!=(size=::read(pipefd[0], buffer, sizeof(buffer))))
+			while (0<(size=::read(pipefd[0], buffer, sizeof(buffer))))
 			{
 				output.append( buffer, size);
 			}
-			rt = errno;
-			if (rt == EEXIST)
-			{
-				rt = 0; //... PF:PUZZLE: The close of the write end of the pipe in the parent leads to errno=17, resetting it here
+			if (size<0) {
+				rt = errno;
 			}
 			::close(pipefd[0]);
 		}
