@@ -1,7 +1,7 @@
 # Checks for features of the underlying architecture
 #  HAS_ASM_BSF              - is x86 with asm instruction BSF
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.13)
 
 #
 # Original script by Rolf Eike Beer for testing C++11 features

@@ -15,6 +15,8 @@ if(HAS_MODULE_Intl)
   find_package(Intl REQUIRED)
   if(FOUND_Intl)
     MESSAGE( STATUS  "libintl found." )
+  else(FOUND_Intl)
+    set(Intl_INCLUDE_DIRS "/usr/include")
   endif()
 else()
   # fallback for old Linux and OSX (Travis) where cmake is simply too old
