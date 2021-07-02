@@ -59,6 +59,25 @@ DLL_PUBLIC int strus::execve_tostring( const char* filename, const char* const a
 }
 #else
 
+static bool prepareEnvBuf( char* envbuf, std::size_t envbufsize, char** envarbuf, std::size_t envarbufsize, const std::map<std::string,std::string>* env)
+{
+	std::size_t envbufidx = 0;
+	std::size_t envarbufidx = 0;
+	std::map<std::string,std::string>::const_iterator ei = env->begin(), ee = env->end();
+	for (; ei != ee; ++ei)
+	{
+		if (envarbufidx+1 >= envarbufsize) return false;
+		std::size_t ofs = std::snprintf( envbuf + envbufidx, envbufsize - envbufidx, "%s=%s", ei->first.c_str(), ei->second.c_str());
+		if (ofs+1 >= envbufsize - envbufidx) return false;
+		envbuf[ envbufidx + ofs] = 0;
+		envarbuf[ envarbufidx] = envbuf + envbufidx;
+		envarbufidx += 1;
+		envbufidx += ofs+1;
+	}
+	envarbuf[ envarbufidx] = 0;
+	return true;
+}
+
 static int execve_tostring_( const char* filename, const char* const argv[], const std::map<std::string,std::string>* env, std::string& output)
 {
 	int rt = 0;
@@ -76,39 +95,33 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 	else if (pid == 0)
 	{
 		// ... child
-		close(pipefd[0]);    // close stdout of child
-		dup2(pipefd[1], 1);  // send stdout to the pipe
-		close(pipefd[1]);    // close read
+		::close(pipefd[0]);    // close stdout of child
+		::dup2(pipefd[1], 1);  // send stdout to the pipe
+		::close(pipefd[1]);    // close read
 
 		if (env)
 		{
 			try
 			{
+				enum {EnvArBufSize=128};
+				char envbuf[ 2048];
+				char* envarbuf[ EnvArBufSize];
 				// Build environment string:
-				std::vector<std::string> envstrar;
-				std::vector<const char*> envar;
-				std::map<std::string,std::string>::const_iterator mi = env->begin(), me = env->end();
-				for (; mi != me; ++mi)
+				if (!prepareEnvBuf( envbuf, sizeof(envbuf), envarbuf, EnvArBufSize, env))
 				{
-					std::string envstr;
-					envstr.append( mi->first);
-					envstr.push_back( '=');
-					envstr.append( mi->second);
-					envstrar.push_back( envstr);
+					exit( ENOMEM);
 				}
-				std::vector<std::string>::const_iterator ei = envstrar.begin(), ee = envstrar.end();
-				for (; ei != ee; ++ei)
-				{
-					envar.push_back( ei->c_str());
-				}
-				envar.push_back( (const char*)0);
-
 				// Execute command with environment:
-				::execve( filename, const_cast<char* const*>(argv), const_cast<char* const*>( envar.data()));
+				if (0 > ::execve( filename, const_cast<char* const*>(argv), envarbuf))
+				{
+					rt = errno;
+					exit( rt);
+				}
 			}
 			catch (const std::bad_alloc&)
 			{
-				exit( ENOMEM);
+				rt = ENOMEM;
+				exit( rt);
 			}
 		}
 		else
@@ -123,17 +136,21 @@ static int execve_tostring_( const char* filename, const char* const argv[], con
 	{
 		// ... parent
 		char buffer[1024];
-		close(pipefd[1]);  // close the write end of the pipe in the parent
+		::close(pipefd[1]);  // close the write end of the pipe in the parent
 		int size;
-
 		try
 		{
+			rt = errno;
 			while (0!=(size=::read(pipefd[0], buffer, sizeof(buffer))))
 			{
 				output.append( buffer, size);
 			}
 			rt = errno;
-			close(pipefd[0]);
+			if (rt == EEXIST)
+			{
+				rt = 0; //... PF:PUZZLE: The close of the write end of the pipe in the parent leads to errno=17, resetting it here
+			}
+			::close(pipefd[0]);
 		}
 		catch (const std::bad_alloc&)
 		{
