@@ -59,110 +59,78 @@ DLL_PUBLIC int strus::execve_tostring( const char* filename, const char* const a
 }
 #else
 
-static bool prepareEnvBuf( char* envbuf, std::size_t envbufsize, char** envarbuf, std::size_t envarbufsize, const std::map<std::string,std::string>* env)
-{
-	std::size_t envbufidx = 0;
-	std::size_t envarbufidx = 0;
-	std::map<std::string,std::string>::const_iterator ei = env->begin(), ee = env->end();
-	for (; ei != ee; ++ei)
-	{
-		if (envarbufidx+1 >= envarbufsize) return false;
-		std::size_t ofs = std::snprintf( envbuf + envbufidx, envbufsize - envbufidx, "%s=%s", ei->first.c_str(), ei->second.c_str());
-		if (ofs+1 >= envbufsize - envbufidx) return false;
-		envbuf[ envbufidx + ofs] = 0;
-		envarbuf[ envarbufidx] = envbuf + envbufidx;
-		envarbufidx += 1;
-		envbufidx += ofs+1;
-	}
-	envarbuf[ envarbufidx] = 0;
-	return true;
-}
+#define READ_END	0
+#define WRITE_END	1
+#define STDOUT_FILENO	1
 
 static int execve_tostring_( const char* filename, const char* const argv[], const std::map<std::string,std::string>* env, std::string& output)
 {
 	int rt = 0;
-	int pipefd[2];
-	int status = pipe( pipefd);
+	int pipefd[ 2];
+	int status = ::pipe( pipefd);
 	if (status < 0)
 	{
 		return errno;
 	}
 	pid_t pid = ::fork();
-	if (pid < 0)
-	{
-		return errno;
-	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		// ... child
-		::close(pipefd[0]);    // close stdout of child
-		::dup2(pipefd[1], 1);  // send stdout to the pipe
-		::close(pipefd[1]);    // close read
-
+		::dup2( pipefd[ WRITE_END], STDOUT_FILENO);
+		::close( pipefd[ READ_END]);
+		::close( pipefd[ WRITE_END]);
 		if (env)
+		{
+			std::map<std::string,std::string>::const_iterator ei = env->begin(), ee = env->end();
+			for (; ei != ee; ++ei)
+			{
+				::setenv( ei->first.c_str(), ei->second.c_str(), 1/*overwrite*/);
+			}
+		}
+		int res = ::execv( filename, const_cast<char* const*>(argv));
+		if (res == -1)
+		{
+			rt = errno;
+		}
+		::exit( rt);
+	}
+	else if (pid > 0)
+	{
+		// ... parent
+		char buffer[ 1024];
+		::close( pipefd[ WRITE_END]);
+		ssize_t size;
+		while (0 < (size=::read( pipefd[ READ_END], buffer, sizeof(buffer))))
 		{
 			try
 			{
-				enum {EnvArBufSize=128};
-				char envbuf[ 2048];
-				char* envarbuf[ EnvArBufSize];
-				// Build environment string:
-				if (!prepareEnvBuf( envbuf, sizeof(envbuf), envarbuf, EnvArBufSize, env))
-				{
-					exit( ENOMEM);
-				}
-				// Execute command with environment:
-				if (0 > ::execve( filename, const_cast<char* const*>(argv), envarbuf))
-				{
-					rt = errno;
-					exit( rt);
-				}
+				output.append( buffer, size);
 			}
 			catch (const std::bad_alloc&)
 			{
 				rt = ENOMEM;
-				exit( rt);
+				break;
 			}
 		}
-		else
+		if (!rt && size == -1)
 		{
-			// Execute command:
-			::execv( filename, const_cast<char* const*>(argv));
+			rt = errno;
 		}
-		rt = errno;
-		exit( rt);
-	}
-	else
-	{
-		// ... parent
-		char buffer[1024];
-		::close(pipefd[1]);  // close the write end of the pipe in the parent
-		int size;
-		try
-		{
-			while (0<(size=::read(pipefd[0], buffer, sizeof(buffer))))
-			{
-				output.append( buffer, size);
-			}
-			if (size<0) {
-				rt = errno;
-			}
-			::close(pipefd[0]);
-		}
-		catch (const std::bad_alloc&)
-		{
-			close(pipefd[0]);
-			return ENOMEM;
-		}
+		::close( pipefd[ READ_END]);
+
 		pid_t wp;
 		while (pid != (wp=::waitpid( pid, &status, WUNTRACED)))
 		{
-			sleep( 1);
+			::sleep( 1);
 		}
 		if (WIFEXITED(status) && !rt)
 		{
 			rt = WEXITSTATUS(status);
 		}
+	}
+	else
+	{
+		rt = errno;
 	}
 	return rt;
 }
