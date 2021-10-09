@@ -127,11 +127,17 @@ bool stringStartsWith( const std::string& val, const std::string& prefix);
 /// \return converted string or empty string in case of error
 std::string utf8clean( const std::string& name, StringConvError& err);
 
-/// \brief Convert excaped control characters to their unescaped form (e.g. \\n to \n)
+/// \brief Convert escaped control characters to their unescaped form (e.g. \\n to \n)
 /// \param[in] val input string
 /// \param[out] err error code in case of error (not set on success)
 /// \return converted string or empty string in case of error
 std::string unescape( const std::string& val, StringConvError& err);
+
+/// \brief Convert control characters to their escaped form (e.g. \n to \\n)
+/// \param[in] val input string
+/// \param[out] err error code in case of error (not set on success)
+/// \return converted string or empty string in case of error
+std::string escape( const std::string& val, StringConvError& err);
 
 /// \brief Convert XML entities like "&nbsp;", "&amp;", "&quot;", "&apos;", "&lt;", "&gt;" and "&#2354;" to UTF-8 characters in the string
 /// \param[in] val input string
@@ -201,6 +207,13 @@ struct string_conv
 	{
 		StringConvError errcode = StringConvOk;
 		std::string rt = strus::trim( str, strsize, errcode);
+		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
+		return rt;
+	}
+	static std::string escape( const std::string& str)
+	{
+		StringConvError errcode = StringConvOk;
+		std::string rt = strus::escape( str, errcode);
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}

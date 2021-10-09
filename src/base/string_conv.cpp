@@ -227,6 +227,46 @@ DLL_PUBLIC std::string strus::utf8clean( const std::string& name, StringConvErro
 	}
 }
 
+DLL_PUBLIC std::string strus::escape( const std::string& val, StringConvError& err)
+{
+	try
+	{
+		std::string rt;
+		std::string::const_iterator vi = val.begin(), ve = val.end();
+		for (; vi != ve; ++vi)
+		{
+			if (*vi < 32)
+			{
+				rt.push_back('\\');
+				if (*vi == '\n') rt.push_back('n');
+				else if (*vi == '\a') rt.push_back('a');
+				else if (*vi == '\b') rt.push_back('b');
+				else if (*vi == '\t') rt.push_back('t');
+				else if (*vi == '\r') rt.push_back('r');
+				else if (*vi == '\f') rt.push_back('f');
+				else if (*vi == '\v') rt.push_back('v');
+				else if (*vi == '\0') rt.push_back('0');
+				else throw strus::runtime_error(_TXT("unknown control character %d"), *vi);
+			}
+			else if (*vi == '\\')
+			{
+				rt.push_back('\\');
+				rt.push_back('\\');
+			}
+			else
+			{
+				rt.push_back( *vi);
+			}
+		}
+		return rt;
+	}
+	catch (const std::bad_alloc&)
+	{
+		err = StringConvErrNoMem;
+		return std::string();
+	}
+}
+
 DLL_PUBLIC std::string strus::unescape( const std::string& val, StringConvError& err)
 {
 	try

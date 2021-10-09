@@ -568,7 +568,7 @@ DLL_PUBLIC int strus::readDirFiles( const std::string& path, const std::string& 
 			{
 				res.push_back( entry);
 			}
-			else
+			else if (ext.size() < entry.size())
 			{
 				const char* ee = entry.c_str() + entry.size() - ext.size();
 				if (0==std::memcmp( ee, ext.c_str(), ext.size()))

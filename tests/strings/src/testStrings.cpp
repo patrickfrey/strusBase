@@ -89,6 +89,34 @@ static void testUrlEntitiyDecoding()
 	}
 }
 
+static void testEscape()
+{
+	{
+		std::string input = "\n\a\b\rThis is a \t\\\\\v\f";
+		std::string output = strus::string_conv::escape( input);
+		std::string expected = "\\n\\a\\b\\rThis is a \\t\\\\\\\\\\v\\f";
+
+		if (output != expected)
+		{
+			throw std::runtime_error("String escape failed");
+		}
+	}
+}
+
+static void testUnescape()
+{
+	{
+		std::string input = "\\n\\a\\b\\rThis is a \\t\\\\\\\\\\v\\f";
+		std::string output = strus::string_conv::unescape( input);
+		std::string expected = "\n\a\b\rThis is a \t\\\\\v\f";
+
+		if (output != expected)
+		{
+			throw std::runtime_error("String escape failed");
+		}
+	}
+}
+
 int main( int argc, const char* argv[])
 {
 	try {
@@ -109,6 +137,8 @@ int main( int argc, const char* argv[])
 		testidx++; testNamedFormatString();
 		testidx++; testXmlEntitiyDecoding();
 		testidx++; testUrlEntitiyDecoding();
+		testidx++; testEscape();
+		testidx++; testUnescape();
 		std::cerr << std::endl << "OK done " << testidx << " tests" << std::endl;
 		return 0;
 	}
