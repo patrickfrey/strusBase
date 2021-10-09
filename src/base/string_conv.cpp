@@ -235,7 +235,7 @@ DLL_PUBLIC std::string strus::escape( const std::string& val, StringConvError& e
 		std::string::const_iterator vi = val.begin(), ve = val.end();
 		for (; vi != ve; ++vi)
 		{
-			if (*vi < 32)
+			if ((unsigned char)*vi < 32)
 			{
 				rt.push_back('\\');
 				if (*vi == '\n') rt.push_back('n');
