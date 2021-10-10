@@ -250,8 +250,15 @@ DLL_PUBLIC std::string strus::escape( const std::string& val, StringConvError& e
 			}
 			else if (*vi == '\\')
 			{
-				rt.push_back('\\');
-				rt.push_back('\\');
+				rt.append( "\\\\");
+			}
+			else if (*vi == '"')
+			{
+				rt.append( "\\\"");
+			}
+			else if (*vi == '\'')
+			{
+				rt.append( "\\'");
 			}
 			else
 			{
@@ -287,6 +294,8 @@ DLL_PUBLIC std::string strus::unescape( const std::string& val, StringConvError&
 				else if (*vi == 'v') rt.push_back('\v');
 				else if (*vi == '\\') rt.push_back('\\');
 				else if (*vi == '0') rt.push_back('\0');
+				else if (*vi == '\'') rt.push_back('\'');
+				else if (*vi == '\"') rt.push_back('\"');
 				else throw strus::runtime_error(_TXT("unknown escape character \\%c"), *vi);
 			}
 			else
