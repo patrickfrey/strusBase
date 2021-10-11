@@ -227,7 +227,7 @@ DLL_PUBLIC std::string strus::utf8clean( const std::string& name, StringConvErro
 	}
 }
 
-DLL_PUBLIC std::string strus::escape( const std::string& val, StringConvError& err)
+DLL_PUBLIC std::string strus::escape( const std::string& val, StringConvError& err, char chr)
 {
 	try
 	{
@@ -252,13 +252,10 @@ DLL_PUBLIC std::string strus::escape( const std::string& val, StringConvError& e
 			{
 				rt.append( "\\\\");
 			}
-			else if (*vi == '"')
+			else if (chr == *vi)
 			{
-				rt.append( "\\\"");
-			}
-			else if (*vi == '\'')
-			{
-				rt.append( "\\'");
+				rt.push_back( '\\');
+				rt.push_back( chr);
 			}
 			else
 			{
@@ -292,11 +289,8 @@ DLL_PUBLIC std::string strus::unescape( const std::string& val, StringConvError&
 				else if (*vi == 'r') rt.push_back('\r');
 				else if (*vi == 'f') rt.push_back('\f');
 				else if (*vi == 'v') rt.push_back('\v');
-				else if (*vi == '\\') rt.push_back('\\');
 				else if (*vi == '0') rt.push_back('\0');
-				else if (*vi == '\'') rt.push_back('\'');
-				else if (*vi == '\"') rt.push_back('\"');
-				else throw strus::runtime_error(_TXT("unknown escape character \\%c"), *vi);
+				else rt.push_back( *vi);
 			}
 			else
 			{

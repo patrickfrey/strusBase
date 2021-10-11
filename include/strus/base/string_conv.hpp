@@ -136,8 +136,9 @@ std::string unescape( const std::string& val, StringConvError& err);
 /// \brief Convert control characters to their escaped form (e.g. \n to \\n)
 /// \param[in] val input string
 /// \param[out] err error code in case of error (not set on success)
+/// \param[in] additional character (quote) to escape
 /// \return converted string or empty string in case of error
-std::string escape( const std::string& val, StringConvError& err);
+std::string escape( const std::string& val, StringConvError& err, char chr=0);
 
 /// \brief Convert XML entities like "&nbsp;", "&amp;", "&quot;", "&apos;", "&lt;", "&gt;" and "&#2354;" to UTF-8 characters in the string
 /// \param[in] val input string
@@ -210,10 +211,10 @@ struct string_conv
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}
-	static std::string escape( const std::string& str)
+	static std::string escape( const std::string& str, char chr=0)
 	{
 		StringConvError errcode = StringConvOk;
-		std::string rt = strus::escape( str, errcode);
+		std::string rt = strus::escape( str, errcode, chr);
 		if (errcode != StringConvOk) throw strus::stringconv_exception( errcode);
 		return rt;
 	}

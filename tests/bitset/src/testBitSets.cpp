@@ -207,7 +207,7 @@ static void testBitSetJoin( int times, int nofElements)
 		{
 			std::pair<strus::bitset<NN>,std::set<int> > set1 = randomSet<NN>( nofElements);
 			std::pair<strus::bitset<NN>,std::set<int> > set2 = randomSet<NN>( nofElements);
-	
+
 			bool gotResultChange = set1.first.join( set2.first);
 			std::set<int> expected = set1.second;
 			expected.insert( set2.second.begin(), set2.second.end());
@@ -360,7 +360,7 @@ int main( int, const char**)
 		testBitSetJoin<512>( 30, 50);
 		testBitSetJoin<512>( 30, 100);
 		testBitSetJoin<512>( 30, 200);
-		
+
 		testDynamicBitSet( 30, 10, 5);
 		testDynamicBitSet( 30, 100, 50);
 		testDynamicBitSet( 30, 1000, 500);
@@ -371,9 +371,7 @@ int main( int, const char**)
 		testDynamicBitSet( 5, 100000, 500);
 		testDynamicBitSet( 5, 100000, 50);
 		testDynamicBitSet( 2, 1000000, 500000);
-		testDynamicBitSet( 2, 1000000, 5000);
 		testDynamicBitSet( 2, 1000000, 500);
-		testDynamicBitSet( 2, 1000000, 50);
 
 		if (g_nof_errors > 0)
 		{
