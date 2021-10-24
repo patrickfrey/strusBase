@@ -8,89 +8,35 @@
 /// \brief Datatype used to mark time for ordering events and specifying snapshots
 #ifndef _STRUS_STORAGE_TIMESTAMP_HPP_INCLUDED
 #define _STRUS_STORAGE_TIMESTAMP_HPP_INCLUDED
-#include "errorCodes.hpp"
 #include <ctime>
 #include <string>
+#include <cstdint>
 
 namespace strus {
 
-/// \brief Datatype used to mark time for ordering events and specifying snapshots
-class TimeStamp
+typedef int64_t TimeStamp;
+
+struct TimeStampString
 {
-public:
-	/// \brief Seconds since 1.1.1970
-	time_t unixtime() const	{return m_unixtime;}
-	/// \brief Counter for ordering events appearing in the same second
-	int counter() const	{return m_counter;}
-
-	/// \brief Constructor
-	explicit TimeStamp( time_t unixtime_=0, int counter_=0)
-		:m_unixtime(unixtime_),m_counter(counter_){}
-	/// \brief Copy constructor
-	TimeStamp( const TimeStamp& o)
-		:m_unixtime(o.m_unixtime),m_counter(o.m_counter){}
-	/// \brief Assignment
-	TimeStamp& operator=( const TimeStamp& o)
-		{m_unixtime=o.m_unixtime; m_counter=o.m_counter; return *this;}
-
-	/// \brief Comparison
-	bool operator == (const TimeStamp& o) const
-		{return m_unixtime == o.m_unixtime && m_counter == o.m_counter;}
-	bool operator != (const TimeStamp& o) const
-		{return m_unixtime != o.m_unixtime || m_counter != o.m_counter;}
-	bool operator >= (const TimeStamp& o) const
-		{return m_unixtime == o.m_unixtime ? m_counter >= o.m_counter : m_unixtime >= o.m_unixtime;}
-	bool operator > (const TimeStamp& o) const
-		{return m_unixtime == o.m_unixtime ? m_counter > o.m_counter : m_unixtime > o.m_unixtime;}
-	bool operator <= (const TimeStamp& o) const
-		{return m_unixtime == o.m_unixtime ? m_counter <= o.m_counter : m_unixtime <= o.m_unixtime;}
-	bool operator < (const TimeStamp& o) const
-		{return m_unixtime == o.m_unixtime ? m_counter < o.m_counter : m_unixtime < o.m_unixtime;}
-
-	// Implemented in libstrus_timestamp:
-
-	/// \brief Get the current timestamp
-	/// \param[out] errcode error code in case of error
-	/// \return the current timestamp or TimeStamp() (with defined() == false) in case of error
-	static TimeStamp current( ErrorCode& errcode);
-	/// \brief Allocate a unique timestamp
-	/// \param[out] errcode error code in case of error
-	/// \return the current timestamp or TimeStamp() (with defined() == false) in case of error
-	static TimeStamp alloc( ErrorCode& errcode);
-	/// \brief Convert a timestamp into its string representation
-	/// \param[out] errcode error code in case of error
-	/// \return the string representation of the timestamp
-	static std::string tostring( const TimeStamp& timestamp, ErrorCode& errcode);
-	/// \brief Parse a timestamp from its string representation
-	/// \param[out] errcode error code in case of error
-	/// \return the timestamp represented by the parsed string or TimeStamp() (with defined() == false) in case of error
-	static TimeStamp fromstring( const std::string& timestampstr, ErrorCode& errcode);
-	/// \brief Parse a timestamp from its string representation
-	/// \param[out] errcode error code in case of error
-	/// \return the timestamp represented by the parsed string or TimeStamp() (with defined() == false) in case of error
-	static TimeStamp fromstring( const char* timestampstr, ErrorCode& errcode);
-	/// \brief Get a timestamp from its date and counter
-	/// \param[out] errcode error code in case of error
-	static TimeStamp fromdate( int year, int mon, int day, int hrs, int min, int sec, int cnt, ErrorCode& errcode);
-
-	/// \brief Tests if this timestamp is defined
-	/// \return true if yes, false if no
-	bool defined() const
-	{
-		return !!m_unixtime;
-	}
-
-	/// \brief Sets this timestamp to undefined
-	void clear()
-	{
-		m_unixtime = 0;
-		m_counter = 0;
-	}
-
-private:
-	time_t m_unixtime;		//< seconds since 1.1.1970
-	int m_counter;			//< counter for ordering events appearing in the same second
+	char str[ 18];
 };
+
+/// \brief Get the current timestamp
+/// \return the current time stamp (unix time in micro seconds)
+TimeStamp getCurrentTimeStamp();
+
+/// \brief Convert a timestamp into its readable string representation as YYYYMMDDhhmmssxxx
+/// \return the string representation of the timestamp, empty in case of an invalid timestamp
+TimeStampString timeStampToString( const TimeStamp timestamp);
+
+/// \brief Parse a timestamp from its string representation
+/// \return the timestamp represented by the parsed string or -1 in case of an invalid timestamp string
+TimeStamp timeStampFromString( const char* timestampstr);
+
+/// \brief Get a timestamp from its date and counter
+/// \return the timestamp represented by the parameters or -1 in case of invalid arguments
+TimeStamp timeStampFromdate( int year, int mon, int day, int hrs, int min, int sec, int msec);
+
 
 }//namespace
 #endif
