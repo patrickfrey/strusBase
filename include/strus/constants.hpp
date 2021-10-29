@@ -75,7 +75,7 @@ struct Constants
 	{
 		return "";
 	}
-	/// \brief Get the maximum ordinal position (counted from 1) in a document a token can have 
+	/// \brief Get the maximum ordinal position (counted from 1) in a document a token can have
 	/// \note This is a limit given by the implementation of the position info block. Unfortunately it creeps through the system.
 	/// \note The length of a novel is at least 50'000 words, "War and Peace" from Tolstoi has a word count of about 250'000. But it is controversial if it is sensible to have retrievable items of this size. For books I would rather suggest to have chapters as items with some meta data about the book as a whole included.
 	static inline int storage_max_position_info()
@@ -183,10 +183,10 @@ struct Constants
 	{
 		return 100000;
 	}
-	///\brief Size of a chunk used by default for statistics
+	///\brief Maximum size of a chunk used by default for statistics in bytes
 	static inline int defaultStatisticsMsgChunkSize()
 	{
-		return 100000;
+		return 1024 * 1024; // 1 MB
 	}
 
 	///\brief Size of a position info block that leads to flushing it to the database and opening a new one
