@@ -694,6 +694,12 @@ DLL_PUBLIC bool strus::isDir( const std::string& path)
 	return getPathType(path)==PathDir;
 }
 
+DLL_PUBLIC bool strus::pathExists( const std::string& path)
+{
+	struct stat s;
+	return ::stat( path.c_str(), &s) == 0;
+}
+
 static bool isExplicitLocalPath( const std::string& path)
 {
 	if (path.size() > 1 && path[0] == '.')

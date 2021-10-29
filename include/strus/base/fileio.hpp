@@ -132,6 +132,10 @@ bool isFile( const std::string& path);
 /// \return true, if yes
 bool isDir( const std::string& path);
 
+/// \brief Check if a file of directory with the specified system path exists
+/// \return true, if yes
+bool pathExists( const std::string& path);
+
 /// \brief Check if a file system path is a path starting with a name and not with a directive referencing the current path './' or the file system root '/'.
 /// \return true, if yes
 /// \param[in] path file system path to check
